@@ -1,2 +1,2 @@
-# semester2project
-Semester 2 Software Project
+# Summary
+This is the code written by Team 2 for the software project.
