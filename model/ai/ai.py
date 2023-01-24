@@ -20,22 +20,20 @@ def generate_monolith(emotion: str, theme: str) -> list:
     """.format(emotion=emotion, theme=theme)
 
     try:
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=prompt,
-            temperature=0.5,
-            max_tokens=512,
-            top_p=1.0,
-            frequency_penalty=0.0,
-            presence_penalty=0.0
-        )
+        response = openai.Completion.create(engine="text-davinci-003",
+                                            prompt=prompt,
+                                            temperature=0.5,
+                                            max_tokens=512,
+                                            top_p=1.0,
+                                            frequency_penalty=0.0,
+                                            presence_penalty=0.0)
 
         result = response['choices'][0]["text"]
         narration = result.split("\n")[1:-1]
 
         for line in narration:
             line = line.rstrip()
-        
+
     except Exception as e:
         narration = []
         print("OpenAI Error: " + str(e))
