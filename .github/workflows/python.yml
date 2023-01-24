@@ -1,0 +1,25 @@
+name: formating-python-code
+on: [push, pull_request]
+
+jobs:
+  check-formating:
+      permissions:
+         contents: write
+      runs-on: ubuntu-latest
+      steps:
+      
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+          
+      - run: pip install yapf
+      - run: yapf -ir --style='{based_on_style:google}' .
+      - run: python -m pip install pylint
+      - run: pylint --rcfile=./actions_config/pylintrc .
+      # found at https://github.com/actions/checkout/blob/main/README.md#push-a-commit-using-the-built-in-token
+      # used this because I needed a dummey email.
+      - run: git config --global user.email "action@github.com"
+      - run: git config --global user.name "GitHub Action"
+      - run: git commit -am "auto format" --allow-empty
+      - run: git push
