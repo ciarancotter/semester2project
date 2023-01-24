@@ -434,7 +434,7 @@ valid-metaclass-classmethod-first-arg=mcs
 
 
 [EXCEPTIONS]
-#comment
+#comment/
 # Exceptions that will emit a warning when being caught. Defaults to
 # "Exception"
 overgeneral-exceptions=StandardError,
