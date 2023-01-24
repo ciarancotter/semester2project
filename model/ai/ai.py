@@ -1,7 +1,9 @@
 import openai
 
+
 def configure_openai():
     openai.api_key = "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"
+
 
 def generate_monolith(emotion: str, theme: str) -> list:
 
@@ -16,7 +18,7 @@ def generate_monolith(emotion: str, theme: str) -> list:
     Consider the above instructions and set the protagonist to be a hero where the theme is {theme}
     and the story has a {emotion} ending.
     """.format(emotion=emotion, theme=theme)
-    
+
     try:
         response = openai.Completion.create(
             engine="text-davinci-003",
@@ -40,6 +42,7 @@ def generate_monolith(emotion: str, theme: str) -> list:
 
     for line in narration:
         print(line)
+
 
 configure_openai()
 generate_monolith("tragic", "romans")
