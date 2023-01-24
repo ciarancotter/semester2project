@@ -2,7 +2,7 @@ import pygame
 
 from pygame.locals import (
     K_UP,
-    K_DOWN,     #probably won't need 
+    K_DOWN,  #probably won't need 
     K_LEFT,
     K_RIGHT,
     K_ESCAPE,
@@ -14,28 +14,28 @@ from pygame.locals import (
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
+
 #main character class
 class Player(pygame.sprite.Sprite):
+
     def __init__(self):
         super(Player, self).__init__()
-        self.x = SCREEN_WIDTH/2                 #x co-ords for start position
-        self.y = SCREEN_HEIGHT/2                #y co-ords for start position
+        self.x = SCREEN_WIDTH / 2  #x co-ords for start position
+        self.y = SCREEN_HEIGHT / 2  #y co-ords for start position
         #just for now its a black box
         self.surf = pygame.Surface((75, 50))
         self.surf.fill((0, 0, 0))
-        #initial position 
+        #initial position
         self.rect = self.surf.get_rect(center=(self.x, self.y))
-
 
     def gravity(self):
         self.rect.move_ip(0, 1)
-    
 
     # Move the sprite based on user keypresses
     def update(self, pressed_keys):
         if pressed_keys[K_UP]:
             self.rect.move_ip(0, -5)
-        #might not be needed 
+        #might not be needed
         if pressed_keys[K_DOWN]:
             self.rect.move_ip(0, 5)
         if pressed_keys[K_LEFT]:
@@ -52,6 +52,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.top = 0
         if self.rect.bottom >= SCREEN_HEIGHT:
             self.rect.bottom = SCREEN_HEIGHT
+
 
 # Initialize pygame
 pygame.init()
@@ -77,7 +78,7 @@ while running:
                 running = False
         # Check for QUIT event. If QUIT, then set running to false.
         elif event.type == QUIT:
-            running = False      
+            running = False
 
     # Get the set of keys pressed and check for user input
     pressed_keys = pygame.key.get_pressed()
