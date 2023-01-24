@@ -37,14 +37,10 @@ while running:
                     myTextBox.draw("End.")
                     break
             pygame.display.update()
-        
+
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 spacePressed = False
-                
 
 # Exit pygame
 pygame.quit()
-
-
-        
