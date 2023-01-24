@@ -39,9 +39,4 @@ def generate_monolith(emotion: str, theme: str) -> list:
         narration = []
         print("OpenAI Error: " + str(e))
 
-    for line in narration:
-        print(line)
-
-
-configure_openai()
-generate_monolith("tragic", "romans")
+    return narration
