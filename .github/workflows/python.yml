@@ -7,7 +7,6 @@ jobs:
          contents: write
       runs-on: ubuntu-latest
       steps:
-      
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v2
         with:
@@ -21,7 +20,4 @@ jobs:
       # used this because I needed a dummey email.
       - run: git config --global user.email "action@github.com"
       - run: git config --global user.name "GitHub Action"
-      - run: echo "running this script"
-      - run: git branch
       - run: git commit -am "auto format" --allow-empty
-      - run: git push
