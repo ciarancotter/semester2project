@@ -7,7 +7,6 @@ jobs:
          contents: write
       runs-on: ubuntu-latest
       steps:
-      - run: cur_branch=$(git rev-parse --abbrev-ref HEAD)
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v2
         with:
@@ -22,4 +21,4 @@ jobs:
       - run: git config --global user.email "action@github.com"
       - run: git config --global user.name "GitHub Action"
       - run: git commit -am "auto format" --allow-empty
-      - run: git push -u origin $(cur_branch)
+      - run: git push -u origin ${GITHUB_HEAD_REF}
