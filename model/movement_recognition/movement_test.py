@@ -33,7 +33,7 @@ class TestMovement(object):
         # Set the width and height of the screen [width, height]
         self._infoobject = pygame.display.Info()
         self._screen = pygame.display.set_mode(
-            (self._infoObject.current_w >> 1, self._infoObject.current_h >> 1),
+            (self._infoobject.current_w >> 1, self._infoobject.current_h >> 1),
             pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.RESIZABLE, 32)
 
         pygame.display.set_caption("Kinect for Windows v2 Body Game")
@@ -58,8 +58,8 @@ class TestMovement(object):
         # here we will store skeleton data
         self._bodies = None
 
-        self.__leftpunch = LeftPunch()
-        self.__rightpunch = RightPunch()
+        self._leftpunch = LeftPunch()
+        self._rightpunch = RightPunch()
 
     def draw_color_frame(self, frame:numpy.ndarray, target_surface:pygame.Surface) -> None:
         """
