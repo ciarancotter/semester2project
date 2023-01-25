@@ -1,6 +1,7 @@
 from pykinect2 import PyKinectV2
 from pykinect2 import PyKinectRuntime
 
+
 class LeftPunch(object):
     """
     The LeftPunch Class is used to sense whether or the body in frame is punching to the left or not.
@@ -20,7 +21,6 @@ class LeftPunch(object):
         self._olddelt = 0
         self._speed_threshhold = 20
         self.read = False
-
 
     def __call__(self, kinect: PyKinectV2,
                  body: PyKinectRuntime.KinectBody) -> None:
@@ -76,14 +76,13 @@ class LeftPunch(object):
         """
         return self._speed_threshhold
 
-    def set_speed_threshhold(self, x : int) -> None:
+    def set_speed_threshhold(self, x: int) -> None:
         """
         Sets the speed threashold needed to be reached to allow a punch to be recognised.
         Parameters:
         x (int): the new speed threashold needed to be reached to allow a punch to be recognised.
         """
         self._speed_threshhold = x
-
 
 
 class RightPunch(object):
@@ -159,7 +158,7 @@ class RightPunch(object):
         """
         return self._speed_threshhold
 
-    def set_speed_threshhold(self, x : int) -> None:
+    def set_speed_threshhold(self, x: int) -> None:
         """
         Sets the speed threashold needed to be reached to allow a punch to be recognised.
         Parameters:
