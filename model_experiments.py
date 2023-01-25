@@ -1,6 +1,6 @@
 import pygame
-from aiutilities import aiutilities
-from gameui import gameui
+from view.gameui import gameui, healthbar
+from model.aiutilities import aiutilities
 
 # Initialize pygame and create a window
 pygame.init()
@@ -12,6 +12,11 @@ legend = aiutilities.generate_monolith("tragic", "roman")
 screen = pygame.display.set_mode((dimensions, dimensions))
 myTextBox = gameui.UITextBox(screen, 30, "monospace", 12)
 myTextBox.draw("Monke")
+
+myHealthBar = healthbar.HealthBar(100)
+myHealthBar.drawMaxHealth(screen)
+myHealthBar.drawCurrentHealth(screen, 100)
+
 pygame.display.update()
 
 # Main game loop
@@ -32,6 +37,7 @@ while running:
                     myTextBox.draw(legend[currentLine])
                     spacePressed = True
                     currentLine += 1
+                    myHealthBar.drawCurrentHealth(screen, (100 - 10 * currentLine))
                 else:
                     myTextBox.erase()
                     myTextBox.draw("End.")
