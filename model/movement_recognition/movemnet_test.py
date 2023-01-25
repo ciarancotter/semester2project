@@ -6,9 +6,9 @@ import ctypes
 
 from punch import LeftPunch, RightPunch
 
-'''
+"""
 Worked on from the PyKinectBodyGame example packed with the pykinect2 libary
-'''
+"""
 
 class TestMovement(object):
 

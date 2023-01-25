@@ -60,8 +60,6 @@ class LeftPunch(object):
         self._olddelt = delt
 
         if move < -self._speed_threshhold:
-            #print(leftmove)
-            #print("Left Punch")
             self.read = True
             return
         else:
@@ -143,8 +141,6 @@ class RightPunch(object):
         self._olddelt = delt
 
         if move > self._speed_threshhold:
-            #print(rightmove)
-            #print("right Punch")
             self.read = True
             return
         else:
