@@ -31,7 +31,6 @@ def generate_monolith(emotion: str, theme: str) -> list:
         A list containing individual lines in the story. Each item is one sentence.
     """
 
-
     prompt: str = """
     Suppose that you are writing a short dramatic narration,
     which is composed of a series of inscriptions. 
