@@ -6,10 +6,10 @@ import pygame
 import ctypes
 
 from punch import LeftPunch, RightPunch
-
 """
 Worked on from the PyKinectBodyGame example packed with the pykinect2 libary
 """
+
 
 class TestMovement(object):
     """
@@ -61,7 +61,8 @@ class TestMovement(object):
         self.__leftpunch = LeftPunch()
         self.__rightpunch = RightPunch()
 
-    def draw_color_frame(self, frame:numpy.ndarray, target_surface:pygame.Surface) -> None:
+    def draw_color_frame(self, frame: numpy.ndarray,
+                         target_surface: pygame.Surface) -> None:
         """
         Draws the current frame to the screen
         Parameters:
@@ -75,7 +76,8 @@ class TestMovement(object):
         del address
         target_surface.unlock()
 
-    def draw_body_bone(self, joints:numpy.ndarray, jointpoints:numpy.ndarray, color:str, joint0:int, joint1:int) -> None:
+    def draw_body_bone(self, joints: numpy.ndarray, jointpoints: numpy.ndarray,
+                       color: str, joint0: int, joint1: int) -> None:
         """
         Draws the lines between the joints
         Parameters:
