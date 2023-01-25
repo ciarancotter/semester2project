@@ -1,12 +1,36 @@
+"""Utilities to interact with OpenAI's models.
+
+This includes the generation of text via GPT-3, and the generation of images using DALLE.
+
+Usage:
+
+configure_openai()
+generate_monolith("tragic", "Roman")
+"""
+
 import os
 import openai
 
 
 def configure_openai():
+    """Configures the OpenAI module with the API key from environment variables.
+    """
     openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 def generate_monolith(emotion: str, theme: str) -> list:
+    """Generates a list containing a story to be written on monoliths as inscriptions.
+
+    Args:
+      emotion:
+        The emotion of the story's ending.
+      theme:
+        The theme of the story.
+
+    Returns:
+        A list containing individual lines in the story. Each item is one sentence.
+    """
+
 
     prompt: str = """
     Suppose that you are writing a short dramatic narration,
