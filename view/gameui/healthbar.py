@@ -46,10 +46,11 @@ class HealthBar:
             screen: The pygame screen.
         """
         dimensions = screen.get_size()[0]
-        bar = pygame.Surface((dimensions - (dimensions // 1.5), dimensions // 25))
+        bar = pygame.Surface(
+            (dimensions - (dimensions // 1.5), dimensions // 25))
         bar.fill("white")
         screen.blit(bar, (dimensions // 35, dimensions // 20))
-        
+
     def drawCurrentHealth(self, screen, currentHealth):
         """Draws the current health, in green, to the screen.
         
@@ -62,9 +63,8 @@ class HealthBar:
 
         self.drawMaxHealth(screen)
         dimensions = screen.get_size()[0]
-        dimensionX = (dimensions - (dimensions // 1.5)) * (currentHealth / self.maxHealth)
+        dimensionX = (dimensions -
+                      (dimensions // 1.5)) * (currentHealth / self.maxHealth)
         bar = pygame.Surface((dimensionX, (dimensions // 25)))
         bar.fill("green")
         screen.blit(bar, (dimensions // 35, dimensions // 20))
-
-

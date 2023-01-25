@@ -37,7 +37,8 @@ while running:
                     myTextBox.draw(legend[currentLine])
                     spacePressed = True
                     currentLine += 1
-                    myHealthBar.drawCurrentHealth(screen, (100 - 10 * currentLine))
+                    myHealthBar.drawCurrentHealth(screen,
+                                                  (100 - 10 * currentLine))
                 else:
                     myTextBox.erase()
                     myTextBox.draw("End.")
