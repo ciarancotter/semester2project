@@ -1,18 +1,30 @@
 from pykinect2 import PyKinectV2
 from pykinect2 import PyKinectRuntime
 
+import numpy
 import pygame
 import ctypes
 
 from punch import LeftPunch, RightPunch
+
 """
 Worked on from the PyKinectBodyGame example packed with the pykinect2 libary
 """
 
-
 class TestMovement(object):
+    """
+    The TestMovment Class is used to test the movement sensing functions within this directory
+    It creates a pygame instance to show what the kinect sees, and what we use to controll the game
+    Methods:
+    - draw_color_frame(frame: ndarray, target_surface: ndarray) -> None : Draws the current frame to the screen
+    - draw_body_bone(joints: numpy.ndarray, jointpoints: numpy.ndarray, color: str, joint0: int, joint1: int) -> None : Draws the lines between the joints
+    - run() -> None : runs the pygame instance loop 
+    """
 
     def __init__(self):
+        """
+        Creates the TestMovement object
+        """
         pygame.init()
 
         # Used to manage how fast the screen updates
@@ -46,17 +58,34 @@ class TestMovement(object):
         # here we will store skeleton data
         self._bodies = None
 
-        self.leftpunch = LeftPunch()
-        self.rightpunch = RightPunch()
+        self.__leftpunch = LeftPunch()
+        self.__rightpunch = RightPunch()
 
-    def draw_color_frame(self, frame, target_surface):
+    def draw_color_frame(self, frame:numpy.ndarray, target_surface:pygame.Surface) -> None:
+        """
+        Draws the current frame to the screen
+        Parameters:
+        - frame (numpy.ndarray): The frame to draw.
+        - target_surface (pygame.Surface): the surface to draw to.
+        """
+
         target_surface.lock()
         address = self._kinect.surface_as_array(target_surface.get_buffer())
         ctypes.memmove(address, frame.ctypes.data, frame.size)
         del address
         target_surface.unlock()
 
-    def draw_body_bone(self, joints, jointpoints, color, joint0, joint1):
+    def draw_body_bone(self, joints:numpy.ndarray, jointpoints:numpy.ndarray, color:str, joint0:int, joint1:int) -> None:
+        """
+        Draws the lines between the joints
+        Parameters:
+        - joints (ndarray): the array of joinnts on the body
+        - jointpoints (ndarray): the array of position of thoes points
+        - color (str): the colour to draw the line
+        - joint0 (int): first joint
+        - joint1 (int): second joint
+        """
+
         jointzerostate = joints[joint0].TrackingState
         jointonestate = joints[joint1].TrackingState
 
@@ -82,7 +111,10 @@ class TestMovement(object):
         except:  # need to catch it due to possible invalid positions (with inf)
             pass
 
-    def run(self):
+    def run(self) -> None:
+        """
+        Runs the pygame loop
+        """
         # -------- Main Program Loop -----------
         while not self._done:
             # --- Main event loop
@@ -119,13 +151,13 @@ class TestMovement(object):
                         continue
 
                     rightcol = "yellow"
-                    self.rightpunch(self._kinect, body)
-                    if self.rightpunch.read:
+                    self._rightpunch(self._kinect, body)
+                    if self._rightpunch.read:
                         rightcol = "blue"
 
                     leftcol = "red"
-                    self.leftpunch(self._kinect, body)
-                    if self.leftpunch.read:
+                    self._leftpunch(self._kinect, body)
+                    if self._leftpunch.read:
                         leftcol = "blue"
 
                     joints = body.joints
