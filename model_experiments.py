@@ -1,16 +1,16 @@
 import pygame
-from view.gameui import gameui, healthbar
-from model.aiutilities import aiutilities
+from view.gameui import chatbox, healthbar
+from model.aiutilities import textai
 
 # Initialize pygame and create a window
 pygame.init()
 dimensions = 512
 
-aiutilities.configure_openai()
-legend = aiutilities.generate_monolith("tragic", "roman")
+textai.configure_openai()
+legend = textai.generate_monolith("tragic", "roman")
 
 screen = pygame.display.set_mode((dimensions, dimensions))
-myTextBox = gameui.UITextBox(screen, 30, "monospace", 12)
+myTextBox = chatbox.UITextBox(screen, 30, "monospace", 12)
 myTextBox.draw("Monke")
 
 myHealthBar = healthbar.HealthBar(100)
