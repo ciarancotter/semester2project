@@ -12,18 +12,16 @@ class Infront(object):
 
     Methods:
         __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None : updates the read according to whether or not the hand is up infront or not.
-        get_speed_threshhold() -> int : get the speed threashold needed to be reached to allow a jump to be recognised
-        set_speed_threshhold(x: int) -> None : set the speed threashold needed to be reached to allow a jump to be recognised.
+        get_distance_threshhold() -> int : get the distance threashold needed to be reached to allow a jump to be recognised
+        set_distance_threshhold(x: int) -> None : set the distance threashold needed to be reached to allow a jump to be recognised.
     """
 
     def __init__(self):
         """
         Creates the Jump object
         """
-        self._olddelt = 0
-        self._speed_threshhold = 60
+        self._distance_threshhold = 2000
         self.read = False
-        self.magnitude = 0
 
     def __call__(self, kinect: PyKinectV2, body: PyKinectRuntime.KinectBody, depth) -> None:
         """
@@ -35,55 +33,53 @@ class Infront(object):
         """
 
         joints = body.joints
-        joint_points = kinect.body_joints_to_color_space(joints)
         joint_points_depth = kinect.body_joints_to_depth_space(joints)
-        point_id = PyKinectV2.JointType_HandRight
-        point = joints[point_id].TrackingState
+        point_id = (PyKinectV2.JointType_HandRight, PyKinectV2.JointType_SpineShoulder)
 
-        # both joints are not tracked
-        if point == PyKinectV2.TrackingState_NotTracked:
-            return
-        # both joints are not *really* tracked
-        if point == PyKinectV2.TrackingState_Inferred:
-            return
+        for i in point_id:
+            point = joints[i].TrackingState
+
+            # both joints are not tracked
+            if point == PyKinectV2.TrackingState_NotTracked:
+                return
+            # both joints are not *really* tracked
+            if point == PyKinectV2.TrackingState_Inferred:
+                return
 
         #print(int(joint_points_depth[point_id].x), int(joint_points_depth[point_id].y))
-        posz = depth[int(joint_points_depth[point_id].x), int(joint_points_depth[point_id].y)]
-
-        #print(depth[int(joint_points_depth[point_id].x), int(joint_points_depth[point_id].y)])
+        depths = (depth[int(joint_points_depth[PyKinectV2.JointType_HandRight].x), int(joint_points_depth[PyKinectV2.JointType_HandRight].y)], depth[int(joint_points_depth[PyKinectV2.JointType_SpineShoulder].x), int(joint_points_depth[PyKinectV2.JointType_SpineShoulder].y)])
 
 
-        # a=0.9 == fast react      a=0.1 == slow react
-        max_change_per_itteration = 0.4  # change per itteration
-        delt = max_change_per_itteration * posz + (1 -  max_change_per_itteration) * self._olddelt
+        distance = depths[1]-depths[0]
 
-        move = int(delt - self._olddelt)/10
-        self._olddelt = delt
+        if distance > 60000:
+            return
 
-        print(move)
-        if move < -self._speed_threshhold:
+        if distance == 0:
+            return
+
+        #print(distance)
+        if distance > self._distance_threshhold:
             self.read = True
-            self.magnitude = -(move + self._speed_threshhold)
             return
         else:
             self.read = False
-            self.magnitude = 0
             return
 
-    def get_speed_threshhold(self) -> int:
+    def get_distance_threshhold(self) -> int:
         """
-        Gets the speed threashold needed to be reached to allow a jump to be recognised.
+        Gets the distance threashold needed to be reached to allow a jump to be recognised.
 
         Returns:
-            int: the speed threashold needed to be reached to allow a jump to be recognised.
+            int: the distance threashold needed to be reached to allow a jump to be recognised.
         """
-        return self._speed_threshhold
+        return self._distance_threshhold
 
-    def set_speed_threshhold(self, x: int) -> None:
+    def set_distance_threshhold(self, x: int) -> None:
         """
-        Sets the speed threashold needed to be reached to allow a jump to be recognised.
+        Sets the distance threashold needed to be reached to allow a jump to be recognised.
 
         Args:
-            x (int): the new speed threashold needed to be reached to allow a jump to be recognised.
+            x (int): the new distance threashold needed to be reached to allow a jump to be recognised.
         """
-        self._speed_threshhold = x
+        self._distance_threshhold = x

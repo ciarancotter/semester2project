@@ -173,7 +173,8 @@ class TestMovement(object):
 
                     selectcol = "grey"
                     self._select(self._kinect, body, self._depth)
-                    if self._jump.read:
+                    if self._select.read:
+                        print("paused")
                         selectcol = "blue"
 
                     joints = body.joints
