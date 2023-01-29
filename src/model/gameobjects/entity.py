@@ -12,16 +12,16 @@ import pygame
 
 class Entity:
 
-    def __init__(self, spawnPos: tuple, width: int, height: int, colliding: bool):
+    def __init__(self, coordinates: tuple, width: int, height: int, colliding: bool):
         """Inits the Entity object.
 
         Attributes:
-            - spawnPos: The position on the tilemap that the object spawns at.
+            - coordinates: The object's position on the tilemap.
             - width: The width of the object.
             - height: The height of the object.
             - colliding: A boolean value that determines if the object collides with its environment.
         """
-        self.spawnPos: tuple = spawnPos 
+        self.coordinates: tuple = coordinates 
         self.colliding: bool = colliding
         self._width: int = width
         self._height: int = height
@@ -30,12 +30,17 @@ class Entity:
     def setX(self, newX: int):
         """Setter method for the x-coordinate.
         """
-        self.spawnPos[0] = newX
+        self.coordinates[0] = newX
 
     def setY(self, newY: int):
         """Setter method for the y-coordinate.
         """
-        self.spawnPos[1] = newY
+        self.coordinates[1] = newY
+
+    def getCoordinates(self) -> tuple:
+        """Getter method for the coordinates property.
+        """
+        return self.coordinates
 
     def getWidth(self) -> int:
         """Getter method for the width property.
@@ -51,6 +56,3 @@ class Entity:
         """Getter method for the colliding property.
         """
         return self.colliding
-
-testEntity = Entity((1,1), 1, 1, True)
-print(testEntity)
