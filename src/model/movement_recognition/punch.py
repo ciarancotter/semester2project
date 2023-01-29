@@ -9,6 +9,7 @@ class LeftPunch(object):
 
     Attributes:
         read (bool): whether or not the body is punching or not
+        magnitude (int): speed over the threshold 
 
     Methods:
         __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None : updates the read according to whether or not the body is punching or not.
@@ -23,6 +24,7 @@ class LeftPunch(object):
         self._olddelt = 0
         self._speed_threshhold = 20
         self.read = False
+        self.magnitude = 0
 
     def __call__(self, kinect: PyKinectV2,
                  body: PyKinectRuntime.KinectBody) -> None:
@@ -57,9 +59,11 @@ class LeftPunch(object):
 
         if move < -self._speed_threshhold:
             self.read = True
+            self.magnitude = -(move + self._speed_threshhold)
             return
         else:
             self.read = False
+            self.magnitude = 0
             return
 
     def get_speed_threshhold(self) -> int:
@@ -88,6 +92,7 @@ class RightPunch(object):
 
     Attributes:
         read (bool): whether or not the body is punching or not
+        magnitude (int): speed over the threshold 
 
     Methods:
         __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None: updates the read according to whether or not the body is punching or not.
@@ -102,6 +107,7 @@ class RightPunch(object):
         self._olddelt = 0
         self._speed_threshhold = 20
         self.read = False
+        self.magnitude = 0
 
     def __call__(self, kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> bool:
         """
@@ -137,9 +143,11 @@ class RightPunch(object):
 
         if move > self._speed_threshhold:
             self.read = True
+            self.magnitude = move - self._speed_threshhold
             return
         else:
             self.read = False
+            self.magnitude = 0
             return
 
     def get_speed_threshhold(self) -> int:
