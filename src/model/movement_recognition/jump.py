@@ -26,7 +26,7 @@ class Jump(object):
         self.read = False
         self.magnitude = 0
 
-    def __call__(self, kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None:
+    def __call__(self, chest) -> None:
         """
         Calling Jump with these perameters updates the read according to whether or not the body is jumping or not.
 
@@ -35,19 +35,7 @@ class Jump(object):
             body (PyKinectRuntime.KinectBody): A body being tracked in the frame.
         """
 
-        joints = body.joints
-        joint_points = kinect.body_joints_to_color_space(joints)
-        point_id = PyKinectV2.JointType_SpineShoulder
-        point = joints[point_id].TrackingState
-
-        # both joints are not tracked
-        if point == PyKinectV2.TrackingState_NotTracked:
-            return
-        # both joints are not *really* tracked
-        if point == PyKinectV2.TrackingState_Inferred:
-            return
-
-        posy = joint_points[point_id].y
+        posy = chest.y
 
         # a=0.9 == fast react      a=0.1 == slow react
         max_change_per_itteration = 0.4  # change per itteration

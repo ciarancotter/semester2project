@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from pykinect2 import PyKinectV2, PyKinectRuntime
 from pykinect2.PyKinectV2 import *
 
@@ -11,6 +12,16 @@ from infront import Infront
 """
 Worked on from the PyKinectBodyGame example packed with the pykinect2 libary
 """
+@dataclass
+class Point:
+    x: float
+    y: float
+    z: float
+
+JointTypes = {"SpineBase":0, "SpineMid":1, "Neck":2, "Head":3, "ShoulderLeft":4, "ElbowLeft":5, "WristLeft":6, "HandLeft":7, "ShoulderRight":8, "ElbowRight":9, 
+              "WristRight":10, "HandRight":11, "HipLeft":12, "KneeLeft":13, "AnkleLeft":14, "FootLeft":15, "HipRight":16, "KneeRight":17, "AnkleRight":18, 
+              "FootRight":19, "SpineShoulder":20, "HandTipLeft":21, "ThumbLeft":22, "HandTipRight":23, "ThumbRight":24}
+
 
 class TestMovement(object):
     """
@@ -156,6 +167,25 @@ class TestMovement(object):
                     if not body.is_tracked:
                         continue
 
+
+                    joints = body.joints
+                    joint_points = self._kinect.body_joints_to_color_space(joints)
+                    joint_points_depth = self._kinect.body_joints_to_depth_space(joints)
+                    Joints_pos = []
+
+                    for joint, num in JointTypes.items():
+                        tracking = joints[num].TrackingState
+
+                        # both joints are not tracked
+                        if tracking == PyKinectV2.TrackingState_NotTracked:
+                            continue
+                        # both joints are not *really* tracked
+                        if tracking == PyKinectV2.TrackingState_Inferred:
+                            continue
+                        
+                        Joints_pos.append(Point(joint_points[num].x, joint_points[num].y, self._depth[int(joint_points_depth[num].x), int(joint_points_depth[num].y)]))
+
+
                     rightcol = "yellow"
                     self._rightpunch(self._kinect, body)
                     if self._rightpunch.read:
@@ -167,7 +197,7 @@ class TestMovement(object):
                         leftcol = "blue"
 
                     jumpcol = "green"
-                    self._jump(self._kinect, body)
+                    self._jump(Joints_pos[20])
                     if self._jump.read:
                         jumpcol = "blue"
 
