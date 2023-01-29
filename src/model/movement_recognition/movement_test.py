@@ -156,31 +156,31 @@ class TestMovement(object):
                     if not body.is_tracked:
                         continue
 
+                    joints = body.joints
+                    joint_points = self._kinect.body_joints_to_color_space(joints)
+                    joint_points_depth = self._kinect.body_joints_to_depth_space(joints)
+
+
                     rightcol = "yellow"
-                    self._rightpunch(self._kinect, body)
+                    self._rightpunch(body, self._depth, joint_points, joint_points_depth)
                     if self._rightpunch.read:
                         rightcol = "blue"
 
                     leftcol = "red"
-                    self._leftpunch(self._kinect, body)
+                    self._leftpunch(body, self._depth, joint_points, joint_points_depth)
                     if self._leftpunch.read:
                         leftcol = "blue"
 
                     jumpcol = "green"
-                    self._jump(self._kinect, body)
+                    self._jump(body, self._depth, joint_points, joint_points_depth)
                     if self._jump.read:
                         jumpcol = "blue"
 
                     selectcol = "grey"
-                    self._select(self._kinect, body, self._depth)
+                    self._select(body, self._depth, joint_points, joint_points_depth)
                     if self._select.read:
                         print("paused")
                         selectcol = "blue"
-
-                    joints = body.joints
-                    # convert joint coordinates to color space
-                    joint_points = self._kinect.body_joints_to_color_space(
-                        joints)
 
                     # Draw right punch
                     self.draw_body_bone(joints, joint_points, rightcol,

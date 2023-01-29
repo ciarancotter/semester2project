@@ -26,7 +26,7 @@ class LeftPunch(object):
         self.read = False
         self.magnitude = 0
 
-    def __call__(self, kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None:
+    def __call__(self, body: PyKinectRuntime.KinectBody, depth, joint_points, joint_points_depth) -> None:
         """
         Calling LeftPunch with these perameters updates the read according to whether or not the body is punching or not.
 
@@ -36,7 +36,6 @@ class LeftPunch(object):
         """
 
         joints = body.joints
-        joint_points = kinect.body_joints_to_color_space(joints)
         point_id = PyKinectV2.JointType_HandLeft
         point = joints[point_id].TrackingState
 
@@ -108,7 +107,7 @@ class RightPunch(object):
         self.read = False
         self.magnitude = 0
 
-    def __call__(self, kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> bool:
+    def __call__(self, body: PyKinectRuntime.KinectBody, depth, joint_points, joint_points_depth) -> bool:
         """
         Calling RightPunch with these perameters updates the read according to whether or not the body is punching or not.
 
@@ -119,7 +118,6 @@ class RightPunch(object):
                 A body being tracked in the frame.
         """
         joints = body.joints
-        joint_points = kinect.body_joints_to_color_space(joints)
         point_id = PyKinectV2.JointType_HandRight
         point = joints[point_id].TrackingState
 
