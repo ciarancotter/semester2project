@@ -26,8 +26,7 @@ class LeftPunch(object):
         self.read = False
         self.magnitude = 0
 
-    def __call__(self, kinect: PyKinectV2,
-                 body: PyKinectRuntime.KinectBody) -> None:
+    def __call__(self, kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None:
         """
         Calling LeftPunch with these perameters updates the read according to whether or not the body is punching or not.
 
