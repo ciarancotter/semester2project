@@ -25,7 +25,7 @@ class Infront(object):
         self.read = False
         self.magnitude = 0
 
-    def __call__(self, kinect: PyKinectV2, body: PyKinectRuntime.KinectBody, depth) -> None:
+    def __call__(self,body: PyKinectRuntime.KinectBody, depth, joint_points, joint_points_depth) -> None:
         """
         Calling Jump with these perameters updates the read according to whether or not the body is jumping or not.
 
@@ -35,8 +35,6 @@ class Infront(object):
         """
 
         joints = body.joints
-        joint_points = kinect.body_joints_to_color_space(joints)
-        joint_points_depth = kinect.body_joints_to_depth_space(joints)
         point_id = PyKinectV2.JointType_HandRight
         point = joints[point_id].TrackingState
 
