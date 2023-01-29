@@ -2,17 +2,16 @@ from pykinect2 import PyKinectV2
 from pykinect2 import PyKinectRuntime
 
 
-class Jump(object):
+class Infront(object):
     """
-    The Jump Class is used to sense whether or the body in frame is jumping or not
+    The Infront Class is used to sense whether or the body in frame has its hand up infront or not.
     You need to call this class again once instanciated to update the data.
 
     Attributes:
-        read (bool): whether or not the body is jumping or not
-        magnitude (int): speed over the threshold 
+        read (bool): whether or not the hand is up infront or not.
 
     Methods:
-        __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None : updates the read according to whether or not the body is jumping or not.
+        __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None : updates the read according to whether or not the hand is up infront or not.
         get_speed_threshhold() -> int : get the speed threashold needed to be reached to allow a jump to be recognised
         set_speed_threshhold(x: int) -> None : set the speed threashold needed to be reached to allow a jump to be recognised.
     """
@@ -22,11 +21,11 @@ class Jump(object):
         Creates the Jump object
         """
         self._olddelt = 0
-        self._speed_threshhold = 15
+        self._speed_threshhold = 60
         self.read = False
         self.magnitude = 0
 
-    def __call__(self, kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None:
+    def __call__(self, kinect: PyKinectV2, body: PyKinectRuntime.KinectBody, depth) -> None:
         """
         Calling Jump with these perameters updates the read according to whether or not the body is jumping or not.
 
@@ -37,7 +36,8 @@ class Jump(object):
 
         joints = body.joints
         joint_points = kinect.body_joints_to_color_space(joints)
-        point_id = PyKinectV2.JointType_SpineShoulder
+        joint_points_depth = kinect.body_joints_to_depth_space(joints)
+        point_id = PyKinectV2.JointType_HandRight
         point = joints[point_id].TrackingState
 
         # both joints are not tracked
@@ -47,15 +47,20 @@ class Jump(object):
         if point == PyKinectV2.TrackingState_Inferred:
             return
 
-        posy = joint_points[point_id].y
+        #print(int(joint_points_depth[point_id].x), int(joint_points_depth[point_id].y))
+        posz = depth[int(joint_points_depth[point_id].x), int(joint_points_depth[point_id].y)]
+
+        #print(depth[int(joint_points_depth[point_id].x), int(joint_points_depth[point_id].y)])
+
 
         # a=0.9 == fast react      a=0.1 == slow react
         max_change_per_itteration = 0.4  # change per itteration
-        delt = max_change_per_itteration * posy + (1 -  max_change_per_itteration) * self._olddelt
+        delt = max_change_per_itteration * posz + (1 -  max_change_per_itteration) * self._olddelt
 
-        move = round(delt - self._olddelt, 3)
+        move = int(delt - self._olddelt)/10
         self._olddelt = delt
 
+        print(move)
         if move < -self._speed_threshhold:
             self.read = True
             self.magnitude = -(move + self._speed_threshhold)

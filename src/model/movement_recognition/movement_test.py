@@ -1,5 +1,5 @@
-from pykinect2 import PyKinectV2
-from pykinect2 import PyKinectRuntime
+from pykinect2 import PyKinectV2, PyKinectRuntime
+from pykinect2.PyKinectV2 import *
 
 import numpy
 import pygame
@@ -7,10 +7,10 @@ import ctypes
 
 from punch import LeftPunch, RightPunch
 from jump import Jump
+from infront import Infront
 """
 Worked on from the PyKinectBodyGame example packed with the pykinect2 libary
 """
-
 
 class TestMovement(object):
     """
@@ -46,10 +46,7 @@ class TestMovement(object):
         self._clock = pygame.time.Clock()
 
         # Kinect runtime object, we want only color and body frames
-        self._kinect = PyKinectRuntime.PyKinectRuntime(
-            PyKinectV2.FrameSourceTypes_Color |
-            PyKinectV2.FrameSourceTypes_Body)
-        #self._kinect = PyKinectRuntime.PyKinectRuntime(PyKinectV2.FrameSourceTypes_BodyIndex)
+        self._kinect = PyKinectRuntime.PyKinectRuntime( PyKinectV2.FrameSourceTypes_Color | PyKinectV2.FrameSourceTypes_Body | PyKinectV2.FrameSourceTypes_Depth)
 
         # back buffer surface for getting Kinect color frames, 32bit color, width and height equal to the Kinect color frame size
         self._frame_surface = pygame.Surface(
@@ -58,10 +55,12 @@ class TestMovement(object):
 
         # here we will store skeleton data
         self._bodies = None
+        self._depth = None
 
         self._leftpunch = LeftPunch()
         self._rightpunch = RightPunch()
         self._jump = Jump()
+        self._select = Infront()
 
     def draw_color_frame(self, frame: numpy.ndarray,
                          target_surface: pygame.Surface) -> None:
@@ -146,6 +145,9 @@ class TestMovement(object):
             if self._kinect.has_new_body_frame():
                 self._bodies = self._kinect.get_last_body_frame()
 
+            if self._kinect.has_new_depth_frame():
+                self._depth = self._kinect.get_last_depth_frame().reshape(512, 424)
+
             # --- draw skeletons to _frame_surface
             if self._bodies is not None:
                 #print("body is there")
@@ -168,7 +170,11 @@ class TestMovement(object):
                     self._jump(self._kinect, body)
                     if self._jump.read:
                         jumpcol = "blue"
-                        print("jump")
+
+                    selectcol = "grey"
+                    self._select(self._kinect, body, self._depth)
+                    if self._jump.read:
+                        selectcol = "blue"
 
                     joints = body.joints
                     # convert joint coordinates to color space
@@ -210,6 +216,14 @@ class TestMovement(object):
                          joint_points[PyKinectV2.JointType_SpineShoulder].y), 15)
                     rectangle = pygame.Rect(55, 0, 50, 50)
                     pygame.draw.rect(self._frame_surface, jumpcol, rectangle)
+
+                    # Draw select
+                    pygame.draw.circle(
+                        self._frame_surface, selectcol,
+                        (joint_points[PyKinectV2.JointType_HandRight].x,
+                         joint_points[PyKinectV2.JointType_HandRight].y-30), 15)
+                    rectangle = pygame.Rect(165, 0, 50, 50)
+                    pygame.draw.rect(self._frame_surface, selectcol, rectangle)
 
             # --- copy back buffer surface pixels to the screen, resize it if needed and keep aspect ratio
             # --- (screen size may be different from Kinect's color frame size)
