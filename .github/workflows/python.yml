@@ -36,11 +36,11 @@ jobs:
          contents: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
-      - working-directory: docs
-      - run: sphinx-apidoc -o source/ ../src -T 
-      - run: make html
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - working-directory: docs
+    - run: sphinx-apidoc -o source/ ../src -T 
+    - run: make html
 
