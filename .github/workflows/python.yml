@@ -41,7 +41,8 @@ jobs:
       with:
         python-version: 3.9
     - run: pip install sphinx
-    - working-directory: docs
+    - name: Set the working directory
+      working-directory: docs
     - run: sphinx-apidoc -o source/ ../src -T 
     - run: make html
 
