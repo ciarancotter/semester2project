@@ -13,8 +13,8 @@ from pygame.locals import (
 )
 
 # Define constants for the screen width and height (this is just for now)
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 1024
+SCREEN_HEIGHT = 1024
 
 def collision_with_obj(object1, object2):
     collision_tolerance = 10
@@ -71,9 +71,9 @@ class Player(pygame.sprite.Sprite):
         self.movement(pressed_keys)
 
         self.rect.x += self.playerxChange
-        self.playerxChange = self.playerxChange *0.10
+        self.playerxChange = self.playerxChange *0.001
         self.rect.y += self.playeryChange
-        self.playeryChange = self.playeryChange *0.10
+        self.playeryChange = self.playeryChange *0.001
 
         self.playerxChange = 0
         self.playeryChange = 0
