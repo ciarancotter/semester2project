@@ -61,10 +61,10 @@ class Player(pygame.sprite.Sprite):
         self.playeryChange = self.playeryChange *0.10
 
         if pressed_keys[K_LEFT] and self.playerX> 0:
-            self.playerxChange = self.playerxChange - (0.2 * screen.get_width())
+            self.playerxChange = self.playerxChange - (screen.get_width()/1000)
             #self.playerX -= self.vel
         if pressed_keys[K_RIGHT] and self.playerX < screen.get_width() - self.playerwidth :
-            self.playerxChange = self.playerxChange + (0.2 * screen.get_width())
+            self.playerxChange = self.playerxChange + (screen.get_width()/1000)
 
         if pressed_keys[K_SPACE] and self.playerY  > 0 :
             self.playeryChange = self.playeryChange - 4
