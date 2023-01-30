@@ -1,3 +1,4 @@
+from numpy import ndarray
 from pykinect2 import PyKinectV2
 from pykinect2 import PyKinectRuntime
 from math import degrees, atan
@@ -5,17 +6,17 @@ from math import degrees, atan
 
 class LeftWalk(object):
     """
-    The LeftPunch Class is used to sense whether or the body in frame is punching to the left or not.
+    The LeftWalk Class is used to sense whether or the body in frame has its left calf rased or not.
     You need to call this class again once instanciated to update the data.
 
     Attributes:
-        read (bool): whether or not the body is punching or not
-        magnitude (int): speed over the threshold 
+        read (bool): whether or not the body has its left calf rased or not
+        magnitude (int): angle over the threshold 
 
     Methods:
-        __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None : updates the read according to whether or not the body is punching or not.
-        get_speed_threshhold() -> int : get the speed threashold needed to be reached to allow a punch to be recognised
-        set_speed_threshhold(x: int) -> None : set the speed threashold needed to be reached to allow a punch to be recognised.
+        __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None : updates the read according to whether or not the body is rasing its left calf or not.
+        get_angle_threshhold() -> int : get the angle threashold needed to be reached to allow the motion to be recognised
+        set_angle_threshhold(x: int) -> None : set the angle threashold needed to be reached to allow the motion to be recognised.
     """
 
     def __init__(self):
@@ -26,13 +27,15 @@ class LeftWalk(object):
         self.read = False
         self.magnitude = 0
 
-    def __call__(self, body: PyKinectRuntime.KinectBody, depth, joint_points, joint_points_depth) -> None:
+    def __call__(self, body: PyKinectRuntime.KinectBody, depth:ndarray, joint_points:ndarray, joint_points_depth:ndarray) -> None:
         """
-        Calling LeftPunch with these perameters updates the read according to whether or not the body is punching or not.
+        Calling LeftWalk with these perameters updates the read according to whether or not the body is rasing its left calf or not.
 
         Args:
-            kinect (PyKinectV2): A reference to a PyKinectRuntime object.
             body (PyKinectRuntime.KinectBody): A body being tracked in the frame.
+            depth (ndarray): The array of depth points from the kinect
+            joint_points (ndarray): The array of joint point poitions from the kinect
+            joint_points_depth (ndarray): The array of joint depths from the kinect
         """
 
         joints = body.joints
@@ -69,36 +72,36 @@ class LeftWalk(object):
     
     def get_angle_threshhold(self) -> int:
         """
-        Gets the speed threashold needed to be reached to allow a punch to be recognised.
+        Gets the angle threashold needed to be reached to allow a left walk to be recognised.
 
         Returns:
-            int: the speed threashold needed to be reached to allow a punch to be recognised.
+            int: the angle threashold needed to be reached to allow a left walk to be recognised.
         """
         return self._angle_threshhold
 
     def set_angle_threshhold(self, x: int) -> None:
         """
-        Sets the speed threashold needed to be reached to allow a punch to be recognised.
+        Sets the angle threashold needed to be reached to allow a left walk to be recognised.
 
         Args:
-            x (int): the new speed threashold needed to be reached to allow a punch to be recognised.
+            x (int): the new angle threashold needed to be reached to allow a left walk to be recognised.
         """
         self._angle_threshhold = x
 
 
 class RightWalk(object):
     """
-    The RightPunch Class is used to sense whether or the body in frame is punching to the right or not.
+    The RightWalk Class is used to sense whether or the body in frame has its right calf rased or not.
     You need to call this class again once instanciated to update the data.
 
     Attributes:
-        read (bool): whether or not the body is punching or not
-        magnitude (int): speed over the threshold 
+        read (bool): whether or not the body has its right calf rased or not
+        magnitude (int): angle over the threshold 
 
     Methods:
-        __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None: updates the read according to whether or not the body is punching or not.
-        get_speed_threshhold() -> int: get the speed threashold needed to be reached to allow a punch to be recognised.
-        set_speed_threshhold(x: int) -> None: set the speed threashold needed to be reached to allow a punch to be recognised.
+        __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None : updates the read according to whether or not the body is rasing its right calf or not.
+        get_angle_threshhold() -> int : get the angle threashold needed to be reached to allow the motion to be recognised
+        set_angle_threshhold(x: int) -> None : set the angle threashold needed to be reached to allow the motion to be recognised.
     """
 
     def __init__(self):
@@ -109,15 +112,15 @@ class RightWalk(object):
         self.read = False
         self.magnitude = 0
 
-    def __call__(self, body: PyKinectRuntime.KinectBody, depth, joint_points, joint_points_depth) -> bool:
+    def __call__(self, body: PyKinectRuntime.KinectBody, depth:ndarray, joint_points:ndarray, joint_points_depth:ndarray) -> None:
         """
-        Calling RightPunch with these perameters updates the read according to whether or not the body is punching or not.
+        Calling RightPunch with these perameters updates the read according to whether or not the body is rasing its right calf or not.
 
         Args:
-            kinect (PyKinectV2): 
-                A reference to a PyKinectRuntime object.
-            body (PyKinectRuntime.KinectBody): 
-                A body being tracked in the frame.
+            body (PyKinectRuntime.KinectBody): A body being tracked in the frame.
+            depth (ndarray): The array of depth points from the kinect
+            joint_points (ndarray): The array of joint point poitions from the kinect
+            joint_points_depth (ndarray): The array of joint depths from the kinect
         """
         joints = body.joints
         knee_point_id = PyKinectV2.JointType_KneeRight
@@ -153,18 +156,18 @@ class RightWalk(object):
 
     def get_angle_threshhold(self) -> int:
         """
-        Gets the speed threashold needed to be reached to allow a punch to be recognised.
+        Gets the angle threashold needed to be reached to allow a punch to be recognised.
 
         Returns:
-            int: the speed threashold needed to be reached to allow a punch to be recognised.
+            int: the angle threashold needed to be reached to allow a punch to be recognised.
         """
         return self._angle_threshhold
 
     def set_angle_threshhold(self, x: int) -> None:
         """
-        Sets the speed threashold needed to be reached to allow a punch to be recognised.
+        Sets the angle threashold needed to be reached to allow a punch to be recognised.
 
         Args:
-            x (int): the new speed threashold needed to be reached to allow a punch to be recognised.
+            x (int): the new angle threashold needed to be reached to allow a punch to be recognised.
         """
         self._angle_threshhold = x

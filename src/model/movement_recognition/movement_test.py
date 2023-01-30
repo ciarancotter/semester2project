@@ -7,7 +7,7 @@ import ctypes
 
 from punch import LeftPunch, RightPunch
 from jump import Jump
-from infront import Infront
+from infront import HandInfront
 from walk import LeftWalk, RightWalk
 
 from turnhips import TurnHips
@@ -63,7 +63,7 @@ class TestMovement(object):
         self._leftpunch = LeftPunch()
         self._rightpunch = RightPunch()
         self._jump = Jump()
-        self._select = Infront()
+        self._select = HandInfront()
         self._leftwalk = LeftWalk()
         self._rightwalk = RightWalk()
         self._turntest = TurnHips()
@@ -195,7 +195,7 @@ class TestMovement(object):
                     if self._jump.read:
                         jumpcol = "blue"
 
-                    '''selectcol = "grey"
+                    '''selectcol = "white"
                     dist, x, y = self._select(body, self._depth, joint_points, joint_points_depth)
                     file.write(str(dist)+", "+str(x)+", "+str(y)+"\n")
                     if self._select.read:
@@ -258,7 +258,7 @@ class TestMovement(object):
                         self._frame_surface, selectcol,
                         (joint_points[PyKinectV2.JointType_HandRight].x,
                          joint_points[PyKinectV2.JointType_HandRight].y-30), 15)
-                    rectangle = pygame.Rect(165, 0, 50, 50)
+                    rectangle = pygame.Rect(110, 0, 50, 50)
                     pygame.draw.rect(self._frame_surface, selectcol, rectangle)'''
 
                     # Draw right walk

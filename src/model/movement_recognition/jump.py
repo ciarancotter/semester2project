@@ -1,3 +1,4 @@
+from numpy import ndarray
 from pykinect2 import PyKinectV2
 from pykinect2 import PyKinectRuntime
 
@@ -26,13 +27,15 @@ class Jump(object):
         self.read = False
         self.magnitude = 0
 
-    def __call__(self, body: PyKinectRuntime.KinectBody, depth, joint_points, joint_points_depth) -> None:
+    def __call__(self, body: PyKinectRuntime.KinectBody, depth:ndarray, joint_points:ndarray, joint_points_depth:ndarray) -> None:
         """
         Calling Jump with these perameters updates the read according to whether or not the body is jumping or not.
 
         Args:
-            kinect (PyKinectV2): A reference to a PyKinectRuntime object.
             body (PyKinectRuntime.KinectBody): A body being tracked in the frame.
+            depth (ndarray): The array of depth points from the kinect
+            joint_points (ndarray): The array of joint point poitions from the kinect
+            joint_points_depth (ndarray): The array of joint depths from the kinect
         """
         joints = body.joints
         point_id = PyKinectV2.JointType_SpineShoulder

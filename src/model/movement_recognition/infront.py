@@ -1,10 +1,11 @@
+from numpy import ndarray
 from pykinect2 import PyKinectV2
 from pykinect2 import PyKinectRuntime
 
 
-class Infront(object):
+class HandInfront(object):
     """
-    The Infront Class is used to sense whether or the body in frame has its hand up infront or not.
+    The HandInfront Class is used to sense whether or the body in frame has its hand up infront or not.
     You need to call this class again once instanciated to update the data.
 
     Attributes:
@@ -12,24 +13,26 @@ class Infront(object):
 
     Methods:
         __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None : updates the read according to whether or not the hand is up infront or not.
-        get_distance_threshhold() -> int : get the distance threashold needed to be reached to allow a jump to be recognised
-        set_distance_threshhold(x: int) -> None : set the distance threashold needed to be reached to allow a jump to be recognised.
+        get_distance_threshhold() -> int : get the distance threashold needed to be reached to allow a hand in front to be recognised
+        set_distance_threshhold(x: int) -> None : set the distance threashold needed to be reached to allow a hand in front to be recognised.
     """
 
     def __init__(self):
         """
-        Creates the Jump object
+        Creates the HandInfront object
         """
         self._distance_threshhold = 2000
         self.read = False
 
-    def __call__(self, body: PyKinectRuntime.KinectBody, depth, joint_points, joint_points_depth):
+    def __call__(self, body: PyKinectRuntime.KinectBody, depth:ndarray, joint_points:ndarray, joint_points_depth:ndarray) -> None:
         """
-        Calling Jump with these perameters updates the read according to whether or not the body is jumping or not.
+        Calling HandInfront with these perameters updates the read according to whether or not the body has a hand in front or not.
 
         Args:
-            kinect (PyKinectV2): A reference to a PyKinectRuntime object.
             body (PyKinectRuntime.KinectBody): A body being tracked in the frame.
+            depth (ndarray): The array of depth points from the kinect
+            joint_points (ndarray): The array of joint point poitions from the kinect
+            joint_points_depth (ndarray): The array of joint depths from the kinect
         """
 
         joints = body.joints
@@ -65,18 +68,18 @@ class Infront(object):
 
     def get_distance_threshhold(self) -> int:
         """
-        Gets the distance threashold needed to be reached to allow a jump to be recognised.
+        Gets the distance threashold needed to be reached to allow a hand in front to be recognised.
 
         Returns:
-            int: the distance threashold needed to be reached to allow a jump to be recognised.
+            int: the distance threashold needed to be reached to allow a hand in front to be recognised.
         """
         return self._distance_threshhold
 
     def set_distance_threshhold(self, x: int) -> None:
         """
-        Sets the distance threashold needed to be reached to allow a jump to be recognised.
+        Sets the distance threashold needed to be reached to allow a hand in front to be recognised.
 
         Args:
-            x (int): the new distance threashold needed to be reached to allow a jump to be recognised.
+            x (int): the new distance threashold needed to be reached to allow a hand in front to be recognised.
         """
         self._distance_threshhold = x

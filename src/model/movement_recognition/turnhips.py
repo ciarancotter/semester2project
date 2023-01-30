@@ -1,9 +1,10 @@
+from numpy import ndarray
 from pykinect2 import PyKinectV2
 from pykinect2 import PyKinectRuntime
 
 class TurnHips(object):
     """
-    The LeftPunch Class is used to sense whether or the body in frame is punching to the left or not.
+    The TurnHips Class is used to sense whether or the body in frame is has its hips turned or not.
     You need to call this class again once instanciated to update the data.
 
     Attributes:
@@ -11,26 +12,28 @@ class TurnHips(object):
         magnitude (int): speed over the threshold 
 
     Methods:
-        __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None : updates the read according to whether or not the body is punching or not.
-        get_speed_threshhold() -> int : get the speed threashold needed to be reached to allow a punch to be recognised
-        set_speed_threshhold(x: int) -> None : set the speed threashold needed to be reached to allow a punch to be recognised.
+        __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None : updates the read according to whether or not the body has its hips turned or not.
+        get_speed_threshhold() -> int : get the speed threashold needed to be reached to allow a hip turn to be recognised
+        set_speed_threshhold(x: int) -> None : set the speed threashold needed to be reached to allow a hip turn to be recognised.
     """
 
     def __init__(self):
         """
-        Creates the LeftWalk object
+        Creates the TurnHips object
         """
-        self._dist_threshhold = 90
+        self._dist_threshhold = 80
         self.read = False
         self.magnitude = 0
 
-    def __call__(self, body: PyKinectRuntime.KinectBody, depth, joint_points, joint_points_depth) -> None:
+    def __call__(self, body: PyKinectRuntime.KinectBody, depth:ndarray, joint_points:ndarray, joint_points_depth:ndarray) -> None:
         """
-        Calling LeftPunch with these perameters updates the read according to whether or not the body is punching or not.
+        Calling LeftPunch with these perameters updates the read according to whether or not the body has its hips turned or not.
 
         Args:
-            kinect (PyKinectV2): A reference to a PyKinectRuntime object.
             body (PyKinectRuntime.KinectBody): A body being tracked in the frame.
+            depth (ndarray): The array of depth points from the kinect
+            joint_points (ndarray): The array of joint point poitions from the kinect
+            joint_points_depth (ndarray): The array of joint depths from the kinect
         """
 
         joints = body.joints
@@ -60,18 +63,18 @@ class TurnHips(object):
     
     def get_dist_threshhold(self) -> int:
         """
-        Gets the speed threashold needed to be reached to allow a punch to be recognised.
+        Gets the distance threashold needed to be reached to allow a hip turn to be recognised.
 
         Returns:
-            int: the speed threashold needed to be reached to allow a punch to be recognised.
+            int: the distance threashold needed to be reached to allow a hip turn to be recognised.
         """
         return self._dist_threshhold
 
     def set_dist_threshhold(self, x: int) -> None:
         """
-        Sets the speed threashold needed to be reached to allow a punch to be recognised.
+        Sets the distance threashold needed to be reached to allow a hip turn to be recognised.
 
         Args:
-            x (int): the new speed threashold needed to be reached to allow a punch to be recognised.
+            x (int): the new distance threashold needed to be reached to allow a hip turn to be recognised.
         """
         self._dist_threshhold = x
