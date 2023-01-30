@@ -55,3 +55,14 @@ class UITextBox:
         box = pygame.Surface((dimensions - self.margin, dimensions // 8))
         box.fill("white")
         self.screen.blit(box, (self.margin // 2, dimensions * 0.75))
+
+
+class GameWindow:
+    def __init__(self, screen):
+        self.miniWindow = pygame.Surface((768, 768))
+        self.miniWindow.fill("orange")
+        self.screen = screen
+        self.dimensions = self.screen.get_size()[1]
+
+    def draw(self):
+        self.screen.blit(self.miniWindow, (0, 0))
