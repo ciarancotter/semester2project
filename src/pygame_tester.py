@@ -42,8 +42,8 @@ class Player(pygame.sprite.Sprite):
         self.playerxChange = 0
         self.playeryChange = 0
         # self.vel= 5 #velosity, how fast char move 
-        self.playerX = SCREEN_WIDTH / 2  #x co-ords for start position
-        self.playerY = SCREEN_HEIGHT / 2  #y co-ords for start position
+        self.playerX = screen.get_width() / 2  #x co-ords for start position
+        self.playerY = screen.get_height() / 2  #y co-ords for start position
 
         self.playerImage = "frame.png"
 
@@ -61,16 +61,16 @@ class Player(pygame.sprite.Sprite):
         self.playeryChange = self.playeryChange *0.10
 
         if pressed_keys[K_LEFT] and self.playerX> 0:
-            self.playerxChange = self.playerxChange - 0.2
+            self.playerxChange = self.playerxChange - (0.2 * screen.get_width())
             #self.playerX -= self.vel
-        if pressed_keys[K_RIGHT] and self.playerX < SCREEN_WIDTH - self.playerwidth :
-            self.playerxChange = self.playerxChange + 0.2
+        if pressed_keys[K_RIGHT] and self.playerX < screen.get_width() - self.playerwidth :
+            self.playerxChange = self.playerxChange + (0.2 * screen.get_width())
 
         if pressed_keys[K_SPACE] and self.playerY  > 0 :
             self.playeryChange = self.playeryChange - 4
             #self.playerY -= self.vel
 
-        if self.playerY < SCREEN_HEIGHT - self.playerHeight :
+        if self.playerY < screen.get_height() - self.playerHeight :
             self.playerY += 2
   
 
@@ -80,9 +80,9 @@ class Player(pygame.sprite.Sprite):
 # Initialize pygame
 pygame.init()
 
+infoobject = pygame.display.Info()
 # Create the screen
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-
+screen = pygame.display.set_mode((infoobject.current_w >> 1, infoobject.current_h >> 1), pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.RESIZABLE, 32)
 
 # Keep main loop running
 running = True
@@ -108,11 +108,16 @@ while running:
     pressed_keys = pygame.key.get_pressed()
     player.update(pressed_keys)
 
-    screen.fill((0,0,0))
+    screen.fill((255,255,255))
     pygame.draw.rect(screen, (255,0,0), (player.playerX, player.playerY, player.playerwidth, player.playerHeight))
     # Get the set of keys pressed and check for user input
-    pygame.display.update()
 
+
+    h_to_w = float(screen.get_height()) / screen.get_width()
+    target_height = int(h_to_w * screen.get_width())
+    surface_to_draw = pygame.transform.scale(screen, (screen.get_width(), target_height))
+    screen.blit(surface_to_draw, (0, 0))
+    surface_to_draw = None
 
 
 
