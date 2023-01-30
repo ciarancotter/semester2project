@@ -23,7 +23,7 @@ class Infront(object):
         self._distance_threshhold = 2000
         self.read = False
 
-    def __call__(self,body: PyKinectRuntime.KinectBody, depth, joint_points, joint_points_depth) -> None:
+    def __call__(self, body: PyKinectRuntime.KinectBody, depth, joint_points, joint_points_depth):
         """
         Calling Jump with these perameters updates the read according to whether or not the body is jumping or not.
 
@@ -33,9 +33,6 @@ class Infront(object):
         """
 
         joints = body.joints
-        point_id = PyKinectV2.JointType_HandRight
-        point = joints[point_id].TrackingState
-        joint_points_depth = kinect.body_joints_to_depth_space(joints)
         point_id = (PyKinectV2.JointType_HandRight, PyKinectV2.JointType_SpineShoulder)
 
         for i in point_id:
@@ -43,30 +40,29 @@ class Infront(object):
 
             # both joints are not tracked
             if point == PyKinectV2.TrackingState_NotTracked:
-                return
+                return None, None, None
             # both joints are not *really* tracked
             if point == PyKinectV2.TrackingState_Inferred:
-                return
+                return None, None, None
 
         #print(int(joint_points_depth[point_id].x), int(joint_points_depth[point_id].y))
-        depths = (depth[int(joint_points_depth[PyKinectV2.JointType_HandRight].x), int(joint_points_depth[PyKinectV2.JointType_HandRight].y)], depth[int(joint_points_depth[PyKinectV2.JointType_SpineShoulder].x), int(joint_points_depth[PyKinectV2.JointType_SpineShoulder].y)])
+        depths = (depth[int(joint_points_depth[PyKinectV2.JointType_HandRight].x), int(joint_points_depth[PyKinectV2.JointType_HandRight].y)], \
+                depth[int(joint_points_depth[PyKinectV2.JointType_SpineShoulder].x), int(joint_points_depth[PyKinectV2.JointType_SpineShoulder].y)])
+        
 
 
-        distance = depths[1]-depths[0]
+        #distance = depths[1]-depths[0]
+        distance = depths[0]
+        print(distance, int(joint_points_depth[PyKinectV2.JointType_HandRight].x), int(joint_points_depth[PyKinectV2.JointType_HandRight].y))
+        return distance, int(joint_points_depth[PyKinectV2.JointType_HandRight].x), int(joint_points_depth[PyKinectV2.JointType_HandRight].y)
 
-        if distance > 60000:
-            return
-
-        if distance == 0:
-            return
-
-        #print(distance)
-        if distance > self._distance_threshhold:
+        print(distance)
+        '''if distance > self._distance_threshhold:
             self.read = True
             return
         else:
             self.read = False
-            return
+            return'''
 
     def get_distance_threshhold(self) -> int:
         """

@@ -77,6 +77,17 @@ class TestMovement(object):
         del address
         target_surface.unlock()
 
+    def draw_depth_frame(self, frame: numpy.ndarray, target_surface: pygame.Surface) -> None:
+        if frame is None:  # some usb hub do not provide the depth image. it works with Kinect studio though
+            return
+        target_surface.lock()
+        f8=numpy.uint8(frame.clip(1,4000)/16.)
+        frame8bit=numpy.dstack((f8,f8,f8))
+        address = self._kinect.surface_as_array(target_surface.get_buffer())
+        ctypes.memmove(address, frame8bit.ctypes.data, frame8bit.size)
+        del address
+        target_surface.unlock()
+
     def draw_body_bone(self, joints: numpy.ndarray, jointpoints: numpy.ndarray,
                        color: str, joint0: int, joint1: int) -> None:
         """
@@ -118,6 +129,8 @@ class TestMovement(object):
         """
         Runs the pygame loop
         """
+        file = open("data.csv","w") 
+
         # -------- Main Program Loop -----------
         while not self._done:
             # --- Main event loop
@@ -137,16 +150,20 @@ class TestMovement(object):
             # --- Woohoo! We've got a color frame! Let's fill out back buffer surface with frame's data
             if self._kinect.has_new_color_frame():
                 #print("colour drawn")
-                frame = self._kinect.get_last_color_frame()
-                self.draw_color_frame(frame, self._frame_surface)
-                frame = None
+                colorframe = self._kinect.get_last_color_frame()
+                self.draw_color_frame(colorframe, self._frame_surface)
+                colorframe = None
 
             # --- Cool! We have a body frame, so can get skeletons
             if self._kinect.has_new_body_frame():
                 self._bodies = self._kinect.get_last_body_frame()
 
             if self._kinect.has_new_depth_frame():
-                self._depth = self._kinect.get_last_depth_frame().reshape(512, 424)
+                self._depth = self._kinect.get_last_depth_frame()
+                #depthframe = self._kinect.depth_frame_to_color_space(self._depth)
+                #self.draw_color_frame(depthframe, self._frame_surface)
+                depthframe = None
+                self._depth = self._depth.reshape(512, 424)
 
             # --- draw skeletons to _frame_surface
             if self._bodies is not None:
@@ -159,7 +176,6 @@ class TestMovement(object):
                     joints = body.joints
                     joint_points = self._kinect.body_joints_to_color_space(joints)
                     joint_points_depth = self._kinect.body_joints_to_depth_space(joints)
-
 
                     rightcol = "yellow"
                     self._rightpunch(body, self._depth, joint_points, joint_points_depth)
@@ -176,11 +192,12 @@ class TestMovement(object):
                     if self._jump.read:
                         jumpcol = "blue"
 
-                    selectcol = "grey"
-                    self._select(body, self._depth, joint_points, joint_points_depth)
+                    '''selectcol = "grey"
+                    dist, x, y = self._select(body, self._depth, joint_points, joint_points_depth)
+                    file.write(str(dist)+", "+str(x)+", "+str(y)+"\n")
                     if self._select.read:
-                        print("paused")
-                        selectcol = "blue"
+                        #print("paused")
+                        selectcol = "blue"'''
 
                     # Draw right punch
                     self.draw_body_bone(joints, joint_points, rightcol,
@@ -218,13 +235,13 @@ class TestMovement(object):
                     rectangle = pygame.Rect(55, 0, 50, 50)
                     pygame.draw.rect(self._frame_surface, jumpcol, rectangle)
 
-                    # Draw select
+                    '''# Draw select
                     pygame.draw.circle(
                         self._frame_surface, selectcol,
                         (joint_points[PyKinectV2.JointType_HandRight].x,
                          joint_points[PyKinectV2.JointType_HandRight].y-30), 15)
                     rectangle = pygame.Rect(165, 0, 50, 50)
-                    pygame.draw.rect(self._frame_surface, selectcol, rectangle)
+                    pygame.draw.rect(self._frame_surface, selectcol, rectangle)'''
 
             # --- copy back buffer surface pixels to the screen, resize it if needed and keep aspect ratio
             # --- (screen size may be different from Kinect's color frame size)
@@ -243,6 +260,7 @@ class TestMovement(object):
             # --- Limit to 60 frames per second
             self._clock.tick(60)
 
+        file.close() 
         # Close our Kinect sensor, close the window and quit.
         self._kinect.close()
         pygame.quit()
