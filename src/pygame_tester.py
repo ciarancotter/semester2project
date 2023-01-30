@@ -80,6 +80,7 @@ class Player(pygame.sprite.Sprite):
 # Initialize pygame
 pygame.init()
 
+# get info about the screen we are using
 infoobject = pygame.display.Info()
 # Create the screen
 screen = pygame.display.set_mode((infoobject.current_w >> 1, infoobject.current_h >> 1), pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.RESIZABLE, 32)
@@ -112,7 +113,7 @@ while running:
     pygame.draw.rect(screen, (255,0,0), (player.playerX, player.playerY, player.playerwidth, player.playerHeight))
     # Get the set of keys pressed and check for user input
 
-
+    # Adjust window size on the fly
     h_to_w = float(screen.get_height()) / screen.get_width()
     target_height = int(h_to_w * screen.get_width())
     surface_to_draw = pygame.transform.scale(screen, (screen.get_width(), target_height))
