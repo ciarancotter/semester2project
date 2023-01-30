@@ -9,7 +9,10 @@ dimensionY = 768
 # aiutilities.configure_openai()
 # legend = aiutilities.generate_monolith("tragic", "roman")
 
-screen = pygame.display.set_mode((dimensionX, dimensionY))
+# get info about the screen we are using
+infoobject = pygame.display.Info()
+# Create the screen
+screen = pygame.display.set_mode((dimensionX, dimensionY), pygame.HWSURFACE | pygame.DOUBLEBUF, 32)
 # myTextBox = gameui.UITextBox(screen, 30, "monospace", 12)
 # myTextBox.draw("Monke")
 
