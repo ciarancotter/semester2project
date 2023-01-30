@@ -13,8 +13,8 @@ from pygame.locals import (
 )
 
 # Define constants for the screen width and height (this is just for now)
-SCREEN_WIDTH = 1024
-SCREEN_HEIGHT = 1024
+SCREEN_WIDTH = 512
+SCREEN_HEIGHT = 512
 
 def collision_with_obj(object1, object2):
     collision_tolerance = 10
