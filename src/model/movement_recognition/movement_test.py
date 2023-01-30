@@ -9,6 +9,8 @@ from punch import LeftPunch, RightPunch
 from jump import Jump
 from infront import Infront
 from walk import LeftWalk, RightWalk
+
+from turnhips import TurnHips
 """
 Worked on from the PyKinectBodyGame example packed with the pykinect2 libary
 """
@@ -64,6 +66,7 @@ class TestMovement(object):
         self._select = Infront()
         self._leftwalk = LeftWalk()
         self._rightwalk = RightWalk()
+        self._turntest = TurnHips()
 
     def draw_color_frame(self, frame: numpy.ndarray,
                          target_surface: pygame.Surface) -> None:
@@ -209,6 +212,11 @@ class TestMovement(object):
                     if self._leftwalk.read:
                         leftwalkcol = "blue"
 
+                    turncol = "grey"
+                    self._turntest(body, self._depth, joint_points, joint_points_depth)
+                    if self._turntest.read:
+                        turncol = "blue"
+
                     # Draw right punch
                     self.draw_body_bone(joints, joint_points, rightpunchcol,
                                         PyKinectV2.JointType_ShoulderRight,
@@ -220,7 +228,7 @@ class TestMovement(object):
                         self._frame_surface, rightpunchcol,
                         (joint_points[PyKinectV2.JointType_HandRight].x,
                          joint_points[PyKinectV2.JointType_HandRight].y), 15)
-                    rectangle = pygame.Rect(110, 0, 50, 50)
+                    rectangle = pygame.Rect(110, 55, 50, 50)
                     pygame.draw.rect(self._frame_surface, rightpunchcol, rectangle)
 
                     # Draw left punch
@@ -234,7 +242,7 @@ class TestMovement(object):
                         self._frame_surface, leftpunchcol,
                         (joint_points[PyKinectV2.JointType_HandLeft].x,
                          joint_points[PyKinectV2.JointType_HandLeft].y), 15)
-                    rectangle = pygame.Rect(0, 0, 50, 50)
+                    rectangle = pygame.Rect(0, 55, 50, 50)
                     pygame.draw.rect(self._frame_surface, leftpunchcol, rectangle)
 
                     # Draw jump
@@ -242,7 +250,7 @@ class TestMovement(object):
                         self._frame_surface, jumpcol,
                         (joint_points[PyKinectV2.JointType_SpineShoulder].x,
                          joint_points[PyKinectV2.JointType_SpineShoulder].y), 15)
-                    rectangle = pygame.Rect(55, 0, 50, 50)
+                    rectangle = pygame.Rect(55, 55, 50, 50)
                     pygame.draw.rect(self._frame_surface, jumpcol, rectangle)
 
                     '''# Draw select
@@ -264,7 +272,7 @@ class TestMovement(object):
                         self._frame_surface, rightwalkcol,
                         (joint_points[PyKinectV2.JointType_AnkleRight].x,
                          joint_points[PyKinectV2.JointType_AnkleRight].y), 15)
-                    rectangle = pygame.Rect(110, 55, 50, 50)
+                    rectangle = pygame.Rect(110, 110, 50, 50)
                     pygame.draw.rect(self._frame_surface, rightwalkcol, rectangle)
 
                     # Draw left walk
@@ -278,8 +286,23 @@ class TestMovement(object):
                         self._frame_surface, leftwalkcol,
                         (joint_points[PyKinectV2.JointType_AnkleLeft].x,
                          joint_points[PyKinectV2.JointType_AnkleLeft].y), 15)
-                    rectangle = pygame.Rect(0, 55, 50, 50)
+                    rectangle = pygame.Rect(0, 110, 50, 50)
                     pygame.draw.rect(self._frame_surface, leftwalkcol, rectangle)
+
+                    # Draw turn
+                    self.draw_body_bone(joints, joint_points, turncol,
+                                        PyKinectV2.JointType_HipLeft,
+                                        PyKinectV2.JointType_HipRight)
+                    pygame.draw.circle(
+                        self._frame_surface, turncol,
+                        (joint_points[PyKinectV2.JointType_HipLeft].x,
+                         joint_points[PyKinectV2.JointType_HipLeft].y), 15)
+                    pygame.draw.circle(
+                        self._frame_surface, turncol,
+                        (joint_points[PyKinectV2.JointType_HipRight].x,
+                         joint_points[PyKinectV2.JointType_HipRight].y), 15)
+                    rectangle = pygame.Rect(55, 110, 50, 50)
+                    pygame.draw.rect(self._frame_surface, turncol, rectangle)
 
             # --- copy back buffer surface pixels to the screen, resize it if needed and keep aspect ratio
             # --- (screen size may be different from Kinect's color frame size)

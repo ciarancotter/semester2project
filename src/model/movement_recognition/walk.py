@@ -57,11 +57,10 @@ class LeftWalk(object):
         angle = 90-degrees(atan(slope))
         if angle > 90:
             angle = 0
-        print(angle)
 
         if angle > self._angle_threshhold:
             self.read = True
-            self.magnitude = angle + self._angle_threshhold
+            self.magnitude = angle - self._angle_threshhold
             return
         else:
             self.read = False
@@ -142,11 +141,10 @@ class RightWalk(object):
         angle = 90-degrees(atan(slope))
         if angle > 90:
             angle = 0
-        print(angle)
 
         if angle > self._angle_threshhold:
             self.read = True
-            self.magnitude = angle + self._angle_threshhold
+            self.magnitude = angle - self._angle_threshhold
             return
         else:
             self.read = False
