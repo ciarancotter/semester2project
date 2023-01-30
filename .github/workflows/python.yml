@@ -43,7 +43,7 @@ jobs:
     - uses: actions/setup-python@v2
       with:
         python-version: 3.9
-    - run: pip install ../src/requirments.txt
+    - run: pip install ../src/requirements.txt
     - run: pip install sphinx
     - run: sphinx-apidoc -o source/ ../src -T 
     - run: make html
