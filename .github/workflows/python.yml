@@ -40,6 +40,7 @@ jobs:
     - uses: actions/setup-python@v2
       with:
         python-version: 3.9
+    - run: pip install sphinx
     - working-directory: docs
     - run: sphinx-apidoc -o source/ ../src -T 
     - run: make html
