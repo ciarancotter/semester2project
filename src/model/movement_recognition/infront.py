@@ -33,11 +33,10 @@ class Infront(object):
         """
 
         joints = body.joints
-        point_id = (PyKinectV2.JointType_HandRight, PyKinectV2.JointType_SpineShoulder)
+        points = (PyKinectV2.JointType_HandRight, PyKinectV2.JointType_SpineShoulder)
 
-        for i in point_id:
+        for i in points:
             point = joints[i].TrackingState
-
             # both joints are not tracked
             if point == PyKinectV2.TrackingState_NotTracked:
                 return None, None, None

@@ -8,6 +8,7 @@ import ctypes
 from punch import LeftPunch, RightPunch
 from jump import Jump
 from infront import Infront
+from walk import LeftWalk, RightWalk
 """
 Worked on from the PyKinectBodyGame example packed with the pykinect2 libary
 """
@@ -61,6 +62,8 @@ class TestMovement(object):
         self._rightpunch = RightPunch()
         self._jump = Jump()
         self._select = Infront()
+        self._leftwalk = LeftWalk()
+        self._rightwalk = RightWalk()
 
     def draw_color_frame(self, frame: numpy.ndarray,
                          target_surface: pygame.Surface) -> None:
@@ -102,7 +105,6 @@ class TestMovement(object):
 
         jointzerostate = joints[joint0].TrackingState
         jointonestate = joints[joint1].TrackingState
-
         # both joints are not tracked
         if (jointzerostate == PyKinectV2.TrackingState_NotTracked) or (
                 jointonestate == PyKinectV2.TrackingState_NotTracked):
@@ -129,8 +131,6 @@ class TestMovement(object):
         """
         Runs the pygame loop
         """
-        file = open("data.csv","w") 
-
         # -------- Main Program Loop -----------
         while not self._done:
             # --- Main event loop
@@ -177,15 +177,15 @@ class TestMovement(object):
                     joint_points = self._kinect.body_joints_to_color_space(joints)
                     joint_points_depth = self._kinect.body_joints_to_depth_space(joints)
 
-                    rightcol = "yellow"
+                    rightpunchcol = "yellow"
                     self._rightpunch(body, self._depth, joint_points, joint_points_depth)
                     if self._rightpunch.read:
-                        rightcol = "blue"
+                        rightpunchcol = "blue"
 
-                    leftcol = "red"
+                    leftpunchcol = "red"
                     self._leftpunch(body, self._depth, joint_points, joint_points_depth)
                     if self._leftpunch.read:
-                        leftcol = "blue"
+                        leftpunchcol = "blue"
 
                     jumpcol = "green"
                     self._jump(body, self._depth, joint_points, joint_points_depth)
@@ -199,33 +199,43 @@ class TestMovement(object):
                         #print("paused")
                         selectcol = "blue"'''
 
+                    rightwalkcol = "orange"
+                    self._rightwalk(body, self._depth, joint_points, joint_points_depth)
+                    if self._rightwalk.read:
+                        rightwalkcol = "blue"
+
+                    leftwalkcol = "pink"
+                    self._leftwalk(body, self._depth, joint_points, joint_points_depth)
+                    if self._leftwalk.read:
+                        leftwalkcol = "blue"
+
                     # Draw right punch
-                    self.draw_body_bone(joints, joint_points, rightcol,
+                    self.draw_body_bone(joints, joint_points, rightpunchcol,
                                         PyKinectV2.JointType_ShoulderRight,
                                         PyKinectV2.JointType_ElbowRight)
-                    self.draw_body_bone(joints, joint_points, rightcol,
+                    self.draw_body_bone(joints, joint_points, rightpunchcol,
                                         PyKinectV2.JointType_ElbowRight,
                                         PyKinectV2.JointType_WristRight)
                     pygame.draw.circle(
-                        self._frame_surface, rightcol,
+                        self._frame_surface, rightpunchcol,
                         (joint_points[PyKinectV2.JointType_HandRight].x,
                          joint_points[PyKinectV2.JointType_HandRight].y), 15)
                     rectangle = pygame.Rect(110, 0, 50, 50)
-                    pygame.draw.rect(self._frame_surface, rightcol, rectangle)
+                    pygame.draw.rect(self._frame_surface, rightpunchcol, rectangle)
 
                     # Draw left punch
-                    self.draw_body_bone(joints, joint_points, leftcol,
+                    self.draw_body_bone(joints, joint_points, leftpunchcol,
                                         PyKinectV2.JointType_ShoulderLeft,
                                         PyKinectV2.JointType_ElbowLeft)
-                    self.draw_body_bone(joints, joint_points, leftcol,
+                    self.draw_body_bone(joints, joint_points, leftpunchcol,
                                         PyKinectV2.JointType_ElbowLeft,
                                         PyKinectV2.JointType_WristLeft)
                     pygame.draw.circle(
-                        self._frame_surface, leftcol,
+                        self._frame_surface, leftpunchcol,
                         (joint_points[PyKinectV2.JointType_HandLeft].x,
                          joint_points[PyKinectV2.JointType_HandLeft].y), 15)
                     rectangle = pygame.Rect(0, 0, 50, 50)
-                    pygame.draw.rect(self._frame_surface, leftcol, rectangle)
+                    pygame.draw.rect(self._frame_surface, leftpunchcol, rectangle)
 
                     # Draw jump
                     pygame.draw.circle(
@@ -242,6 +252,34 @@ class TestMovement(object):
                          joint_points[PyKinectV2.JointType_HandRight].y-30), 15)
                     rectangle = pygame.Rect(165, 0, 50, 50)
                     pygame.draw.rect(self._frame_surface, selectcol, rectangle)'''
+
+                    # Draw right walk
+                    self.draw_body_bone(joints, joint_points, rightwalkcol,
+                                        PyKinectV2.JointType_HipRight,
+                                        PyKinectV2.JointType_KneeRight)
+                    self.draw_body_bone(joints, joint_points, rightwalkcol,
+                                        PyKinectV2.JointType_KneeRight,
+                                        PyKinectV2.JointType_AnkleRight)
+                    pygame.draw.circle(
+                        self._frame_surface, rightwalkcol,
+                        (joint_points[PyKinectV2.JointType_AnkleRight].x,
+                         joint_points[PyKinectV2.JointType_AnkleRight].y), 15)
+                    rectangle = pygame.Rect(110, 55, 50, 50)
+                    pygame.draw.rect(self._frame_surface, rightwalkcol, rectangle)
+
+                    # Draw left walk
+                    self.draw_body_bone(joints, joint_points, leftwalkcol,
+                                        PyKinectV2.JointType_HipLeft,
+                                        PyKinectV2.JointType_KneeLeft)
+                    self.draw_body_bone(joints, joint_points, leftwalkcol,
+                                        PyKinectV2.JointType_KneeLeft,
+                                        PyKinectV2.JointType_AnkleLeft)
+                    pygame.draw.circle(
+                        self._frame_surface, leftwalkcol,
+                        (joint_points[PyKinectV2.JointType_AnkleLeft].x,
+                         joint_points[PyKinectV2.JointType_AnkleLeft].y), 15)
+                    rectangle = pygame.Rect(0, 55, 50, 50)
+                    pygame.draw.rect(self._frame_surface, leftwalkcol, rectangle)
 
             # --- copy back buffer surface pixels to the screen, resize it if needed and keep aspect ratio
             # --- (screen size may be different from Kinect's color frame size)
@@ -260,7 +298,6 @@ class TestMovement(object):
             # --- Limit to 60 frames per second
             self._clock.tick(60)
 
-        file.close() 
         # Close our Kinect sensor, close the window and quit.
         self._kinect.close()
         pygame.quit()
