@@ -1,4 +1,5 @@
 import pygame
+import Entity
 
 class Block:
 
