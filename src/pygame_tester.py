@@ -16,16 +16,6 @@ from pygame.locals import (
 SCREEN_WIDTH = 768
 SCREEN_HEIGHT = 768
 
-# def collision_with_obj(object1, object2):
-#     collision_tolerance = 10
-#     if object1.rect.colliderect(object2):
-#         if abs(object2.rect.top - object1.rect.bottom) < collision_tolerance:
-#                 object1.rect.bottom = object2.rect.top
-#         if abs(object2.rect.left - object1.rect.right) < collision_tolerance:
-#                 object1.rect.right = object2.rect.left
-#         if abs(object2.rect.right - object1.rect.left) < collision_tolerance:
-#                 object1.rect.left = object2.rect.right 
-
 
 #main character class
 class Player(pygame.sprite.Sprite):
@@ -43,22 +33,12 @@ class Player(pygame.sprite.Sprite):
         - update(pressed_keys):  get the pressed key event and it apply it by moving right,left,jump or no action required 
     """
     def __init__(self):
-        #self.animationList = []
-        #self.animationStep = 4
-        #self.neg = 0
         self.obj_ground= 0 #where player y is on the ground
         self.playerwidth = 50
         self.playerHeight = 75
-        #self.playerframeL = False
-        #self.playerframeR = False
-        self.playerxChange = 0
-        self.playeryChange = 0
-        # self.vel= 5 #velosity, how fast char move 
-        self.playerX = SCREEN_WIDTH / 2  #x co-ords for start position
-        self.playerY = SCREEN_HEIGHT / 2  #y co-ords for start position
-
+        self.playerX = screen.get_width() / 2  #x co-ords for start position
+        self.playerY = screen.get_height() / 2  #y co-ords for start position
         image_to_load = pygame.image.load("src/view/assets/pharaoh_right_stand.png")
-        #self.playerImage = "frame.png"
         self.image = pygame.Surface([self.playerwidth, self.playerHeight])
         self.image.blit(image_to_load, (0,0))
 
@@ -84,16 +64,15 @@ class Player(pygame.sprite.Sprite):
 
     def movement(self, pressed_keys):
         #print(self.rect.y)
-        self.obj_ground= SCREEN_HEIGHT+1
+        self.obj_ground= screen.get_height()+1
         #print(self.obj_ground, "ground")
 
-        if pressed_keys[K_LEFT]  and self.rect.x >= 0 :
-
-            self.rect.x -= self.player_speed
+        if pressed_keys[K_LEFT] and self.rect.x > 0 :
+            self.rect.x -= (screen.get_width()/1000)
             self.facing = "left"
 
-        if pressed_keys[K_RIGHT] and self.rect.x < SCREEN_WIDTH - self.playerwidth :
-            self.rect.x += self.player_speed
+        if pressed_keys[K_RIGHT] and self.rect.x <= screen.get_width() - self.playerwidth:
+            self.rect.x += (screen.get_width()/1000)
             self.facing = "right"
 
         #jump again on;y if space is pressed and the charc y + it's hight is == to the screen hight +1(not sure why it's taking 1 extra out of the 
@@ -104,36 +83,11 @@ class Player(pygame.sprite.Sprite):
         #maybe another if for jumping but for objects ?
         
 
-        if self.rect.y <= SCREEN_HEIGHT - self.playerHeight :
+        if self.rect.y <= screen.get_height() - self.playerHeight :
            self.rect.y += self.player_speed
 
 
-    '''
-    # Move the sprite based on user keypresses
-    def update(self, pressed_keys):
-        """
-        it get called when user press any keys of the 3 specified, Left Arrow, Right Arrow and Space 
-        """
-        #for vector movement x
-        self.playerX = self.playerX + self.playerxChange
-        self.playerxChange = self.playerxChange *0.10
-        #for vector movement y
-        self.playerY = self.playerY + self.playeryChange
-        self.playeryChange = self.playeryChange *0.10
-        if pressed_keys[K_LEFT] and self.playerX> 0:
-            self.playerxChange = self.playerxChange - 0.2
-            self.facing = "left"
-            #self.playerX -= self.vel
-        if pressed_keys[K_RIGHT] and self.playerX < SCREEN_WIDTH - self.playerwidth :
-            self.playerxChange = self.playerxChange + 0.2
-            self.facing = "right"
-        if pressed_keys[K_SPACE] and self.playerY  > 0 :
-            self.playeryChange = self.playeryChange - 4
-            #self.playerY -= self.vel
-        if self.playerY < SCREEN_HEIGHT - self.playerHeight :
-            self.playerY += 2
-        #collision_with_obj(player.rect, box1)
-    '''
+
 class Box(pygame.sprite.Sprite):
 
     def __init__(self):
@@ -155,7 +109,12 @@ class Box(pygame.sprite.Sprite):
 pygame.init()
 
 # Create the screen
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.init()
+
+# get info about the screen we are using
+infoobject = pygame.display.Info()
+# Create the screen
+screen = pygame.display.set_mode((infoobject.current_w >> 1, infoobject.current_h >> 1), pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.RESIZABLE, 32)
 
 
 # Keep main loop running
@@ -193,6 +152,13 @@ while running:
     screen.blit(box1.image, box1.rect)
     # Get the set of keys pressed and check for user input
     pygame.display.update()
+    # Adjust window size on the fly
+    h_to_w = float(screen.get_height()) / screen.get_width()
+    target_height = int(h_to_w * screen.get_width())
+    surface_to_draw = pygame.transform.scale(screen, (screen.get_width(), target_height))
+    screen.blit(surface_to_draw, (0, 0))
+    surface_to_draw = None
+
 
 
 
