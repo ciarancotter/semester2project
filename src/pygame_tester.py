@@ -57,11 +57,13 @@ class Player(pygame.sprite.Sprite):
         self.playerX = SCREEN_WIDTH / 2  #x co-ords for start position
         self.playerY = SCREEN_HEIGHT / 2  #y co-ords for start position
 
-        image_to_load = pygame.image.load("src/view/assets/pharaoh_right_stand.png")
+        # this was going from /src/view... which is an absolute path we need this relitive one
+        image_to_load = pygame.image.load("view/assets/pharaoh_right_stand.png")
         #self.playerImage = "frame.png"
         self.image = pygame.Surface([self.playerwidth, self.playerHeight])
         self.image.blit(image_to_load, (0,0))
 
+        # why do we put another box around the player
         self.rect = self.image.get_rect()
         self.rect.x = self.playerX
         self.rect.y = self.playerY
@@ -187,12 +189,17 @@ while running:
     pressed_keys = pygame.key.get_pressed()
     player.update(pressed_keys)
 
-    screen.fill((0,0,0))
+    # make background white as it shows that the player background is not transparent/ is black
+    screen.fill((255,255,255))
+
     screen.blit(player.image, player.rect)
     #pygame.draw.rect(screen, (255,0,0), (player.playerX, player.playerY, player.playerwidth, player.playerHeight))
     screen.blit(box1.image, box1.rect)
+
+
     # Get the set of keys pressed and check for user input
-    pygame.display.update()
+    # pygame.display.update() # <-- exactly the same as flip therefore redundant 
+    # use update to update a certain rect on the display
 
 
 
