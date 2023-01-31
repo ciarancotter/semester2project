@@ -1,8 +1,7 @@
+###note need to fix the speed and gravity
 import pygame
 
 from pygame.locals import (
-    K_UP,
-    K_DOWN,  #probably won't need 
     K_LEFT,
     K_RIGHT,
     K_ESCAPE,
@@ -12,8 +11,8 @@ from pygame.locals import (
 )
 
 # Define constants for the screen width and height (this is just for now)
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 768
+SCREEN_HEIGHT = 768
 
 
 #main character class
@@ -32,68 +31,98 @@ class Player(pygame.sprite.Sprite):
         - update(pressed_keys):  get the pressed key event and it apply it by moving right,left,jump or no action required 
     """
     def __init__(self):
-        self.animationList = []
-        self.animationStep = 4
-        #self.neg = 0
+        self.obj_ground= 0 #where player y is on the ground
         self.playerwidth = 50
         self.playerHeight = 75
-        self.playerframeL = False
-        self.playerframeR = False
-        self.playerxChange = 0
-        self.playeryChange = 0
-        # self.vel= 5 #velosity, how fast char move 
-        self.playerX = screen.get_width() / 2  #x co-ords for start position
-        self.playerY = screen.get_height() / 2  #y co-ords for start position
+        self.playerX = SCREEN_WIDTH / 2  #x co-ords for start position
+        self.playerY = SCREEN_HEIGHT / 2  #y co-ords for start position
+        image_to_load = pygame.image.load("src/view/assets/pharaoh_right_stand.png")
+        self.image = pygame.Surface([self.playerwidth, self.playerHeight])
+        self.image.blit(image_to_load, (0,0))
 
-        self.playerImage = "frame.png"
+        self.rect = self.image.get_rect()
+        self.rect.x = self.playerX
+        self.rect.y = self.playerY
+        self.facing = "down"
+        self.player_speed = 2
 
-
-    # Move the sprite based on user keypresses
     def update(self, pressed_keys):
-        """
-        it get called when user press any keys of the 3 specified, Left Arrow, Right Arrow and Space 
-        """
-        #for vector movement x
-        self.playerX = self.playerX + self.playerxChange
-        self.playerxChange = self.playerxChange *0.10
-        #for vector movement y
-        self.playerY = self.playerY + self.playeryChange
-        self.playeryChange = self.playeryChange *0.10
+        self.movement(pressed_keys)
 
-        if pressed_keys[K_LEFT] and self.playerX> 0:
-            self.playerxChange = self.playerxChange - (screen.get_width()/1000)
-            #self.playerX -= self.vel
-        if pressed_keys[K_RIGHT] and self.playerX < screen.get_width() - self.playerwidth :
-            self.playerxChange = self.playerxChange + (screen.get_width()/1000)
+        # self.rect.x += self.playerxChange
+        # self.playerxChange = self.playerxChange *0.001
+        # self.rect.y += self.playeryChange
+        # self.playeryChange = self.playeryChange *0.001
 
-        if pressed_keys[K_SPACE] and self.playerY  > 0 :
-            self.playeryChange = self.playeryChange - 4
-            #self.playerY -= self.vel
+        # # self.playerxChange = 0
+        # # self.playeryChange = 0
 
-        if self.playerY < screen.get_height() - self.playerHeight :
-            self.playerY += 2
-  
+        #collision_with_obj(player, box1)
 
+    def movement(self, pressed_keys):
+        #print(self.rect.y)
+        self.obj_ground= SCREEN_HEIGHT+1
+        #print(self.obj_ground, "ground")
+
+        if pressed_keys[K_LEFT]  and self.rect.x >= 0 :
+
+            self.rect.x -= self.player_speed
+            self.facing = "left"
+
+        if pressed_keys[K_RIGHT] and self.rect.x < SCREEN_WIDTH - self.playerwidth :
+            self.rect.x += self.player_speed
+            self.facing = "right"
+
+        #jump again on;y if space is pressed and the charc y + it's hight is == to the screen hight +1(not sure why it's taking 1 extra out of the 
+        # screen with the self.rect.y +self.playerHeight)
+        if pressed_keys[K_SPACE] and self.rect.y +self.playerHeight == self.obj_ground :
+            self.rect.y -= self.player_speed*20
+
+        #maybe another if for jumping but for objects ?
+
+
+        if self.rect.y <= SCREEN_HEIGHT - self.playerHeight :
+           self.rect.y += self.player_speed
+
+
+
+
+class Box(pygame.sprite.Sprite):
+
+    def __init__(self):
+        super(Box, self).__init__()
+        self.boxWidth = 75
+        self.boxHeight = 50
+        self.boxX = 768-self.boxWidth
+        self.boxY = 768 - self.boxHeight
+        self.image = pygame.Surface([self.boxWidth, self.boxHeight])
+        self.image.fill((194,178,128))
+        self.rect = self.image.get_rect()
+        self.rect.x = self.boxX
+        self.rect.y = self.boxY
 
 
 
 # Initialize pygame
 pygame.init()
 
-# get info about the screen we are using
-infoobject = pygame.display.Info()
 # Create the screen
-screen = pygame.display.set_mode((infoobject.current_w >> 1, infoobject.current_h >> 1), pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.RESIZABLE, 32)
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # Keep main loop running
 running = True
 player = Player()
+box1 = Box()
+clock = pygame.time.Clock()
+
 # Main loop
 while running:
     """
     the game run while state of running is true,
     game can be stopped if user Quit using the exit buttom or exit through the Escape key
     """
+    clock.tick(60)
+
     #player.gravity()
     for event in pygame.event.get():
         # Check if key pressed (KEYDOWN event)
@@ -106,20 +135,16 @@ while running:
             running = False
    
         
+        
     pressed_keys = pygame.key.get_pressed()
     player.update(pressed_keys)
 
-    screen.fill((255,255,255))
-    pygame.draw.rect(screen, (255,0,0), (player.playerX, player.playerY, player.playerwidth, player.playerHeight))
+    screen.fill((0,0,0))
+    screen.blit(player.image, player.rect)
+    #pygame.draw.rect(screen, (255,0,0), (player.playerX, player.playerY, player.playerwidth, player.playerHeight))
+    screen.blit(box1.image, box1.rect)
     # Get the set of keys pressed and check for user input
-
-    # Adjust window size on the fly
-    h_to_w = float(screen.get_height()) / screen.get_width()
-    target_height = int(h_to_w * screen.get_width())
-    surface_to_draw = pygame.transform.scale(screen, (screen.get_width(), target_height))
-    screen.blit(surface_to_draw, (0, 0))
-    surface_to_draw = None
-
+    pygame.display.update()
 
 
     # Update the display
