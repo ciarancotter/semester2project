@@ -14,6 +14,24 @@ from pygame.locals import (
 SCREEN_WIDTH = 768
 SCREEN_HEIGHT = 768
 
+def collision_with_obj(object1, object2):
+    """
+        Checks if object1 is colliding with object2: 
+
+        object1 and object2 are passed into the function.
+        They both must have the rect object(object1 is the player and object2 is the box/platform)
+    """
+    collision_tolerance = 10
+    if object1.rect.colliderect(object2):
+        if abs(object2.rect.top - object1.rect.bottom) < collision_tolerance:
+                object1.rect.bottom = object2.rect.top
+        if abs(object2.rect.left - object1.rect.right) < collision_tolerance:
+                object1.rect.right = object2.rect.left
+        if abs(object2.rect.right - object1.rect.left) < collision_tolerance:
+                object1.rect.left = object2.rect.right 
+        if abs(object1.rect.top - object2.rect.bottom) < collision_tolerance:
+                object1.rect.top = object2.rect.bottom
+
 
 #main character class
 class Player(pygame.sprite.Sprite):
@@ -36,7 +54,7 @@ class Player(pygame.sprite.Sprite):
         self.playerHeight = 75
         self.playerX = SCREEN_WIDTH / 2  #x co-ords for start position
         self.playerY = SCREEN_HEIGHT / 2  #y co-ords for start position
-        image_to_load = pygame.image.load("src/view/assets/pharaoh_right_stand.png")
+        image_to_load = pygame.image.load("view/assets/pharaoh_right_stand.png")
         self.image = pygame.Surface([self.playerwidth, self.playerHeight])
         self.image.blit(image_to_load, (0,0))
 
@@ -58,6 +76,13 @@ class Player(pygame.sprite.Sprite):
         # # self.playeryChange = 0
 
         #collision_with_obj(player, box1)
+
+        collision_with_obj(player, box1)
+        collision_with_obj(player, box2)
+        collision_with_obj(player, platform1)
+        collision_with_obj(player, platform2)
+        collision_with_obj(player, platform3)
+        collision_with_obj(player, platform4)
 
     def movement(self, pressed_keys):
         #print(self.rect.y)
@@ -88,18 +113,28 @@ class Player(pygame.sprite.Sprite):
 
 
 class Box(pygame.sprite.Sprite):
-
-    def __init__(self):
+    """
+        The Box class is used to initilize the box and it's position:
+        
+        There's 3 arguments passed to it:
+        -boxX: the x co-ordinate of the box
+        -boxY: the y co-ordinate of the box
+        -width: the width of the box
+        -height: the height of the box
+        
+        Variables:
+        -image: used to create the surface of the box using the boxWidth and boxHeight and it's a sandy colour.
+        -rect: uses the pygame Rect object and the rect.x as x co-ordiantes and rect.y as y co-ordinates.
+    """
+    def __init__(self, boxX, boxY, width, height):
         super(Box, self).__init__()
-        self.boxWidth = 75
-        self.boxHeight = 50
-        self.boxX = 768-self.boxWidth
-        self.boxY = 768 - self.boxHeight
+        self.boxWidth = width
+        self.boxHeight = height
         self.image = pygame.Surface([self.boxWidth, self.boxHeight])
         self.image.fill((194,178,128))
         self.rect = self.image.get_rect()
-        self.rect.x = self.boxX
-        self.rect.y = self.boxY
+        self.rect.x = boxX
+        self.rect.y = boxY
 
 
 
@@ -112,7 +147,18 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 # Keep main loop running
 running = True
 player = Player()
-box1 = Box()
+
+box_width = 75
+box_height = 25
+
+box1 = Box(500, SCREEN_HEIGHT-box_height, box_width, box_height)
+box2 = Box(175, SCREEN_HEIGHT-box_height, box_width, box_height)
+
+platform1 = Box(300, SCREEN_HEIGHT-100, box_width, box_height)
+platform2 = Box(400, SCREEN_HEIGHT-150, box_width, box_height)
+platform3 = Box(500, SCREEN_HEIGHT-200, box_width, box_height)
+platform4 = Box(50, SCREEN_HEIGHT-100, box_width, box_height)
+
 clock = pygame.time.Clock()
 
 # Main loop
@@ -142,7 +188,13 @@ while running:
     screen.fill((0,0,0))
     screen.blit(player.image, player.rect)
     #pygame.draw.rect(screen, (255,0,0), (player.playerX, player.playerY, player.playerwidth, player.playerHeight))
+    #draw boxes and platforms
     screen.blit(box1.image, box1.rect)
+    screen.blit(box2.image, box2.rect)
+    screen.blit(platform1.image, platform1.rect)
+    screen.blit(platform2.image, platform2.rect)
+    screen.blit(platform3.image, platform3.rect)
+    screen.blit(platform4.image, platform4.rect)
     # Get the set of keys pressed and check for user input
     pygame.display.update()
 
