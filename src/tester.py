@@ -1,4 +1,3 @@
-###note need to fix the speed and gravity
 import pygame
 
 from pygame.locals import (
@@ -17,6 +16,12 @@ SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
 
 def collision_with_obj(object1, object2):
+    """
+        Checks if object1 is colliding with object2: 
+
+        object1 and object2 are passed into the function.
+        They both must have the rect object(object1 is the player and object2 is the box/platform)
+    """
     collision_tolerance = 10
     if object1.rect.colliderect(object2):
         if abs(object2.rect.top - object1.rect.bottom) < collision_tolerance:
@@ -103,39 +108,20 @@ class Player(pygame.sprite.Sprite):
         if self.rect.y < SCREEN_HEIGHT - self.playerHeight :
            self.rect.y += 1
 
-
-    '''
-    # Move the sprite based on user keypresses
-    def update(self, pressed_keys):
-        """
-        it get called when user press any keys of the 3 specified, Left Arrow, Right Arrow and Space 
-        """
-        #for vector movement x
-        self.playerX = self.playerX + self.playerxChange
-        self.playerxChange = self.playerxChange *0.10
-        #for vector movement y
-        self.playerY = self.playerY + self.playeryChange
-        self.playeryChange = self.playeryChange *0.10
-
-        if pressed_keys[K_LEFT] and self.playerX> 0:
-            self.playerxChange = self.playerxChange - 0.2
-            self.facing = "left"
-            #self.playerX -= self.vel
-        if pressed_keys[K_RIGHT] and self.playerX < SCREEN_WIDTH - self.playerwidth :
-            self.playerxChange = self.playerxChange + 0.2
-            self.facing = "right"
-
-        if pressed_keys[K_SPACE] and self.playerY  > 0 :
-            self.playeryChange = self.playeryChange - 4
-            #self.playerY -= self.vel
-
-        if self.playerY < SCREEN_HEIGHT - self.playerHeight :
-            self.playerY += 2
-
-        #collision_with_obj(player.rect, box1)
-    '''
 class Box(pygame.sprite.Sprite):
-
+    """
+        The Box class is used to initilize the box and it's position:
+        
+        There's 3 arguments passed to it:
+        -boxX: the x co-ordinate of the box
+        -boxY: the y co-ordinate of the box
+        -width: the width of the box
+        -height: the height of the box
+        
+        Variables:
+        -image: used to create the surface of the box using the boxWidth and boxHeight and it's a sandy colour.
+        -rect: uses the pygame Rect object and the rect.x as x co-ordiantes and rect.y as y co-ordinates.
+    """
     def __init__(self, boxX, boxY, width, height):
         super(Box, self).__init__()
         self.boxWidth = width
@@ -158,11 +144,11 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # Keep main loop running
 running = True
+
 player = Player()
 
 box_width = 75
 box_height = 25
-
 
 box1 = Box(500, SCREEN_HEIGHT-box_height, box_width, box_height)
 box2 = Box(175, SCREEN_HEIGHT-box_height, box_width, box_height)
@@ -178,7 +164,6 @@ while running:
     the game run while state of running is true,
     game can be stopped if user Quit using the exit buttom or exit through the Escape key
     """
-    #player.gravity()
     for event in pygame.event.get():
         # Check if key pressed (KEYDOWN event)
         if event.type == KEYDOWN:
@@ -195,18 +180,17 @@ while running:
 
     screen.fill((0,0,0))
     screen.blit(player.image, player.rect)
-    #pygame.draw.rect(screen, (255,0,0), (player.playerX, player.playerY, player.playerwidth, player.playerHeight))
+    
+    #draw boxes and platforms
     screen.blit(box1.image, box1.rect)
     screen.blit(box2.image, box2.rect)
     screen.blit(platform1.image, platform1.rect)
     screen.blit(platform2.image, platform2.rect)
     screen.blit(platform3.image, platform3.rect)
     screen.blit(platform4.image, platform4.rect)
+
     # Get the set of keys pressed and check for user input
     pygame.display.update()
-
-
-
 
     # Update the display
     pygame.display.flip()
