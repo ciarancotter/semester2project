@@ -10,6 +10,7 @@ Usage:
 """
 
 import pygame
+import sys
 
 
 class UITextBox:
@@ -39,15 +40,15 @@ class UITextBox:
             text: The text to write in the box.
         """
         screen_width = 512
-        screen_height = 700
+        screen_height = 768
         box_width = screen_width // 4
-        box = pygame.Surface((box_width, screen_height // 8))
+        box = pygame.Surface((box_width, screen_height))
         box.fill("white")
         font = pygame.font.SysFont(self.font, self.fontsize)
 
         text = font.render(text, True, (0, 0, 0))
-        text_rect = text.get_rect(center=(box_width / 2 + (3 * screen_width // 4), screen_height * 0.75))
-        self.screen.blit(box, (3 * screen_width // 4, screen_height * 0.75))
+        text_rect = text.get_rect(center=(3 * box_width // 2, screen_height // 2))
+        self.screen.blit(box, (3 * screen_width // 4, 0))
         self.screen.blit(text, text_rect)
 
         #16x9 for camera (keep revalent for 1080p)
@@ -84,3 +85,20 @@ class ElementWindow:
 
     def draw(self, game: GameWindow):
         self.screen.blit(self.elementWindow, game.getMiniWindow().get_rect().topright)
+
+pygame.init()
+screen = pygame.display.set_mode((1024, 768))
+
+game = GameWindow(screen)
+element = ElementWindow(screen)
+
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+    game.draw()
+    element.draw(game)
+    pygame.display.update()
+
