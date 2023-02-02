@@ -62,7 +62,20 @@ class GameWindow:
         self.miniWindow = pygame.Surface((768, 768))
         self.miniWindow.fill("orange")
         self.screen = screen
-        self.dimensions = self.screen.get_size()[1]
+        self.dimensions = self.screen.get_size()
 
     def draw(self):
         self.screen.blit(self.miniWindow, (0, 0))
+
+    def getMiniWindow(self):
+        return self.miniWindow
+
+class ElementWindow:
+    def __init__(self, screen):
+        self.elementWindow = pygame.Surface((512, 768))
+        self.elementWindow.fill("green")
+        self.screen = screen
+        self.screenDimensions = self.screen.get_size()
+
+    def draw(self, game: GameWindow):
+        self.screen.blit(self.elementWindow, game.getMiniWindow().get_rect().topright)

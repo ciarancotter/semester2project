@@ -1,5 +1,5 @@
 import pygame
-from view.gameui import gameui, healthbar
+from view.gameui import uielements, healthbar
 from model.aiutilities import aiutilities
 
 # Initialize pygame and create a window
@@ -20,8 +20,12 @@ screen = pygame.display.set_mode((dimensionX, dimensionY), pygame.HWSURFACE | py
 # myHealthBar.drawMaxHealth(screen)
 # myHealthBar.drawCurrentHealth(screen, 100)
 
-myMiniWindow = gameui.GameWindow(screen)
-myMiniWindow.draw()
+myGameWindow = uielements.GameWindow(screen)
+myGameWindow.draw()
+
+myElementWindow = uielements.ElementWindow(screen)
+myElementWindow.draw(myGameWindow)
+
 pygame.display.update()
 
 # Main game loop
