@@ -38,15 +38,20 @@ class UITextBox:
         Args:
             text: The text to write in the box.
         """
-        dimensions = self.screen.get_size()[0]
-        box = pygame.Surface((dimensions - self.margin, dimensions // 8))
+        screen_width = 512
+        screen_height = 700
+        box_width = screen_width // 4
+        box = pygame.Surface((box_width, screen_height // 8))
         box.fill("white")
         font = pygame.font.SysFont(self.font, self.fontsize)
 
         text = font.render(text, True, (0, 0, 0))
-        text_rect = text.get_rect(center=(dimensions / 2, dimensions / 1.25))
-        self.screen.blit(box, (self.margin // 2, dimensions * 0.75))
+        text_rect = text.get_rect(center=(box_width / 2 + (3 * screen_width // 4), screen_height * 0.75))
+        self.screen.blit(box, (3 * screen_width // 4, screen_height * 0.75))
         self.screen.blit(text, text_rect)
+
+        #16x9 for camera (keep revalent for 1080p)
+
 
     def erase(self):
         """Removes the current text.
