@@ -8,8 +8,8 @@ pygame.init()
 dimensionX = 1280
 dimensionY = 768
 
-# aiutilities.configure_openai()
-# legend = aiutilities.generate_monolith("tragic", "roman")
+aiutilities.configure_openai()
+legend = aiutilities.generate_monolith("tragic", "roman")
 
 # get info about the screen we are using
 infoobject = pygame.display.Info()
@@ -17,10 +17,7 @@ infoobject = pygame.display.Info()
 # Create the screen
 screen = pygame.display.set_mode((dimensionX, dimensionY), pygame.HWSURFACE | pygame.DOUBLEBUF, 32)
 
-# myHealthBar = healthbar.HealthBar(100)
-# myHealthBar.drawMaxHealth(screen)
-# myHealthBar.drawCurrentHealth(screen, 100)
-
+# Created some UI elements.
 myGamePanel = uielements.Panel(screen, 768, 768, 0, 0, "blue")
 myGamePanel.draw()
 
@@ -29,6 +26,10 @@ myUIPanel.draw()
 
 myTextBox = uielements.TextBox(screen, 25, 25, "monospace", 12, myUIPanel)
 myTextBox.draw("Monke")
+
+myHealthBar = healthbar.HealthBar(screen, myGamePanel, 100)
+myHealthBar.drawMaxHealth()
+myHealthBar.drawCurrentHealth()
 
 pygame.display.update()
 
@@ -46,16 +47,21 @@ while running:
 
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE and spacePressed == False:
-                # if currentLine < len(legend):
-                # myTextBox.erase()
-                # myTextBox.draw(legend[currentLine])
-                spacePressed = True
-                currentLine += 1
-                # myHealthBar.drawCurrentHealth(screen, (100 - 10 * currentLine))
-                # else:
-                # myTextBox.erase()
-                # myTextBox.draw("End.")
-                # break
+                if currentLine < len(legend):
+                  myTextBox.erase()
+                  myTextBox.draw(legend[currentLine])
+
+                  spacePressed = True
+                  currentLine += 1
+
+                  myHealthBar.reduceHealth(10)
+                  myHealthBar.drawCurrentHealth()
+
+                else:
+                  myTextBox.erase()
+                  myTextBox.draw("End.")
+                  break
+
             pygame.display.update()
 
         elif event.type == pygame.KEYUP:
