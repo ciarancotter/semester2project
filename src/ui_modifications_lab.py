@@ -4,27 +4,31 @@ from model.aiutilities import aiutilities
 
 # Initialize pygame and create a window
 pygame.init()
+
 dimensionX = 1280
 dimensionY = 768
+
 # aiutilities.configure_openai()
 # legend = aiutilities.generate_monolith("tragic", "roman")
 
 # get info about the screen we are using
 infoobject = pygame.display.Info()
+
 # Create the screen
 screen = pygame.display.set_mode((dimensionX, dimensionY), pygame.HWSURFACE | pygame.DOUBLEBUF, 32)
-# myTextBox = gameui.UITextBox(screen, 30, "monospace", 12)
-# myTextBox.draw("Monke")
 
 # myHealthBar = healthbar.HealthBar(100)
 # myHealthBar.drawMaxHealth(screen)
 # myHealthBar.drawCurrentHealth(screen, 100)
 
-myGameWindow = uielements.GameWindow(screen)
-myGameWindow.draw()
+myGamePanel = uielements.Panel(screen, 768, 768, 0, 0, "blue")
+myGamePanel.draw()
 
-myElementWindow = uielements.ElementWindow(screen)
-myElementWindow.draw(myGameWindow)
+myUIPanel = uielements.Panel(screen, 512, 768, 768, 0, "black")
+myUIPanel.draw()
+
+myTextBox = uielements.TextBox(screen, 25, 25, "monospace", 12, myUIPanel)
+myTextBox.draw("Monke")
 
 pygame.display.update()
 

@@ -1,36 +1,44 @@
-"""A utility to create a text box at the bottom of the screen.
+"""A utility to create a UI elements in pygame..
 
-This class can be used to create a text box with custom text in the Pygame UI.
+This module can be used to create UI elements. UI panels and 
 
 Usage:
 
-    myTextBox = UITextBox(screen, 20, "monospace", 14)
-    myTextBox.draw("Pyramids look funny.")
-    myTextBox.erase()
+    gamePanel = Panel(screen, 768, 768, 0, 0, "blue")
+    gamePanel.draw()
+
+    textBox = TextBox(screen, 20, 20, "monospace", 14, gamePanel)
+    textBox.draw("Pyramids look funny.")
+    textBox.erase()
 """
 
 import pygame
 
 
-class UITextBox:
+class TextBox:
     """A UI text box to write a piece of dialogue or information at the bottom of the screen.
 
     A UI text box that scales quite well.
 
     Attributes:
         screen: The pygame screen.
-        margin: The space between the window and the box at either side of it.
+        marginX: The space between the window and the box at either side of it.
+        marginY: The space above and below the box.
         font: The font used in the text box.
         fontsize: The size of the text.
+        window: The panel to draw the box to.
+
     """
 
-    def __init__(self, screen, margin, font, fontsize):
+    def __init__(self, screen, marginX: int, marginY: int, font: str, fontsize: int, panel):
         """Inits UITextBox
         """
         self.screen = screen
-        self.margin = margin
+        self.marginX = marginX
+        self.marginY = marginY
         self.font = font
         self.fontsize = fontsize
+        self.panel = panel
 
     def draw(self, text: str):
         """Draws the box to the screen.
@@ -38,49 +46,77 @@ class UITextBox:
         Args:
             text: The text to write in the box.
         """
-        screen_width = 512
-        screen_height = 700
-        box_width = screen_width // 4
-        box = pygame.Surface((box_width, screen_height // 8))
+        panel_width, panel_height = self.panel.getWidth(), self.panel.getHeight()
+        box_width, box_height = (panel_width - self.marginX), ((panel_height // 8) - self.marginY)
+
+        box = pygame.Surface((box_width, box_height))
+        box_position = (self.panel.getX() + (self.marginX // 2), (self.panel.getY() + (self.marginY // 2)))
+
         box.fill("white")
         font = pygame.font.SysFont(self.font, self.fontsize)
 
         text = font.render(text, True, (0, 0, 0))
-        text_rect = text.get_rect(center=(box_width / 2 + (3 * screen_width // 4), screen_height * 0.75))
-        self.screen.blit(box, (3 * screen_width // 4, screen_height * 0.75))
+        text_rect = text.get_rect(center=((self.screen.get_size()[0] - box_width // 2) - (self.marginX // 2), (box_height // 2) + (self.marginY // 2)))
+        self.screen.blit(box, box_position)
         self.screen.blit(text, text_rect)
-
-        #16x9 for camera (keep revalent for 1080p)
-
 
     def erase(self):
         """Removes the current text.
-        """
-        dimensions = self.screen.get_size()[0]
-        box = pygame.Surface((dimensions - self.margin, dimensions // 8))
+        """    
+        panel_width, panel_height = self.panel.getWidth(), self.panel.getHeight()
+        box_width, box_height = (panel_width - self.marginX), ((panel_height // 8) - self.marginY)
+        box = pygame.Surface((box_width, box_height))
         box.fill("white")
-        self.screen.blit(box, (self.margin // 2, dimensions * 0.75))
+        box_position = (self.panel.getX() + (self.marginX // 2), (self.panel.getY() + (self.marginY // 2)))
+        self.screen.blit(box, box_position)
 
 
-class GameWindow:
-    def __init__(self, screen):
-        self.miniWindow = pygame.Surface((768, 768))
-        self.miniWindow.fill("orange")
+class Panel:
+    """A UI Panel to draw UI features (text boxes, buttons, etc) to.
+
+    A customisable panel class to draw objects onto.
+
+    Attributes:
+        - screen: The screen to draw the panel onto.
+        - width: The width of the panel.
+        - height: The height of the panel.
+        - x: The x-coordinate of the panel's upper-left corner.
+        - y: The y-coordinate of the panel's upper-left corner.
+    """
+
+    def __init__(self, screen, width: int, height: int, x: int, y: int, colour: str):
+        """Inits the Panel class
+        """
         self.screen = screen
-        self.dimensions = self.screen.get_size()
+        self._width = width
+        self._height = height
+        self._x = x
+        self._y = y
 
+        self.panel = pygame.Surface((width, height))
+        self.panel.fill(colour)
+
+    def getWidth(self):
+        """Getter method for the width property
+        """
+        return self._width
+    
+    def getHeight(self):
+        """Getter method for the height property
+        """
+        return self._height
+
+    def getX(self):
+        """Getter method for the x property.
+        """
+        return self._x
+    
+    def getY(self):
+        """Getter method for the y property.
+        """
+        return self._y
+    
     def draw(self):
-        self.screen.blit(self.miniWindow, (0, 0))
-
-    def getMiniWindow(self):
-        return self.miniWindow
-
-class ElementWindow:
-    def __init__(self, screen):
-        self.elementWindow = pygame.Surface((512, 768))
-        self.elementWindow.fill("green")
-        self.screen = screen
-        self.screenDimensions = self.screen.get_size()
-
-    def draw(self, game: GameWindow):
-        self.screen.blit(self.elementWindow, game.getMiniWindow().get_rect().topright)
+        """Method to draw the window to a screen.
+        """
+        self.screen.blit(self.panel, (self.getX(), self.getY()))
