@@ -10,7 +10,7 @@ dimensionY = 768
 
 aiutilities.configure_openai()
 legend = aiutilities.generate_monolith("tragic", "roman")
-
+print(legend)
 # get info about the screen we are using
 infoobject = pygame.display.Info()
 
@@ -42,12 +42,13 @@ while running:
     for event in pygame.event.get():
 
         if event.type == pygame.KEYDOWN:
+
             if event.key == pygame.K_ESCAPE:
                 running = False
 
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE and spacePressed == False:
+            elif event.key == pygame.K_SPACE and spacePressed == False:
                 if currentLine < len(legend):
+
                   myTextBox.erase()
                   myTextBox.draw(legend[currentLine])
 
