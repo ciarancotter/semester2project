@@ -120,3 +120,8 @@ class Panel:
         """Method to draw the window to a screen.
         """
         self.screen.blit(self.panel, (self.getX(), self.getY()))
+
+    def erase(self, colour: str):
+        """Method to fill the background over again.
+        """
+        self.panel.fill(colour)
