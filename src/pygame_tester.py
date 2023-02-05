@@ -36,9 +36,10 @@ class Player(pygame.sprite.Sprite):
         self.playerHeight = 75
         self.playerX = SCREEN_WIDTH / 2  #x co-ords for start position
         self.playerY = SCREEN_HEIGHT / 2  #y co-ords for start position
-        image_to_load = pygame.image.load("src/view/assets/pharaoh_right_stand.png")
+        #image_to_load = pygame.image.load("src/view/assets/pharaoh_right_stand.png")
         self.image = pygame.Surface([self.playerwidth, self.playerHeight])
-        self.image.blit(image_to_load, (0,0))
+        #self.image.blit(image_to_load, (0,0))
+        self.image.fill((255 , 0, 0))
 
         self.rect = self.image.get_rect()
         self.rect.x = self.playerX
@@ -96,7 +97,7 @@ class Box(pygame.sprite.Sprite):
         self.boxX = 768-self.boxWidth
         self.boxY = 768 - self.boxHeight
         self.image = pygame.Surface([self.boxWidth, self.boxHeight])
-        self.image.fill((194,178,128))
+        self.image.fill((0,0,255))
         self.rect = self.image.get_rect()
         self.rect.x = self.boxX
         self.rect.y = self.boxY
