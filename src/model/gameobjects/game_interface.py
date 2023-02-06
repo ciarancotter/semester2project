@@ -1,3 +1,4 @@
+import enum
 """This is the module that a view would use to interact with a game object to get info about the game state.
 
 This module contains 2 classes PlatformerGame and CtxToRender. PlatformerGame is the class that contains all
@@ -19,7 +20,7 @@ class PlatformerGame(object):
 	def __init__(self):
 		# initialise all the objects
 		self._enemies = []
-		self._player = " a player object"
+		self._player = Entity((500,500),32,32,True)
 		self._blocks = []
 		self._entities = []
 	def get_render_ctx(self) -> CtxToRender:
@@ -44,6 +45,8 @@ class PlatformerGame(object):
 		level1.add_block(10,12)
 		self._blocks = level1.get_blocks()
 		self._entities = level1.get_blocks()
+	def update_model(self,player_move:Movement):
+		pass
 
 
 class CtxToRender(object):
@@ -82,3 +85,10 @@ class CtxToRender(object):
 	blocks = property(get_blocks)
 	entities = property(get_entities)
 	
+
+
+class Movement(enum.Enum):
+  right = 1
+  left = 2
+  jump = 3
+  no_movement = 4
