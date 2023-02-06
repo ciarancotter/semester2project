@@ -70,23 +70,23 @@ class Player(Entity):
         self.height = Entity.getHeight()
         self.width = Entity.getWidth()
 
-def move(self,direction:Movement):
-    #move left
-    if direction == Movement.left and self.xPos >= 0 :
-        self.xPos -= self.player_speed
-        self.facing = Movement.left
-    #move right
-    if direction == Movement.right and self.xPos < self.screen_width - self.width :
-        self.xPos += self.player_speed
-        self.facing = Movement.right
+    def move(self,direction:Movement):
+        #move left
+        if direction == Movement.left and self.xPos >= 0 :
+            self.xPos -= self.player_speed
+            self.facing = Movement.left
+        #move right
+        if direction == Movement.right and self.xPos < self.screen_width - self.width :
+            self.xPos += self.player_speed
+            self.facing = Movement.right
 
-    #jumping when player on ground
-    #TODO jumping in objects
-    if direction == Movement.jump and self.yPos+self.height ==  self.screen_height :
-        self.yPos -= self.player_speed*20
+        #jumping when player on ground
+        #TODO jumping in objects
+        if direction == Movement.jump and self.yPos+self.height ==  self.screen_height :
+            self.yPos -= self.player_speed*20
 
 
-    #gravity code
-    if self.yPos < self.screen_height - self.height :
-        self.xPos += self.player_speed
+        #gravity code
+        if self.yPos < self.screen_height - self.height :
+            self.xPos += self.player_speed
 
