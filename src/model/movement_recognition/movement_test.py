@@ -173,40 +173,39 @@ class TestMovement(object):
 
                     joints = body.joints
                     joint_points = self._kinect.body_joints_to_color_space(joints)
-                    joint_points_depth = self._kinect.body_joints_to_depth_space(joints)
 
                     rightpunchcol = "yellow"
-                    self._rightpunch(body, self._depth, joint_points, joint_points_depth)
+                    self._rightpunch(body, self._depth, joint_points)
                     if self._rightpunch.read:
                         rightpunchcol = "blue"
 
                     leftpunchcol = "red"
-                    self._leftpunch(body, self._depth, joint_points, joint_points_depth)
+                    self._leftpunch(body, self._depth, joint_points)
                     if self._leftpunch.read:
                         leftpunchcol = "blue"
 
                     jumpcol = "green"
-                    self._jump(body, self._depth, joint_points, joint_points_depth)
+                    self._jump(body, self._depth, joint_points)
                     if self._jump.read:
                         jumpcol = "blue"
 
                     selectcol = "white"
-                    self._select(body, self._depth, joint_points, joint_points_depth)
+                    self._select(body, self._depth, joint_points)
                     if self._select.read:
                         selectcol = "blue"
 
                     rightwalkcol = "orange"
-                    self._rightwalk(body, self._depth, joint_points, joint_points_depth)
+                    self._rightwalk(body, self._depth, joint_points)
                     if self._rightwalk.read:
                         rightwalkcol = "blue"
 
                     leftwalkcol = "pink"
-                    self._leftwalk(body, self._depth, joint_points, joint_points_depth)
+                    self._leftwalk(body, self._depth, joint_points)
                     if self._leftwalk.read:
                         leftwalkcol = "blue"
 
                     turncol = "grey"
-                    self._turntest(body, self._depth, joint_points, joint_points_depth)
+                    self._turntest(body, self._depth, joint_points)
                     if self._turntest.read:
                         turncol = "blue"
 

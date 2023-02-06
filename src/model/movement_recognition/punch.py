@@ -4,38 +4,42 @@ from pykinect2 import PyKinectRuntime
 
 
 class LeftPunch(object):
-    """
-    The LeftPunch Class is used to sense whether or the body in frame is punching to the left or not.
+    """The LeftPunch Class is used to sense whether or the body in frame is punching to the left or not.
     You need to call this class again once instanciated to update the data.
 
     Attributes:
-        read (bool): whether or not the body is punching or not
-        magnitude (int): speed over the threshold 
+      read (bool):
+        whether or not the body is punching or not
+      magnitude (int):
+        speed over the threshold 
 
     Methods:
-        __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None : updates the read according to whether or not the body is punching or not.
-        get_speed_threshhold() -> int : get the speed threashold needed to be reached to allow a punch to be recognised
-        set_speed_threshhold(x: int) -> None : set the speed threashold needed to be reached to allow a punch to be recognised.
+      __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None:
+        updates the read according to whether or not the body is punching or not.
+      get_speed_threshhold() -> int: 
+        get the speed threashold needed to be reached to allow a punch to be recognised
+      set_speed_threshhold(x: int) -> None:
+        set the speed threashold needed to be reached to allow a punch to be recognised.
     """
 
     def __init__(self):
-        """
-        Creates the LeftPunch object
+        """Creates the LeftPunch object
         """
         self._olddelt = 0
         self._speed_threshhold = 20
         self.read = False
         self.magnitude = 0
 
-    def __call__(self, body: PyKinectRuntime.KinectBody, depth:ndarray, joint_points:ndarray, joint_points_depth:ndarray) -> None:
-        """
-        Calling LeftPunch with these perameters updates the read according to whether or not the body is punching or not.
+    def __call__(self, body: PyKinectRuntime.KinectBody, depth:ndarray, joint_points:ndarray) -> None:
+        """Calling LeftPunch with these perameters updates the read according to whether or not the body is punching or not.
 
         Args:
-            body (PyKinectRuntime.KinectBody): A body being tracked in the frame.
-            depth (ndarray): The array of depth points from the kinect
-            joint_points (ndarray): The array of joint point poitions from the kinect
-            joint_points_depth (ndarray): The array of joint depths from the kinect
+          body (PyKinectRuntime.KinectBody):
+            A body being tracked in the frame.
+          depth (ndarray):
+            The array of depth points from the kinect
+          joint_points (ndarray):
+            The array of joint point poitions from the kinect
         """
 
         joints = body.joints
@@ -68,57 +72,61 @@ class LeftPunch(object):
             return
 
     def get_speed_threshhold(self) -> int:
-        """
-        Gets the speed threashold needed to be reached to allow a punch to be recognised.
+        """Gets the speed threashold needed to be reached to allow a punch to be recognised.
 
         Returns:
-            int: the speed threashold needed to be reached to allow a punch to be recognised.
+          int:
+            the speed threashold needed to be reached to allow a punch to be recognised.
         """
         return self._speed_threshhold
 
     def set_speed_threshhold(self, x: int) -> None:
-        """
-        Sets the speed threashold needed to be reached to allow a punch to be recognised.
+        """Sets the speed threashold needed to be reached to allow a punch to be recognised.
 
         Args:
-            x (int): the new speed threashold needed to be reached to allow a punch to be recognised.
+          x (int):
+            the new speed threashold needed to be reached to allow a punch to be recognised.
         """
         self._speed_threshhold = x
 
 
 class RightPunch(object):
-    """
-    The RightPunch Class is used to sense whether or the body in frame is punching to the right or not.
+    """The RightPunch Class is used to sense whether or the body in frame is punching to the right or not.
     You need to call this class again once instanciated to update the data.
 
     Attributes:
-        read (bool): whether or not the body is punching or not
-        magnitude (int): speed over the threshold 
+      read (bool):
+        whether or not the body is punching or not
+      magnitude (int):
+        speed over the threshold 
 
     Methods:
-        __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None: updates the read according to whether or not the body is punching or not.
-        get_speed_threshhold() -> int: get the speed threashold needed to be reached to allow a punch to be recognised.
-        set_speed_threshhold(x: int) -> None: set the speed threashold needed to be reached to allow a punch to be recognised.
+      __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None:
+        updates the read according to whether or not the body is punching or not.
+      get_speed_threshhold() -> int:
+        get the speed threashold needed to be reached to allow a punch to be recognised.
+      set_speed_threshhold(x: int) -> None:
+        set the speed threashold needed to be reached to allow a punch to be recognised.
     """
 
     def __init__(self):
-        """
-        Creates the RightPunch object
+        """Creates the RightPunch object
         """
         self._olddelt = 0
         self._speed_threshhold = 20
         self.read = False
         self.magnitude = 0
 
-    def __call__(self, body: PyKinectRuntime.KinectBody, depth:ndarray, joint_points:ndarray, joint_points_depth:ndarray) -> None:
-        """
-        Calling RightPunch with these perameters updates the read according to whether or not the body is punching or not.
+    def __call__(self, body: PyKinectRuntime.KinectBody, depth:ndarray, joint_points:ndarray) -> None:
+        """Calling RightPunch with these perameters updates the read according to whether or not the body is punching or not.
 
         Args:
-            body (PyKinectRuntime.KinectBody): A body being tracked in the frame.
-            depth (ndarray): The array of depth points from the kinect
-            joint_points (ndarray): The array of joint point poitions from the kinect
-            joint_points_depth (ndarray): The array of joint depths from the kinect
+          body (PyKinectRuntime.KinectBody):
+            A body being tracked in the frame.
+          depth (ndarray):
+            The array of depth points from the kinect
+          joint_points (ndarray):
+            The array of joint point poitions from the kinect
         """
         joints = body.joints
         point_id = PyKinectV2.JointType_HandRight
@@ -151,19 +159,19 @@ class RightPunch(object):
             return
 
     def get_speed_threshhold(self) -> int:
-        """
-        Gets the speed threashold needed to be reached to allow a punch to be recognised.
+        """Gets the speed threashold needed to be reached to allow a punch to be recognised.
 
         Returns:
-            int: the speed threashold needed to be reached to allow a punch to be recognised.
+          int:
+            the speed threashold needed to be reached to allow a punch to be recognised.
         """
         return self._speed_threshhold
 
     def set_speed_threshhold(self, x: int) -> None:
-        """
-        Sets the speed threashold needed to be reached to allow a punch to be recognised.
+        """Sets the speed threashold needed to be reached to allow a punch to be recognised.
 
         Args:
-            x (int): the new speed threashold needed to be reached to allow a punch to be recognised.
+          x (int):
+            the new speed threashold needed to be reached to allow a punch to be recognised.
         """
         self._speed_threshhold = x
