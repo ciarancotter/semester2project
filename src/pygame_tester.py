@@ -54,7 +54,7 @@ class Player(pygame.sprite.Sprite):
         self.playerHeight = 75
         self.playerX = SCREEN_WIDTH / 2  #x co-ords for start position
         self.playerY = SCREEN_HEIGHT / 2  #y co-ords for start position
-        image_to_load = pygame.image.load("view/assets/pharaoh_right_stand.png")
+        image_to_load = pygame.image.load("src/view/assets/pharaoh_right_stand.png")
         self.image = pygame.Surface([self.playerwidth, self.playerHeight])
         self.image.blit(image_to_load, (0,0))
 
@@ -86,7 +86,9 @@ class Player(pygame.sprite.Sprite):
 
     def movement(self, pressed_keys):
         #print(self.rect.y)
-        self.obj_ground= SCREEN_HEIGHT+1
+        #print(self.obj_ground, "before adding 1")
+
+        #self.obj_ground= SCREEN_HEIGHT+1
         #print(self.obj_ground, "ground")
 
         if pressed_keys[K_LEFT]  and self.rect.x >= 0 :
@@ -100,14 +102,15 @@ class Player(pygame.sprite.Sprite):
 
         #jump again on;y if space is pressed and the charc y + it's hight is == to the screen hight +1(not sure why it's taking 1 extra out of the 
         # screen with the self.rect.y +self.playerHeight)
-        if pressed_keys[K_SPACE] and self.rect.y +self.playerHeight == self.obj_ground :
+
+        if pressed_keys[K_SPACE] and self.rect.y +self.playerHeight == SCREEN_HEIGHT :
             self.rect.y -= self.player_speed*20
 
         #maybe another if for jumping but for objects ?
-
-
-        if self.rect.y <= SCREEN_HEIGHT - self.playerHeight :
+        if self.rect.y < SCREEN_HEIGHT - self.playerHeight :
            self.rect.y += self.player_speed
+
+        
 
 
 
