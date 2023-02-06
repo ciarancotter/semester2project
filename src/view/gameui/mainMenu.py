@@ -11,7 +11,7 @@ pygame.display.set_caption("Main Menu")
 # Define colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-TRANSPARENT = (0, 0, 0, 0)
+BLUE = (104, 119, 225)
 
 # Load background image
 background = pygame.image.load("src/view/assets/menuBG.png")
@@ -51,7 +51,7 @@ while running:
     mouse_pos = pygame.mouse.get_pos()
 
     if play_rect.collidepoint(mouse_pos):
-        play_button = font.render("PLAY", True, (104, 119, 225))
+        play_button = font.render("PLAY", True, BLUE)
         pygame.mouse.set_cursor(*pygame.cursors.diamond)
     else:
         play_button = font.render("PLAY", True, BLACK)
@@ -60,22 +60,22 @@ while running:
 
     # Check if mouse is hovering over buttons and effect
     if play_rect.collidepoint(mouse_pos):
-        play_button = font.render("PLAY", True, (104, 119, 225))
+        play_button = font.render("PLAY", True, BLUE)
     else:
         play_button = font.render("PLAY", True, BLACK)
 
     if leaderboard_rect.collidepoint(mouse_pos):
-        leaderboard_button = font.render("LEADERBOARD", True, (104, 119, 225))
+        leaderboard_button = font.render("LEADERBOARD", True, BLUE)
     else:
         leaderboard_button = font.render("LEADERBOARD", True, BLACK)
 
     if help_rect.collidepoint(mouse_pos):
-        help_button = font.render("HELP", True, (104, 119, 225))
+        help_button = font.render("HELP", True, BLUE)
     else:
         help_button = font.render("HELP", True, BLACK)
 
     if about_rect.collidepoint(mouse_pos):
-        about_button = font.render("ABOUT", True, (104, 119, 225))
+        about_button = font.render("ABOUT", True, BLUE)
     else:
         about_button = font.render("ABOUT", True, BLACK)
 
