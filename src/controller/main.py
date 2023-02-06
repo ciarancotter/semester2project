@@ -66,6 +66,7 @@ def main():
         #<-- Update calls go here -->
         pressed_keys = pygame.key.get_pressed()
         mainPlayer.update(pressed_keys)
+        pygame_tester.collision_with_obj(mainPlayer, blueBox)
 
         #<-- View calls go here -->
         #game screen needs to be drawn after update call

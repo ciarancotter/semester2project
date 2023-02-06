@@ -14,6 +14,23 @@ from pygame.locals import (
 SCREEN_WIDTH = 768
 SCREEN_HEIGHT = 768
 
+def collision_with_obj(object1, object2):
+    """
+        Checks if object1 is colliding with object2: 
+        object1 and object2 are passed into the function.
+        They both must have the rect object(object1 is the player and object2 is the box/platform)
+    """
+    collision_tolerance = 10
+    if object1.rect.colliderect(object2):
+        if abs(object2.rect.top - object1.rect.bottom) < collision_tolerance:
+                object1.rect.bottom = object2.rect.top
+        if abs(object2.rect.left - object1.rect.right) < collision_tolerance:
+                object1.rect.right = object2.rect.left
+        if abs(object2.rect.right - object1.rect.left) < collision_tolerance:
+                object1.rect.left = object2.rect.right 
+        if abs(object1.rect.top - object2.rect.bottom) < collision_tolerance:
+                object1.rect.top = object2.rect.bottom
+
 
 #main character class
 class Player(pygame.sprite.Sprite):
@@ -59,6 +76,9 @@ class Player(pygame.sprite.Sprite):
         # # self.playeryChange = 0
 
         #collision_with_obj(player, box1)
+
+        collision_with_obj(player, box1)
+        
 
     def movement(self, pressed_keys):
         #print(self.rect.y)
