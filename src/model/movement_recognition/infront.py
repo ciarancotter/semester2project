@@ -21,8 +21,10 @@ class HandInfront(object):
         """
         Creates the HandInfront object
         """
-        self._distance_threshhold = 2000
+        self._count = 30
+        self._distance_threshhold = 0.4
         self.read = False
+
 
     def __call__(self, body: PyKinectRuntime.KinectBody, depth:ndarray, joint_points:ndarray, joint_points_depth:ndarray) -> None:
         """
@@ -47,24 +49,26 @@ class HandInfront(object):
             if point == PyKinectV2.TrackingState_Inferred:
                 return None, None, None
 
-        #print(int(joint_points_depth[point_id].x), int(joint_points_depth[point_id].y))
-        depths = (depth[int(joint_points_depth[PyKinectV2.JointType_HandRight].x), int(joint_points_depth[PyKinectV2.JointType_HandRight].y)], \
-                depth[int(joint_points_depth[PyKinectV2.JointType_SpineShoulder].x), int(joint_points_depth[PyKinectV2.JointType_SpineShoulder].y)])
+        handpos = (int(joint_points[PyKinectV2.JointType_HandRight].y), int(joint_points[PyKinectV2.JointType_HandRight].x))
+        chestpos = (int(joint_points[PyKinectV2.JointType_SpineShoulder].y), int(joint_points[PyKinectV2.JointType_SpineShoulder].x))
+        #print(handx, handy)
+        handDepth = depth[handpos[0], handpos[1]]
+        chestDepth = depth[chestpos[0], chestpos[1]]
         
-
+        distance = chestDepth - handDepth
 
         #distance = depths[1]-depths[0]
-        distance = depths[0]
-        print(distance, int(joint_points_depth[PyKinectV2.JointType_HandRight].x), int(joint_points_depth[PyKinectV2.JointType_HandRight].y))
-        return distance, int(joint_points_depth[PyKinectV2.JointType_HandRight].x), int(joint_points_depth[PyKinectV2.JointType_HandRight].y)
+        #distance = depths[0]
+        #print(distance, int(joint_points_depth[PyKinectV2.JointType_HandRight].x), int(joint_points_depth[PyKinectV2.JointType_HandRight].y))
+        #return distance, int(joint_points_depth[PyKinectV2.JointType_HandRight].x), int(joint_points_depth[PyKinectV2.JointType_HandRight].y)
 
-        print(distance)
-        '''if distance > self._distance_threshhold:
-            self.read = True
+        #print(distance)
+        if (distance > self._distance_threshhold) and (self._count <= 0):
+            self.read = not self.read
+            self._count = 30
             return
-        else:
-            self.read = False
-            return'''
+
+        self._count -= 1
 
     def get_distance_threshhold(self) -> int:
         """
