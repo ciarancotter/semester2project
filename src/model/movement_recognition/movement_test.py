@@ -206,7 +206,9 @@ class TestMovement(object):
 
                     turncol = "grey"
                     self._turntest(body, self._depth, joint_points)
-                    if self._turntest.read:
+                    if self._turntest.readleft:
+                        turncol = "red"
+                    if self._turntest.readright:
                         turncol = "blue"
 
                     # Draw right punch

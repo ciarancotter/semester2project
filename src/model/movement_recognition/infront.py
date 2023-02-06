@@ -51,20 +51,25 @@ class HandInfront(object):
             if point == PyKinectV2.TrackingState_Inferred:
                 return None, None, None
 
-        handpos = (int(joint_points[PyKinectV2.JointType_HandRight].y), int(joint_points[PyKinectV2.JointType_HandRight].x))
-        chestpos = (int(joint_points[PyKinectV2.JointType_SpineShoulder].y), int(joint_points[PyKinectV2.JointType_SpineShoulder].x))
-        #print(handx, handy)
-        handDepth = depth[handpos[0], handpos[1]]
-        chestDepth = depth[chestpos[0], chestpos[1]]
+        handy = int(joint_points[PyKinectV2.JointType_HandRight].y)
+        if handy > 1080:
+            return
+        handx = int(joint_points[PyKinectV2.JointType_HandRight].x)
+        if handx > 1920:
+            return
+
+        chesty = int(joint_points[PyKinectV2.JointType_SpineShoulder].y)
+        if chesty > 1080:
+            return
+        chestx = int(joint_points[PyKinectV2.JointType_SpineShoulder].x)
+        if chestx > 1920:
+            return
+        
+        handDepth = depth[handy, handx]
+        chestDepth = depth[chesty, chestx]
         
         distance = chestDepth - handDepth
 
-        #distance = depths[1]-depths[0]
-        #distance = depths[0]
-        #print(distance, int(joint_points_depth[PyKinectV2.JointType_HandRight].x), int(joint_points_depth[PyKinectV2.JointType_HandRight].y))
-        #return distance, int(joint_points_depth[PyKinectV2.JointType_HandRight].x), int(joint_points_depth[PyKinectV2.JointType_HandRight].y)
-
-        #print(distance)
         if (distance > self._distance_threshhold) and (self._count <= 0):
             self.read = not self.read
             self._count = 30
