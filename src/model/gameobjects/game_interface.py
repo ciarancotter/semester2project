@@ -22,7 +22,6 @@ class PlatformerGame(object):
 		self._player = " a player object"
 		self._blocks = []
 		self._entities = []
-		self._ctx = CtxToRender()
 	def get_render_ctx(self) -> CtxToRender:
 		"""Returns the information necicary (or the context/shortend to ctx in this program ) to render
 		the game visualy.
@@ -31,8 +30,20 @@ class PlatformerGame(object):
 			a CtxToRender object containing the necicary rendering information.
 
 		"""
-		return self.CtxToRender()
+		return CtxToRender(self._enemies,self._player,self._blocks,self.entities)
+	def generate_level(self):
+		"""
+		a temporary meathod to demonstrate the use of the level class in generating a level
 
+		this class creates a new level class and populates with blocks 
+		it then sets the blocks and entities accordingly in the Platformer Game 
+		to reflect this.
+		"""
+		level1 = level()
+		level1.add_block(1,3)
+		level1.add_block(10,12)
+		self._blocks = level1.get_blocks()
+		self._entities = level1.get_blocks()
 
 
 class CtxToRender(object):
