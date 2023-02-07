@@ -123,50 +123,53 @@ class Box(pygame.sprite.Sprite):
         self.rect.y = self.boxY
 
 
+def run():
+    # Initialize pygame
+    pygame.init()
 
-# Initialize pygame
-pygame.init()
+    # Create the screen
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
-# Create the screen
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    # Keep main loop running
+    running = True
+    player = Player()
+    box1 = Box()
+    clock = pygame.time.Clock()
 
-# Keep main loop running
-running = True
-player = Player()
-box1 = Box()
-clock = pygame.time.Clock()
+    # Main loop
+    while running:
+        """
+        the game run while state of running is true,
+        game can be stopped if user Quit using the exit buttom or exit through the Escape key
+        """
+        clock.tick(60)
 
-# Main loop
-while running:
-    """
-    the game run while state of running is true,
-    game can be stopped if user Quit using the exit buttom or exit through the Escape key
-    """
-    clock.tick(60)
-
-    #player.gravity()
-    for event in pygame.event.get():
-        # Check if key pressed (KEYDOWN event)
-        if event.type == KEYDOWN:
-            # If the Esc key is pressed, then exit the main loop
-            if event.key == K_ESCAPE:
+        #player.gravity()
+        for event in pygame.event.get():
+            # Check if key pressed (KEYDOWN event)
+            if event.type == KEYDOWN:
+                # If the Esc key is pressed, then exit the main loop
+                if event.key == K_ESCAPE:
+                    running = False
+            # Check for QUIT event. If QUIT, then set running to false.
+            elif event.type == QUIT:
                 running = False
-        # Check for QUIT event. If QUIT, then set running to false.
-        elif event.type == QUIT:
-            running = False
-   
-        
-        
-    pressed_keys = pygame.key.get_pressed()
-    player.update(pressed_keys)
+    
+            
+            
+        pressed_keys = pygame.key.get_pressed()
+        player.update(pressed_keys)
 
-    screen.fill((0,0,0))
-    screen.blit(player.image, player.rect)
-    #pygame.draw.rect(screen, (255,0,0), (player.playerX, player.playerY, player.playerwidth, player.playerHeight))
-    screen.blit(box1.image, box1.rect)
-    # Get the set of keys pressed and check for user input
-    pygame.display.update()
+        screen.fill((0,0,0))
+        screen.blit(player.image, player.rect)
+        #pygame.draw.rect(screen, (255,0,0), (player.playerX, player.playerY, player.playerwidth, player.playerHeight))
+        screen.blit(box1.image, box1.rect)
+        # Get the set of keys pressed and check for user input
+        pygame.display.update()
 
 
-    # Update the display
-    pygame.display.flip()
+        # Update the display
+        pygame.display.flip()
+
+if __name__ == "__main__":
+    main()
