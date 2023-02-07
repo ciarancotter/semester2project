@@ -77,7 +77,7 @@ class Player(pygame.sprite.Sprite):
 
         #collision_with_obj(player, box1)
 
-        collision_with_obj(player, box1)
+        #collision_with_obj(player, box1)
         
 
     def movement(self, pressed_keys):
