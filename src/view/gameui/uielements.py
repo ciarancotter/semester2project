@@ -63,8 +63,9 @@ class TextBox:
         font = pygame.font.SysFont(self.font, self.fontsize)
 
         text = font.render(text, True, (0, 0, 0))
-        text_rect = text.get_rect(center=(3 * box_width // 2, screen_height // 2))
-        self.screen.blit(box, (3 * screen_width // 4, 0))
+        text_rect = text.get_rect(center=(box_position[0] + (box_width // 2), box_height // 2 + (self.marginY // 2)))
+
+        self.screen.blit(box, box_position)
         self.screen.blit(text, text_rect)
 
     def erase(self):
@@ -128,33 +129,8 @@ class Panel:
         """
         self.screen.blit(self.panel, (self.getX(), self.getY()))
 
-    def getMiniWindow(self):
-        return self.miniWindow
-
-class ElementWindow:
-    def __init__(self, screen):
-        self.elementWindow = pygame.Surface((512, 768))
-        self.elementWindow.fill("green")
-        self.screen = screen
-        self.screenDimensions = self.screen.get_size()
-
-    #def draw(self, game: GameWindow):
-        #self.screen.blit(self.elementWindow, game.getMiniWindow().get_rect().topright)
-
-pygame.init()
-screen = pygame.display.set_mode((1024, 768))
-pygame.display.set_caption("Boole Raider")
-
-#game = GameWindow(screen)
-element = ElementWindow(screen)
-
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-
-    #game.draw()
-    #element.draw(game)
-    pygame.display.update()
+    def erase(self, colour: str):
+        """Method to erase the panel.
+        """
+        self.panel.fill(colour)
 

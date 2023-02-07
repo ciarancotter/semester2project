@@ -86,22 +86,6 @@ class Player(pygame.sprite.Sprite):
            self.rect.y += self.player_speed
 
 
-class Box(pygame.sprite.Sprite):
-
-    def __init__(self):
-        super(Box, self).__init__()
-        self.boxWidth = 75
-        self.boxHeight = 50
-        self.boxX = 768-self.boxWidth
-        self.boxY = 768 - self.boxHeight
-        self.image = pygame.Surface([self.boxWidth, self.boxHeight])
-        self.image.fill((194,178,128))
-        self.rect = self.image.get_rect()
-        self.rect.x = self.boxX
-        self.rect.y = self.boxY
-
-
-
 dimensionX = 1280
 dimensionY = 768
 
@@ -136,7 +120,6 @@ spacePressed = False
 currentLine = 0
 
 player = Player()
-box1 = Box()
 clock = pygame.time.Clock()
 
 while running:
@@ -184,8 +167,6 @@ while running:
     player.update(pressed_keys)
     myGamePanel.erase("black")
     screen.blit(player.image, player.rect)
-    #pygame.draw.rect(screen, (255,0,0), (player.playerX, player.playerY, player.playerwidth, player.playerHeight))
-    screen.blit(box1.image, box1.rect)
     # Get the set of keys pressed and check for user input
     pygame.display.update()
 
