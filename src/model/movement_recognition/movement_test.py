@@ -29,20 +29,21 @@ class TestMovement(object):
         Creates the TestMovement object
         """
         #draw switch
-        self.draw = True
+        self.draw = False
         
         pygame.init()
 
         # Used to manage how fast the screen updates
         self._clock = pygame.time.Clock()
 
-        # Set the width and height of the screen [width, height]
-        self._infoobject = pygame.display.Info()
-        self._screen = pygame.display.set_mode(
-            (self._infoobject.current_w >> 1, self._infoobject.current_h >> 1),
-            pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.RESIZABLE, 32)
+        if self.draw:
+            # Set the width and height of the screen [width, height]
+            self._infoobject = pygame.display.Info()
+            self._screen = pygame.display.set_mode(
+                (self._infoobject.current_w >> 1, self._infoobject.current_h >> 1),
+                pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.RESIZABLE, 32)
 
-        pygame.display.set_caption("Kinect for Windows v2 Body Game")
+            pygame.display.set_caption("Kinect for Windows v2 Body Game")
 
         # Loop until the user clicks the close button.
         self._done = False
@@ -133,11 +134,12 @@ class TestMovement(object):
                 if event.type == pygame.QUIT:  # If user clicked close
                     self._done = True  # Flag that we are done so we exit this loop
 
-                elif event.type == pygame.VIDEORESIZE:  # window resized
-                    self._screen = pygame.display.set_mode(
-                        event.dict["size"],
-                        pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.RESIZABLE,
-                        32)
+                elif self.draw:
+                    if event.type == pygame.VIDEORESIZE:  # window resized
+                        self._screen = pygame.display.set_mode(
+                            event.dict["size"],
+                            pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.RESIZABLE,
+                            32)
 
             # --- Game logic should go here
 
@@ -316,8 +318,8 @@ class TestMovement(object):
                 self._screen.blit(surface_to_draw, (0, 0))
                 surface_to_draw = None
 
-            # --- Go ahead and update the screen with what we've drawn.
-            pygame.display.flip()
+                # --- Go ahead and update the screen with what we've drawn.
+                pygame.display.flip()
 
             print(self._clock.get_fps())
             # --- Limit to 60 frames per second
