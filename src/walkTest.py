@@ -48,8 +48,9 @@ while running:
             frame_count = 0
     
       # move the character to the left if the left key is pressed
-    if keys[pygame.K_P]:
+    if keys[pygame.K_LEFT]:
         x -= 0.5
+        direction = "left"
         frame_count += 1
         if frame_count == frame_delay:
             current_sprite_index = columns + (current_sprite_index + 2) % columns
