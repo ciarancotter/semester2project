@@ -7,8 +7,10 @@ class TurnHips(object):
     You need to call this class again once instanciated to update the data.
 
     Attributes:
-      read (bool): 
-        whether or not the body is punching or not
+      readleft (bool): 
+        whether or not the left hip is back or not
+      readright (bool): 
+        whether or not the right hip is back or not
 
     Methods:
       __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None:
