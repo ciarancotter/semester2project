@@ -37,7 +37,7 @@ def generate_monolith(emotion: str, theme: str) -> list:
     Each line should be in the first person perspective.
     The story should have a beginning, middle and end.
     Each inscription should be a single, vividly descriptive line.
-    Do not write anything except the lines, no more than 10 lines long.
+    Do not write anything except the lines, no more than 11 lines long.
     Do not number each line.
     Each line should be no more than 11 words long.
     Consider the above instructions and set the protagonist to be a hero where the theme is {theme}
