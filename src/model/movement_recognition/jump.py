@@ -11,7 +11,7 @@ class Jump(object):
       read (bool):
         whether or not the body is jumping or not
       magnitude (int):
-        speed over the threshold 
+        speed over the threshold
 
     Methods:
       __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None:
@@ -87,3 +87,4 @@ class Jump(object):
             the new speed threashold needed to be reached to allow a jump to be recognised.
         """
         self._speed_threshhold = x
+        

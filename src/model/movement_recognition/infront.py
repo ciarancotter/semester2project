@@ -64,11 +64,10 @@ class HandInfront(object):
         chestx = int(joint_points[PyKinectV2.JointType_SpineShoulder].x)
         if chestx > 1920:
             return
-        
-        handDepth = depth[handy, handx]
-        chestDepth = depth[chesty, chestx]
-        
-        distance = chestDepth - handDepth
+
+        hand_depth = depth[handy, handx]
+        chest_depth = depth[chesty, chestx]
+        distance = chest_depth - hand_depth
 
         if (distance > self._distance_threshhold) and (self._count <= 0):
             self.read = not self.read
@@ -81,7 +80,7 @@ class HandInfront(object):
         """Gets the distance threashold needed to be reached to allow a hand in front to be recognised.
 
         Returns:
-          int: 
+          int:
             the distance threashold needed to be reached to allow a hand in front to be recognised.
         """
         return self._distance_threshhold

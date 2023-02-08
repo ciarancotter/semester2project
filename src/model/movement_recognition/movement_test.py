@@ -29,7 +29,7 @@ class TestMovement(object):
         Creates the TestMovement object
         """
         #draw switch
-        self.draw = False
+        self.draw = True
         
         pygame.init()
 

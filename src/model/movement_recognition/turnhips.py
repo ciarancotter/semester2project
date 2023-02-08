@@ -7,9 +7,9 @@ class TurnHips(object):
     You need to call this class again once instanciated to update the data.
 
     Attributes:
-      readleft (bool): 
+      readleft (bool):
         whether or not the left hip is back or not
-      readright (bool): 
+      readright (bool):
         whether or not the right hip is back or not
 
     Methods:
@@ -51,7 +51,7 @@ class TurnHips(object):
             # both joints are not *really* tracked
             if point == PyKinectV2.TrackingState_Inferred:
                 return None, None, None
-        
+
         lefty = int(joint_points[PyKinectV2.JointType_HipLeft].y)
         if lefty > 1080:
             return
@@ -65,18 +65,18 @@ class TurnHips(object):
         rightx = int(joint_points[PyKinectV2.JointType_HipRight].x)
         if rightx > 1920:
             return
-    
-        lhipDepth = depth[lefty, leftx]
-        rhipDepth = depth[righty, rightx]
 
-        difference = lhipDepth - rhipDepth
+        lhip_depth = depth[lefty, leftx]
+        rhip_depth = depth[righty, rightx]
+
+        difference = lhip_depth - rhip_depth
 
         if abs(difference) > self._diff_threshhold:
-            if lhipDepth > rhipDepth:
+            if lhip_depth > rhip_depth:
                 self.readleft = True
                 self.readright = False
                 return
-            if lhipDepth < rhipDepth:
+            if lhip_depth < rhip_depth:
                 self.readleft = False
                 self.readright = True
                 return
@@ -85,12 +85,11 @@ class TurnHips(object):
             self.readright = False
             return
 
-    
     def get_diff_threshhold(self) -> int:
         """Gets the difference threashold needed to be reached to allow a hip turn to be recognised.
 
         Returns:
-          int: 
+          int:
             the difference threashold needed to be reached to allow a hip turn to be recognised.
         """
         return self._diff_threshhold

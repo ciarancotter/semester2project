@@ -12,7 +12,7 @@ class LeftWalk(object):
       read (bool):
         whether or not the body has its left calf rased or not
       magnitude (int):
-        angle over the threshold 
+        angle over the threshold
 
     Methods:
       __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None:
@@ -73,7 +73,7 @@ class LeftWalk(object):
             self.read = False
             self.magnitude = 0
             return
-    
+
     def get_angle_threshhold(self) -> int:
         """Gets the angle threashold needed to be reached to allow a left walk to be recognised.
 
@@ -98,17 +98,17 @@ class RightWalk(object):
     You need to call this class again once instanciated to update the data.
 
     Attributes:
-      read (bool): 
+      read (bool):
         whether or not the body has its right calf rased or not
-      magnitude (int): 
-        angle over the threshold 
+      magnitude (int):
+        angle over the threshold
 
     Methods:
-      __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None: 
+      __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None:
         updates the read according to whether or not the body is rasing its right calf or not.
-      get_angle_threshhold() -> int: 
+      get_angle_threshhold() -> int:
         get the angle threashold needed to be reached to allow the motion to be recognised
-      set_angle_threshhold(x: int) -> None: 
+      set_angle_threshhold(x: int) -> None:
         set the angle threashold needed to be reached to allow the motion to be recognised.
     """
 
@@ -123,11 +123,11 @@ class RightWalk(object):
         """Calling RightPunch with these perameters updates the read according to whether or not the body is rasing its right calf or not.
 
         Args:
-          body (PyKinectRuntime.KinectBody): 
+          body (PyKinectRuntime.KinectBody):
             A body being tracked in the frame.
-          depth (ndarray): 
+          depth (ndarray):
             The array of depth points from the kinect
-          joint_points (ndarray): 
+          joint_points (ndarray):
             The array of joint point poitions from the kinect
         """
         joints = body.joints
@@ -166,7 +166,7 @@ class RightWalk(object):
         """Gets the angle threashold needed to be reached to allow a punch to be recognised.
 
         Returns:
-          int: 
+          int:
             the angle threashold needed to be reached to allow a punch to be recognised.
         """
         return self._angle_threshhold
@@ -175,7 +175,7 @@ class RightWalk(object):
         """Sets the angle threashold needed to be reached to allow a punch to be recognised.
 
         Args:
-          x (int): 
+          x (int):
             the new angle threashold needed to be reached to allow a punch to be recognised.
         """
         self._angle_threshhold = x

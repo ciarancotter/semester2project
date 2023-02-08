@@ -11,12 +11,12 @@ class LeftPunch(object):
       read (bool):
         whether or not the body is punching or not
       magnitude (int):
-        speed over the threshold 
+        speed over the threshold
 
     Methods:
       __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None:
         updates the read according to whether or not the body is punching or not.
-      get_speed_threshhold() -> int: 
+      get_speed_threshhold() -> int:
         get the speed threashold needed to be reached to allow a punch to be recognised
       set_speed_threshhold(x: int) -> None:
         set the speed threashold needed to be reached to allow a punch to be recognised.
@@ -98,7 +98,7 @@ class RightPunch(object):
       read (bool):
         whether or not the body is punching or not
       magnitude (int):
-        speed over the threshold 
+        speed over the threshold
 
     Methods:
       __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None:
