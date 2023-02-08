@@ -50,7 +50,7 @@ while running:
 
     # move the character to the right if the right key is pressed
     if keys[pygame.K_RIGHT]:
-        x += 0.5
+        x += 1
         direction = "right"
         frame_count += 1
         if frame_count == frame_delay:
@@ -59,7 +59,7 @@ while running:
     
       # move the character to the left if the left key is pressed
     if keys[pygame.K_LEFT]:
-        x -= 0.5
+        x -= 1
         direction = "left"
         frame_count += 1
         if frame_count == frame_delay:
