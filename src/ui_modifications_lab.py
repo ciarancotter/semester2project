@@ -37,7 +37,7 @@ class Player(pygame.sprite.Sprite):
         self.playerHeight = 75
         self.playerX = SCREEN_WIDTH / 2  #x co-ords for start position
         self.playerY = SCREEN_HEIGHT / 2  #y co-ords for start position
-        image_to_load = pygame.image.load("view/assets/pharaoh_right_stand.png")
+        image_to_load = pygame.image.load("src/view/assets/pharaoh_right_stand.png")
         self.image = pygame.Surface([self.playerwidth, self.playerHeight])
         self.image.blit(image_to_load, (0,0))
 
@@ -122,6 +122,8 @@ currentLine = 0
 player = Player()
 clock = pygame.time.Clock()
 
+pygame.display.set_caption("Boole Raider")
+
 while running:
     """
     the game run while state of running is true,
@@ -160,8 +162,6 @@ while running:
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 spacePressed = False
-   
-        
         
     pressed_keys = pygame.key.get_pressed()
     player.update(pressed_keys)
@@ -169,7 +169,6 @@ while running:
     screen.blit(player.image, player.rect)
     # Get the set of keys pressed and check for user input
     pygame.display.update()
-
 
     # Update the display
     pygame.display.flip()
