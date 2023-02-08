@@ -37,7 +37,7 @@ class Player(pygame.sprite.Sprite):
         self.playerHeight = 75
         self.playerX = SCREEN_WIDTH / 2  #x co-ords for start position
         self.playerY = SCREEN_HEIGHT / 2  #y co-ords for start position
-        image_to_load = pygame.image.load("src/view/assets/pharaoh_right_stand.png")
+        image_to_load = pygame.image.load("src/view/assets/playerSprite.png")
         self.image = pygame.Surface([self.playerwidth, self.playerHeight])
         self.image.blit(image_to_load, (0,0))
 
