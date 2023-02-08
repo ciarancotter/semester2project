@@ -1,4 +1,5 @@
 import pygame
+from entity import Block
 """This file contains the code that controls the levels layout.
 
 Typical ussage example:
@@ -7,12 +8,6 @@ Typical ussage example:
     level1.add_block(10,12)
     blocks = level1.get_blocks()
 """ 
-
-class Block:
-    def __init__(self, entity: Entity):
-        self.entity = entity
-
-
 class level(object):
     """level contains all the blocks in the level 
     and provides an interface to set and get them
@@ -31,8 +26,9 @@ class level(object):
                     side you wish to place your block.
         """
         if ((0<=row<=31)and (0<=column<=31)):
-            cordenates_mapping = (row*32,column*32)
-            block_entitiy = Entity(cordenates_mapping,32,32,True)
-            _blocks.append(Block(block_entitiy))
+            xMapping = row*32
+            yMapping = column*32
+            block_entitiy = Entity(xMapping,yMapping,32,32,True)
+            self._blocks.append(Block(block_entitiy))
     def get_blocks(self):
         return self._blocks

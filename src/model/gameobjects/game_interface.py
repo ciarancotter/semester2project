@@ -1,4 +1,5 @@
 import enum
+from entity import *
 """This is the module that a view would use to interact with a game object to get info about the game state.
 
 This module contains 2 classes PlatformerGame and CtxToRender. PlatformerGame is the class that contains all
@@ -15,15 +16,22 @@ for block in ctx.blocks:
 # print the coordinates of all the blocks in the game
 """
 
+class Movement(enum.Enum):
+  right = 1
+  left = 2
+  jump = 3
+  no_movement = 4
+
+
 class PlatformerGame(object):
 	""" The main game class that stores the gamestate."""
 	def __init__(self):
 		# initialise all the objects
 		self._enemies = []
-		self._player = Entity((500,500),32,32,True)
+		self._player = Player("find out w and h")
 		self._blocks = []
 		self._entities = []
-	def get_render_ctx(self) -> CtxToRender:
+	def get_render_ctx(self):
 		"""Returns the information necicary (or the context/shortend to ctx in this program ) to render
 		the game visualy.
 
@@ -31,7 +39,7 @@ class PlatformerGame(object):
 			a CtxToRender object containing the necicary rendering information.
 
 		"""
-		return CtxToRender(self._enemies,self._player,self._blocks,self.entities)
+		return CtxToRender(self._enemies,self._player,self._blocks,self._entities)
 	def generate_level(self):
 		"""
 		a temporary meathod to demonstrate the use of the level class in generating a level
@@ -46,7 +54,7 @@ class PlatformerGame(object):
 		self._blocks = level1.get_blocks()
 		self._entities = level1.get_blocks()
 	def update_model(self,player_move:Movement):
-		pass
+		self._player.move(player_move,self._blocks)
 
 
 class CtxToRender(object):
@@ -86,9 +94,3 @@ class CtxToRender(object):
 	entities = property(get_entities)
 	
 
-
-class Movement(enum.Enum):
-  right = 1
-  left = 2
-  jump = 3
-  no_movement = 4
