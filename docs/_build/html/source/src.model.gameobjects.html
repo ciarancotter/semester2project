@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>src.model.gameobjects package &#8212; Semester 2 Project  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="src-model-gameobjects-package">
+<h1>src.model.gameobjects package<a class="headerlink" href="#src-model-gameobjects-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-src.model.gameobjects.entity">
+<span id="src-model-gameobjects-entity-module"></span><h2>src.model.gameobjects.entity module<a class="headerlink" href="#module-src.model.gameobjects.entity" title="Permalink to this heading">¶</a></h2>
+<p>Class definition for the Entity object.</p>
+<p>The Entity class is the parent class of the Player and Enemy classes,
+and any other object on the canvas.</p>
+<dl class="simple">
+<dt>Usage:</dt><dd><p>test_entity = Entity((20, 20), 30, 30, True)
+object_can_collide = test_entity.isColliding()</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Entity">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.gameobjects.entity.</span></span><span class="sig-name descname"><span class="pre">Entity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coordinates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colliding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Entity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Entity.getCoordinates">
+<span class="sig-name descname"><span class="pre">getCoordinates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="headerlink" href="#src.model.gameobjects.entity.Entity.getCoordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter method for the coordinates property.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Entity.getHeight">
+<span class="sig-name descname"><span class="pre">getHeight</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#src.model.gameobjects.entity.Entity.getHeight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter method for the height property.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Entity.getWidth">
+<span class="sig-name descname"><span class="pre">getWidth</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#src.model.gameobjects.entity.Entity.getWidth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter method for the width property.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Entity.isColliding">
+<span class="sig-name descname"><span class="pre">isColliding</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#src.model.gameobjects.entity.Entity.isColliding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter method for the colliding property.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Entity.setX">
+<span class="sig-name descname"><span class="pre">setX</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newX</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Entity.setX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setter method for the x-coordinate.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Entity.setY">
+<span class="sig-name descname"><span class="pre">setY</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newY</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Entity.setY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setter method for the y-coordinate.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="src-model-gameobjects-level-module">
+<h2>src.model.gameobjects.level module<a class="headerlink" href="#src-model-gameobjects-level-module" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-src.model.gameobjects">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-src.model.gameobjects" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Semester 2 Project</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Team 2.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/source/src.model.gameobjects.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
