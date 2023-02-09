@@ -14,7 +14,7 @@ BLACK = (0, 0, 0)
 BLUE = (104, 119, 225)
 
 # Load background image
-background = pygame.image.load("src/view/assets/menuBG.png")
+background = pygame.image.load("view/assets/menuBG.png")
 background = pygame.transform.scale(background, (1024, 768))
 
 # Define font and size
