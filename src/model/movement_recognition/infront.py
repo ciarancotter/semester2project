@@ -51,17 +51,17 @@ class HandInfront(object):
                 return None, None, None
 
         handy = int(joint_points[PyKinectV2.JointType_HandRight].y)
-        if handy > 1080:
+        if handy > 1079:
             return
         handx = int(joint_points[PyKinectV2.JointType_HandRight].x)
-        if handx > 1920:
+        if handx > 1919:
             return
 
         chesty = int(joint_points[PyKinectV2.JointType_SpineShoulder].y)
-        if chesty > 1080:
+        if chesty > 1079:
             return
         chestx = int(joint_points[PyKinectV2.JointType_SpineShoulder].x)
-        if chestx > 1920:
+        if chestx > 1919:
             return
 
         hand_depth = depth[handy, handx]
