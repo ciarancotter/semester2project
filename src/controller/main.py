@@ -10,24 +10,15 @@ pygame.init()
 SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 768
 
-# Set screen size and title
-#screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-#pygame.display.set_caption("Main Menu")
-
 # Define colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 BLUE = (104, 119, 225)
 
-# Load background image
-#background = pygame.image.load("../view/assets/menuBG.png")
-#background = pygame.transform.scale(background, (1024, 768))
-#GamePanel = Panel(screen, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, BLACK)
-
 # Define font and size
 font = pygame.font.Font(None, 85)
 
-# Define buttons
+#------ Define buttons for main menu ---------
 play_button = font.render("PLAY", True, BLACK)
 play_rect = play_button.get_rect()
 play_rect.center = (512, 330)
@@ -44,12 +35,13 @@ about_button = font.render("ABOUT", True, BLACK)
 about_rect = about_button.get_rect()
 about_rect.center = (512, 630)
 
+#function to open player panel 
 def open_player_panel():
     from ui_modifications_lab import Player
     #GamePanel.draw()
     Player()
 
-# just for the moment(not sure where controls)
+#key controls
 from pygame.locals import (
     K_LEFT,
     K_RIGHT,
@@ -60,15 +52,15 @@ from pygame.locals import (
 )
 
 def main():
-    # Set screen size and title
+    # Set screen size and title for main menu
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("Main Menu")
 
-    # Load background image
+    # Load background image for main menu
     background = pygame.image.load("../view/assets/menuBG.png")
     background = pygame.transform.scale(background, (1024, 768))
 
-    # puts the game part of the display in
+    # load game panel for game
     GamePanel = Panel(screen, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, BLACK)
 
     # puts the text part of the display in
@@ -85,7 +77,7 @@ def main():
     # a boolean to ensure the game is running 
     running = True
 
-    #get the player class from pygame_tester
+    #get the player class from pygame_tester(needs to be changed)
     #mainPlayer = pygame_tester.Player()
     #get the box class from pygame_tester
     #blueBox = pygame_tester.Box()
@@ -102,7 +94,7 @@ def main():
             if event.type == pygame.KEYDOWN: # If user hit the q key
                 if event.key == pygame.K_q:
                     running = False
-            #check if play button is clicked 
+            #check if play button is clicked in the main menu
             if event.type == pygame.MOUSEBUTTONUP and play_rect.collidepoint(event.pos):
                 open_player_panel()
 
@@ -139,7 +131,7 @@ def main():
         # Draw background
         screen.blit(background, (0, 0))
 
-        # Draw buttons
+        # Draw buttons for main menu
         screen.blit(play_button, play_rect)
         screen.blit(leaderboard_button, leaderboard_rect)
         screen.blit(help_button, help_rect)
