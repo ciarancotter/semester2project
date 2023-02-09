@@ -8,8 +8,9 @@ import ctypes
 from punch import LeftPunch, RightPunch
 from jump import Jump
 from infront import HandInfront
-from walk import LeftWalk, RightWalk
+from raiselegs import LeftWalk, RightWalk
 from turnhips import TurnHips
+from mouse import handpos
 """
 Worked on from the PyKinectBodyGame example packed with the pykinect2 libary
 """
@@ -71,6 +72,7 @@ class TestMovement(object):
         self._leftwalk = LeftWalk()
         self._rightwalk = RightWalk()
         self._turntest = TurnHips()
+        self._mouse = handpos(100, 100)
 
     def draw_color_frame(self, frame: numpy.ndarray,
                          target_surface: pygame.Surface) -> None:
@@ -181,6 +183,7 @@ class TestMovement(object):
                     joints = body.joints
                     joint_points = self._kinect.body_joints_to_color_space(joints)
 
+                    '''
                     rightpunchcol = "yellow"
                     self._rightpunch(body, self._depth, joint_points)
                     if self._rightpunch.read:
@@ -195,12 +198,14 @@ class TestMovement(object):
                     self._jump(body, self._depth, joint_points)
                     if self._jump.read:
                         jumpcol = "blue"
+                    '''
 
                     selectcol = "white"
                     self._select(body, self._depth, joint_points)
                     if self._select.read:
                         selectcol = "blue"
-
+                    
+                    '''
                     rightwalkcol = "orange"
                     self._rightwalk(body, self._depth, joint_points)
                     if self._rightwalk.read:
@@ -216,10 +221,14 @@ class TestMovement(object):
                     if self._turntest.readleft:
                         turncol = "red"
                     if self._turntest.readright:
-                        turncol = "blue"
+                        turncol = "blue"'''
 
+                    mousecol = "green"
+                    self._mouse(body, self._depth, joint_points)
 
+                    
                     if self.draw:
+                        '''
                         # Draw right punch
                         self.draw_body_bone(joints, joint_points, rightpunchcol,
                                             PyKinectV2.JointType_ShoulderRight,
@@ -255,6 +264,7 @@ class TestMovement(object):
                             joint_points[PyKinectV2.JointType_SpineShoulder].y), 15)
                         rectangle = pygame.Rect(55, 55, 50, 50)
                         pygame.draw.rect(self._frame_surface, jumpcol, rectangle)
+                        '''
 
                         # Draw select
                         pygame.draw.circle(
@@ -264,6 +274,7 @@ class TestMovement(object):
                         rectangle = pygame.Rect(110, 0, 50, 50)
                         pygame.draw.rect(self._frame_surface, selectcol, rectangle)
 
+                        '''
                         # Draw right walk
                         self.draw_body_bone(joints, joint_points, rightwalkcol,
                                             PyKinectV2.JointType_HipRight,
@@ -305,7 +316,13 @@ class TestMovement(object):
                             (joint_points[PyKinectV2.JointType_HipRight].x,
                             joint_points[PyKinectV2.JointType_HipRight].y), 15)
                         rectangle = pygame.Rect(55, 110, 50, 50)
-                        pygame.draw.rect(self._frame_surface, turncol, rectangle)
+                        pygame.draw.rect(self._frame_surface, turncol, rectangle)'''
+                        
+                        # Draw mouse
+                        pygame.draw.circle(
+                            self._frame_surface, mousecol,
+                            (joint_points[PyKinectV2.JointType_HandRight].x,
+                            joint_points[PyKinectV2.JointType_HandRight].y), 15)
 
             if self.draw:
                 # --- copy back buffer surface pixels to the screen, resize it if needed and keep aspect ratio
@@ -321,7 +338,7 @@ class TestMovement(object):
                 # --- Go ahead and update the screen with what we've drawn.
                 pygame.display.flip()
 
-            print(self._clock.get_fps())
+            #print(self._clock.get_fps())
             # --- Limit to 60 frames per second
             self._clock.tick(60)
 

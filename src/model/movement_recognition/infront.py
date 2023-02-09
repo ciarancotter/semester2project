@@ -22,7 +22,6 @@ class HandInfront(object):
     def __init__(self):
         """Creates the HandInfront object
         """
-        self._count = 30
         self._distance_threshhold = 0.4
         self.read = False
 
@@ -52,29 +51,30 @@ class HandInfront(object):
                 return None, None, None
 
         handy = int(joint_points[PyKinectV2.JointType_HandRight].y)
-        if handy > 1080:
+        if handy > 1079:
             return
         handx = int(joint_points[PyKinectV2.JointType_HandRight].x)
-        if handx > 1920:
+        if handx > 1919:
             return
 
         chesty = int(joint_points[PyKinectV2.JointType_SpineShoulder].y)
-        if chesty > 1080:
+        if chesty > 1079:
             return
         chestx = int(joint_points[PyKinectV2.JointType_SpineShoulder].x)
-        if chestx > 1920:
+        if chestx > 1919:
             return
 
         hand_depth = depth[handy, handx]
         chest_depth = depth[chesty, chestx]
         distance = chest_depth - hand_depth
 
-        if (distance > self._distance_threshhold) and (self._count <= 0):
-            self.read = not self.read
-            self._count = 30
-            return
+        if (distance > self._distance_threshhold):
+          self.read = True
+          return
+        else:
+          self.read = False
+          return
 
-        self._count -= 1
 
     def get_distance_threshhold(self) -> int:
         """Gets the distance threashold needed to be reached to allow a hand in front to be recognised.
