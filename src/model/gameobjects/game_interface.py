@@ -27,8 +27,12 @@ class PlatformerGame(object):
 	""" The main game class that stores the gamestate."""
 	def __init__(self):
 		# initialise all the objects
+		self._playerwidth = 64
+		self._playerheight = 64
+		self._screen_width = 768
+		self._screen_height = 768
 		self._enemies = []
-		self._player = Player("find out w and h")
+		self._player = Player(self._playerwidth,self._playerheight,self._screen_width self._screen_height)
 		self._blocks = []
 		self._entities = []
 	def get_render_ctx(self):
