@@ -4,26 +4,28 @@ from pykinect2 import PyKinectRuntime
 
 
 class handpos(object):
-    """The LeftPunch Class is used to sense whether or the body in frame is punching to the left or not.
+    """The handpos Class is used to where the right hand is in frame.
     You need to call this class again once instanciated to update the data.
 
     Attributes:
-      read (bool):
-        whether or not the body is punching or not
-      magnitude (int):
-        speed over the threshold
+      x (int):
+        the x coordinate in range width
+      y (int):
+        the y coordinate in range height
 
     Methods:
       __call__(kinect: PyKinectV2, body: PyKinectRuntime.KinectBody) -> None:
-        updates the read according to whether or not the body is punching or not.
-      get_speed_threshhold() -> int:
-        get the speed threashold needed to be reached to allow a punch to be recognised
-      set_speed_threshhold(x: int) -> None:
-        set the speed threashold needed to be reached to allow a punch to be recognised.
+        updates the read according to where the right hand is in frame.
     """
 
-    def __init__(self, height, width):
-        """Creates the LeftPunch object
+    def __init__(self, height: int, width: int):
+        """Creates the handpos object
+        
+        Args:
+          height (int):
+            the range to scale the y between 0 and height.
+          width (int):
+            the range to scale the x between 0 and width.
         """
         self.x = 0
         self.y = 0
@@ -31,7 +33,7 @@ class handpos(object):
         self._width = width
 
     def __call__(self, body: PyKinectRuntime.KinectBody, depth:ndarray, joint_points:ndarray) -> None:
-        """Calling LeftPunch with these perameters updates the read according to whether or not the body is punching or not.
+        """Calling handpos with these perameters updates the read according to where the right hand is in frame.
 
         Args:
           body (PyKinectRuntime.KinectBody):
@@ -56,9 +58,5 @@ class handpos(object):
         posx = joint_points[point_id].x
         posy = joint_points[point_id].y
 
-        #print(int(posx), int(posy))
-
         self.x = interp(posx, [300, 1780], [0, self._width])
         self.y = interp(posy, [20, 1080], [0, self._height])
-
-        print(int(self.x), int(self.y))
