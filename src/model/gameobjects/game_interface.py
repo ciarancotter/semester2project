@@ -1,4 +1,3 @@
-import enum
 from entity import *
 """This is the module that a view would use to interact with a game object to get info about the game state.
 
@@ -15,19 +14,7 @@ for block in ctx.blocks:
 	print(block.coordinates)
 # print the coordinates of all the blocks in the game
 """
-
-class Movement(enum.Enum):
-  right = 1
-  left = 2
-  jump = 3
-  no_movement = 4
-
-class GameState(enum.Enum):
-	in_session = 1
-	start_menue = 2
-	leaderboard = 3
-	about = 4
-	help_screen = 5
+from public_enums import Movement,GameState
 
 class PlatformerGame(object):
 	""" The main game class that stores the gamestate."""
