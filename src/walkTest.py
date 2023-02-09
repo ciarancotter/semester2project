@@ -2,7 +2,7 @@ import pygame
 
 pygame.init()
 screen = pygame.display.set_mode((800, 600))
-background = pygame.image.load("src/view/assets/menuBG.png") #test background
+#background = pygame.image.load("src/view/assets/menuBG.png") #test background
 
 # load the sprite sheet
 sprite_sheet = pygame.image.load("src/view/assets/playerSprite.png")
@@ -15,14 +15,7 @@ character_sprites = [pygame.Surface((character_width, character_height)) for i i
 
 for i in range(rows):
     for j in range(columns):
-        # alpha channel to make background transparent
-        transparent_sprite = pygame.Surface((character_width, character_height), pygame.SRCALPHA)
-        # sprites copied onto tranparent background using blit
-        transparent_sprite.blit(sprite_sheet, (0, 0), (j * character_width, i * character_height, character_width, character_height))
-        # set to transparent colour
-        transparent_sprite.set_colorkey((0, 0, 0, 0))
-        # store in list
-        character_sprites[i * columns + j] = transparent_sprite
+        character_sprites[i * columns + j].blit(sprite_sheet, (0, 0), (j * character_width, i * character_height, character_width, character_height))
 
 x = 100
 y = 100
@@ -34,7 +27,7 @@ current_sprite_index = 0
 direction = "left"
 
 # set the delay between each frame
-frame_delay = 10
+frame_delay = 50
 frame_count = 0
 
 running = True
@@ -43,14 +36,14 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    screen.blit(background, (0, 0))
+    #screen.blit(background, (0, 0))
 
     # get the keys that are pressed
     keys = pygame.key.get_pressed()
 
     # move the character to the right if the right key is pressed
     if keys[pygame.K_RIGHT]:
-        x += 1
+        x += 0.5
         direction = "right"
         frame_count += 1
         if frame_count == frame_delay:
@@ -59,7 +52,7 @@ while running:
     
       # move the character to the left if the left key is pressed
     if keys[pygame.K_LEFT]:
-        x -= 1
+        x -= 0.5
         direction = "left"
         frame_count += 1
         if frame_count == frame_delay:

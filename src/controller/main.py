@@ -1,7 +1,7 @@
 import pygame
 import sys
 import os
-sys.path.append(os.path.abspath("../"))
+sys.path.append(os.path.abspath("./src"))
 from view.gameui.uielements import Panel
 
 # Initialize pygame
@@ -57,7 +57,7 @@ def main():
     pygame.display.set_caption("Main Menu")
 
     # Load background image for main menu
-    background = pygame.image.load("../view/assets/menuBG.png")
+    background = pygame.image.load("src/view/assets/menuBG.png")
     background = pygame.transform.scale(background, (1024, 768))
 
     # load game panel for game
