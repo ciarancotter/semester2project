@@ -21,4 +21,8 @@ class TestPlayer(unittest.TestCase):
 		blocks = [Block(Entity(500,551,32,32,True))]
 		testPlayer.move(Movement.no_movement,blocks)
 		self.assertEqual(testPlayer.yPos,500,"player has moved through a solid object")
+	def testMove(self):
+		testPlayer = Player(50,50,1000,1000)
+		testPlayer.move(Movement.right,[])
+		self.assertEqual(testPlayer.xPos,500 + testPlayer.player_speed, "movement not working")
 

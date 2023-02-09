@@ -118,13 +118,13 @@ class Player(Entity):
             self.xPos -= self.player_speed
             self.facing = Movement.left
         #move right
-        if direction == Movement.right and self.xPos < self.screen_width - self.width :
+        if direction == Movement.right and self.xPos < self.screen_width - self._width :
             self.xPos += self.player_speed
             self.facing = Movement.right
 
         #jumping when player on ground
         #TODO jumping in objects
-        if direction == Movement.jump and self.yPos+self.height ==  self.screen_height :
+        if direction == Movement.jump and self.yPos+self._height ==  self.screen_height :
             self.yPos -= self.player_speed*20
 
 
