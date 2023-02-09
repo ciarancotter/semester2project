@@ -2,7 +2,7 @@ import pygame
 
 pygame.init()
 screen = pygame.display.set_mode((800, 600))
-background = pygame.image.load("src/view/assets/menuBG.png")
+background = pygame.image.load("src/view/assets/menuBG.png") #test background
 
 # load the sprite sheet
 sprite_sheet = pygame.image.load("src/view/assets/playerSprite.png")
