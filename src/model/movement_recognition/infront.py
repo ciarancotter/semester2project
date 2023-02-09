@@ -22,7 +22,6 @@ class HandInfront(object):
     def __init__(self):
         """Creates the HandInfront object
         """
-        self._count = 30
         self._distance_threshhold = 0.4
         self.read = False
 
@@ -69,12 +68,13 @@ class HandInfront(object):
         chest_depth = depth[chesty, chestx]
         distance = chest_depth - hand_depth
 
-        if (distance > self._distance_threshhold) and (self._count <= 0):
-            self.read = not self.read
-            self._count = 30
-            return
+        if (distance > self._distance_threshhold):
+          self.read = True
+          return
+        else:
+          self.read = False
+          return
 
-        self._count -= 1
 
     def get_distance_threshhold(self) -> int:
         """Gets the distance threashold needed to be reached to allow a hand in front to be recognised.
