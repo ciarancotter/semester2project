@@ -38,7 +38,7 @@ class PlatformerGame(object):
 		self._screen_width = 768
 		self._screen_height = 768
 		self._enemies = []
-		self._player = Player(self._playerwidth,self._playerheight,self._screen_width self._screen_height)
+		self._player = Player(self._playerwidth,self._playerheight,self._screen_width, self._screen_height)
 		self._blocks = []
 		self._entities = []
 		self._gamestate = GameState.start_menue

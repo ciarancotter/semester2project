@@ -10,10 +10,15 @@ class TestPlayer(unittest.TestCase):
 		""" check that the player. collide is working """
 		play = Player(50,50,1000,1000)
 		blocks = [Block(Entity(500,551,32,32,True))]
-		print(type(blocks))
 		collide_test = play.collideTop(blocks)
 		self.assertTrue(collide_test,"not correct")
 	def test_update(self):
 		testPlayer = Player(50,50,1000,1000)
 		testPlayer.move(Movement.no_movement,[])
 		self.assertEqual(testPlayer.yPos,502,"gravity not working")
+	def testPlatform(self):
+		testPlayer = Player(50,50,1000,1000)
+		blocks = [Block(Entity(500,551,32,32,True))]
+		testPlayer.move(Movement.no_movement,blocks)
+		self.assertEqual(testPlayer.yPos,500,"player has moved through a solid object")
+

@@ -10,7 +10,7 @@ Usage:
 
 import pygame
 
-from game_interface import Movement
+from game_interface import Movement,GameState
 
 
 class Entity:
