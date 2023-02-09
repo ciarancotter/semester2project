@@ -22,6 +22,12 @@ class Movement(enum.Enum):
   jump = 3
   no_movement = 4
 
+class GameState(enum.Enum):
+	in_session = 1
+	start_menue = 2
+	leaderboard = 3
+	about = 4
+	help_screen = 5
 
 class PlatformerGame(object):
 	""" The main game class that stores the gamestate."""
@@ -35,6 +41,7 @@ class PlatformerGame(object):
 		self._player = Player(self._playerwidth,self._playerheight,self._screen_width self._screen_height)
 		self._blocks = []
 		self._entities = []
+		self._gamestate = GameState.start_menue
 	def get_render_ctx(self):
 		"""Returns the information necicary (or the context/shortend to ctx in this program ) to render
 		the game visualy.
@@ -43,7 +50,7 @@ class PlatformerGame(object):
 			a CtxToRender object containing the necicary rendering information.
 
 		"""
-		return CtxToRender(self._enemies,self._player,self._blocks,self._entities)
+		return CtxToRender(self._enemies,self._player,self._blocks,self._entities,self._gamestate)
 	def generate_level(self):
 		"""
 		a temporary meathod to demonstrate the use of the level class in generating a level
@@ -62,7 +69,7 @@ class PlatformerGame(object):
 
 
 class CtxToRender(object):
-	def __init__(self,enemies,player,blocks,entities):
+	def __init__(self,enemies,player,blocks,entities,game_state):
 		"""contains all the information needed to 
 		display a gamestate to the user.
 
@@ -82,6 +89,7 @@ class CtxToRender(object):
 		self._player = player
 		self._blocks = blocks
 		self._entities = entities
+		self._gamestate = game_state
 	
 	def get_entities(self):
 		return self._entities
@@ -91,10 +99,13 @@ class CtxToRender(object):
 		return self._blocks
 	def get_enemies(self):
 		return self._enemies
+	def get_game_state(self):
+		return self.game_state
 
 	enemies = property(get_enemies)
 	player = property(get_player)
 	blocks = property(get_blocks)
 	entities = property(get_entities)
+	game_state = property(get_game_state)
 	
 
