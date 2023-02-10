@@ -2,7 +2,6 @@
 <img src="src/view/assets/logo.png">
 </p>
 
-<h1 align="center">Index</h1>
 <p align="center"> •
   <a href="#summary">Summary</a> •
   <a href="#installation">Installation</a> •
@@ -10,6 +9,8 @@
   <a href="#supported-devices">Supported Devices</a> •
   <a href="#style-and-the-github-workflow">Style/Github</a> •
 </p>
+
+---
 
 # Summary
 **Boole Raider** is an experimental 2D roguelike platformer that uses a Kinect with MV (machine vision) to control the player character and generates image assets as well a
