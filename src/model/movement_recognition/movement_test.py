@@ -184,12 +184,8 @@ class TestMovement(object):
                     
                     if self._bodyid == -1:
                         self._bodyid = body.tracking_id
-                    '''
-                    if self._bodyid not in self._bodies.bodies:
-                        self._bodyid = -1
-                    '''
-                    if self._bodyid == body.tracking_id:
 
+                    if self._bodyid == body.tracking_id:
                         joints = body.joints
                         joint_points = self._kinect.body_joints_to_color_space(joints)
 
