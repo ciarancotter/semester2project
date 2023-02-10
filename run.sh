@@ -1,2 +1,2 @@
 #!/bin/bash
-python src/controller/main.py
+python3 src/controller/main.py

@@ -11,6 +11,7 @@ pygame.init()
 SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 768
 
+'''---------------------------'''
 # Define colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -35,6 +36,7 @@ help_rect.center = (512, 530)
 about_button = font.render("ABOUT", True, BLACK)
 about_rect = about_button.get_rect()
 about_rect.center = (512, 630)
+'''------------------------------'''
 
 #function to open player panel 
 def open_player_panel():
