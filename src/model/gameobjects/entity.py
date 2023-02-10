@@ -101,6 +101,9 @@ class Player(Entity):
         self.xPos = SCREEN_WIDTH/2 
         self.yPos = SCREEN_HEIGHT/2
         super().__init__(self.xPos,self.yPos,width,height,True)
+        self._jump_baseline = self.yPos
+        self._jump_height = 50
+        self._decending = False
 
     def move(self,direction:Movement,blocks):
         """this method is called to change the state of the player.
@@ -122,16 +125,25 @@ class Player(Entity):
             self.xPos += self.player_speed
             self.facing = Movement.right
 
-        #jumping when player on ground
-        #TODO jumping in objects
-        if direction == Movement.jump and self.yPos+self._height ==  self.screen_height :
+
+
+        if direction == Movement.jump and (self._jump_baseline - self.yPos < self._jump_height):
             self.yPos -= self.player_speed*20
+        elif (self._jump_baseline - self.yPos >= self._jump_height):
+            self._decending = True
 
-
+        check_no_hit = (self.yPos < self.screen_height - self._height) and (not (self.collideTop(blocks)))
+        if self._decending == True:
+            if check_no_hit: 
+                self.yPos += self.player_speed
+            else:
+                self._decending = False
+                self._jump_baseline = self.yPos
 
         #gravity code
-        if (self.yPos < self.screen_height - self._height) and (not (self.collideTop(blocks))):
+        if check_no_hit:
             self.yPos += self.player_speed
+            self._jump_baseline = self.yPos
 
     def collideTop(self,blocks) -> bool:
         """collideTop is an internal method that checks if the player is on top of a block.
