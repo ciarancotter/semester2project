@@ -2,7 +2,8 @@ import pygame
 import sys
 import os
 sys.path.append(os.path.abspath("./src"))
-from view.gameui.uielements import Panel
+print(sys.path)
+#from view.gameui.uielements import Panel
 
 # Initialize pygame
 pygame.init()
@@ -56,8 +57,8 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("Main Menu")
 
-    # Load background image
-    background = pygame.image.load("src/view/assets/menuBG.png")
+    # Load background image for main menu
+    background = pygame.image.load("./src/view/assets/menuBG.png")
     background = pygame.transform.scale(background, (1024, 768))
 
     logo = pygame.image.load("src/view/assets/logo.png")
@@ -79,7 +80,7 @@ def main():
     screen.blit(logo, logo_rect)
 
     # load game panel for game
-    GamePanel = Panel(screen, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, BLACK)
+    #GamePanel = Panel(screen, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, BLACK)
 
     # puts the text part of the display in
     """myElementWindow = ElementWindow(screen)
