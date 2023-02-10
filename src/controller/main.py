@@ -57,6 +57,8 @@ from pygame.locals import (
 def main():
     # Set screen size and title for main menu
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+    '''---------------------'''
     pygame.display.set_caption("Main Menu")
 
     # Load background image for main menu
@@ -80,6 +82,8 @@ def main():
 
     # Draw logo
     screen.blit(logo, logo_rect)
+
+    '''-----------------------'''
 
     # load game panel for game
     #GamePanel = Panel(screen, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, BLACK)
@@ -115,6 +119,7 @@ def main():
             if event.type == pygame.KEYDOWN: # If user hit the q key
                 if event.key == pygame.K_q:
                     running = False
+            '''----------------------------'''
             #check if play button is clicked in the main menu
             if event.type == pygame.MOUSEBUTTONUP and play_rect.collidepoint(event.pos):
                 open_player_panel()
@@ -154,6 +159,7 @@ def main():
         screen.blit(leaderboard_button, leaderboard_rect)
         screen.blit(help_button, help_rect)
         screen.blit(about_button, about_rect)
+        '''-----------------------------'''
 
         pygame.display.update()
 
