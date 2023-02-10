@@ -7,7 +7,7 @@ class Movement(enum.Enum):
 
 class GameState(enum.Enum):
 	in_session = 1
-	start_menue = 2
+	start_menu = 2
 	leaderboard = 3
 	about = 4
 	help_screen = 5

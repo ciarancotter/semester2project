@@ -28,7 +28,7 @@ class PlatformerGame(object):
 		self._player = Player(self._playerwidth,self._playerheight,self._screen_width, self._screen_height)
 		self._blocks = []
 		self._entities = []
-		self._gamestate = GameState.start_menue
+		self._gamestate = GameState.start_menu
 	def get_render_ctx(self):
 		"""Returns the information necicary (or the context/shortend to ctx in this program ) to render
 		the game visualy.
