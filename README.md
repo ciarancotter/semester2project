@@ -1,3 +1,7 @@
+<p align="center">
+<img src="src/view/assets/logo.png">
+</p>
+
 <h1 align="center">Index</h1>
 <p align="center"> •
   <a href="#summary">Summary</a> •
