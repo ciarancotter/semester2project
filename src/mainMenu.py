@@ -17,8 +17,23 @@ BLUE = (104, 119, 225)
 background = pygame.image.load("src/view/assets/menuBG.png")
 background = pygame.transform.scale(background, (1024, 768))
 
+logo = pygame.image.load("src/view/assets/logo.png")
+logo = pygame.transform.scale(logo, (800, 150))
+
 # Define font and size
 font = pygame.font.Font(None, 85)
+
+# Get the rectangle for the image
+logo_rect = logo.get_rect()
+
+# Set the position of the image on the screen
+logo_rect.center = (512, 150)
+
+# Draw background
+screen.blit(background, (0, 0))
+
+# Draw logo
+screen.blit(logo, logo_rect)
 
 # Define buttons
 play_button = font.render("PLAY", True, BLACK)
@@ -82,7 +97,6 @@ while running:
         about_button = font.render("ABOUT", True, BLACK)
 
     # Draw background
-    screen.blit(background, (0, 0))
 
     # Draw buttons
     screen.blit(play_button, play_rect)
