@@ -1,9 +1,9 @@
 ## Index
-- [Summary](##summary)
-- [Game Plot](##game-plot)
-- [Supported Devices](##supported-devices)
-- [Installation](##installation)
-- [Style/Github](##style-and-the-github-workflow)
+- [Summary](##Summary)
+- [Game Plot](##Game-Plot)
+- [Supported Devices](##Supported-Devices)
+- [Installation](##Installation)
+- [Style/Github](##Style-and-the-Github-Workflow)
 
 ## Summary
 **Boole Raider** is an experimental 2D roguelike platformer that uses a Kinect with MV (machine vision) to control the player character and generates image assets as well a
