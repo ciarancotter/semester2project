@@ -5,6 +5,7 @@
 <p align="center"> •
   <a href="#summary">Summary</a> •
   <a href="#installation">Installation</a> •
+  <a href="#architecture">Architecture</a> •
   <a href="#game-plot">Game Plot</a> •
   <a href="#supported-devices">Supported Devices</a> •
   <a href="#style-and-the-github-workflow">Style/Github</a> •
