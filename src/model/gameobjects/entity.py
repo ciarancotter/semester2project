@@ -105,6 +105,7 @@ class Player(Entity):
         self._jump_height = 50
         self._decending = False
 
+
     def move(self,direction:Movement,blocks):
         """this method is called to change the state of the player.
 
