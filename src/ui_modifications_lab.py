@@ -99,7 +99,7 @@ infoobject = pygame.display.Info()
 screen = pygame.display.set_mode((dimensionX, dimensionY), pygame.HWSURFACE | pygame.DOUBLEBUF, 32)
 
 # Created some UI elements.
-myGamePanel = uielements.Panel(screen, 768, 768, 0, 0, "black")
+myGamePanel = uielements.Panel(screen, 768, 768, 0, 0, "white")
 myGamePanel.draw()
 
 myUIPanel = uielements.Panel(screen, 512, 768, 768, 0, "orange")
