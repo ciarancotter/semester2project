@@ -99,7 +99,7 @@ infoobject = pygame.display.Info()
 screen = pygame.display.set_mode((dimensionX, dimensionY), pygame.HWSURFACE | pygame.DOUBLEBUF, 32)
 
 # Created some UI elements.
-myGamePanel = uielements.Panel(screen, 768, 768, 0, 0, "black")
+myGamePanel = uielements.Panel(screen, 768, 768, 0, 0, "white")
 myGamePanel.draw()
 
 myUIPanel = uielements.Panel(screen, 512, 768, 768, 0, "orange")
@@ -123,6 +123,31 @@ player = Player()
 clock = pygame.time.Clock()
 
 pygame.display.set_caption("Boole Raider")
+
+sprite_sheet = pygame.image.load("src/view/assets/playerSprite.png")
+
+character_width = 64
+character_height = 64
+columns = 3
+rows = 2
+character_sprites = [pygame.Surface((character_width, character_height)) for i in range(columns * rows)]
+
+for i in range(rows):
+    for j in range(columns):
+      character_sprites[i * columns + j].blit(sprite_sheet, (0, 0), (j * character_width, i * character_height, character_width, character_height))
+
+x = 100
+y = 768 - character_height
+
+# set the starting sprite for the character
+current_sprite_index = 0
+
+# define a variable to keep track of the direction of the character
+direction = "left"
+
+# set the delay between each frame
+frame_delay = 10
+frame_count = 0
 
 while running:
     """
@@ -162,11 +187,35 @@ while running:
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 spacePressed = False
-        
-    pressed_keys = pygame.key.get_pressed()
-    player.update(pressed_keys)
-    myGamePanel.erase("black")
-    screen.blit(player.image, player.rect)
+
+    # get the keys that are pressed
+    keys = pygame.key.get_pressed()
+
+    # move the character to the right if the right key is pressed
+    if keys[pygame.K_RIGHT]:
+        x += 1
+        direction = "right"
+        frame_count += 1
+        if frame_count == frame_delay:
+            current_sprite_index = (current_sprite_index + 1) % columns
+            frame_count = 0
+    
+      # move the character to the left if the left key is pressed
+    if keys[pygame.K_LEFT]:
+        x -= 1
+        direction = "left"
+        frame_count += 1
+        if frame_count == frame_delay:
+            current_sprite_index = columns + (current_sprite_index + 2) % columns
+            frame_count = 0
+
+    # update the current sprite based on the direction of the character
+    if direction == "right":
+        if current_sprite_index < columns:
+            screen.blit(character_sprites[current_sprite_index], (x, y))
+    else:
+        if current_sprite_index >= columns:
+            screen.blit(character_sprites[current_sprite_index], (x, y))
     # Get the set of keys pressed and check for user input
     pygame.display.update()
 
