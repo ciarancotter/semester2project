@@ -2,7 +2,7 @@ import pygame
 import sys
 import os
 sys.path.append(os.path.abspath("./src"))
-print(sys.path)
+#print(sys.path)
 #from view.gameui.uielements import Panel
 
 # Initialize pygame
