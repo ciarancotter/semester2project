@@ -46,7 +46,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = self.playerY
         self.facing = "down"
         self.player_speed = 2
-'''''
+
     def update(self, pressed_keys):
         self.movement(pressed_keys)
 
@@ -83,23 +83,7 @@ class Player(pygame.sprite.Sprite):
 
 
         if self.rect.y <= SCREEN_HEIGHT - self.playerHeight :
-           self.rect.y += self.player_speed'''
-
-def update(self, pressed_keys):
-    self.movement(pressed_keys)
-
-def movement(self, pressed_keys):
-    self.playerY = SCREEN_HEIGHT - self.playerHeight  # Place the player at the bottom of the screen
-    self.rect.y = self.playerY
-
-    if pressed_keys[K_LEFT] and self.rect.x >= 0:
-        self.rect.x -= self.player_speed
-        self.facing = "left"
-
-    if pressed_keys[K_RIGHT] and self.rect.x < SCREEN_WIDTH - self.playerwidth:
-        self.rect.x += self.player_speed
-        self.facing = "right"
-
+           self.rect.y += self.player_speed
 
 
 dimensionX = 1280
@@ -153,7 +137,7 @@ for i in range(rows):
       character_sprites[i * columns + j].blit(sprite_sheet, (0, 0), (j * character_width, i * character_height, character_width, character_height))
 
 x = 100
-y = 100
+y = 768 - character_height
 
 # set the starting sprite for the character
 current_sprite_index = 0
