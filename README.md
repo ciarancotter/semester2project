@@ -9,6 +9,7 @@
   <a href="#game-plot">Game Plot</a> •
   <a href="#supported-devices">Supported Devices</a> •
   <a href="#style-and-the-github-workflow">Style/Github</a> •
+  <a href="#faq">FAQ</a> •
 </p>
 
 ---
@@ -40,3 +41,5 @@ https://user-images.githubusercontent.com/61756898/216026880-2fa1f54b-93ab-46f1-
 # Style and the Github Workflow
 - We are using [Google's Python Style Guide](https://google.github.io/styleguide/pyguide.html) for this project. This is enforced using the [pylint](https://pylint.readthedocs.io/en/latest/) linting system and the [YAPF](https://github.com/google/yapf) formatter. These run automatically on our Github repository using a Github Workflow, which is triggered by pushes and pull requests. Documentation is generated automatically using the [Sphinx](https://www.sphinx-doc.org/en/master/index.html) tool.
 
+# FAQ
+Nobody asks us any questions :(
