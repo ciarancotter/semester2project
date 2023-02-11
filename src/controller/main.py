@@ -1,9 +1,10 @@
 import pygame
 import sys
 import os
+
 sys.path.append(os.path.abspath("./src"))
-#print(sys.path)
-#from view.gameui.uielements import Panel
+# print(sys.path)
+# from view.gameui.uielements import Panel
 
 # Initialize pygame
 pygame.init()
@@ -20,7 +21,7 @@ BLUE = (104, 119, 225)
 # Define font and size
 font = pygame.font.Font(None, 85)
 
-#------ Define buttons for main menu ---------
+# ------ Define buttons for main menu ---------
 play_button = font.render("PLAY", True, BLACK)
 play_rect = play_button.get_rect()
 play_rect.center = (512, 330)
@@ -38,13 +39,15 @@ about_rect = about_button.get_rect()
 about_rect.center = (512, 630)
 '''------------------------------'''
 
-#function to open player panel 
+
+# function to open player panel
 def open_player_panel():
     from ui_modifications_lab import Player
-    #GamePanel.draw()
+    # GamePanel.draw()
     Player()
 
-#key controls
+
+# key controls
 from pygame.locals import (
     K_LEFT,
     K_RIGHT,
@@ -53,6 +56,7 @@ from pygame.locals import (
     K_SPACE,
     QUIT,
 )
+
 
 def main():
     # Set screen size and title for main menu
@@ -86,7 +90,7 @@ def main():
     '''-----------------------'''
 
     # load game panel for game
-    #GamePanel = Panel(screen, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, BLACK)
+    # GamePanel = Panel(screen, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, BLACK)
 
     # puts the text part of the display in
     """myElementWindow = ElementWindow(screen)
@@ -96,16 +100,16 @@ def main():
     """myKineectWindow = ElementWindow(screen)
     myKinectWindow.draw(myGameWindow)"""
 
-    #refresh entire screen
+    # refresh entire screen
     pygame.display.flip()
 
     # a boolean to ensure the game is running 
     running = True
 
-    #get the player class from pygame_tester(needs to be changed)
-    #mainPlayer = pygame_tester.Player()
-    #get the box class from pygame_tester
-    #blueBox = pygame_tester.Box()
+    # get the player class from pygame_tester(needs to be changed)
+    # mainPlayer = pygame_tester.Player()
+    # get the box class from pygame_tester
+    # blueBox = pygame_tester.Box()
 
     clock = pygame.time.Clock()
 
@@ -115,12 +119,12 @@ def main():
         # exit the game in emergency
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # If user clicked close
-                    running = False
-            if event.type == pygame.KEYDOWN: # If user hit the q key
+                running = False
+            if event.type == pygame.KEYDOWN:  # If user hit the q key
                 if event.key == pygame.K_q:
                     running = False
             '''----------------------------'''
-            #check if play button is clicked in the main menu
+            # check if play button is clicked in the main menu
             if event.type == pygame.MOUSEBUTTONUP and play_rect.collidepoint(event.pos):
                 open_player_panel()
 
@@ -163,24 +167,24 @@ def main():
 
         pygame.display.update()
 
-        #<-- Update calls go here -->
+        # <-- Update calls go here -->
         pressed_keys = pygame.key.get_pressed()
-        #mainPlayer.update(pressed_keys)
-        #pygame_tester.collision_with_obj(mainPlayer, blueBox)
+        # mainPlayer.update(pressed_keys)
+        # pygame_tester.collision_with_obj(mainPlayer, blueBox)
 
-        #<-- View calls go here -->
-        #game screen needs to be drawn after update call
-        #myGameWindow.draw()
-        #GamePanel.draw()
-        #screen.blit(mainPlayer.image, mainPlayer.rect)
-        #screen.blit(blueBox.image, blueBox.rect)
+        # <-- View calls go here -->
+        # game screen needs to be drawn after update call
+        # myGameWindow.draw()
+        # GamePanel.draw()
+        # screen.blit(mainPlayer.image, mainPlayer.rect)
+        # screen.blit(blueBox.image, blueBox.rect)
 
-        #refresh entire screen
+        # refresh entire screen
         pygame.display.flip()
 
     # Exit pygame
     pygame.quit()
-    #sys.exit()
+    # sys.exit()
 
 
 if __name__ == "__main__":
