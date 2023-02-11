@@ -37,7 +37,7 @@ class Player(pygame.sprite.Sprite):
         self.playerHeight = 75
         self.playerX = SCREEN_WIDTH / 2  #x co-ords for start position
         self.playerY = SCREEN_HEIGHT / 2  #y co-ords for start position
-        image_to_load = pygame.image.load("src/view/assets/playerSprite.png")
+        image_to_load = pygame.image.load("src/view/assets/playerSprite.png").convert_alpha()
         self.image = pygame.Surface([self.playerwidth, self.playerHeight])
         self.image.blit(image_to_load, (0,0))
 
@@ -91,16 +91,18 @@ dimensionY = 768
 
 aiutilities.configure_openai()
 legend = aiutilities.generate_monolith("tragic", "roman")
-
+aiutilities.generate_background("ancient rome pixel background")
+gamebg = pygame.image.load("src/view/assets/gamebg.png").convert_alpha()
+gamebg_scaled = pygame.transform.scale(gamebg, (768, 768))
 # get info about the screen we are using
 infoobject = pygame.display.Info()
 
 # Create the screen
 screen = pygame.display.set_mode((dimensionX, dimensionY), pygame.HWSURFACE | pygame.DOUBLEBUF, 32)
-
 # Created some UI elements.
 myGamePanel = uielements.Panel(screen, 768, 768, 0, 0, "white")
 myGamePanel.draw()
+screen.blit(gamebg_scaled, (0,0))
 
 myUIPanel = uielements.Panel(screen, 512, 768, 768, 0, "orange")
 myUIPanel.draw()
@@ -124,17 +126,18 @@ clock = pygame.time.Clock()
 
 pygame.display.set_caption("Boole Raider")
 
-sprite_sheet = pygame.image.load("src/view/assets/playerSprite.png")
+sprite_sheet = pygame.image.load("src/view/assets/playerSprite.png").convert_alpha()
 
 character_width = 64
 character_height = 64
 columns = 3
 rows = 2
-character_sprites = [pygame.Surface((character_width, character_height)) for i in range(columns * rows)]
+character_sprites = [pygame.Surface((character_width, character_height), pygame.SRCALPHA) for i in range(columns * rows)]
 
 for i in range(rows):
     for j in range(columns):
-      character_sprites[i * columns + j].blit(sprite_sheet, (0, 0), (j * character_width, i * character_height, character_width, character_height))
+        screen.blit(gamebg_scaled, (0, 0))
+        character_sprites[i * columns + j].blit(sprite_sheet, (0, 0), (j * character_width, i * character_height, character_width, character_height))
 
 x = 100
 y = 768 - character_height
@@ -146,7 +149,7 @@ current_sprite_index = 0
 direction = "left"
 
 # set the delay between each frame
-frame_delay = 10
+frame_delay = 5
 frame_count = 0
 
 while running:
@@ -212,9 +215,11 @@ while running:
     # update the current sprite based on the direction of the character
     if direction == "right":
         if current_sprite_index < columns:
+            screen.blit(gamebg_scaled, (0, 0))
             screen.blit(character_sprites[current_sprite_index], (x, y))
     else:
         if current_sprite_index >= columns:
+            screen.blit(gamebg_scaled, (0, 0))
             screen.blit(character_sprites[current_sprite_index], (x, y))
     # Get the set of keys pressed and check for user input
     pygame.display.update()

@@ -1,3 +1,4 @@
 # ignore all pycaches
 **/__pycache__/
 .vscode/launch.json
+**/.idea/
