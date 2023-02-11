@@ -91,7 +91,7 @@ dimensionY = 768
 
 aiutilities.configure_openai()
 legend = aiutilities.generate_monolith("tragic", "roman")
-aiutilities.generate_background("ancient rome pixel background")
+aiutilities.generate_background("ancient Egypt")
 gamebg = pygame.image.load("src/view/assets/gamebg.png").convert_alpha()
 gamebg_scaled = pygame.transform.scale(gamebg, (768, 768))
 # get info about the screen we are using

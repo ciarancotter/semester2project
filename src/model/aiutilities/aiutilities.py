@@ -75,8 +75,9 @@ def generate_background(theme: str):
           theme:
             The theme of the background.
         """
+    prompt_template = theme + "style caves in a dungeon, clean looking pixel art, detailed, vibrant"
     response = openai.Image.create(
-        prompt=theme,
+        prompt=prompt_template,
         n=1,
         size="512x512",
     )
