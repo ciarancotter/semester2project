@@ -20,6 +20,7 @@ class PlatformerGame(object):
 	""" The main game class that stores the gamestate."""
 	def __init__(self):
 		# initialise all the objects
+		#door to be added 
 		self._playerwidth = 64
 		self._playerheight = 64
 		self._screen_width = 768
