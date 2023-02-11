@@ -53,17 +53,17 @@ class TurnHips(object):
                 return None, None, None
 
         lefty = int(joint_points[PyKinectV2.JointType_HipLeft].y)
-        if lefty > 1080:
+        if lefty > 1079:
             return
         leftx = int(joint_points[PyKinectV2.JointType_HipLeft].x)
-        if leftx > 1920:
+        if leftx > 1919:
             return
 
         righty = int(joint_points[PyKinectV2.JointType_HipRight].y)
-        if righty > 1080:
+        if righty > 1079:
             return
         rightx = int(joint_points[PyKinectV2.JointType_HipRight].x)
-        if rightx > 1920:
+        if rightx > 1919:
             return
 
         lhip_depth = depth[lefty, leftx]
