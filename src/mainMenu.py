@@ -96,8 +96,6 @@ while running:
     else:
         about_button = font.render("ABOUT", True, BLACK)
 
-    # Draw background
-
     # Draw buttons
     screen.blit(play_button, play_rect)
     screen.blit(leaderboard_button, leaderboard_rect)
