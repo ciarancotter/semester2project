@@ -52,9 +52,6 @@ about_button = font.render("ABOUT", True, BLACK)
 about_rect = about_button.get_rect()
 about_rect.center = (512, 630)
 
-def open_player_panel():
-    from ui_modifications_lab import Player
-    Player()
 
 running = True
 while running:
@@ -62,9 +59,9 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         # Check if play button is clicked
-        if event.type == pygame.MOUSEBUTTONUP and play_rect.collidepoint(event.pos):
-            open_player_panel()
-    
+        #if event.type == pygame.MOUSEBUTTONUP and play_rect.collidepoint(event.pos):
+           
+           
     mouse_pos = pygame.mouse.get_pos()
 
     if play_rect.collidepoint(mouse_pos):
