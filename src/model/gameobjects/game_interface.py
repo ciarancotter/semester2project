@@ -1,4 +1,4 @@
-from entity import *
+from .entity import *
 """This is the module that a view would use to interact with a game object to get info about the game state.
 
 This module contains 2 classes PlatformerGame and CtxToRender. PlatformerGame is the class that contains all

@@ -1,5 +1,5 @@
 import unittest
-from game_interface import PlatformerGame, Movement, CtxToRender
+from .game_interface import PlatformerGame, Movement, CtxToRender
 
 class testPlatformerGame(unittest.TestCase):
 	def testGetCtx(self):

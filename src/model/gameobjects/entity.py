@@ -10,7 +10,7 @@ Usage:
 
 import pygame
 
-from public_enums import Movement,GameState
+from .public_enums import Movement,GameState
 
 
 class Entity:
