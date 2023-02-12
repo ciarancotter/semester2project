@@ -21,6 +21,8 @@ import pygame
 
 sys.path.append(os.path.abspath("./src"))
 
+from .uielements import Button
+
 from model.gameobjects.entity_unittest import TestPlayer
 from model.gameobjects.game_interface import PlatformerGame
 from model.gameobjects.public_enums import GameState, Movement
@@ -50,12 +52,16 @@ class Scene:
         self.background = None
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((1024, 768))
-
+        self.menu_buttons = []
+        
         menu_background = pygame.image.load("src/view/assets/menuBG.png").convert_alpha()
         transformed_menu_background = pygame.transform.scale(background, (1024, 768))
     
         game_background = pygame.image.load("src/view/assets/menuBG.png").convert_alpha()
         transformed_game_background = pygame.transform.scale(background, (768, 768))
+
+        BLACK = (0, 0, 0)
+        BLUE = (104, 119, 225)
 
     def drawBackground(gamestate):
         """Draws the background depending on the current state of the game.
@@ -84,8 +90,17 @@ class Scene:
         logo = pygame.transform.scale(logo_base, (800, 150))
         logo_rect = logo.get_rect()
         logo_rect.center = (512, 150)
-        font = pygame.font.Font(None, 85)
 
+        play_button = Button("PLAY", (512, 330))
+        leaderboard_button = Button("LEADERBOARD", (512, 430))
+        help_button = Button("HELP", (512, 530))
+        about_button = Button("ABOUT", (512, 630))
+
+        self.buttons.append(play_button)
+        self.buttons.append(leaderboard_button)
+        self.buttons.append(help_button)
+        self.buttons.append(about_button)
+    
     def updateScene(self):
         """Updates the current scene.
 
@@ -102,46 +117,19 @@ class Scene:
 
         elif current_scene.game_state == GameState.start_menu:
             
-            BLACK = (0, 0, 0)
-            BLUE = (104, 119, 225)
-            
             drawBackground(GameState.start_menu)
-            
-# Anything above here has been cleaned up, and anything below here is a work in progress.
+            self.screen.blit(logo, logo_rect)
 
-            # Draw logo
-            screen.blit(logo, logo_rect)
-
-            # Define buttons
-            play_button = font.render("PLAY", True, BLACK)
-            play_rect = play_button.get_rect()
-            play_rect.center = (512, 330)
-
-            leaderboard_button = font.render("LEADERBOARD", True, BLACK)
-            leaderboard_rect = leaderboard_button.get_rect()
-            leaderboard_rect.center = (512, 430)
-
-            help_button = font.render("HELP", True, BLACK)
-            help_rect = help_button.get_rect()
-            help_rect.center = (512, 530)
-
-            about_button = font.render("ABOUT", True, BLACK)
-            about_rect = about_button.get_rect()
-            about_rect.center = (512, 630)
+            after_play = TestPlayer() # This probably needs to be updated!
 
 
-            after_play = TestPlayer()
+        # The below code is useless. Since the loop is in game_interface.py,
+        # we can't check for events here! Button hovering has to be checked for in 
+        # game_interface as it's a controller action.
 
-            running = True
-
-            while running:
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        running = False
-
-                    # Check if play button is clicked
-                    if event.type == pygame.MOUSEBUTTONUP and play_rect.collidepoint(event.pos):
-                        after_play.run_after_play_button()
+        if event.type == pygame.MOUSEBUTTONUP and play_rect.collidepoint(event.pos):
+                after_play.run_after_play_button()
+                
                 mouse_pos = pygame.mouse.get_pos()
 
                 if play_rect.collidepoint(mouse_pos):

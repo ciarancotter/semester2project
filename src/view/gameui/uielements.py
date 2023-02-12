@@ -134,3 +134,15 @@ class Panel:
         """
         self.panel.fill(colour)
 
+class Button:
+
+    def __init__(self, text: str, button_center: tuple):
+        self.text = text
+        self.font = pygame.font.Font(None, 85)
+        self.renderer = self.font.render(self.text, True, "black")
+        self.rect = self.renderer.get_rect()
+        self.rect.center = button_center
+
+    def setBlue(self):
+        self.renderer = self.font.render(self.text, True, "blue")
+
