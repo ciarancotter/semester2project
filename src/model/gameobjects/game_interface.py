@@ -14,7 +14,7 @@ for block in ctx.blocks:
 	print(block.coordinates)
 # print the coordinates of all the blocks in the game
 """
-from public_enums import Movement,GameState
+from .public_enums import Movement,GameState
 
 class PlatformerGame(object):
 	""" The main game class that stores the gamestate."""

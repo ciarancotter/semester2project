@@ -7,7 +7,7 @@ sys.path.append(os.path.abspath("./src"))
 print(sys.path)
 from view.imag import imag
 import pygame
-from .game_interface import Movement
+from game_interface import Movement
 from pygame.locals import (
     K_LEFT,
     K_RIGHT,
