@@ -171,7 +171,6 @@ class Scene:
 
                 pygame.quit()
                 sys.exit()
-            sys.exit()
 
         else:
             print("Invalid gamestate!")
