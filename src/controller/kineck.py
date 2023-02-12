@@ -3,7 +3,6 @@ from pykinect2.PyKinectV2 import *
 
 import sys
 import os
-
 sys.path.append(os.path.abspath("./src"))
 
 from model.movement_recognition.punch import LeftPunch, RightPunch
@@ -19,7 +18,6 @@ class MovementHandler(object):
         """
         Creates the MovementHandler object
         """
-
         # Kinect runtime object, we want only color and body frames
         self._kinect = PyKinectRuntime.PyKinectRuntime( PyKinectV2.FrameSourceTypes_Color | PyKinectV2.FrameSourceTypes_Body | PyKinectV2.FrameSourceTypes_Depth)
 
@@ -39,7 +37,6 @@ class MovementHandler(object):
 
 
     def update(self):
-
         if self._kinect.has_new_body_frame():
                 self._bodies = self._kinect.get_last_body_frame()
 
