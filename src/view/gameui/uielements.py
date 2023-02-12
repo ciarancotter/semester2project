@@ -1,6 +1,6 @@
-"""A utility to create a UI elements in pygame..
+"""A utility to create a UI elements in pygame.
 
-This module can be used to create UI elements. UI panels and 
+This module can be used to create UI elements.
 
 Usage:
 

@@ -1,28 +1,14 @@
-
-import unittest
-from .entity import *
-import sys 
 import os
-sys.path.append(os.path.abspath("./src"))
-print(sys.path)
-from view.imag import imag
+import sys 
 import pygame
-from game_interface import Movement
-from pygame.locals import (
-    K_LEFT,
-    K_RIGHT,
-    K_ESCAPE,
-    KEYDOWN,
-    K_SPACE,
-    QUIT,
-)
-
 import unittest
-from .entity import *
 
+sys.path.append(os.path.abspath("./src"))
+
+from .entity import *
 from view.imag import imag
-import pygame
 from .game_interface import Movement
+
 from pygame.locals import (
     K_LEFT,
     K_RIGHT,
