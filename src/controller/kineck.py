@@ -1,8 +1,6 @@
 from pykinect2 import PyKinectV2, PyKinectRuntime
 from pykinect2.PyKinectV2 import *
 
-import numpy
-import ctypes
 import sys
 import os
 
@@ -17,7 +15,7 @@ from model.movement_recognition.mouse import handpos
 
 class MovementHandler(object):
 
-    def __init__(self):
+    def __init__(self, screenhight:int, screenwidth:int):
         """
         Creates the MovementHandler object
         """
@@ -37,7 +35,7 @@ class MovementHandler(object):
         self.leftwalk = LeftWalk()
         self.rightwalk = RightWalk()
         self.turntest = TurnHips()
-        self.mouse = handpos(100, 100)
+        self.mouse = handpos(screenhight, screenwidth)
 
 
     def update(self):
@@ -50,7 +48,6 @@ class MovementHandler(object):
             depthframe = depthframe.reshape(self._kinect.depth_frame_desc.Height, self._kinect.depth_frame_desc.Width)
             self._depth = self._kinect.depth_frame_to_color_space(depthframe)
         
-        # --- draw skeletons to _frame_surface
         if self._bodies is not None:
             for i in range(0, self._kinect.max_body_count):
                 body = self._bodies.bodies[i]
