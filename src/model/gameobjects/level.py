@@ -28,7 +28,6 @@ class level(object):
         if ((0<=row<=31)and (0<=column<=31)):
             xMapping = row*32
             yMapping = column*32
-            block_entitiy = Entity(xMapping,yMapping,32,32,True)
-            self._blocks.append(Block(block_entitiy))
+            self._blocks.append(Block(xMapping,yMapping,32,32))
     def get_blocks(self):
         return self._blocks

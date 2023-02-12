@@ -58,14 +58,28 @@ class Entity:
         """
         return self._height
 
-    def isColliding(self) -> bool:
+    def isCollidingEntity(self) -> bool:
         """Getter method for the colliding property.
         """
         return self.colliding
 
+
 class Block:
-    def __init__(self, entity: Entity):
-        self.entity = entity
+    """An entity platform that sprites can stand on.
+
+    Attributes:
+            coordinates: The object's position on the tilemap.
+            width: The width of the object.
+            height: The height of the object.
+            xPos: the x co-ordenate of the entity on the game plane
+                that will be displayed on the screen
+            yPos: the y co-ordenate of the entity on the game plane
+                that will be displayed on the screen.
+
+    """
+    def __init__(self, xPos:int,yPos:int, width: int, height: int):
+        super().__init__(self.xPos,self.yPos,width,height,True)
+        
 
 
 class Player(Entity):
@@ -157,10 +171,10 @@ class Player(Entity):
         """
         for block in blocks:
             player_feet = self.yPos+self._height
-            check_above = not (player_feet <= block.entity.yPos)
-            check_below = (player_feet<=block.entity.yPos + block.entity._height)
-            check_left = (not(self.xPos +self._width < block.entity.xPos))
-            check_right = (self.xPos <= block.entity.xPos+block.entity._width)
+            check_above = not (player_feet <= block.yPos)
+            check_below = (player_feet<=block.yPos + block._height)
+            check_left = (not(self.xPos +self._width < block.xPos))
+            check_right = (self.xPos <= block.xPos+block._width)
             if (check_below and check_above and check_left and check_right):
                 return True
         return False
