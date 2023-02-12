@@ -1,5 +1,5 @@
 <p align="center">
-<img src="src/view/assets/logo.png">
+<img src="src/view/assets/logo-for-README.png">
 </p>
 
 <p align="center"> •
