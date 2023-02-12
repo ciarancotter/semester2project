@@ -8,9 +8,7 @@ Usage:
     object_can_collide = test_entity.isColliding()
 """
 
-import pygame
-
-from .public_enums import Movement,GameState
+from public_enums import Movement,GameState
 
 
 class Entity:
@@ -103,7 +101,7 @@ class Player(Entity):
         super().__init__(self.xPos,self.yPos,width,height,True)
         self._jump_baseline = self.yPos
         self._jump_height = 50
-        self._decending = False
+        self._jumped = True
 
 
     def move(self,direction:Movement,blocks):
@@ -126,25 +124,26 @@ class Player(Entity):
             self.xPos += self.player_speed
             self.facing = Movement.right
 
+        check_no_hit = (self.yPos < self.screen_height - self._height) and (not (self.collideTop(blocks)))
 
-
-        if direction == Movement.jump and (self._jump_baseline - self.yPos < self._jump_height):
+        if direction == Movement.jump and ((self._jump_baseline - self.yPos < self._jump_height)and not self._jumped):
             self.yPos -= self.player_speed*20
         elif (self._jump_baseline - self.yPos >= self._jump_height):
-            self._decending = True
+            self._jumped = True
 
-        check_no_hit = (self.yPos < self.screen_height - self._height) and (not (self.collideTop(blocks)))
-        if self._decending == True:
+        if self._jumped == True:
             if check_no_hit: 
                 self.yPos += self.player_speed
             else:
-                self._decending = False
+                self._jumped = False
                 self._jump_baseline = self.yPos
 
         #gravity code
         if check_no_hit:
             self.yPos += self.player_speed
+        else:
             self._jump_baseline = self.yPos
+            jumped = False
 
     def collideTop(self,blocks) -> bool:
         """collideTop is an internal method that checks if the player is on top of a block.
@@ -158,9 +157,9 @@ class Player(Entity):
         """
         for block in blocks:
             player_feet = self.yPos+self._height
-            check_above = (player_feet <= block.entity.yPos)
+            check_above = not (player_feet <= block.entity.yPos)
             check_below = (player_feet<=block.entity.yPos + block.entity._height)
-            check_left = (not(self.xPos < block.entity.xPos))
+            check_left = (not(self.xPos +self._width < block.entity.xPos))
             check_right = (self.xPos <= block.entity.xPos+block.entity._width)
             if (check_below and check_above and check_left and check_right):
                 return True

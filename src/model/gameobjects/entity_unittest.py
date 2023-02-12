@@ -3,24 +3,54 @@ import sys
 import pygame
 import unittest
 
-sys.path.append(os.path.abspath("./src"))
+from entity import Player
+from entity import Block
+from entity import Entity
+from public_enums import Movement
 
-from .entity import *
-from view.imag import imag
-from .game_interface import Movement
 
-from pygame.locals import (
-    K_LEFT,
-    K_RIGHT,
-    K_ESCAPE,
-    KEYDOWN,
-    K_SPACE,
-    QUIT,
-)
+
+
+
 
 class TestPlayer(unittest.TestCase):
+    def test_collide(self):
+        """ check that the player. collide is working """
+        play = Player(50,50,1000,1000)
+        blocks = [Block(Entity(503,553,32,32,True))]
+        play.move(Movement.no_movement,blocks)
+        print("xPosition",play.yPos)
+        collide_test = play.collideTop(blocks)
+        self.assertTrue(collide_test,"not correct")
+    def test_update(self):
+        testPlayer = Player(50,50,1000,1000)
+        testPlayer.move(Movement.no_movement,[])
+        self.assertEqual(testPlayer.yPos,504,"gravity not working")
+    def testPlatform(self):
+        testPlayer = Player(50,50,1000,1000)
+        blocks = [Block(Entity(503,550,32,32,True))]
+        testPlayer.move(Movement.no_movement,blocks)
+        testPlayer.move(Movement.no_movement,blocks)
+        testPlayer.move(Movement.no_movement,blocks)
+        self.assertEqual(testPlayer.yPos,504,"player has moved through a solid object")
+    def testMove(self):
+        testPlayer = Player(50,50,1000,1000)
+        testPlayer.move(Movement.right,[])
+        self.assertEqual(testPlayer.xPos,500 + testPlayer.player_speed, "movement not working")
 
     def run_after_play_button():
+        """sys.path.append(os.path.abspath("./src"))
+        from .entity import *
+        from view.imag import imag
+        from .game_interface import Movement
+        from pygame.locals import (
+            K_LEFT,
+            K_RIGHT,
+            K_ESCAPE,
+            KEYDOWN,
+            K_SPACE,
+            QUIT,
+        )"""
         # Initialize pygame
         pygame.init()
 
