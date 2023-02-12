@@ -5,7 +5,6 @@ sys.path.append(os.path.abspath("./src"))
 from model.gameobjects.entity_unittest import TestPlayer
 from model.gameobjects.game_interface import PlatformerGame
 from model.gameobjects.public_enums import GameState, Movement
-from button import Button
 from model.gameobjects.entity_unittest import TestPlayer
 import pygame
 
@@ -16,6 +15,9 @@ class Scene:
         self.player = None
         self.background = None
         self.clock = pygame.time.Clock()
+
+    def initialize_scene():
+        pass
 
     def updateScene(self):
         current_scene = self.game_manager.get_render_ctx
@@ -117,8 +119,6 @@ class Scene:
                     about_button = font.render("ABOUT", True, BLUE)
                 else:
                     about_button = font.render("ABOUT", True, BLACK)
-
-                # Draw background
 
                 # Draw buttons
                 screen.blit(play_button, play_rect)
