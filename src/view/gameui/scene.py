@@ -41,62 +41,65 @@ class Scene:
     def __init__(self, game_manager: PlatformerGame):
         """Inits the Scene class.
         """
+        pygame.init()
+        
         self.game_manager = game_manager
         self.player = None
         self.background = None
         self.clock = pygame.time.Clock()
+        self.screen = pygame.display.set_mode((1024, 768))
+
+        menu_background = pygame.image.load("src/view/assets/menuBG.png").convert_alpha()
+        transformed_menu_background = pygame.transform.scale(background, (1024, 768))
     
+        game_background = pygame.image.load("src/view/assets/menuBG.png").convert_alpha()
+        transformed_game_background = pygame.transform.scale(background, (768, 768))
+
     def drawBackground(gamestate):
         """Draws the background depending on the current state of the game.
         """
 
         if gamestate == GameState.start_menu:
-            background = pygame.image.load("src/view/assets/menuBG.png").convert_alpha()
-            self.background = pygame.transform.scale(background, (1024, 768))
-        elif gamestate == GameState.in_session:
-            background = pygame.image.load("src/view/assets/gamebg.png").convert_alpha()    
-            self.background = pygame.transform.scale(background, (768, 768))
+            self.background = transformed_menu_background
 
-    def initialiseGameScene():
+        elif gamestate == GameState.in_session:
+            self.background = transformed_game_background
+
+        screen.blit(self.background, (0, 0))
+
+    def initialiseGameScene(self):
         """Run once when the game is created. Generates the AI data.
         """
+
+        pygame.display.set_caption("Boole Raider")
         generate_background("ancient Egypt")
         drawBackground(GameState.in_session)
 
-    def updateScene(self):
-        current_scene = self.game_manager.get_render_ctx
+    def initialiseMenuScene(self):
+        
+        pygame.display.set_caption("Main Menu")
+        logo_base = pygame.image.load("src/view/assets/logo.png")
+        logo = pygame.transform.scale(logo_base, (800, 150))
+        logo_rect = logo.get_rect()
+        logo_rect.center = (512, 150)
+        font = pygame.font.Font(None, 85)
 
+    def updateScene(self):
+        
+        # Fetches the current game state
+        current_scene = self.game_manager.get_render_ctx
+        # Decides what to draw
         if current_scene.game_state == GameState.in_session:
             drawBackground(GameState.in_session)
 
         elif current_scene.game_state == GameState.start_menu:
             
-
-            # Initialize pygame
-            pygame.init()
-
-            # Set screen size and title
-            screen = pygame.display.set_mode((1024, 768))
-            pygame.display.set_caption("Main Menu")
-
-            # Define colors
             BLACK = (0, 0, 0)
             BLUE = (104, 119, 225)
+            
+            drawBackground(GameState.start_menu)
 
-            logo = pygame.image.load("src/view/assets/logo.png")
-            logo = pygame.transform.scale(logo, (800, 150))
-
-            # Define font and size
-            font = pygame.font.Font(None, 85)
-
-            # Get the rectangle for the image
-            logo_rect = logo.get_rect()
-
-            # Set the position of the image on the screen
-            logo_rect.center = (512, 150)
-
-            # Draw background
-            screen.blit(background, (0, 0))
+# Anything above here has been cleaned up, and anything below here is a work in progress.
 
             # Draw logo
             screen.blit(logo, logo_rect)
