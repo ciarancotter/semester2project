@@ -9,7 +9,9 @@ be rendered in the Pygame window.
 Usage:
 
     myScene = Scene(myGameManager)
-
+    myScene.initialiseGameScene()
+    myScene.drawBackground(GameState.start_menu)
+    myScene.updateScene()
 """
 
 import os
@@ -85,6 +87,12 @@ class Scene:
         font = pygame.font.Font(None, 85)
 
     def updateScene(self):
+        """Updates the current scene.
+
+        This method checks whether the current scene is the start menu, or 
+        the game itself. The result of this check determines what will be rendered
+        in the scene
+        """
         
         # Fetches the current game state
         current_scene = self.game_manager.get_render_ctx
@@ -98,7 +106,7 @@ class Scene:
             BLUE = (104, 119, 225)
             
             drawBackground(GameState.start_menu)
-
+            
 # Anything above here has been cleaned up, and anything below here is a work in progress.
 
             # Draw logo

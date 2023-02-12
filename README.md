@@ -23,6 +23,7 @@ parts of the story with OpenAI's AI software. This game represents the amalgamat
 # Installation
 - Clone this repository.
 - Install the dependencies using `requirements.txt`.
+- Generate your OpenAI API key from the OpenAI website, and set it as the value of the `OPENAI_API_KEY` environment variable in your system.
 - Run the game using `run.sh`.
 
 # Architecture
