@@ -3,8 +3,8 @@ import sys
 import os
 
 sys.path.append(os.path.abspath("./src"))
-# print(sys.path)
-# from view.gameui.uielements import Panel
+#from model.gameobjects.game_interface import *
+#from view.gameui.scene import *
 
 # Initialize pygame
 pygame.init()
@@ -59,6 +59,9 @@ from pygame.locals import (
 
 
 def main():
+    # Initialize pygame
+    #pygame.init()
+
     # Set screen size and title for main menu
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
@@ -89,8 +92,17 @@ def main():
 
     '''-----------------------'''
 
-    # load game panel for game
-    # GamePanel = Panel(screen, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, BLACK)
+    # loading the game panel for main menu and game
+    '''-----commented out until for the moment --------
+    game = PlatformerGame()
+    ctx = game.get_render_ctx()
+    for block in ctx.blocks:
+        print(block.coordinates)
+    myScene = Scene(game)
+    myScene.initialiseMenuScene()   #not sure if this should go in controller
+    myScene.initialiseGameScene()   #not sure if this should go in controller
+    myScene.updateScene()
+    ----------------------'''
 
     # puts the text part of the display in
     """myElementWindow = ElementWindow(screen)
