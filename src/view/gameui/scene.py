@@ -1,12 +1,16 @@
-import enum
-import sys
 import os
+import sys
+import enum
+import pygame
+
 sys.path.append(os.path.abspath("./src"))
+
 from model.gameobjects.entity_unittest import TestPlayer
 from model.gameobjects.game_interface import PlatformerGame
 from model.gameobjects.public_enums import GameState, Movement
 from model.gameobjects.entity_unittest import TestPlayer
-import pygame
+
+from model.aiutilities.aiutilities import generate_background
 
 class Scene:
 
@@ -15,18 +19,27 @@ class Scene:
         self.player = None
         self.background = None
         self.clock = pygame.time.Clock()
+    
+    def drawBackground(gamestate):
+        if gamestate == GameState.start_menu:
+            background = pygame.image.load("src/view/assets/menuBG.png").convert_alpha()
+            self.background = pygame.transform.scale(background, (1024, 768))
+        elif gamestate == GameState.in_session:
+            background = pygame.image.load("src/view/assets/gamebg.png").convert_alpha()    
+            self.background = pygame.transform.scale(background, (768, 768))
 
-    def initialize_scene():
-        pass
+    def initialiseGameScene():
+        generate_background("ancient Egypt")
+        drawBackground(GameState.in_session)
 
     def updateScene(self):
         current_scene = self.game_manager.get_render_ctx
+
         if current_scene.game_state == GameState.in_session:
-            # Draw game!
-            pass
+            drawBackground(GameState.in_session)
 
         elif current_scene.game_state == GameState.start_menu:
-            # Draw menu!
+            
 
             # Initialize pygame
             pygame.init()
@@ -38,10 +51,6 @@ class Scene:
             # Define colors
             BLACK = (0, 0, 0)
             BLUE = (104, 119, 225)
-
-            # Load background image
-            background = pygame.image.load("src/view/assets/menuBG.png")
-            background = pygame.transform.scale(background, (1024, 768))
 
             logo = pygame.image.load("src/view/assets/logo.png")
             logo = pygame.transform.scale(logo, (800, 150))
@@ -82,10 +91,12 @@ class Scene:
             after_play = TestPlayer()
 
             running = True
+
             while running:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         running = False
+
                     # Check if play button is clicked
                     if event.type == pygame.MOUSEBUTTONUP and play_rect.collidepoint(event.pos):
                         after_play.run_after_play_button()
