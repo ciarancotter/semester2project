@@ -17,7 +17,7 @@ from .public_enums import Movement, GameState
 class Entity:
 
     def __init__(self, xPos: int, yPos: int, width: int, height: int,
-                 colliding: bool):
+                 colliding: bool) -> None:
         """Inits the Entity object.
 
         Attributes:
@@ -36,20 +36,20 @@ class Entity:
         self.xPos = xPos
         self.yPos = yPos
 
-    def set_x(self, newX: int):
+    def set_x(self, newX: int) -> None:
         """Setter method for the x-coordinate.
         """
         self.xPos = newX
 
-    def set_y(self, newY: int):
+    def set_y(self, newY: int) -> None:
         """Setter method for the y-coordinate.
         """
         self.yPos = newY
 
-    def get_x(self):
+    def get_x(self) -> int:
         return self.xPos
 
-    def get_y(self):
+    def get_y(self) -> int:
         return self.yPos
 
     def get_coordinates(self) -> tuple:
@@ -118,7 +118,7 @@ class Block:
 
     """
 
-    def __init__(self, xPos: int, yPos: int, width: int, height: int):
+    def __init__(self, xPos: int, yPos: int, width: int, height: int) -> None:
         super().__init__(self.xPos, self.yPos, width, height, True)
 
 
@@ -127,11 +127,11 @@ class Monke(Entity):
     """
 
     def __init__(self, xPos: int, yPos: int, width: int, height: int,
-                 colliding: bool, speed: int):
+                 colliding: bool, speed: int) -> None:
         self._speed = speed
         super().__init__(self.xPos, self.yPos, width, height, True)
 
-    def collideTop(self, entities) -> bool:
+    def collideTop(self, entities: list[Entity]) -> bool:
         """collideTop is an internal method that checks if the Monke is on top of a block.
 
         Args: 
@@ -146,13 +146,13 @@ class Monke(Entity):
                 monke_feet = self.yPos + self._height
                 check_above = not (monke_feet <= entity.yPos)
                 check_below = (monke_feet <= entity.yPos + entity._height)
-                check_left = (not (self.xPos + self._width < block.xPos))
+                check_left = (not (self.xPos + self._width < entity.xPos))
                 check_right = (self.xPos <= entity.xPos + entity._width)
             if (check_below and check_above and check_left and check_right):
                 return True
         return False
 
-    def gravity(self, entities):
+    def gravity(self, entities: list[Entity]) -> bool:
         """if monke let go of tree it fall.
         """
         if self.check_no_hit(entities):
@@ -160,7 +160,7 @@ class Monke(Entity):
             return True
         return False
 
-    def check_no_hit(self, blocks):
+    def check_no_hit(self, blocks: list[Entity]) -> None:
         """checks if the Monke has hit the top of the block or the ground.
 
             Args:
@@ -194,8 +194,7 @@ class Player(Monke):
 
     """
 
-    def __init__(self, width: int, height: int, SCREEN_WIDTH: int,
-                 SCREEN_HEIGHT: int):
+    def __init__(self, width: int, height: int, SCREEN_WIDTH: int, SCREEN_HEIGHT: int) -> None:
         self.screen_width = SCREEN_WIDTH
         self.screen_height = SCREEN_HEIGHT
         self.facing = Movement.left
@@ -208,7 +207,7 @@ class Player(Monke):
         self._health = 10
         super().__init__(self.xPos, self.yPos, width, height, True, 2)
 
-    def move(self, direction: Movement, entities):
+    def move(self, direction: Movement, entities: list[Entity]) -> None:
         """this method is called to change the state of the player.
 
         this method is called to change the state of the player and does not have to 
@@ -266,14 +265,14 @@ class Enemy(Monke):
 
     """
 
-    def __init__(self, xPos: int, yPos: int, width: int, height: int,colliding: bool, dammage: int):
+    def __init__(self, xPos: int, yPos: int, width: int, height: int,colliding: bool, dammage: int) -> None:
         super().__init__(self.xPos, self.yPos, width, height, True)
         self._damage = dammage
 
-    def get_dammage(self):
+    def get_dammage(self) -> None:
         return self._damage
 
-    def move(self, entities):
+    def move(self, entities: list[Entity]):
         self.gravity(entities)
         #TODO: add autonomous movement
 

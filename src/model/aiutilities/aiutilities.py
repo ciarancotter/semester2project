@@ -14,7 +14,7 @@ import openai
 import requests
 
 
-def configure_openai():
+def configure_openai() -> None:
     """Configures the OpenAI module with the API key from environment variables.
     """
     openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -68,7 +68,7 @@ def generate_monolith(emotion: str, theme: str) -> list:
     return narration
 
 
-def generate_background(theme: str):
+def generate_background(theme: str) -> None:
     """Generates a PNG file to be used as the game's background.
 
         Args:
