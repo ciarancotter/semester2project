@@ -12,6 +12,7 @@ Welcome to Semester 2 Project's documentation!
 	source/src.rst
 	source/src.controller.rst
 	source/src.view.gameui.rst
+	source/src.model.movement_recognition.rst
 	source/src.model.rst
 	source/src.view.rst
 	source/src.model.aiutilities.rst
