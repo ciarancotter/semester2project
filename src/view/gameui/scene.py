@@ -70,9 +70,9 @@ class Scene:
         self.current_sprite_index = 0
         self.columns = 3
         self.rows = 2
-        self.character_sprites = [pygame.Surface((game_manager.get_render_ctx.get_player.get_width(),game_manager.get_render_ctx.get_player.get_height()), pygame.SRCALPHA) for i in range(self.columns * self.rows)]
+        self.character_sprites = [pygame.Surface((game_manager.get_render_ctx.player.width,game_manager.get_render_ctx.player.height, pygame.SRCALPHA) for i in range(self.columns * self.rows))]
         #shortcut for player data that we're getting from render_ctx
-        self.player_data = self.game_manager.get_render_ctx.get_player
+        self.player_data = self.game_manager.get_render_ctx.player
         # set the delay between each frame
         self.frame_delay = 5
         self.frame_count = 0
@@ -148,7 +148,7 @@ class Scene:
             for i in range(self.rows):
                 for j in range(self.columns):
                     self.drawBackground(GameState.in_session)
-                    self.character_sprites[i * self.columns + j].blit(self.sprite_sheet, (0, 0), (j * self.player_data.get_width(), i * self.player_data.get_height(), self.player_data.get_width(), self.player_data.get_height()))
+                    self.character_sprites[i * self.columns + j].blit(self.sprite_sheet, (0, 0), (j * self.player_data.width, i * self.player_data.height, self.player_data.width, self.player_data.height)
 
             # move the character to the right if the right key is pressed
             if self.player_data.facing == Movement.right:
