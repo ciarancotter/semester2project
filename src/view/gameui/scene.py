@@ -125,12 +125,10 @@ class Scene:
         self.menu_buttons.append(help_button)
         self.menu_buttons.append(about_button)
 
+    def drawButtons(self):
         # Draw buttons
         for button in self.menu_buttons:
             self.screen.blit(button.renderer, button.rect)
-
-        # Draw logo
-        self.drawLogo()
 
     def updateScene(self):
         """Updates the current scene.
@@ -141,12 +139,12 @@ class Scene:
         """
 
         # Fetches the current game state
-        current_scene = self.game_manager.get_render_ctx
+        current_scene = self.game_manager.get_render_ctx()
         # Decides what to draw
         if current_scene.game_state == GameState.in_session:
             self.drawBackground(GameState.in_session)
             # Draw the players and enemies! @Shaza
-            player_data = self.game_manager.get_render_ctx
+            player_data = self.game_manager.get_render_ctx().player
             for i in range(self.rows):
                 for j in range(self.columns):
                     self.drawBackground(GameState.in_session)
@@ -195,11 +193,11 @@ class Scene:
                     self.drawBackground(GameState.in_session)
                     self.screen.blit(self.character_sprites[self.current_sprite_index], (self.player_data.xPos, self.player_data.yPos))
 
-                
 
         elif current_scene.game_state == GameState.start_menu:
-            self.drawBackground(GameState.start_menu)
+            self.drawBackground(current_scene.game_state)
             self.drawLogo()
+            self.drawButtons()            
 
     def checking_hover(self, mouse_pos:tuple):
         """check for hovering over the buttons in menue
@@ -210,3 +208,5 @@ class Scene:
         for button in self.menu_buttons:
             if button.rect.collidepoint(mouse_pos):
                 button.setBlue()
+            else:
+                button.setBlack()

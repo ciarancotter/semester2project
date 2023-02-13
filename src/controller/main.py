@@ -29,6 +29,7 @@ def main() -> None:
 
     gamemanager = PlatformerGame()
     gamepanel = Scene(gamemanager)
+    gamepanel.initialiseMenuScene()
 
     # Main game loop
     while running:
@@ -45,7 +46,9 @@ def main() -> None:
         pressed_keys = pygame.key.get_pressed()
 
         # loading the game panel for main menu and game
+        gamepanel.checking_hover(pygame.mouse.get_pos())
         gamepanel.updateScene()
+        
 
         
 

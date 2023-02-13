@@ -158,3 +158,6 @@ class Button:
 
     def setBlue(self) -> None:
         self.renderer = self.font.render(self.text, True, "blue")
+
+    def setBlack(self) -> None:
+        self.renderer = self.font.render(self.text, True, "black")
