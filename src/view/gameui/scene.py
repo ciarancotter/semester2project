@@ -41,7 +41,7 @@ class Scene:
         
     """
 
-    def __init__(self, game_manager: PlatformerGame):
+    def __init__(self, game_manager: PlatformerGame) -> None:
         """Inits the Scene class.
         """
         pygame.init()
@@ -66,7 +66,7 @@ class Scene:
         BLACK = (0, 0, 0)
         BLUE = (104, 119, 225)
 
-    def drawBackground(self, game_state):
+    def drawBackground(self, game_state: GameState) -> None:
         """Draws the background depending on the current state of the game.
         """
 
@@ -78,7 +78,7 @@ class Scene:
 
         self.screen.blit(self.background, (0, 0))
 
-    def drawLogo(self):
+    def drawLogo(self) -> None:
         """Draws the logo
         """
         logo_base = pygame.image.load("src/view/assets/logo.png")
@@ -87,7 +87,7 @@ class Scene:
         logo_rect.center = (512, 150)
         self.screen.blit(logo, logo_rect)
 
-    def initialiseGameScene(self):
+    def initialiseGameScene(self) -> None:
         """Run once when the game is created. Generates the AI data.
         """
 
@@ -95,7 +95,7 @@ class Scene:
         generate_background("ancient Egypt")
         self.drawBackground(GameState.in_session)
 
-    def initialiseMenuScene(self):
+    def initialiseMenuScene(self) -> None:
         """Initialises elements for the menu scene.
         """
         pygame.display.set_caption("Main Menu")
@@ -117,7 +117,7 @@ class Scene:
         # Draw logo
         self.drawLogo()
 
-    def updateScene(self):
+    def updateScene(self) -> None:
         """Updates the current scene.
 
         This method checks whether the current scene is the start menu, or 
@@ -136,7 +136,7 @@ class Scene:
             self.drawBackground(GameState.start_menu)
             self.drawLogo()
 
-    def checking_hover(self, mouse_pos: tuple):
+    def checking_hover(self, mouse_pos: tuple) -> None:
         """check for hovering over the buttons in menue
             This method checks whether the mouse over any buttons start menu which is an array,
              Attributes:

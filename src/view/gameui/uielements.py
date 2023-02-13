@@ -14,6 +14,7 @@ Usage:
 
 import pygame
 import sys
+from scene import Scene
 
 
 class TextBox:
@@ -31,8 +32,8 @@ class TextBox:
 
     """
 
-    def __init__(self, screen, marginX: int, marginY: int, font: str,
-                 fontsize: int, panel):
+    def __init__(self, screen: Scene, marginX: int, marginY: int, font: str,
+                 fontsize: int, panel: Scene) -> None:
         """Inits UITextBox
         """
         self.screen = screen
@@ -42,7 +43,7 @@ class TextBox:
         self.fontsize = fontsize
         self.panel = panel
 
-    def draw(self, text: str):
+    def draw(self, text: str) -> None:
         """Draws the box to the screen.
         
         Args:
@@ -75,7 +76,7 @@ class TextBox:
         self.screen.blit(box, box_position)
         self.screen.blit(text, text_rect)
 
-    def erase(self):
+    def erase(self) -> None:
         """Removes the current text.
         """
         panel_width, panel_height = self.panel.getWidth(), self.panel.getHeight(
@@ -103,8 +104,8 @@ class Panel:
         - y: The y-coordinate of the panel's upper-left corner.
     """
 
-    def __init__(self, screen, width: int, height: int, x: int, y: int,
-                 colour: str):
+    def __init__(self, screen: Scene, width: int, height: int, x: int, y: int,
+                 colour: str) -> None:
         """Inits the Panel class
         """
         self.screen = screen
@@ -116,32 +117,32 @@ class Panel:
         self.panel = pygame.Surface((width, height))
         self.panel.fill(colour)
 
-    def getWidth(self):
+    def getWidth(self) -> int:
         """Getter method for the width property
         """
         return self._width
 
-    def getHeight(self):
+    def getHeight(self) -> int:
         """Getter method for the height property
         """
         return self._height
 
-    def getX(self):
+    def getX(self) -> int:
         """Getter method for the x property.
         """
         return self._x
 
-    def getY(self):
+    def getY(self) -> int:
         """Getter method for the y property.
         """
         return self._y
 
-    def draw(self):
+    def draw(self) -> None:
         """Method to draw the window to a screen.
         """
         self.screen.blit(self.panel, (self.getX(), self.getY()))
 
-    def erase(self, colour: str):
+    def erase(self, colour: str) -> None:
         """Method to erase the panel.
         """
         self.panel.fill(colour)
@@ -149,12 +150,12 @@ class Panel:
 
 class Button:
 
-    def __init__(self, text: str, button_center: tuple):
+    def __init__(self, text: str, button_center: tuple) -> None:
         self.text = text
         self.font = pygame.font.Font(None, 85)
         self.renderer = self.font.render(self.text, True, "black")
         self.rect = self.renderer.get_rect()
         self.rect.center = button_center
 
-    def setBlue(self):
+    def setBlue(self) -> None:
         self.renderer = self.font.render(self.text, True, "blue")
