@@ -2,6 +2,7 @@ from numpy import ndarray
 from pykinect2 import PyKinectV2
 from pykinect2 import PyKinectRuntime
 
+
 class TurnHips(object):
     """The TurnHips Class is used to sense whether or the body in frame is has its hips turned or not.
     You need to call this class again once instanciated to update the data.
@@ -28,7 +29,8 @@ class TurnHips(object):
         self.readleft = False
         self.readright = False
 
-    def __call__(self, body: PyKinectRuntime.KinectBody, depth:ndarray, joint_points:ndarray) -> None:
+    def __call__(self, body: PyKinectRuntime.KinectBody, depth: ndarray,
+                 joint_points: ndarray) -> None:
         """Calling LeftPunch with these perameters updates the read according to whether or not the body has its hips turned or not.
 
         Args:

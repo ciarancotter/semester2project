@@ -53,11 +53,15 @@ class Scene:
         self.screen = pygame.display.set_mode((1024, 768))
         self.menu_buttons = []
 
-        menu_background = pygame.image.load("src/view/assets/menuBG.png").convert_alpha()
-        self.transformed_menu_background = pygame.transform.scale(menu_background, (1024, 768))
+        menu_background = pygame.image.load(
+            "src/view/assets/menuBG.png").convert_alpha()
+        self.transformed_menu_background = pygame.transform.scale(
+            menu_background, (1024, 768))
 
-        game_background = pygame.image.load("src/view/assets/menuBG.png").convert_alpha()
-        self.transformed_game_background = pygame.transform.scale(game_background, (768, 768))
+        game_background = pygame.image.load(
+            "src/view/assets/menuBG.png").convert_alpha()
+        self.transformed_game_background = pygame.transform.scale(
+            game_background, (768, 768))
 
         BLACK = (0, 0, 0)
         BLUE = (104, 119, 225)

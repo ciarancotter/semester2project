@@ -55,7 +55,6 @@ about_button = font.render("ABOUT", True, BLACK)
 about_rect = about_button.get_rect()
 about_rect.center = (512, 630)
 
-
 running = True
 while running:
     for event in pygame.event.get():
@@ -63,8 +62,7 @@ while running:
             running = False
         # Check if play button is clicked
         #if event.type == pygame.MOUSEBUTTONUP and play_rect.collidepoint(event.pos):
-           
-           
+
     mouse_pos = pygame.mouse.get_pos()
 
     if play_rect.collidepoint(mouse_pos):
@@ -73,7 +71,6 @@ while running:
     else:
         play_button = font.render("PLAY", True, BLACK)
         pygame.mouse.set_cursor(*pygame.cursors.arrow)
-
 
     # Check if mouse is hovering over buttons and effect
     if play_rect.collidepoint(mouse_pos):

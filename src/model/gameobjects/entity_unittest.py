@@ -1,5 +1,5 @@
 import os
-import sys 
+import sys
 import pygame
 import unittest
 
@@ -9,34 +9,36 @@ from entity import Entity
 from public_enums import Movement
 
 
-
-
-
-
 class TestPlayer(unittest.TestCase):
+
     def test_collide(self):
         """ check that the player. collide is working """
-        play = Player(50,50,1000,1000)
-        blocks = [Block(Entity(503,553,32,32,True))]
-        play.move(Movement.no_movement,blocks)
-        print("xPosition",play.yPos)
+        play = Player(50, 50, 1000, 1000)
+        blocks = [Block(Entity(503, 553, 32, 32, True))]
+        play.move(Movement.no_movement, blocks)
+        print("xPosition", play.yPos)
         collide_test = play.collideTop(blocks)
-        self.assertTrue(collide_test,"not correct")
+        self.assertTrue(collide_test, "not correct")
+
     def test_update(self):
-        testPlayer = Player(50,50,1000,1000)
-        testPlayer.move(Movement.no_movement,[])
-        self.assertEqual(testPlayer.yPos,504,"gravity not working")
+        testPlayer = Player(50, 50, 1000, 1000)
+        testPlayer.move(Movement.no_movement, [])
+        self.assertEqual(testPlayer.yPos, 504, "gravity not working")
+
     def testPlatform(self):
-        testPlayer = Player(50,50,1000,1000)
-        blocks = [Block(Entity(503,550,32,32,True))]
-        testPlayer.move(Movement.no_movement,blocks)
-        testPlayer.move(Movement.no_movement,blocks)
-        testPlayer.move(Movement.no_movement,blocks)
-        self.assertEqual(testPlayer.yPos,504,"player has moved through a solid object")
+        testPlayer = Player(50, 50, 1000, 1000)
+        blocks = [Block(Entity(503, 550, 32, 32, True))]
+        testPlayer.move(Movement.no_movement, blocks)
+        testPlayer.move(Movement.no_movement, blocks)
+        testPlayer.move(Movement.no_movement, blocks)
+        self.assertEqual(testPlayer.yPos, 504,
+                         "player has moved through a solid object")
+
     def testMove(self):
-        testPlayer = Player(50,50,1000,1000)
-        testPlayer.move(Movement.right,[])
-        self.assertEqual(testPlayer.xPos,500 + testPlayer.player_speed, "movement not working")
+        testPlayer = Player(50, 50, 1000, 1000)
+        testPlayer.move(Movement.right, [])
+        self.assertEqual(testPlayer.xPos, 500 + testPlayer.player_speed,
+                         "movement not working")
 
     """def run_after_play_button():
         sys.path.append(os.path.abspath("./src"))
@@ -95,4 +97,3 @@ class TestPlayer(unittest.TestCase):
 
             screen.update_xy(player)
             """
-

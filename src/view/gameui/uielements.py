@@ -15,6 +15,7 @@ Usage:
 import pygame
 import sys
 
+
 class TextBox:
     """A UI text box to write a piece of dialogue or information at the bottom of the screen.
 
@@ -30,7 +31,8 @@ class TextBox:
 
     """
 
-    def __init__(self, screen, marginX: int, marginY: int, font: str, fontsize: int, panel):
+    def __init__(self, screen, marginX: int, marginY: int, font: str,
+                 fontsize: int, panel):
         """Inits UITextBox
         """
         self.screen = screen
@@ -52,30 +54,39 @@ class TextBox:
         box_width = screen_width // 4
         box = pygame.Surface((box_width, screen_height))
 
-        panel_width, panel_height = self.panel.getWidth(), self.panel.getHeight()
-        box_width, box_height = (panel_width - self.marginX), ((panel_height // 8) - self.marginY)
+        panel_width, panel_height = self.panel.getWidth(), self.panel.getHeight(
+        )
+        box_width, box_height = (panel_width -
+                                 self.marginX), ((panel_height // 8) -
+                                                 self.marginY)
 
         box = pygame.Surface((box_width, box_height))
-        box_position = (self.panel.getX() + (self.marginX // 2), (self.panel.getY() + (self.marginY // 2)))
-
+        box_position = (self.panel.getX() + (self.marginX // 2),
+                        (self.panel.getY() + (self.marginY // 2)))
 
         box.fill("white")
         font = pygame.font.SysFont(self.font, self.fontsize)
 
         text = font.render(text, True, (0, 0, 0))
-        text_rect = text.get_rect(center=(box_position[0] + (box_width // 2), box_height // 2 + (self.marginY // 2)))
+        text_rect = text.get_rect(center=(box_position[0] + (box_width // 2),
+                                          box_height // 2 +
+                                          (self.marginY // 2)))
 
         self.screen.blit(box, box_position)
         self.screen.blit(text, text_rect)
 
     def erase(self):
         """Removes the current text.
-        """    
-        panel_width, panel_height = self.panel.getWidth(), self.panel.getHeight()
-        box_width, box_height = (panel_width - self.marginX), ((panel_height // 8) - self.marginY)
+        """
+        panel_width, panel_height = self.panel.getWidth(), self.panel.getHeight(
+        )
+        box_width, box_height = (panel_width -
+                                 self.marginX), ((panel_height // 8) -
+                                                 self.marginY)
         box = pygame.Surface((box_width, box_height))
         box.fill("white")
-        box_position = (self.panel.getX() + (self.marginX // 2), (self.panel.getY() + (self.marginY // 2)))
+        box_position = (self.panel.getX() + (self.marginX // 2),
+                        (self.panel.getY() + (self.marginY // 2)))
         self.screen.blit(box, box_position)
 
 
@@ -92,7 +103,8 @@ class Panel:
         - y: The y-coordinate of the panel's upper-left corner.
     """
 
-    def __init__(self, screen, width: int, height: int, x: int, y: int, colour: str):
+    def __init__(self, screen, width: int, height: int, x: int, y: int,
+                 colour: str):
         """Inits the Panel class
         """
         self.screen = screen
@@ -108,7 +120,7 @@ class Panel:
         """Getter method for the width property
         """
         return self._width
-    
+
     def getHeight(self):
         """Getter method for the height property
         """
@@ -118,12 +130,12 @@ class Panel:
         """Getter method for the x property.
         """
         return self._x
-    
+
     def getY(self):
         """Getter method for the y property.
         """
         return self._y
-    
+
     def draw(self):
         """Method to draw the window to a screen.
         """
@@ -133,6 +145,7 @@ class Panel:
         """Method to erase the panel.
         """
         self.panel.fill(colour)
+
 
 class Button:
 
@@ -145,4 +158,3 @@ class Button:
 
     def setBlue(self):
         self.renderer = self.font.render(self.text, True, "blue")
-

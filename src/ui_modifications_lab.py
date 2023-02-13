@@ -16,6 +16,7 @@ from pygame.locals import (
 SCREEN_WIDTH = 768
 SCREEN_HEIGHT = 768
 
+
 #main character class
 class Player(pygame.sprite.Sprite):
     """
@@ -31,15 +32,17 @@ class Player(pygame.sprite.Sprite):
         Methods:
         - update(pressed_keys):  get the pressed key event and it apply it by moving right,left,jump or no action required 
     """
+
     def __init__(self):
-        self.obj_ground= 0 #where player y is on the ground
+        self.obj_ground = 0  #where player y is on the ground
         self.playerwidth = 50
         self.playerHeight = 75
         self.playerX = SCREEN_WIDTH / 2  #x co-ords for start position
         self.playerY = SCREEN_HEIGHT / 2  #y co-ords for start position
-        image_to_load = pygame.image.load("src/view/assets/playerSprite.png").convert_alpha()
+        image_to_load = pygame.image.load(
+            "src/view/assets/playerSprite.png").convert_alpha()
         self.image = pygame.Surface([self.playerwidth, self.playerHeight])
-        self.image.blit(image_to_load, (0,0))
+        self.image.blit(image_to_load, (0, 0))
 
         self.rect = self.image.get_rect()
         self.rect.x = self.playerX
@@ -62,28 +65,29 @@ class Player(pygame.sprite.Sprite):
 
     def movement(self, pressed_keys):
         #print(self.rect.y)
-        self.obj_ground= SCREEN_HEIGHT+1
+        self.obj_ground = SCREEN_HEIGHT + 1
         #print(self.obj_ground, "ground")
 
-        if pressed_keys[K_LEFT]  and self.rect.x >= 0 :
+        if pressed_keys[K_LEFT] and self.rect.x >= 0:
 
             self.rect.x -= self.player_speed
             self.facing = "left"
 
-        if pressed_keys[K_RIGHT] and self.rect.x < SCREEN_WIDTH - self.playerwidth :
+        if pressed_keys[
+                K_RIGHT] and self.rect.x < SCREEN_WIDTH - self.playerwidth:
             self.rect.x += self.player_speed
             self.facing = "right"
 
-        #jump again on;y if space is pressed and the charc y + it's hight is == to the screen hight +1(not sure why it's taking 1 extra out of the 
+        #jump again on;y if space is pressed and the charc y + it's hight is == to the screen hight +1(not sure why it's taking 1 extra out of the
         # screen with the self.rect.y +self.playerHeight)
-        if pressed_keys[K_SPACE] and self.rect.y +self.playerHeight == self.obj_ground :
-            self.rect.y -= self.player_speed*20
+        if pressed_keys[
+                K_SPACE] and self.rect.y + self.playerHeight == self.obj_ground:
+            self.rect.y -= self.player_speed * 20
 
         #maybe another if for jumping but for objects ?
 
-
-        if self.rect.y <= SCREEN_HEIGHT - self.playerHeight :
-           self.rect.y += self.player_speed
+        if self.rect.y <= SCREEN_HEIGHT - self.playerHeight:
+            self.rect.y += self.player_speed
 
 
 dimensionX = 1280
@@ -98,11 +102,12 @@ gamebg_scaled = pygame.transform.scale(gamebg, (768, 768))
 infoobject = pygame.display.Info()
 
 # Create the screen
-screen = pygame.display.set_mode((dimensionX, dimensionY), pygame.HWSURFACE | pygame.DOUBLEBUF, 32)
+screen = pygame.display.set_mode((dimensionX, dimensionY),
+                                 pygame.HWSURFACE | pygame.DOUBLEBUF, 32)
 # Created some UI elements.
 myGamePanel = uielements.Panel(screen, 768, 768, 0, 0, "white")
 myGamePanel.draw()
-screen.blit(gamebg_scaled, (0,0))
+screen.blit(gamebg_scaled, (0, 0))
 
 myUIPanel = uielements.Panel(screen, 512, 768, 768, 0, "orange")
 myUIPanel.draw()
@@ -126,18 +131,24 @@ clock = pygame.time.Clock()
 
 pygame.display.set_caption("Boole Raider")
 
-sprite_sheet = pygame.image.load("src/view/assets/playerSprite.png").convert_alpha()
+sprite_sheet = pygame.image.load(
+    "src/view/assets/playerSprite.png").convert_alpha()
 
 character_width = 64
 character_height = 64
 columns = 3
 rows = 2
-character_sprites = [pygame.Surface((character_width, character_height), pygame.SRCALPHA) for i in range(columns * rows)]
+character_sprites = [
+    pygame.Surface((character_width, character_height), pygame.SRCALPHA)
+    for i in range(columns * rows)
+]
 
 for i in range(rows):
     for j in range(columns):
         screen.blit(gamebg_scaled, (0, 0))
-        character_sprites[i * columns + j].blit(sprite_sheet, (0, 0), (j * character_width, i * character_height, character_width, character_height))
+        character_sprites[i * columns + j].blit(
+            sprite_sheet, (0, 0), (j * character_width, i * character_height,
+                                   character_width, character_height))
 
 x = 100
 y = 768 - character_height
@@ -166,22 +177,22 @@ while running:
             # If the Esc key is pressed, then exit the main loop
             if event.key == K_ESCAPE:
                 running = False
-            
+
             elif event.key == pygame.K_SPACE and spacePressed == False:
-                if currentLine < len(legend): 
-                  myTextBox.erase()
-                  myTextBox.draw(legend[currentLine])
+                if currentLine < len(legend):
+                    myTextBox.erase()
+                    myTextBox.draw(legend[currentLine])
 
-                  spacePressed = True
-                  currentLine += 1
+                    spacePressed = True
+                    currentLine += 1
 
-                  myHealthBar.reduceHealth(10)
-                  myHealthBar.drawCurrentHealth()
-                
+                    myHealthBar.reduceHealth(10)
+                    myHealthBar.drawCurrentHealth()
+
                 else:
-                  myTextBox.erase()
-                  myTextBox.draw("End.")
-                  break
+                    myTextBox.erase()
+                    myTextBox.draw("End.")
+                    break
 
         # Check for QUIT event. If QUIT, then set running to false.
         elif event.type == QUIT:
@@ -202,14 +213,15 @@ while running:
         if frame_count == frame_delay:
             current_sprite_index = (current_sprite_index + 1) % columns
             frame_count = 0
-    
-      # move the character to the left if the left key is pressed
+
+    # move the character to the left if the left key is pressed
     if keys[pygame.K_LEFT]:
         x -= 1
         direction = "left"
         frame_count += 1
         if frame_count == frame_delay:
-            current_sprite_index = columns + (current_sprite_index + 2) % columns
+            current_sprite_index = columns + (current_sprite_index +
+                                              2) % columns
             frame_count = 0
 
     # update the current sprite based on the direction of the character

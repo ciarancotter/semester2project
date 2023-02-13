@@ -11,13 +11,16 @@ pygame.init()
 
 SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 768
-
 '''---------------------------'''
+
+
 # function to open player panel
 def open_player_panel():
     from ui_modifications_lab import Player
     # GamePanel.draw()
     Player()
+
+
 '''---------------------------'''
 
 # key controls
@@ -61,7 +64,7 @@ def main():
     # refresh entire screen
     pygame.display.flip()
 
-    # a boolean to ensure the game is running 
+    # a boolean to ensure the game is running
     running = True
 
     # get the player class from pygame_tester(needs to be changed)
@@ -71,7 +74,7 @@ def main():
 
     clock = pygame.time.Clock()
 
-    # Main game loop 
+    # Main game loop
     while running:
         clock.tick(60)
         # exit the game in emergency

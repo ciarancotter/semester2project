@@ -35,7 +35,7 @@ class HealthBar:
         """Getter method for the maxHealth property
         """
         return self._maxHealth
-    
+
     def getCurrentHealth(self):
         """Getter method for the currentHealth property
         """
@@ -82,7 +82,8 @@ class HealthBar:
 
         self.drawMaxHealth()
         panelWidth = self.panel.getWidth()
-        barX = (panelWidth - (panelWidth // 1.5)) * (self.getCurrentHealth() / self.getMaxHealth())
+        barX = (panelWidth - (panelWidth // 1.5)) * (self.getCurrentHealth() /
+                                                     self.getMaxHealth())
         bar = pygame.Surface((barX, (panelWidth // 25)))
         bar.fill("green")
         self.screen.blit(bar, (panelWidth // 35, panelWidth // 20))
