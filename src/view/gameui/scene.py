@@ -62,7 +62,7 @@ class Scene:
         BLACK = (0, 0, 0)
         BLUE = (104, 119, 225)
 
-    def drawBackground(gamestate):
+    def drawBackground(self, gamestate):
         """Draws the background depending on the current state of the game.
         """
 
@@ -126,13 +126,12 @@ class Scene:
 
         
 
-    def checking_hover(self):
+    def checking_hover(self, mouse_pos:tuple):
         """check for hovering over the buttons in menue
             This method checks whether the mouse over any buttons start menu which is an array,
              Attributes:
                  menu_buttons: an array of menu buttons
             """
-        mouse_pos = pygame.mouse.get_pos()
         for button in self.menu_buttons:
             if button.rect.collidepoint(mouse_pos):
                 button.setBlue()
