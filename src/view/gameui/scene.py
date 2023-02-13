@@ -22,6 +22,7 @@ import pygame
 sys.path.append(os.path.abspath("./src"))
 
 from view.gameui.uielements import Button
+from model.gameobjects.public_enums import Movement
 
 from model.gameobjects.game_interface import PlatformerGame
 from model.gameobjects.public_enums import GameState
