@@ -29,7 +29,7 @@ class TextBox:
 
     """
 
-    def __init__(self, screen: Scene, marginX: int, marginY: int, font: str,
+    def __init__(self, screen: pygame.screen, marginX: int, marginY: int, font: str,
                  fontsize: int, panel: Scene) -> None:
         """Inits UITextBox
         """
