@@ -117,23 +117,25 @@ class Block:
         super().__init__(self.xPos,self.yPos,width,height,True)
         
 
-class Hominidae(Entity):
-    """ a class that represents a human like entity on the screen
+class Monke(Entity):
+    """ a class that represents a Monke like entity on the screen
     """
+    def __init__(self, xPos:int,yPos:int, width: int, height: int, colliding: bool):
+        super().__init__(self.xPos,self.yPos,width,height,True)
     def collideTop(self,blocks) -> bool:
-        """collideTop is an internal method that checks if the Hominidae is on top of a block.
+        """collideTop is an internal method that checks if the Monke is on top of a block.
 
         Args: 
             blocks: a list of block objects representing the block platforms on the screen 
             that can be stood on.
 
-        Returns: True if the Hominidae is standing on a platform and False if not.
+        Returns: True if the Monke is standing on a platform and False if not.
 
         """
         for block in blocks:
-            Hominidae_feet = self.yPos+self._height
-            check_above = not (Hominidae_feet <= block.yPos)
-            check_below = (Hominidae_feet<=block.yPos + block._height)
+            monke_feet = self.yPos+self._height
+            check_above = not (monke_feet <= block.yPos)
+            check_below = (monke_feet<=block.yPos + block._height)
             check_left = (not(self.xPos +self._width < block.xPos))
             check_right = (self.xPos <= block.xPos+block._width)
             if (check_below and check_above and check_left and check_right):
