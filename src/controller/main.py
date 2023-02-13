@@ -24,6 +24,7 @@ def main() -> None:
 
     # a boolean to ensure the game is running
     running = True
+    game_ran = False
 
     clock = pygame.time.Clock()
 
