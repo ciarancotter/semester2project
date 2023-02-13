@@ -75,6 +75,8 @@ class Scene:
         self.screen.blit(self.background, (0, 0))
 
     def drawLogo(self):
+        """Draws the logo
+        """
         logo_base = pygame.image.load("src/view/assets/logo.png")
         logo = pygame.transform.scale(logo_base, (800, 150))
         logo_rect = logo.get_rect()
@@ -90,7 +92,8 @@ class Scene:
         self.drawBackground(GameState.in_session)
 
     def initialiseMenuScene(self):
-
+        """Initialises elements for the menu scene.
+        """
         pygame.display.set_caption("Main Menu")
 
         play_button = Button("PLAY", (512, 330))
@@ -123,14 +126,10 @@ class Scene:
         # Decides what to draw
         if current_scene.game_state == GameState.in_session:
             self.drawBackground(GameState.in_session)
-            self.drawLogo()
 
         elif current_scene.game_state == GameState.start_menu:
-
             self.drawBackground(GameState.start_menu)
-
-
-            after_play = TestPlayer()  # This probably needs to be updated!
+            self.drawLogo()
 
     def checking_hover(self, mouse_pos: tuple):
         """check for hovering over the buttons in menue
