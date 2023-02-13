@@ -70,9 +70,11 @@ class Scene:
         self.current_sprite_index = 0
         self.columns = 3
         self.rows = 2
-        self.character_sprites = [pygame.Surface((game_manager.get_render_ctx.player.width,game_manager.get_render_ctx.player.height, pygame.SRCALPHA) for i in range(self.columns * self.rows))]
+        self.context = self.game_manager.get_render_ctx()
+        size = (self.context.player.width, self.context.player.height)
+        self.character_sprites = [(pygame.Surface(size, pygame.SRCALPHA) for i in range(self.columns * self.rows))]
         #shortcut for player data that we're getting from render_ctx
-        self.player_data = self.game_manager.get_render_ctx.player
+        self.player_data = self.context.player
         # set the delay between each frame
         self.frame_delay = 5
         self.frame_count = 0
