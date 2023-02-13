@@ -21,10 +21,10 @@ import pygame
 
 sys.path.append(os.path.abspath("./src"))
 
-from .uielements import Button
+from view.gameui.uielements import Button
 
 from model.gameobjects.game_interface import PlatformerGame
-from model.gameobjects.public_enums import GameState, Movement
+from model.gameobjects.public_enums import GameState
 
 from model.aiutilities.aiutilities import generate_background
 

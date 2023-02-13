@@ -13,7 +13,7 @@ Usage:
 """
 
 import pygame
-from scene import Scene
+from view.gameui.scene import Scene
 
 
 class TextBox:

@@ -1,5 +1,6 @@
 from model.gameobjects.level import level
-from entity import *
+from model.gameobjects.entity import *
+from model.gameobjects.public_enums import Movement, GameState
 """This is the module that a view would use to interact with a game object to get info about the game state.
 
 This module contains 2 classes PlatformerGame and CtxToRender. PlatformerGame is the class that contains all
@@ -15,7 +16,7 @@ for block in ctx.blocks:
 	print(block.coordinates)
 # print the coordinates of all the blocks in the game
 """
-from public_enums import Movement, GameState
+
 
 
 class PlatformerGame(object):
