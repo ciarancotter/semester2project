@@ -148,7 +148,7 @@ class Scene:
             for i in range(self.rows):
                 for j in range(self.columns):
                     self.drawBackground(GameState.in_session)
-                    self.character_sprites[i * self.columns + j].blit(self.sprite_sheet, (0, 0), (j * self.player_data.width, i * self.player_data.height, self.player_data.width, self.player_data.height)
+                    self.character_sprites[i * self.columns + j].blit(self.sprite_sheet, (0, 0), (j * self.player_data.width, i * self.player_data.height, self.player_data.width, self.player_data.height))
 
             # move the character to the right if the right key is pressed
             if self.player_data.facing == Movement.right:
