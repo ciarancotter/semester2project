@@ -29,6 +29,12 @@ parts of the story with OpenAI's AI software. This game represents the amalgamat
 # Architecture
 This game was developed using [Pygame](https://pypi.org/project/pygame/). Pygame is a popular game development package for Python that supports up to Python 3.10. The game is structured in the **Model-View-Controller (MVC)** pattern. The UI interactions, such as the main menu and the game window, are handled by `view`. The game state is handled by the `model` directory.
 
+The below diagram depicts the sequence of actions that are required to run the game.
+
+<p align="center">
+<img src="src/view/assets/timesequence.png">
+</p>
+
 # Game Plot
 The player is an archaeology student from UCC, who was locked into the Boole library by accident. They decide to lay in the sarcophagus located in the basement. The sarcophagus teleports the player to the pyramids of Luxor, Egypt in 4200BC. The player is tasked with exploring this pyramid to complete their thesis by reading a series of monoliths located in each room.
 
