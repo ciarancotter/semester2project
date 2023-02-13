@@ -15,6 +15,64 @@ Usage:
 import pygame
 
 
+class Panel:
+    """A UI Panel to draw UI features (text boxes, buttons, etc) to.
+
+    A customisable panel class to draw objects onto.
+
+    Attributes:
+        - screen: The screen to draw the panel onto.
+        - width: The width of the panel.
+        - height: The height of the panel.
+        - x: The x-coordinate of the panel's upper-left corner.
+        - y: The y-coordinate of the panel's upper-left corner.
+    """
+
+    def __init__(self, screen, width: int, height: int, x: int, y: int,
+                 colour: str) -> None:
+        """Inits the Panel class
+        """
+        self.screen = screen
+        self._width = width
+        self._height = height
+        self._x = x
+        self._y = y
+
+        self.panel = pygame.Surface((width, height))
+        self.panel.fill(colour)
+
+    def getWidth(self) -> int:
+        """Getter method for the width property
+        """
+        return self._width
+
+    def getHeight(self) -> int:
+        """Getter method for the height property
+        """
+        return self._height
+
+    def getX(self) -> int:
+        """Getter method for the x property.
+        """
+        return self._x
+
+    def getY(self) -> int:
+        """Getter method for the y property.
+        """
+        return self._y
+
+    def draw(self) -> None:
+        """Method to draw the window to a screen.
+        """
+        self.screen.blit(self.panel, (self.getX(), self.getY()))
+
+    def erase(self, colour: str) -> None:
+        """Method to erase the panel.
+        """
+        self.panel.fill(colour)
+
+
+
 class TextBox:
     """A UI text box to write a piece of dialogue or information at the bottom of the screen.
 
@@ -87,63 +145,6 @@ class TextBox:
         box_position = (self.panel.getX() + (self.marginX // 2),
                         (self.panel.getY() + (self.marginY // 2)))
         self.screen.blit(box, box_position)
-
-
-class Panel:
-    """A UI Panel to draw UI features (text boxes, buttons, etc) to.
-
-    A customisable panel class to draw objects onto.
-
-    Attributes:
-        - screen: The screen to draw the panel onto.
-        - width: The width of the panel.
-        - height: The height of the panel.
-        - x: The x-coordinate of the panel's upper-left corner.
-        - y: The y-coordinate of the panel's upper-left corner.
-    """
-
-    def __init__(self, screen, width: int, height: int, x: int, y: int,
-                 colour: str) -> None:
-        """Inits the Panel class
-        """
-        self.screen = screen
-        self._width = width
-        self._height = height
-        self._x = x
-        self._y = y
-
-        self.panel = pygame.Surface((width, height))
-        self.panel.fill(colour)
-
-    def getWidth(self) -> int:
-        """Getter method for the width property
-        """
-        return self._width
-
-    def getHeight(self) -> int:
-        """Getter method for the height property
-        """
-        return self._height
-
-    def getX(self) -> int:
-        """Getter method for the x property.
-        """
-        return self._x
-
-    def getY(self) -> int:
-        """Getter method for the y property.
-        """
-        return self._y
-
-    def draw(self) -> None:
-        """Method to draw the window to a screen.
-        """
-        self.screen.blit(self.panel, (self.getX(), self.getY()))
-
-    def erase(self, colour: str) -> None:
-        """Method to erase the panel.
-        """
-        self.panel.fill(colour)
 
 
 class Button:
