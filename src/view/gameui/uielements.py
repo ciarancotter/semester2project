@@ -13,7 +13,6 @@ Usage:
 """
 
 import pygame
-import sys
 from scene import Scene
 
 
