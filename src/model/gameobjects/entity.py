@@ -36,36 +36,70 @@ class Entity:
         self.yPos = yPos
 
 
-    def setX(self, newX: int):
+    def set_x(self, newX: int):
         """Setter method for the x-coordinate.
         """
         self.xPos = newX
 
-    def setY(self, newY: int):
+    def set_x(self, newY: int):
         """Setter method for the y-coordinate.
         """
         self.yPos = newY
 
-    def getCoordinates(self) -> tuple:
+    def get_x(self):
+        return self.xPos
+    def get_y(self):
+        return self.yPos
+
+    def get_coordinates(self) -> tuple:
         """Getter method for the coordinates property.
         """
         return (self.xPos,self.yPos)
 
-    def getWidth(self) -> int:
+    def get_width(self) -> int:
         """Getter method for the width property.
         """
         return self._width
     
-    def getHeight(self) -> int:
+    def get_height(self) -> int:
         """Getter method for the height property.
         """
         return self._height
 
-    def isCollidingEntity(self) -> bool:
+    def is_colliding_entity(self) -> bool:
         """Getter method for the colliding property.
         """
         return self.colliding
 
+
+    def is_colliding_with_entity(self,entities: list[Entity]) -> bool:
+        """checks if this entity is colliding with anything in the list of 
+        entitys provided.
+        
+        Args:
+            entities: a list of entities to check for collitions with
+
+        Returns: a boolean which is True if there is a collision and False
+                if not
+
+        """
+
+        for entity in entities:
+            # check if one rectangle is to the left of an other
+            if  (entity.x + entity.width < self.xPos )or (self.xPos + self._width < entity.x) :
+                continue
+            # check if one rectangle is on top of an other
+            if  (entity.y + entity.height < self.yPos) or (self.yPos + self._height < entity.y):
+                continue
+            return True
+        return False
+    
+    x = property(get_x,set_x)
+    y = property(get_y,set_y)
+    coordinates = property(get_coordinates)
+    width = property(get_width)
+    height = property(get_height)
+    is_colliding_entity = property(is_colliding_entity)
 
 class Block:
     """An entity platform that sprites can stand on.
