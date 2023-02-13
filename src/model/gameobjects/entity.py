@@ -145,7 +145,7 @@ class Monke(Entity):
     def gravity(self,blocks):
         """if monke let go of tree it fall.
         """
-        if self check_no_hit(blocks):
+        if self.check_no_hit(blocks):
             self.yPos += self._speed
             return True
         return False
