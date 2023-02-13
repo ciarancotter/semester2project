@@ -208,3 +208,7 @@ class Scene:
                 button.setBlue()
             else:
                 button.setBlack()
+
+    def check_play_pressed(self, event):
+        if self.buttons[0].rect.collidepoint(event.pos):
+            self.gamemanager.set_game_state(GameState.in_session)

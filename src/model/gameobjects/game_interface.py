@@ -61,6 +61,11 @@ class PlatformerGame(object):
         self._blocks = level1.get_blocks()
         self._entities = level1.get_blocks()
 
+    def set_game_state(self, new_game_state):
+        """Setter method for game state.
+        """
+        self._gamestate = GameState.in_session
+
     def update_model(self, player_move: Movement):
         self._player.move(player_move, self._blocks)
         if self._player.health <= 0:
@@ -105,7 +110,7 @@ class CtxToRender(object):
 
     def get_game_state(self) -> GameState:
         return self._gamestate
-
+     
     enemies = property(get_enemies)
     player = property(get_player)
     blocks = property(get_blocks)
