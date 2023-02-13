@@ -67,9 +67,9 @@ class Scene:
         self.sprite_sheet = pygame.image.load("src/view/assets/playerSprite.png").convert_alpha()
         # set the starting sprite for the character
         self.current_sprite_index = 0
-        self.character_sprites = [pygame.Surface((game_manager.get_render_ctx.get_player.get_width(),game_manager.get_render_ctx.get_player.get_height()), pygame.SRCALPHA) for i in range(columns * rows)]
         self.columns = 3
         self.rows = 2
+        self.character_sprites = [pygame.Surface((game_manager.get_render_ctx.get_player.get_width(),game_manager.get_render_ctx.get_player.get_height()), pygame.SRCALPHA) for i in range(self.columns * self.rows)]
         #shortcut for player data that we're getting from render_ctx
         self.player_data = self.game_manager.get_render_ctx.get_player
         # set the delay between each frame
