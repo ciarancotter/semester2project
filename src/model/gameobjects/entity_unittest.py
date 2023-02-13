@@ -1,6 +1,4 @@
-import os
-import sys
-import pygame
+
 import unittest
 
 from entity import Player
@@ -11,7 +9,7 @@ from public_enums import Movement
 
 class TestPlayer(unittest.TestCase):
 
-    def test_collide(self):
+    def test_collide(self) -> None:
         """ check that the player. collide is working """
         play = Player(50, 50, 1000, 1000)
         blocks = [Block(Entity(503, 553, 32, 32, True))]
@@ -20,12 +18,12 @@ class TestPlayer(unittest.TestCase):
         collide_test = play.collideTop(blocks)
         self.assertTrue(collide_test, "not correct")
 
-    def test_update(self):
+    def test_update(self) -> None:
         testPlayer = Player(50, 50, 1000, 1000)
         testPlayer.move(Movement.no_movement, [])
         self.assertEqual(testPlayer.yPos, 504, "gravity not working")
 
-    def testPlatform(self):
+    def testPlatform(self) -> None:
         testPlayer = Player(50, 50, 1000, 1000)
         blocks = [Block(Entity(503, 550, 32, 32, True))]
         testPlayer.move(Movement.no_movement, blocks)
@@ -34,7 +32,7 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(testPlayer.yPos, 504,
                          "player has moved through a solid object")
 
-    def testMove(self):
+    def testMove(self) -> None:
         testPlayer = Player(50, 50, 1000, 1000)
         testPlayer.move(Movement.right, [])
         self.assertEqual(testPlayer.xPos, 500 + testPlayer.player_speed,

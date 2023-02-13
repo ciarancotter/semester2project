@@ -15,10 +15,10 @@ class level(object):
     and provides an interface to set and get them
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._blocks = []
 
-    def add_block(self, row, column):
+    def add_block(self, row: int, column: int) -> None:
         """ add a block in a particular 32*32 blockspace
             
             Args:
@@ -34,5 +34,5 @@ class level(object):
             yMapping = column * 32
             self._blocks.append(Block(xMapping, yMapping, 32, 32))
 
-    def get_blocks(self):
+    def get_blocks(self) -> list[Block]:
         return self._blocks

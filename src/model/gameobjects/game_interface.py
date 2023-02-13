@@ -1,6 +1,5 @@
 from model.gameobjects.level import level
-from .entity import *
-import pygame
+from entity import *
 from view.gameui.uielements import Button
 """This is the module that a view would use to interact with a game object to get info about the game state.
 
@@ -17,13 +16,13 @@ for block in ctx.blocks:
 	print(block.coordinates)
 # print the coordinates of all the blocks in the game
 """
-from .public_enums import Movement, GameState
+from public_enums import Movement, GameState
 
 
 class PlatformerGame(object):
     """ The main game class that stores the gamestate."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         # initialise all the objects
         #door to be added
         self._playerwidth = 64
@@ -37,7 +36,7 @@ class PlatformerGame(object):
         self._entities = []
         self._gamestate = GameState.start_menu
 
-    def get_render_ctx(self):
+    def get_render_ctx(self) -> None:
         """Returns the information necicary (or the context/shortend to ctx in this program ) to render
 		the game visualy.
 
@@ -48,7 +47,7 @@ class PlatformerGame(object):
         return CtxToRender(self._enemies, self._player, self._blocks,
                            self._entities, self._gamestate)
 
-    def generate_level(self):
+    def generate_level(self) -> None:
         """
 		a temporary meathod to demonstrate the use of the level class in generating a level
 
@@ -70,7 +69,7 @@ class PlatformerGame(object):
 
 class CtxToRender(object):
 
-    def __init__(self, enemies, player, blocks, entities, game_state):
+    def __init__(self, enemies: list[Enemy], player: Player, blocks: list[Block], entities: list[Entity], game_state: GameState) -> None:
         """contains all the information needed to 
 		display a gamestate to the user.
 
@@ -92,19 +91,19 @@ class CtxToRender(object):
         self._entities = entities
         self._gamestate = game_state
 
-    def get_entities(self):
+    def get_entities(self) -> list[Entity]:
         return self._entities
 
-    def get_player(self):
+    def get_player(self) -> Player:
         return self._player
 
-    def get_blocks(self):
+    def get_blocks(self) -> list[Block]:
         return self._blocks
 
-    def get_enemies(self):
+    def get_enemies(self) -> list[Enemy]:
         return self._enemies
 
-    def get_game_state(self):
+    def get_game_state(self) -> GameState:
         return self._gamestate
 
     enemies = property(get_enemies)

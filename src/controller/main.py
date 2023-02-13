@@ -7,20 +7,6 @@ from model.gameobjects.game_interface import PlatformerGame
 from view.gameui.scene import Scene
 
 
-SCREEN_WIDTH = 1024
-SCREEN_HEIGHT = 768
-'''---------------------------'''
-
-
-# function to open player panel
-def open_player_panel():
-    from ui_modifications_lab import Player
-    # GamePanel.draw()
-    Player()
-
-
-'''---------------------------'''
-
 # key controls
 from pygame.locals import (
     K_LEFT,
@@ -32,7 +18,7 @@ from pygame.locals import (
 )
 
 
-def main():
+def main() -> None:
     # Initialize pygame
     pygame.init()
 
