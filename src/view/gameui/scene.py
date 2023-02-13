@@ -23,9 +23,8 @@ sys.path.append(os.path.abspath("./src"))
 
 from .uielements import Button
 
-from model.gameobjects.game_interface import PlatformerGame, hover_checking
+from model.gameobjects.game_interface import PlatformerGame
 from model.gameobjects.public_enums import GameState, Movement
-from model.gameobjects.entity_unittest import TestPlayer
 
 from model.aiutilities.aiutilities import generate_background
 
