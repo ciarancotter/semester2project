@@ -224,19 +224,19 @@ class Player(Monke):
             self.facing = Movement.left
         #move right
         if direction == Movement.right and self.xPos < self.screen_width - self._width:
-            self.xPos += self._player
+            self.xPos += self._speed
             self.facing = Movement.right
 
         if direction == Movement.jump and (
             (self._jump_baseline - self.yPos < self._jump_height) and
                 not self._jumped):
-            self.yPos -= self._player * 20
+            self.yPos -= self._speed * 20
         elif (self._jump_baseline - self.yPos >= self._jump_height):
             self._jumped = True
 
         if self._jumped == True:
             if self.check_no_hit(entities):
-                self.yPos += self._player
+                self.yPos += self._speed
             else:
                 self._jumped = False
                 self._jump_baseline = self.yPos

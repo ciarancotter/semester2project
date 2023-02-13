@@ -42,7 +42,7 @@ def main() -> None:
                 if event.key == pygame.K_q:
                     running = False
             if event.type == pygame.MOUSEBUTTONUP:
-                gamePanel.check_play_pressed(event)
+                gamepanel.check_play_pressed(event)
 
         # <-- Update calls go here -->
         pressed_keys = pygame.key.get_pressed()
