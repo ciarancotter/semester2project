@@ -10,7 +10,6 @@ Usage:
 import sys 
 import os
 sys.path.append(os.path.abspath("./src"))
-print(sys.path)
 from .public_enums import Movement,GameState
 
 
@@ -118,6 +117,28 @@ class Block:
         super().__init__(self.xPos,self.yPos,width,height,True)
         
 
+class Hominidae(Entity):
+    """ a class that represents a human like entity on the screen
+    """
+    def collideTop(self,blocks) -> bool:
+        """collideTop is an internal method that checks if the Hominidae is on top of a block.
+
+        Args: 
+            blocks: a list of block objects representing the block platforms on the screen 
+            that can be stood on.
+
+        Returns: True if the Hominidae is standing on a platform and False if not.
+
+        """
+        for block in blocks:
+            Hominidae_feet = self.yPos+self._height
+            check_above = not (Hominidae_feet <= block.yPos)
+            check_below = (Hominidae_feet<=block.yPos + block._height)
+            check_left = (not(self.xPos +self._width < block.xPos))
+            check_right = (self.xPos <= block.xPos+block._width)
+            if (check_below and check_above and check_left and check_right):
+                return True
+        return False
 
 class Player(Hominidae):
     """Player is the class that is used to represent the main charicter in the game.
@@ -142,6 +163,7 @@ class Player(Hominidae):
 
     """
     def __init__(self,width: int, height: int, SCREEN_WIDTH : int, SCREEN_HEIGHT : int):
+        super().__init__(self.xPos,self.yPos,width,height,True)
         self.screen_width = SCREEN_WIDTH
         self.screen_height = SCREEN_HEIGHT
         self.facing = Movement.left
@@ -149,7 +171,6 @@ class Player(Hominidae):
         # start in the center of the screen and fall down
         self.xPos = SCREEN_WIDTH/2 
         self.yPos = SCREEN_HEIGHT/2
-        super().__init__(self.xPos,self.yPos,width,height,True)
         self._jump_baseline = self.yPos
         self._jump_height = 50
         self._jumped = True
@@ -196,28 +217,3 @@ class Player(Hominidae):
             self._jump_baseline = self.yPos
             jumped = False
 
-  
-
-
-  class Hominidae(Entity):
-    """ a class that represents a human like entity on the screen
-    """
-    def collideTop(self,blocks) -> bool:
-        """collideTop is an internal method that checks if the Hominidae is on top of a block.
-
-        Args: 
-            blocks: a list of block objects representing the block platforms on the screen 
-            that can be stood on.
-
-        Returns: True if the Hominidae is standing on a platform and False if not.
-
-        """
-        for block in blocks:
-            Hominidae_feet = self.yPos+self._height
-            check_above = not (Hominidae_feet <= block.yPos)
-            check_below = (Hominidae_feet<=block.yPos + block._height)
-            check_left = (not(self.xPos +self._width < block.xPos))
-            check_right = (self.xPos <= block.xPos+block._width)
-            if (check_below and check_above and check_left and check_right):
-                return True
-        return False
