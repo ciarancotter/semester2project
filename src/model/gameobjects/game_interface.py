@@ -1,7 +1,7 @@
-from src.model.gameobjects.level import level
+from model.gameobjects.level import level
 from .entity import *
 import pygame
-from src.view.gameui.uielements import Button
+from view.gameui.uielements import Button
 """This is the module that a view would use to interact with a game object to get info about the game state.
 
 This module contains 2 classes PlatformerGame and CtxToRender. PlatformerGame is the class that contains all
