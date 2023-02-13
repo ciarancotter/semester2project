@@ -13,7 +13,7 @@ Usage:
 """
 
 import pygame
-from .scene import Scene
+
 
 class TextBox:
     """A UI text box to write a piece of dialogue or information at the bottom of the screen.
@@ -30,8 +30,8 @@ class TextBox:
 
     """
 
-    def __init__(self, screen: pygame.screen, marginX: int, marginY: int, font: str,
-                 fontsize: int, panel: Scene) -> None:
+    def __init__(self, screen, marginX: int, marginY: int, font: str,
+                 fontsize: int, panel: Panel) -> None:
         """Inits UITextBox
         """
         self.screen = screen
@@ -102,7 +102,7 @@ class Panel:
         - y: The y-coordinate of the panel's upper-left corner.
     """
 
-    def __init__(self, screen: pygame.screen, width: int, height: int, x: int, y: int,
+    def __init__(self, screen, width: int, height: int, x: int, y: int,
                  colour: str) -> None:
         """Inits the Panel class
         """
