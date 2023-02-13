@@ -120,7 +120,8 @@ class Block:
 class Monke(Entity):
     """ a class that represents a Monke like entity on the screen
     """
-    def __init__(self, xPos:int,yPos:int, width: int, height: int, colliding: bool):
+    def __init__(self, xPos:int,yPos:int, width: int, height: int, colliding: bool,speed:int):
+        self._speed = speed
         super().__init__(self.xPos,self.yPos,width,height,True)
     def collideTop(self,blocks) -> bool:
         """collideTop is an internal method that checks if the Monke is on top of a block.
@@ -141,6 +142,24 @@ class Monke(Entity):
             if (check_below and check_above and check_left and check_right):
                 return True
         return False
+    def gravity(self,blocks):
+        """if monke let go of tree it fall.
+        """
+        if self check_no_hit(blocks):
+            self.yPos += self._speed
+            return True
+        return False
+
+    def check_no_hit(self,blocks):
+        """checks if the Monke has hit the top of the block or the ground.
+
+            Args:
+                blocks: a list of blocks of type Block
+            Returns: True If you have not hit the top of the block or the ground.
+        """  
+        return check_no_hit = (self.yPos < self.screen_height - self._height) and (not (self.collideTop(blocks)))
+
+
 
 class Player(Hominidae):
     """Player is the class that is used to represent the main charicter in the game.
@@ -155,7 +174,7 @@ class Player(Hominidae):
         screen height: the height of the screen being used
         facing: the direction that the charicter is going in used for
                 deciding which sprite to display in the view
-        player_speed: how fast the player moves on the screen
+        _player: how fast the player moves on the screen
         xPos: the x co-ordenate of the player on the game plane
                 that will be displayed on the screen
         yPos: the y co-ordenate of the player on the game plane
@@ -165,11 +184,10 @@ class Player(Hominidae):
 
     """
     def __init__(self,width: int, height: int, SCREEN_WIDTH : int, SCREEN_HEIGHT : int):
-        super().__init__(self.xPos,self.yPos,width,height,True)
+        super().__init__(self.xPos,self.yPos,width,height,True,2)
         self.screen_width = SCREEN_WIDTH
         self.screen_height = SCREEN_HEIGHT
         self.facing = Movement.left
-        self.player_speed = 2
         # start in the center of the screen and fall down
         self.xPos = SCREEN_WIDTH/2 
         self.yPos = SCREEN_HEIGHT/2
@@ -191,31 +209,49 @@ class Player(Hominidae):
         """
         #move left
         if direction == Movement.left and self.xPos >= 0 :
-            self.xPos -= self.player_speed
+            self.xPos -= self._speed
             self.facing = Movement.left
         #move right
         if direction == Movement.right and self.xPos < self.screen_width - self._width :
-            self.xPos += self.player_speed
+            self.xPos += self._player
             self.facing = Movement.right
 
-        check_no_hit = (self.yPos < self.screen_height - self._height) and (not (self.collideTop(blocks)))
 
         if direction == Movement.jump and ((self._jump_baseline - self.yPos < self._jump_height)and not self._jumped):
-            self.yPos -= self.player_speed*20
+            self.yPos -= self._player*20
         elif (self._jump_baseline - self.yPos >= self._jump_height):
             self._jumped = True
 
         if self._jumped == True:
-            if check_no_hit: 
-                self.yPos += self.player_speed
+            if self.check_no_hit(blocks): 
+                self.yPos += self._player
             else:
                 self._jumped = False
                 self._jump_baseline = self.yPos
 
-        #gravity code
-        if check_no_hit:
-            self.yPos += self.player_speed
-        else:
+        if not self.gravity(blocks):
             self._jump_baseline = self.yPos
             jumped = False
+
+
+class Enemy(Monke):
+    """the enemy sprites that travel around the game deal damage to our innocent explorer
+    inheretes from Monke
+    Atributes:
+        dammage: the amount of dammage that this enemy deal.
+
+    """
+    def __init__(self,xPos:int,yPos:int, width: int, height: int, colliding: bool,dammage:int):
+        super().__init__(self.xPos,self.yPos,width,height,True)
+        self._damage = dammage
+    def get_dammage(self):
+        return self._damage
+
+    def move(self,blocks):
+        self.gravity()
+        #TODO: add autonomous movement
+
+    damage = property(get_dammage)
+
+
 
