@@ -7,8 +7,11 @@ Usage:
     test_entity = Entity((20, 20), 30, 30, True)
     object_can_collide = test_entity.isColliding()
 """
-
-from public_enums import Movement,GameState
+import sys 
+import os
+sys.path.append(os.path.abspath("./src"))
+print(sys.path)
+from .public_enums import Movement,GameState
 
 
 class Entity:

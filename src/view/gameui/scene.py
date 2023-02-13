@@ -23,8 +23,7 @@ sys.path.append(os.path.abspath("./src"))
 
 from .uielements import Button
 
-from model.gameobjects.entity_unittest import TestPlayer
-from model.gameobjects.game_interface import PlatformerGame
+from model.gameobjects.game_interface import PlatformerGame, hover_checking
 from model.gameobjects.public_enums import GameState, Movement
 from model.gameobjects.entity_unittest import TestPlayer
 
@@ -46,34 +45,43 @@ class Scene:
         """Inits the Scene class.
         """
         pygame.init()
-        
+
         self.game_manager = game_manager
         self.player = None
         self.background = None
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((1024, 768))
         self.menu_buttons = []
-        
+
         menu_background = pygame.image.load("src/view/assets/menuBG.png").convert_alpha()
-        transformed_menu_background = pygame.transform.scale(background, (1024, 768))
-    
+        self.transformed_menu_background = pygame.transform.scale(menu_background, (1024, 768))
+
         game_background = pygame.image.load("src/view/assets/menuBG.png").convert_alpha()
-        transformed_game_background = pygame.transform.scale(background, (768, 768))
+        self.transformed_game_background = pygame.transform.scale(game_background, (768, 768))
 
         BLACK = (0, 0, 0)
         BLUE = (104, 119, 225)
 
-    def drawBackground(gamestate):
+    def drawBackground(self, game_state):
         """Draws the background depending on the current state of the game.
         """
 
-        if gamestate == GameState.start_menu:
-            self.background = transformed_menu_background
+        if game_state == GameState.start_menu:
+            self.background = self.transformed_menu_background
 
-        elif gamestate == GameState.in_session:
-            self.background = transformed_game_background
+        elif game_state == GameState.in_session:
+            self.background = self.transformed_game_background
 
-        screen.blit(self.background, (0, 0))
+        self.screen.blit(self.background, (0, 0))
+
+    def drawLogo(self):
+        """Draws the logo
+        """
+        logo_base = pygame.image.load("src/view/assets/logo.png")
+        logo = pygame.transform.scale(logo_base, (800, 150))
+        logo_rect = logo.get_rect()
+        logo_rect.center = (512, 150)
+        self.screen.blit(logo, logo_rect)
 
     def initialiseGameScene(self):
         """Run once when the game is created. Generates the AI data.
@@ -81,26 +89,30 @@ class Scene:
 
         pygame.display.set_caption("Boole Raider")
         generate_background("ancient Egypt")
-        drawBackground(GameState.in_session)
+        self.drawBackground(GameState.in_session)
 
     def initialiseMenuScene(self):
-        
+        """Initialises elements for the menu scene.
+        """
         pygame.display.set_caption("Main Menu")
-        logo_base = pygame.image.load("src/view/assets/logo.png")
-        logo = pygame.transform.scale(logo_base, (800, 150))
-        logo_rect = logo.get_rect()
-        logo_rect.center = (512, 150)
 
         play_button = Button("PLAY", (512, 330))
         leaderboard_button = Button("LEADERBOARD", (512, 430))
         help_button = Button("HELP", (512, 530))
         about_button = Button("ABOUT", (512, 630))
 
-        self.buttons.append(play_button)
-        self.buttons.append(leaderboard_button)
-        self.buttons.append(help_button)
-        self.buttons.append(about_button)
-    
+        self.menu_buttons.append(play_button)
+        self.menu_buttons.append(leaderboard_button)
+        self.menu_buttons.append(help_button)
+        self.menu_buttons.append(about_button)
+
+        # Draw buttons
+        for button in self.menu_buttons:
+            self.screen.blit(button.renderer, button.rect)
+
+        # Draw logo
+        self.drawLogo()
+
     def updateScene(self):
         """Updates the current scene.
 
@@ -108,69 +120,24 @@ class Scene:
         the game itself. The result of this check determines what will be rendered
         in the scene
         """
-        
+
         # Fetches the current game state
         current_scene = self.game_manager.get_render_ctx
         # Decides what to draw
         if current_scene.game_state == GameState.in_session:
-            drawBackground(GameState.in_session)
+            self.drawBackground(GameState.in_session)
+            # Draw the players and enemies! @Shaza
 
         elif current_scene.game_state == GameState.start_menu:
-            
-            drawBackground(GameState.start_menu)
-            self.screen.blit(logo, logo_rect)
+            self.drawBackground(GameState.start_menu)
+            self.drawLogo()
 
-            after_play = TestPlayer() # This probably needs to be updated!
-
-
-        # The below code is useless. Since the loop is in game_interface.py,
-        # we can't check for events here! Button hovering has to be checked for in 
-        # game_interface as it's a controller action.
-
-        if event.type == pygame.MOUSEBUTTONUP and play_rect.collidepoint(event.pos):
-                after_play.run_after_play_button()
-                
-                mouse_pos = pygame.mouse.get_pos()
-
-                if play_rect.collidepoint(mouse_pos):
-                    play_button = font.render("PLAY", True, BLUE)
-                    pygame.mouse.set_cursor(*pygame.cursors.diamond)
-                else:
-                    play_button = font.render("PLAY", True, BLACK)
-                    pygame.mouse.set_cursor(*pygame.cursors.arrow)
-
-
-                # Check if mouse is hovering over buttons and effect
-                if play_rect.collidepoint(mouse_pos):
-                    play_button = font.render("PLAY", True, BLUE)
-                else:
-                    play_button = font.render("PLAY", True, BLACK)
-
-                if leaderboard_rect.collidepoint(mouse_pos):
-                    leaderboard_button = font.render("LEADERBOARD", True, BLUE)
-                else:
-                    leaderboard_button = font.render("LEADERBOARD", True, BLACK)
-
-                if help_rect.collidepoint(mouse_pos):
-                    help_button = font.render("HELP", True, BLUE)
-                else:
-                    help_button = font.render("HELP", True, BLACK)
-
-                if about_rect.collidepoint(mouse_pos):
-                    about_button = font.render("ABOUT", True, BLUE)
-                else:
-                    about_button = font.render("ABOUT", True, BLACK)
-
-                # Draw buttons
-                screen.blit(play_button, play_rect)
-                screen.blit(leaderboard_button, leaderboard_rect)
-                screen.blit(help_button, help_rect)
-                screen.blit(about_button, about_rect)
-
-                pygame.display.update()
-
-                pygame.quit()
-                sys.exit()
-
-        else:
-            print("Invalid gamestate!")
+    def checking_hover(self, mouse_pos: tuple):
+        """check for hovering over the buttons in menue
+            This method checks whether the mouse over any buttons start menu which is an array,
+             Attributes:
+                 menu_buttons: an array of menu buttons
+            """
+        for button in self.menu_buttons:
+            if button.rect.collidepoint(mouse_pos):
+                button.setBlue()
