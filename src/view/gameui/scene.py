@@ -126,6 +126,7 @@ class Scene:
         # Decides what to draw
         if current_scene.game_state == GameState.in_session:
             self.drawBackground(GameState.in_session)
+            # Draw the players and enemies! @Shaza
 
         elif current_scene.game_state == GameState.start_menu:
             self.drawBackground(GameState.start_menu)
