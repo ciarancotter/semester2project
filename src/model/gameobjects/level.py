@@ -1,4 +1,3 @@
-import pygame
 from model.gameobjects.entity import Block
 """This file contains the code that controls the levels layout.
 

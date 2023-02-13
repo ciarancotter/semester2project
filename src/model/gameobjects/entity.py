@@ -11,7 +11,7 @@ import sys
 import os
 
 sys.path.append(os.path.abspath("./src"))
-from .public_enums import Movement, GameState
+from .public_enums import Movement
 
 
 class Entity:
