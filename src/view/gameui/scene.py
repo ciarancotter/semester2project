@@ -24,12 +24,11 @@ sys.path.append(os.path.abspath("./src"))
 from .uielements import Button
 
 from model.gameobjects.entity_unittest import TestPlayer
-from model.gameobjects.game_interface import PlatformerGame
+from model.gameobjects.game_interface import PlatformerGame, hover_checking
 from model.gameobjects.public_enums import GameState, Movement
 from model.gameobjects.entity_unittest import TestPlayer
 
 from model.aiutilities.aiutilities import generate_background
-
 
 class Scene:
     """A class representing the elements that should be rendered in a Pygame window.
@@ -96,11 +95,14 @@ class Scene:
         help_button = Button("HELP", (512, 530))
         about_button = Button("ABOUT", (512, 630))
 
-        self.buttons.append(play_button)
-        self.buttons.append(leaderboard_button)
-        self.buttons.append(help_button)
-        self.buttons.append(about_button)
-    
+        self.menu_buttons.append(play_button)
+        self.menu_buttons.append(leaderboard_button)
+        self.menu_buttons.append(help_button)
+        self.menu_buttons.append(about_button)
+        # Draw buttons
+        for button in self.menu_buttons:
+            self.screen.blit(button.renderer, button.rect)
+
     def updateScene(self):
         """Updates the current scene.
 
@@ -122,55 +124,21 @@ class Scene:
 
             after_play = TestPlayer() # This probably needs to be updated!
 
+        
 
-        # The below code is useless. Since the loop is in game_interface.py,
-        # we can't check for events here! Button hovering has to be checked for in 
-        # game_interface as it's a controller action.
-
-        if event.type == pygame.MOUSEBUTTONUP and play_rect.collidepoint(event.pos):
-                after_play.run_after_play_button()
-                
-                mouse_pos = pygame.mouse.get_pos()
-
-                if play_rect.collidepoint(mouse_pos):
-                    play_button = font.render("PLAY", True, BLUE)
-                    pygame.mouse.set_cursor(*pygame.cursors.diamond)
-                else:
-                    play_button = font.render("PLAY", True, BLACK)
-                    pygame.mouse.set_cursor(*pygame.cursors.arrow)
+    def checking_hover(self):
+        """check for hovering over the buttons in menue
+            This method checks whether the mouse over any buttons start menu which is an array,
+             Attributes:
+                 menu_buttons: an array of menu buttons
+            """
+        mouse_pos = pygame.mouse.get_pos()
+        for button in self.menu_buttons:
+            if button.rect.collidepoint(mouse_pos):
+                button.setBlue()
 
 
-                # Check if mouse is hovering over buttons and effect
-                if play_rect.collidepoint(mouse_pos):
-                    play_button = font.render("PLAY", True, BLUE)
-                else:
-                    play_button = font.render("PLAY", True, BLACK)
 
-                if leaderboard_rect.collidepoint(mouse_pos):
-                    leaderboard_button = font.render("LEADERBOARD", True, BLUE)
-                else:
-                    leaderboard_button = font.render("LEADERBOARD", True, BLACK)
+ 
 
-                if help_rect.collidepoint(mouse_pos):
-                    help_button = font.render("HELP", True, BLUE)
-                else:
-                    help_button = font.render("HELP", True, BLACK)
 
-                if about_rect.collidepoint(mouse_pos):
-                    about_button = font.render("ABOUT", True, BLUE)
-                else:
-                    about_button = font.render("ABOUT", True, BLACK)
-
-                # Draw buttons
-                screen.blit(play_button, play_rect)
-                screen.blit(leaderboard_button, leaderboard_rect)
-                screen.blit(help_button, help_rect)
-                screen.blit(about_button, about_rect)
-
-                pygame.display.update()
-
-                pygame.quit()
-                sys.exit()
-
-        else:
-            print("Invalid gamestate!")

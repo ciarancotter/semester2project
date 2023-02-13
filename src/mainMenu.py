@@ -1,8 +1,5 @@
 import pygame
 import sys
-import os
-sys.path.append(os.path.abspath("./src"))
-from model.gameobjects.entity_unittest import TestPlayer
 
 # Initialize pygame
 pygame.init()
@@ -39,8 +36,11 @@ screen.blit(background, (0, 0))
 screen.blit(logo, logo_rect)
 
 # Define buttons
+#self.renderer
 play_button = font.render("PLAY", True, BLACK)
+#self.rect
 play_rect = play_button.get_rect()
+#self.rect.center
 play_rect.center = (512, 330)
 
 leaderboard_button = font.render("LEADERBOARD", True, BLACK)
@@ -56,16 +56,15 @@ about_rect = about_button.get_rect()
 about_rect.center = (512, 630)
 
 
-after_play = TestPlayer()
-
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         # Check if play button is clicked
-        if event.type == pygame.MOUSEBUTTONUP and play_rect.collidepoint(event.pos):
-            after_play.run_after_play_button()
+        #if event.type == pygame.MOUSEBUTTONUP and play_rect.collidepoint(event.pos):
+           
+           
     mouse_pos = pygame.mouse.get_pos()
 
     if play_rect.collidepoint(mouse_pos):

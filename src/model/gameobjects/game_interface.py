@@ -1,4 +1,6 @@
 from .entity import *
+import pygame
+from src.view.gameui.uielements import Button
 """This is the module that a view would use to interact with a game object to get info about the game state.
 
 This module contains 2 classes PlatformerGame and CtxToRender. PlatformerGame is the class that contains all
@@ -88,7 +90,7 @@ class CtxToRender(object):
 	def get_enemies(self):
 		return self._enemies
 	def get_game_state(self):
-		return self.game_state
+		return self._gamestate
 
 	enemies = property(get_enemies)
 	player = property(get_player)
@@ -96,4 +98,8 @@ class CtxToRender(object):
 	entities = property(get_entities)
 	game_state = property(get_game_state)
 	
+
+
+			
+			
 
