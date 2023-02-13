@@ -196,7 +196,6 @@ class Player(Monke):
 
     def __init__(self, width: int, height: int, SCREEN_WIDTH: int,
                  SCREEN_HEIGHT: int):
-        super().__init__(self.xPos, self.yPos, width, height, True, 2)
         self.screen_width = SCREEN_WIDTH
         self.screen_height = SCREEN_HEIGHT
         self.facing = Movement.left
@@ -207,6 +206,7 @@ class Player(Monke):
         self._jump_height = 50
         self._jumped = True
         self._health = 10
+        super().__init__(self.xPos, self.yPos, width, height, True, 2)
 
     def move(self, direction: Movement, entities):
         """this method is called to change the state of the player.
