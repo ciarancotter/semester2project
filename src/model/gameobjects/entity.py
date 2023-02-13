@@ -38,7 +38,7 @@ class Entity:
         """
         self.xPos = newX
 
-    def set_x(self, newY: int):
+    def set_y(self, newY: int):
         """Setter method for the y-coordinate.
         """
         self.yPos = newY
@@ -69,7 +69,7 @@ class Entity:
         return self.colliding
 
 
-    def is_colliding_with_entity(self,entities: list[Entity]) -> bool:
+    def is_colliding_with_entity(self,entities: list) -> bool:
         """checks if this entity is colliding with anything in the list of 
         entitys provided.
         
@@ -116,7 +116,7 @@ class Block:
         
 
 
-class Player(Entity):
+class Player(Hominidae):
     """Player is the class that is used to represent the main charicter in the game.
 
     this class stores the information about the player that is independent from the
@@ -193,20 +193,26 @@ class Player(Entity):
             self._jump_baseline = self.yPos
             jumped = False
 
+  
+
+
+  class Hominidae(Entity):
+    """ a class that represents a human like entity on the screen
+    """
     def collideTop(self,blocks) -> bool:
-        """collideTop is an internal method that checks if the player is on top of a block.
+        """collideTop is an internal method that checks if the Hominidae is on top of a block.
 
         Args: 
             blocks: a list of block objects representing the block platforms on the screen 
             that can be stood on.
 
-        Returns: True if the player is standing on a platform and False if not.
+        Returns: True if the Hominidae is standing on a platform and False if not.
 
         """
         for block in blocks:
-            player_feet = self.yPos+self._height
-            check_above = not (player_feet <= block.yPos)
-            check_below = (player_feet<=block.yPos + block._height)
+            Hominidae_feet = self.yPos+self._height
+            check_above = not (Hominidae_feet <= block.yPos)
+            check_below = (Hominidae_feet<=block.yPos + block._height)
             check_left = (not(self.xPos +self._width < block.xPos))
             check_right = (self.xPos <= block.xPos+block._width)
             if (check_below and check_above and check_left and check_right):

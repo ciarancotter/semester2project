@@ -38,8 +38,8 @@ class TestPlayer(unittest.TestCase):
         testPlayer.move(Movement.right,[])
         self.assertEqual(testPlayer.xPos,500 + testPlayer.player_speed, "movement not working")
 
-    def run_after_play_button():
-        """sys.path.append(os.path.abspath("./src"))
+    """def run_after_play_button():
+        sys.path.append(os.path.abspath("./src"))
         from .entity import *
         from view.imag import imag
         from .game_interface import Movement
@@ -50,7 +50,7 @@ class TestPlayer(unittest.TestCase):
             KEYDOWN,
             K_SPACE,
             QUIT,
-        )"""
+        )
         # Initialize pygame
         pygame.init()
 
@@ -62,10 +62,8 @@ class TestPlayer(unittest.TestCase):
 
         # Main loop
         while running:
-            """
             the game run while state of running is true,
             game can be stopped if user Quit using the exit buttom or exit through the Escape key
-            """
             clock.tick(60)
 
             for event in pygame.event.get():
@@ -96,3 +94,5 @@ class TestPlayer(unittest.TestCase):
             screen.create_screen()
 
             screen.update_xy(player)
+            """
+
