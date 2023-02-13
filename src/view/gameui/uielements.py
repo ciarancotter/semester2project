@@ -13,6 +13,7 @@ Usage:
 """
 
 import pygame
+from .scene import Scene
 
 class TextBox:
     """A UI text box to write a piece of dialogue or information at the bottom of the screen.
