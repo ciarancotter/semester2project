@@ -1,3 +1,4 @@
+from src.model.gameobjects.level import level
 from .entity import *
 import pygame
 from src.view.gameui.uielements import Button
