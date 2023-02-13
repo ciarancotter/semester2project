@@ -14,3 +14,4 @@ class GameState(enum.Enum):
     leaderboard = 3
     about = 4
     help_screen = 5
+    game_over = 6

@@ -63,6 +63,8 @@ class PlatformerGame(object):
 
     def update_model(self, player_move: Movement):
         self._player.move(player_move, self._blocks)
+        if self._player.health <= 0:
+            self.game_state = GameState.game_over
 
 
 class CtxToRender(object):

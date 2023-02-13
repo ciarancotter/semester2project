@@ -131,7 +131,7 @@ class Monke(Entity):
         self._speed = speed
         super().__init__(self.xPos, self.yPos, width, height, True)
 
-    def collideTop(self, blocks) -> bool:
+    def collideTop(self, entities) -> bool:
         """collideTop is an internal method that checks if the Monke is on top of a block.
 
         Args: 
@@ -141,20 +141,21 @@ class Monke(Entity):
         Returns: True if the Monke is standing on a platform and False if not.
 
         """
-        for block in blocks:
-            monke_feet = self.yPos + self._height
-            check_above = not (monke_feet <= block.yPos)
-            check_below = (monke_feet <= block.yPos + block._height)
-            check_left = (not (self.xPos + self._width < block.xPos))
-            check_right = (self.xPos <= block.xPos + block._width)
+        for entity in entities:
+            if isinstance(entity, Block):
+                monke_feet = self.yPos + self._height
+                check_above = not (monke_feet <= entity.yPos)
+                check_below = (monke_feet <= entity.yPos + entity._height)
+                check_left = (not (self.xPos + self._width < block.xPos))
+                check_right = (self.xPos <= entity.xPos + entity._width)
             if (check_below and check_above and check_left and check_right):
                 return True
         return False
 
-    def gravity(self, blocks):
+    def gravity(self, entities):
         """if monke let go of tree it fall.
         """
-        if self.check_no_hit(blocks):
+        if self.check_no_hit(entities):
             self.yPos += self._speed
             return True
         return False
@@ -205,8 +206,9 @@ class Player(Hominidae):
         self._jump_baseline = self.yPos
         self._jump_height = 50
         self._jumped = True
+        self._health = 10
 
-    def move(self, direction: Movement, blocks):
+    def move(self, direction: Movement, entities):
         """this method is called to change the state of the player.
 
         this method is called to change the state of the player and does not have to 
@@ -234,15 +236,26 @@ class Player(Hominidae):
             self._jumped = True
 
         if self._jumped == True:
-            if self.check_no_hit(blocks):
+            if self.check_no_hit(entities):
                 self.yPos += self._player
             else:
                 self._jumped = False
                 self._jump_baseline = self.yPos
 
-        if not self.gravity(blocks):
+        if not self.gravity(entities):
             self._jump_baseline = self.yPos
             jumped = False
+        self.calculate_damage(entities)
+
+    def calculate_damage(self, entities):
+        for entity in entities:
+            if isinstance(entity, Enemy) and (self.is_colliding_entity(entity)):
+                self._health -= entity._damage
+
+    def get_health(self):
+        return self._health
+
+    health = property(get_health)
 
 
 class Enemy(Monke):
@@ -261,8 +274,8 @@ class Enemy(Monke):
     def get_dammage(self):
         return self._damage
 
-    def move(self, blocks):
-        self.gravity()
+    def move(self, entities):
+        self.gravity(entities)
         #TODO: add autonomous movement
 
     damage = property(get_dammage)
