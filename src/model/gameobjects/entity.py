@@ -171,7 +171,7 @@ class Monke(Entity):
             not (self.collideTop(blocks)))
 
 
-class Player(Hominidae):
+class Player(Monke):
     """Player is the class that is used to represent the main charicter in the game.
 
     this class stores the information about the player that is independent from the
