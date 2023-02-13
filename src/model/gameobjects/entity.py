@@ -266,8 +266,7 @@ class Enemy(Monke):
 
     """
 
-    def __init__(self, xPos: int, yPos: int, width: int, height: int,
-                 colliding: bool, dammage: int):
+    def __init__(self, xPos: int, yPos: int, width: int, height: int,colliding: bool, dammage: int):
         super().__init__(self.xPos, self.yPos, width, height, True)
         self._damage = dammage
 
