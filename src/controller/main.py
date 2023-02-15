@@ -54,13 +54,10 @@ def main() -> None:
         
         if keys_pressed[K_LEFT]:
             gamemanager.update_model(Movement.left)
-            print("left")
         if keys_pressed[K_RIGHT]:
             gamemanager.update_model(Movement.right)
-            print("right")
         if keys_pressed[K_SPACE]:
             gamemanager.update_model(Movement.jump)
-            print("jump")
         else:
             gamemanager.update_model(Movement.no_movement)
 
