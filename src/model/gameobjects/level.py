@@ -28,10 +28,10 @@ class level(object):
                     a number between 0 and 31 defining which blockspace across from the
                     side you wish to place your block.
         """
-        if ((0 <= row <= 31) and (0 <= column <= 31)):
-            xMapping = row * 32
-            yMapping = column * 32
-            self._blocks.append(Block(xMapping, yMapping, 32, 32))
+        if ((0 <= row <= 27) and (0 <= column <= 27)):
+            xMapping = row * 28
+            yMapping = column * 28
+            self._blocks.append(Block(xMapping, yMapping, 28, 28))
 
     def get_blocks(self) -> list[Block]:
         return self._blocks

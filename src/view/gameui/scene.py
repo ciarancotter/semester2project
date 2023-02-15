@@ -107,10 +107,10 @@ class Scene:
     
     def initialiseGameUIElements(self):
         
-        self.mainGamePanel = Panel(self.screen, 768, 512, 0, 0, "black")
+        self.mainGamePanel = Panel(self.screen, 784, 512, 0, 0, "black")
         self.mainGamePanel.draw()
 
-        self.gameUIPanel = Panel(self.screen, 512, 768, 768, 0, "orange")
+        self.gameUIPanel = Panel(self.screen, 496, 768, 784, 0, "orange")
         self.gameUIPanel.draw()
 
         self.textbox = TextBox(self.screen, 40, 25, "monospace", 16, self.gameUIPanel)
@@ -132,7 +132,7 @@ class Scene:
         generate_background("ancient Egypt")
         self.screen.fill("gold")
         game_background = pygame.image.load("src/view/assets/gamebg.png").convert_alpha()
-        self.transformed_game_background = pygame.transform.scale(game_background, (768, 768))
+        self.transformed_game_background = pygame.transform.scale(game_background, (784, 768))
         self.game_manager.set_game_state(GameState.in_session)
         self.drawBackground(GameState.in_session)
 

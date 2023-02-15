@@ -106,7 +106,7 @@ class TextBox:
             text: The text to write in the box.
         """
 
-        screen_width = 512
+        screen_width = 496
         screen_height = 768
         box_width = screen_width // 4
         box = pygame.Surface((box_width, screen_height))
