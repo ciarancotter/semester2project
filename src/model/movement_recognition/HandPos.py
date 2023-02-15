@@ -3,7 +3,7 @@ from pykinect2 import PyKinectV2
 from pykinect2 import PyKinectRuntime
 
 
-class handpos(object):
+class HandPos(object):
     """The handpos Class is used to where the right hand is in frame.
     You need to call this class again once instanciated to update the data.
 
@@ -18,7 +18,7 @@ class handpos(object):
         updates the read according to where the right hand is in frame.
     """
 
-    def __init__(self, height: int, width: int):
+    def __init__(self, height: int, width: int, downscaler:int):
         """Creates the handpos object
         
         Args:
@@ -26,7 +26,10 @@ class handpos(object):
             the range to scale the y between 0 and height.
           width (int):
             the range to scale the x between 0 and width.
+          downscaler (int):
+            The depth frame downscale value
         """
+        self._downscaler = downscaler
         self.x = 0
         self.y = 0
         self._height = height
