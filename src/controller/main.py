@@ -38,15 +38,14 @@ def main() -> None:
         clock.tick(60)
         # exit the game in emergency
         for event in pygame.event.get():
-            match event.type:
-                case pygame.QUIT:  # If user clicked close
+            if event.type == pygame.QUIT:  # If user clicked close
                     running = False
-                case pygame.KEYDOWN:  # If user hit the q key
-                    match event.key:
-                        case pygame.K_q:
-                            running = False
-                case pygame.MOUSEBUTTONUP:
-                    gamepanel.check_play_pressed(event)
+            if event.type == pygame.KEYDOWN: # If user hit the q key
+                if event.key == pygame.K_q:
+                    running = False
+            #check if play button is clicked in the main menu
+            if event.type == pygame.MOUSEBUTTONUP:
+                gamepanel.check_play_pressed(event)
 
 
         # player movement 
