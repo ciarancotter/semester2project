@@ -57,6 +57,8 @@ class Scene:
 
         self.textbox = None
         self.healthbar = None
+        self.gameUIPanel = None
+        self.mainGamePanel = None
 
         menu_background = pygame.image.load("src/view/assets/menuBG.png").convert_alpha()
         self.transformed_menu_background = pygame.transform.scale(menu_background, (1280, 768))
@@ -104,6 +106,9 @@ class Scene:
         self.screen.blit(logo, logo_rect)
     
     def initialiseGameUIElements(self):
+        
+        self.mainGamePanel = Panel(self.screen, 768, 512, 0, 0, "black")
+        self.mainGamePanel.draw()
 
         self.gameUIPanel = Panel(self.screen, 512, 768, 768, 0, "orange")
         self.gameUIPanel.draw()
@@ -111,9 +116,10 @@ class Scene:
         self.textbox = TextBox(self.screen, 40, 25, "monospace", 16, self.gameUIPanel)
         self.textbox.draw("Monke")
 
-        self.healthbar = HealthBar(self.screen, self.gameUIPanel, 100)
+        self.healthbar = HealthBar(self.screen, self.mainGamePanel, 100)
         self.healthbar.drawMaxHealth()
         self.healthbar.drawCurrentHealth()
+        print("Should have drawn the health bar")
 
     def updateGameUIElements(self):
         self.healthbar.drawMaxHealth()
@@ -170,6 +176,7 @@ class Scene:
             for i in range(self.rows):
                 for j in range(self.columns):
                     self.drawBackground(GameState.in_session)
+                    self.updateGameUIElements()
                     self.character_sprites[i * self.columns + j].blit(self.sprite_sheet, (0, 0), (
                     j * self.player_data.width, i * self.player_data.height, self.player_data.width,
                     self.player_data.height))
@@ -208,11 +215,13 @@ class Scene:
             if self.direction == "right":
                 if self.current_sprite_index < self.columns:
                     self.drawBackground(GameState.in_session)
+                    self.updateGameUIElements()
                     self.screen.blit(self.character_sprites[self.current_sprite_index],
                                      (self.player_data.xPos, self.player_data.yPos))
             else:
                 if self.current_sprite_index >= self.columns:
                     self.drawBackground(GameState.in_session)
+                    self.updateGameUIElements()
                     self.screen.blit(self.character_sprites[self.current_sprite_index],
                                      (self.player_data.xPos, self.player_data.yPos))
 
