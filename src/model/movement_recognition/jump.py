@@ -30,7 +30,8 @@ class Jump(object):
         self.read = False
         self.magnitude = 0
 
-    def __call__(self, body: PyKinectRuntime.KinectBody, depth:ndarray, joint_points:ndarray) -> None:
+    def __call__(self, body: PyKinectRuntime.KinectBody, depth: ndarray,
+                 joint_points: ndarray) -> None:
         """Calling Jump with these perameters updates the read according to whether or not the body is jumping or not.
 
         Args:
@@ -56,7 +57,8 @@ class Jump(object):
 
         # a=0.9 == fast react      a=0.1 == slow react
         max_change_per_itteration = 0.4  # change per itteration
-        delt = max_change_per_itteration * posy + (1 -  max_change_per_itteration) * self._olddelt
+        delt = max_change_per_itteration * posy + (
+            1 - max_change_per_itteration) * self._olddelt
 
         move = round(delt - self._olddelt, 3)
         self._olddelt = delt
@@ -87,4 +89,3 @@ class Jump(object):
             the new speed threashold needed to be reached to allow a jump to be recognised.
         """
         self._speed_threshhold = x
-        

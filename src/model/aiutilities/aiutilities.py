@@ -1,18 +1,20 @@
 """Utilities to interact with OpenAI's models.
 
 This includes the generation of text via GPT-3, and the generation of images using DALLE.
-
+The background is saved to view/assets as "gamebg.png".
 Usage:
 
 configure_openai()
 generate_monolith("tragic", "Roman")
+generate_background("jungle")
 """
 
 import os
 import openai
+import requests
 
 
-def configure_openai():
+def configure_openai() -> None:
     """Configures the OpenAI module with the API key from environment variables.
     """
     openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -64,3 +66,22 @@ def generate_monolith(emotion: str, theme: str) -> list:
         print("OpenAI Error: " + str(e))
 
     return narration
+
+
+def generate_background(theme: str) -> None:
+    """Generates a PNG file to be used as the game's background.
+
+        Args:
+          theme:
+            The theme of the background.
+        """
+    prompt_template = theme + "style caves in a dungeon, clean looking pixel art, detailed, vibrant"
+    response = openai.Image.create(
+        prompt=prompt_template,
+        n=1,
+        size="512x512",
+    )
+    image_url = response["data"][0]["url"]
+    img_data = requests.get(image_url).content
+    with open('./src/view/assets/gamebg.png', 'wb') as handler:
+        handler.write(img_data)
