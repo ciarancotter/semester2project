@@ -52,18 +52,16 @@ class Scene:
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((1024, 768))
         self.menu_buttons = []
+        self.loadedGame = False
 
         menu_background = pygame.image.load("src/view/assets/menuBG.png").convert_alpha()
         self.transformed_menu_background = pygame.transform.scale(menu_background, (1024, 768))
 
-        game_background = pygame.image.load("src/view/assets/menuBG.png").convert_alpha()
-        self.transformed_game_background = pygame.transform.scale(game_background, (768, 768))
-
+        self.transformed_game_background = None
         BLACK = (0, 0, 0)
         BLUE = (104, 119, 225)
 
-        #following variables is to be used for drawing player 
-
+        # following variables is to be used for drawing player
 
         self.sprite_sheet = pygame.image.load("src/view/assets/playerSprite.png").convert_alpha()
         # set the starting sprite for the character
@@ -73,13 +71,12 @@ class Scene:
         self.context = game_manager.get_render_ctx()
         size = (self.context.player.width, self.context.player.height)
         self.character_sprites = [pygame.Surface(size, pygame.SRCALPHA) for i in range(self.columns * self.rows)]
-        #shortcut for player data that we're getting from render_ctx
+        # shortcut for player data that we're getting from render_ctx
         self.player_data = self.context.player
         # set the delay between each frame
         self.frame_delay = 5
         self.frame_count = 0
         self.direction = "right"
-
 
     def drawBackground(self, game_state):
         """Draws the background depending on the current state of the game.
@@ -105,10 +102,8 @@ class Scene:
     def initialiseGameScene(self):
         """Run once when the game is created. Generates the AI data.
         """
-
         pygame.display.set_caption("Boole Raider")
         generate_background("ancient Egypt")
-        self.drawBackground(GameState.in_session)
 
     def initialiseMenuScene(self):
         """Initialises elements for the menu scene.
@@ -143,61 +138,67 @@ class Scene:
         # Decides what to draw
         if current_scene.game_state == GameState.in_session:
             self.drawBackground(GameState.in_session)
-            # Draw the players and enemies! @Shaza
+
             player_data = self.game_manager.get_render_ctx().player
             for i in range(self.rows):
                 for j in range(self.columns):
                     self.drawBackground(GameState.in_session)
-                    self.character_sprites[i * self.columns + j].blit(self.sprite_sheet, (0, 0), (j * self.player_data.width, i * self.player_data.height, self.player_data.width, self.player_data.height))
+                    self.character_sprites[i * self.columns + j].blit(self.sprite_sheet, (0, 0), (
+                    j * self.player_data.width, i * self.player_data.height, self.player_data.width,
+                    self.player_data.height))
 
             # move the character to the right if the right key is pressed
             if self.player_data.facing == Movement.right:
-                #self.player_data.move(self.player_data.facing,[])
+                # x += 1
+                self.player_data.move(self.player_data.facing, [])
                 self.direction = "right"
                 self.frame_count += 1
                 if self.frame_count == self.frame_delay:
                     self.current_sprite_index = (self.current_sprite_index + 1) % self.columns
                     self.frame_count = 0
-            
+
             # move the character to the left if the left key is pressed
 
             if self.player_data.facing == Movement.left:
-                #self.player_data.move(self.player_data.facing,[])
+                # x += 1
+                self.player_data.move(self.player_data.facing, [])
                 self.direction = "left"
                 self.frame_count += 1
                 if self.frame_count == self.frame_delay:
                     self.current_sprite_index = self.columns + (self.current_sprite_index + 2) % self.columns
                     self.frame_count = 0
-                    
+
             # move the character to the up if the space key is pressed
 
             if self.player_data.facing == Movement.jump:
-                #self.player_data.move(self.player_data.facing,[])
+                self.player_data.move(self.player_data.facing, [])
                 self.direction = "jump"
                 self.frame_count += 1
                 if self.frame_count == self.frame_delay:
-                    self.current_sprite_index = self.current_sprite_index 
+                    self.current_sprite_index = self.current_sprite_index
                     self.frame_count = 0
-            
-            #TODO punch picture and code 
+
+            # punch picture and code
 
             # update the current sprite based on the direction of the character
             if self.direction == "right":
                 if self.current_sprite_index < self.columns:
                     self.drawBackground(GameState.in_session)
-                    self.screen.blit(self.character_sprites[self.current_sprite_index], (self.player_data.xPos, self.player_data.yPos))
+                    self.screen.blit(self.character_sprites[self.current_sprite_index],
+                                     (self.player_data.xPos, self.player_data.yPos))
             else:
                 if self.current_sprite_index >= self.columns:
                     self.drawBackground(GameState.in_session)
-                    self.screen.blit(self.character_sprites[self.current_sprite_index], (self.player_data.xPos, self.player_data.yPos))
+                    self.screen.blit(self.character_sprites[self.current_sprite_index],
+                                     (self.player_data.xPos, self.player_data.yPos))
 
 
         elif current_scene.game_state == GameState.start_menu:
             self.drawBackground(current_scene.game_state)
             self.drawLogo()
-            self.drawButtons()            
+            self.drawButtons()
 
-    def checking_hover(self, mouse_pos:tuple):
+    def checking_hover(self, mouse_pos: tuple):
         """check for hovering over the buttons in menue
             This method checks whether the mouse over any buttons start menu which is an array,
              Attributes:
@@ -211,4 +212,11 @@ class Scene:
 
     def check_play_pressed(self, event):
         if self.menu_buttons[0].rect.collidepoint(event.pos):
-            self.game_manager.set_game_state(GameState.in_session)
+            if not self.loadedGame:
+                self.screen.fill("gold")
+                self.initialiseGameScene()
+                game_background = pygame.image.load("src/view/assets/gamebg.png").convert_alpha()
+                self.transformed_game_background = pygame.transform.scale(game_background, (768, 768))
+                self.game_manager.set_game_state(GameState.in_session)
+                self.drawBackground(GameState.in_session)
+
