@@ -98,7 +98,7 @@ class RaiseLeftLeg(object):
         self._angle_threshhold = x
 
 
-class RaiseRightLEg(object):
+class RaiseRightLeg(object):
     """The RightWalk Class is used to sense whether or the body in frame has its right calf rased or not.
     You need to call this class again once instanciated to update the data.
 
