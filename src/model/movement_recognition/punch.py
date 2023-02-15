@@ -22,9 +22,14 @@ class LeftPunch(object):
         set the speed threashold needed to be reached to allow a punch to be recognised.
     """
 
-    def __init__(self):
+    def __init__(self, downscaler:int):
         """Creates the LeftPunch object
+
+        Args:
+          downscaler (int):
+            The depth frame downscale value
         """
+        self._downscaler = downscaler
         self._olddelt = 0
         self._speed_threshhold = 40
         self.read = False
@@ -109,9 +114,14 @@ class RightPunch(object):
         set the speed threashold needed to be reached to allow a punch to be recognised.
     """
 
-    def __init__(self):
+    def __init__(self, downscaler:int):
         """Creates the RightPunch object
+        
+        Args:
+          downscaler (int):
+            The depth frame downscale value
         """
+        self._downscaler = downscaler
         self._olddelt = 0
         self._speed_threshhold = 40
         self.read = False
