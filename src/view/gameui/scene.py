@@ -100,7 +100,7 @@ class Scene:
         logo_base = pygame.image.load("src/view/assets/logo.png")
         logo = pygame.transform.scale(logo_base, (800, 150))
         logo_rect = logo.get_rect()
-        logo_rect.center = (512, 150)
+        logo_rect.center = (640, 150)
         self.screen.blit(logo, logo_rect)
     
     def initialiseGameUIElements(self):
@@ -108,11 +108,16 @@ class Scene:
         self.gameUIPanel = Panel(self.screen, 512, 768, 768, 0, "orange")
         self.gameUIPanel.draw()
 
-        self.textbox = TextBox(self.screen, 25, 25, "monospace", 12, self.gameUIPanel)
+        self.textbox = TextBox(self.screen, 40, 25, "monospace", 16, self.gameUIPanel)
         self.textbox.draw("Monke")
 
         self.healthbar = HealthBar(self.screen, self.gameUIPanel, 100)
         self.healthbar.drawMaxHealth()
+        self.healthbar.drawCurrentHealth()
+
+    def updateGameUIElements(self):
+        self.healthbar.drawMaxHealth()
+        self.healthbar.drawCurrentHealth()
 
     def initialiseGameScene(self):
         """Run once when the game is created. Generates the AI data.
@@ -131,10 +136,10 @@ class Scene:
         """
         pygame.display.set_caption("Main Menu")
 
-        play_button = Button("PLAY", (512, 330))
-        leaderboard_button = Button("LEADERBOARD", (512, 430))
-        help_button = Button("HELP", (512, 530))
-        about_button = Button("ABOUT", (512, 630))
+        play_button = Button("PLAY", (640, 330))
+        leaderboard_button = Button("LEADERBOARD", (640, 430))
+        help_button = Button("HELP", (640, 530))
+        about_button = Button("ABOUT", (640, 630))
 
         self.menu_buttons.append(play_button)
         self.menu_buttons.append(leaderboard_button)
@@ -159,6 +164,7 @@ class Scene:
         # Decides what to draw
         if current_scene.game_state == GameState.in_session:
             self.drawBackground(GameState.in_session)
+            self.updateGameUIElements()
 
             player_data = self.game_manager.get_render_ctx().player
             for i in range(self.rows):
