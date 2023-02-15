@@ -51,7 +51,7 @@ class Scene:
         self.player = None
         self.background = None
         self.clock = pygame.time.Clock()
-        self.screen = pygame.display.set_mode((1024, 768))
+        self.screen = pygame.display.set_mode((1280, 768))
         self.menu_buttons = []
         self.loadedGame = False
 
