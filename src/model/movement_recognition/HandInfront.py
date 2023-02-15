@@ -19,9 +19,10 @@ class HandInfront(object):
         set the distance threashold needed to be reached to allow a hand in front to be recognised.
     """
 
-    def __init__(self):
+    def __init__(self, downscaler):
         """Creates the HandInfront object
         """
+        self._downscaler = downscaler
         self._distance_threshhold = 0.4
         self.read = False
 
@@ -50,18 +51,18 @@ class HandInfront(object):
             if point == PyKinectV2.TrackingState_Inferred:
                 return None, None, None
 
-        handy = int(joint_points[PyKinectV2.JointType_HandRight].y)
-        if handy > 1079:
+        handy = int(joint_points[PyKinectV2.JointType_HandRight].y / self._downscaler)
+        if handy > depth.shape[0]-1:
             return
-        handx = int(joint_points[PyKinectV2.JointType_HandRight].x)
-        if handx > 1919:
+        handx = int(joint_points[PyKinectV2.JointType_HandRight].x / self._downscaler)
+        if handx > depth.shape[1]-1:
             return
 
-        chesty = int(joint_points[PyKinectV2.JointType_SpineShoulder].y)
-        if chesty > 1079:
+        chesty = int(joint_points[PyKinectV2.JointType_SpineShoulder].y / self._downscaler)
+        if chesty > depth.shape[0]-1:
             return
-        chestx = int(joint_points[PyKinectV2.JointType_SpineShoulder].x)
-        if chestx > 1919:
+        chestx = int(joint_points[PyKinectV2.JointType_SpineShoulder].x / self._downscaler)
+        if chestx > depth.shape[1]-1:
             return
 
         hand_depth = depth[handy, handx]

@@ -5,9 +5,9 @@ import numpy
 import pygame
 import ctypes
 
+from HandInfront import HandInfront
 from punch import LeftPunch, RightPunch
 from jump import Jump
-from infront import HandInfront
 from raiselegs import LeftWalk, RightWalk
 from turnhips import TurnHips
 from mouse import handpos
@@ -67,14 +67,15 @@ class TestMovement(object):
         self._depth = None
         self.downscaler = 1
 
-        self._leftpunch = LeftPunch()
-        self._rightpunch = RightPunch()
-        self._jump = Jump()
-        self._select = HandInfront()
-        self._leftwalk = LeftWalk()
-        self._rightwalk = RightWalk()
-        self._turntest = TurnHips()
-        self._mouse = handpos(100, 100)
+        self._select = HandInfront(self.downscaler)
+        '''
+        self._leftpunch = LeftPunch(self.downscaler)
+        self._rightpunch = RightPunch(self.downscaler)
+        self._jump = Jump(self.downscaler)
+        self._leftwalk = LeftWalk(self.downscaler)
+        self._rightwalk = RightWalk(self.downscaler)
+        self._turntest = TurnHips(self.downscaler)
+        self._mouse = handpos(100, 100, self.downscaler)'''
 
     def draw_color_frame(self, frame: numpy.ndarray,
                          target_surface: pygame.Surface) -> None:
@@ -191,50 +192,60 @@ class TestMovement(object):
                         joint_points = self._kinect.body_joints_to_color_space(joints)
 
                         
+                        
+                        selectcol = "white"
+                        self._select(body, self._depth, joint_points)
+                        if self._select.read:
+                            selectcol = "blue"
+
+                        '''
                         rightpunchcol = "yellow"
-                        self._rightpunch(body, self._depth, joint_points, self.downscaler)
+                        self._rightpunch(body, self._depth, joint_points)
                         if self._rightpunch.read:
                             rightpunchcol = "blue"
 
                         leftpunchcol = "red"
-                        self._leftpunch(body, self._depth, joint_points, self.downscaler)
+                        self._leftpunch(body, self._depth, joint_points)
                         if self._leftpunch.read:
                             leftpunchcol = "blue"
 
                         jumpcol = "green"
-                        self._jump(body, self._depth, joint_points, self.downscaler)
+                        self._jump(body, self._depth, joint_points)
                         if self._jump.read:
                             jumpcol = "blue"
                         
-
-                        selectcol = "white"
-                        self._select(body, self._depth, joint_points, self.downscaler)
-                        if self._select.read:
-                            selectcol = "blue"
-                        
                         rightwalkcol = "orange"
-                        self._rightwalk(body, self._depth, joint_points, self.downscaler)
+                        self._rightwalk(body, self._depth, joint_points)
                         if self._rightwalk.read:
                             rightwalkcol = "blue"
 
                         leftwalkcol = "pink"
-                        self._leftwalk(body, self._depth, joint_points, self.downscaler)
+                        self._leftwalk(body, self._depth, joint_points)
                         if self._leftwalk.read:
                             leftwalkcol = "blue"
 
                         turncol = "grey"
-                        self._turntest(body, self._depth, joint_points, self.downscaler)
+                        self._turntest(body, self._depth, joint_points)
                         if self._turntest.readleft:
                             turncol = "red"
                         if self._turntest.readright:
-                            turncol = "blue"
+                            turncol = "blue"'''
 
                         '''
                         mousecol = "green"
-                        self._mouse(body, self._depth, joint_points, self.downscaler)'''
+                        self._mouse(body, self._depth, joint_points)'''
 
                         
                         if self.draw:
+                            # Draw select
+                            pygame.draw.circle(
+                                self._frame_surface, selectcol,
+                                (joint_points[PyKinectV2.JointType_HandRight].x,
+                                joint_points[PyKinectV2.JointType_HandRight].y-30), 15)
+                            rectangle = pygame.Rect(110, 0, 50, 50)
+                            pygame.draw.rect(self._frame_surface, selectcol, rectangle)
+
+                            '''
                             # Draw right punch
                             self.draw_body_bone(joints, joint_points, rightpunchcol,
                                                 PyKinectV2.JointType_ShoulderRight,
@@ -270,14 +281,6 @@ class TestMovement(object):
                                 joint_points[PyKinectV2.JointType_SpineShoulder].y), 15)
                             rectangle = pygame.Rect(55, 55, 50, 50)
                             pygame.draw.rect(self._frame_surface, jumpcol, rectangle)
-
-                            # Draw select
-                            pygame.draw.circle(
-                                self._frame_surface, selectcol,
-                                (joint_points[PyKinectV2.JointType_HandRight].x,
-                                joint_points[PyKinectV2.JointType_HandRight].y-30), 15)
-                            rectangle = pygame.Rect(110, 0, 50, 50)
-                            pygame.draw.rect(self._frame_surface, selectcol, rectangle)
 
                             # Draw right walk
                             self.draw_body_bone(joints, joint_points, rightwalkcol,
@@ -320,7 +323,7 @@ class TestMovement(object):
                                 (joint_points[PyKinectV2.JointType_HipRight].x,
                                 joint_points[PyKinectV2.JointType_HipRight].y), 15)
                             rectangle = pygame.Rect(55, 110, 50, 50)
-                            pygame.draw.rect(self._frame_surface, turncol, rectangle)
+                            pygame.draw.rect(self._frame_surface, turncol, rectangle)'''
                             
                             '''
                             # Draw mouse
