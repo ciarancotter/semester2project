@@ -51,7 +51,7 @@ class Scene:
         self.player = None
         self.background = None
         self.clock = pygame.time.Clock()
-        self.screen = pygame.display.set_mode((1280, 768))
+        self.screen = pygame.display.set_mode((1280, 784))
         self.menu_buttons = []
         self.loadedGame = False
 
@@ -61,7 +61,7 @@ class Scene:
         self.mainGamePanel = None
 
         menu_background = pygame.image.load("src/view/assets/menuBG.png").convert_alpha()
-        self.transformed_menu_background = pygame.transform.scale(menu_background, (1280, 768))
+        self.transformed_menu_background = pygame.transform.scale(menu_background, (1280, 784))
 
         self.transformed_game_background = None
         BLACK = (0, 0, 0)
@@ -110,7 +110,7 @@ class Scene:
         self.mainGamePanel = Panel(self.screen, 784, 512, 0, 0, "black")
         self.mainGamePanel.draw()
 
-        self.gameUIPanel = Panel(self.screen, 496, 768, 784, 0, "orange")
+        self.gameUIPanel = Panel(self.screen, 496, 784, 784, 0, "orange")
         self.gameUIPanel.draw()
 
         self.textbox = TextBox(self.screen, 40, 25, "monospace", 16, self.gameUIPanel)
@@ -132,7 +132,7 @@ class Scene:
         generate_background("ancient Egypt")
         self.screen.fill("gold")
         game_background = pygame.image.load("src/view/assets/gamebg.png").convert_alpha()
-        self.transformed_game_background = pygame.transform.scale(game_background, (784, 768))
+        self.transformed_game_background = pygame.transform.scale(game_background, (784, 784))
         self.game_manager.set_game_state(GameState.in_session)
         self.drawBackground(GameState.in_session)
 

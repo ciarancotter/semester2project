@@ -107,7 +107,7 @@ class TextBox:
         """
 
         screen_width = 496
-        screen_height = 768
+        screen_height = 784
         box_width = screen_width // 4
         box = pygame.Surface((box_width, screen_height))
 
