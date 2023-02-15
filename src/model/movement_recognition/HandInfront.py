@@ -19,8 +19,12 @@ class HandInfront(object):
         set the distance threashold needed to be reached to allow a hand in front to be recognised.
     """
 
-    def __init__(self, downscaler):
+    def __init__(self, downscaler:int):
         """Creates the HandInfront object
+
+        Args:
+          downscaler (int):
+            The depth frame downscale value
         """
         self._downscaler = downscaler
         self._distance_threshhold = 0.4
