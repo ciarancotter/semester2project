@@ -4,7 +4,7 @@ from pykinect2 import PyKinectRuntime
 from math import degrees, atan
 
 
-class LeftWalk(object):
+class RaiseLeftLeg(object):
     """The LeftWalk Class is used to sense whether or the body in frame has its left calf rased or not.
     You need to call this class again once instanciated to update the data.
 
@@ -23,9 +23,14 @@ class LeftWalk(object):
         set the angle threashold needed to be reached to allow the motion to be recognised.
     """
 
-    def __init__(self):
+    def __init__(self, downscaler:int):
         """Creates the LeftWalk object
+        
+        Args:
+          downscaler (int):
+            The depth frame downscale value
         """
+        self._downscaler = downscaler
         self._angle_threshhold = 20
         self.read = False
         self.magnitude = 0
@@ -93,7 +98,7 @@ class LeftWalk(object):
         self._angle_threshhold = x
 
 
-class RightWalk(object):
+class RaiseRightLEg(object):
     """The RightWalk Class is used to sense whether or the body in frame has its right calf rased or not.
     You need to call this class again once instanciated to update the data.
 
@@ -112,9 +117,14 @@ class RightWalk(object):
         set the angle threashold needed to be reached to allow the motion to be recognised.
     """
 
-    def __init__(self):
+    def __init__(self, downscaler:int):
         """Creates the RightPunch object
+        
+        Args:
+          downscaler (int):
+            The depth frame downscale value
         """
+        self._downscaler = downscaler
         self._angle_threshhold = 20
         self.read = False
         self.magnitude = 0
