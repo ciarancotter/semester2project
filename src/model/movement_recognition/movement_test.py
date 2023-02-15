@@ -65,6 +65,7 @@ class TestMovement(object):
         self._bodies = None
         self._bodyid = -1
         self._depth = None
+        self.downscaler = 1
 
         self._leftpunch = LeftPunch()
         self._rightpunch = RightPunch()
@@ -161,7 +162,7 @@ class TestMovement(object):
             if self._kinect.has_new_depth_frame():
                 depthframe = self._kinect.get_last_depth_frame()        # depthframe is linear array of uint16 as 512*424 samples of D = 217088 bytes
                 depthframe = depthframe.reshape(self._kinect.depth_frame_desc.Height, self._kinect.depth_frame_desc.Width)
-                self._depth = self._kinect.depth_frame_to_color_space(depthframe)
+                self._depth = self._kinect.depth_frame_to_color_space(depthframe, self.downscaler)
                 
                 '''
                 # Transform the depth frame values to pixel brightness
@@ -191,38 +192,38 @@ class TestMovement(object):
 
                         
                         rightpunchcol = "yellow"
-                        self._rightpunch(body, self._depth, joint_points)
+                        self._rightpunch(body, self._depth, joint_points, self.downscaler)
                         if self._rightpunch.read:
                             rightpunchcol = "blue"
 
                         leftpunchcol = "red"
-                        self._leftpunch(body, self._depth, joint_points)
+                        self._leftpunch(body, self._depth, joint_points, self.downscaler)
                         if self._leftpunch.read:
                             leftpunchcol = "blue"
 
                         jumpcol = "green"
-                        self._jump(body, self._depth, joint_points)
+                        self._jump(body, self._depth, joint_points, self.downscaler)
                         if self._jump.read:
                             jumpcol = "blue"
                         
 
                         selectcol = "white"
-                        self._select(body, self._depth, joint_points)
+                        self._select(body, self._depth, joint_points, self.downscaler)
                         if self._select.read:
                             selectcol = "blue"
                         
                         rightwalkcol = "orange"
-                        self._rightwalk(body, self._depth, joint_points)
+                        self._rightwalk(body, self._depth, joint_points, self.downscaler)
                         if self._rightwalk.read:
                             rightwalkcol = "blue"
 
                         leftwalkcol = "pink"
-                        self._leftwalk(body, self._depth, joint_points)
+                        self._leftwalk(body, self._depth, joint_points, self.downscaler)
                         if self._leftwalk.read:
                             leftwalkcol = "blue"
 
                         turncol = "grey"
-                        self._turntest(body, self._depth, joint_points)
+                        self._turntest(body, self._depth, joint_points, self.downscaler)
                         if self._turntest.readleft:
                             turncol = "red"
                         if self._turntest.readright:
@@ -230,7 +231,7 @@ class TestMovement(object):
 
                         '''
                         mousecol = "green"
-                        self._mouse(body, self._depth, joint_points)'''
+                        self._mouse(body, self._depth, joint_points, self.downscaler)'''
 
                         
                         if self.draw:
@@ -343,7 +344,7 @@ class TestMovement(object):
                 # --- Go ahead and update the screen with what we've drawn.
                 pygame.display.flip()
 
-            #print(self._clock.get_fps())
+            print(round(self._clock.get_fps(), 2))
             # --- Limit to 60 frames per second
             self._clock.tick(60)
 
