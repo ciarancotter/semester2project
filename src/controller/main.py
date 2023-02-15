@@ -49,8 +49,8 @@ def main() -> None:
                     gamepanel.check_play_pressed(event)
 
 
+        # player movement 
         keys_pressed = pygame.key.get_pressed()
-
         if keys_pressed[K_LEFT]:
             gamemanager.update_model(Movement.left)
         elif keys_pressed[K_RIGHT]:
