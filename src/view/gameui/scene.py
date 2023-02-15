@@ -150,7 +150,6 @@ class Scene:
             # move the character to the right if the right key is pressed
             if self.player_data.facing == Movement.right:
                 # x += 1
-                self.player_data.move(self.player_data.facing, [])
                 self.direction = "right"
                 self.frame_count += 1
                 if self.frame_count == self.frame_delay:
@@ -161,7 +160,6 @@ class Scene:
 
             if self.player_data.facing == Movement.left:
                 # x += 1
-                self.player_data.move(self.player_data.facing, [])
                 self.direction = "left"
                 self.frame_count += 1
                 if self.frame_count == self.frame_delay:
@@ -171,7 +169,6 @@ class Scene:
             # move the character to the up if the space key is pressed
 
             if self.player_data.facing == Movement.jump:
-                self.player_data.move(self.player_data.facing, [])
                 self.direction = "jump"
                 self.frame_count += 1
                 if self.frame_count == self.frame_delay:

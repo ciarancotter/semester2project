@@ -51,12 +51,16 @@ def main() -> None:
 
         # player movement 
         keys_pressed = pygame.key.get_pressed()
+        
         if keys_pressed[K_LEFT]:
             gamemanager.update_model(Movement.left)
-        elif keys_pressed[K_RIGHT]:
+            print("left")
+        if keys_pressed[K_RIGHT]:
             gamemanager.update_model(Movement.right)
-        elif keys_pressed[K_SPACE]:
+            print("right")
+        if keys_pressed[K_SPACE]:
             gamemanager.update_model(Movement.jump)
+            print("jump")
         else:
             gamemanager.update_model(Movement.no_movement)
 
