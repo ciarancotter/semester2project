@@ -6,13 +6,14 @@ sys.path.append(os.path.abspath("./src"))
 from model.gameobjects.game_interface import PlatformerGame
 from view.gameui.scene import Scene
 
+from model.gameobjects.public_enums import Movement
+
 
 # key controls
 from pygame.locals import (
     K_LEFT,
     K_RIGHT,
     K_ESCAPE,
-    KEYDOWN,
     K_SPACE,
     QUIT,
 )
@@ -37,20 +38,32 @@ def main() -> None:
         clock.tick(60)
         # exit the game in emergency
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:  # If user clicked close
-                running = False
-            if event.type == pygame.KEYDOWN:  # If user hit the q key
-                if event.key == pygame.K_q:
+            match event.type:
+                case pygame.QUIT:  # If user clicked close
                     running = False
-            if event.type == pygame.MOUSEBUTTONUP:
-                gamepanel.check_play_pressed(event)
+                case pygame.KEYDOWN:  # If user hit the q key
+                    match event.key:
+                        case pygame.K_q:
+                            running = False
+                case pygame.MOUSEBUTTONUP:
+                    gamepanel.check_play_pressed(event)
+
+
+        keys_pressed = pygame.key.get_pressed()
+        
+        if keys_pressed[]
+
+            
 
         # <-- Update calls go here -->
-        pressed_keys = pygame.key.get_pressed()
+
 
         # loading the game panel for main menu and game
         gamepanel.checking_hover(pygame.mouse.get_pos())
         gamepanel.updateScene()
+
+
+
         
 
         
