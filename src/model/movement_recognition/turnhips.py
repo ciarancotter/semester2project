@@ -21,9 +21,14 @@ class TurnHips(object):
         set the difference threashold needed to be reached to allow a hip turn to be recognised.
     """
 
-    def __init__(self):
+    def __init__(self, downscaler:int):
         """Creates the TurnHips object
+        
+        Args:
+          downscaler (int):
+            The depth frame downscale value
         """
+        self._downscaler = downscaler
         self._diff_threshhold = 0.05
         self.readleft = False
         self.readright = False
@@ -52,18 +57,18 @@ class TurnHips(object):
             if point == PyKinectV2.TrackingState_Inferred:
                 return None, None, None
 
-        lefty = int(joint_points[PyKinectV2.JointType_HipLeft].y)
-        if lefty > 1079:
+        lefty = int(joint_points[PyKinectV2.JointType_HipLeft].y / self._downscaler)
+        if lefty >  depth.shape[0]-1:
             return
-        leftx = int(joint_points[PyKinectV2.JointType_HipLeft].x)
-        if leftx > 1919:
+        leftx = int(joint_points[PyKinectV2.JointType_HipLeft].x / self._downscaler)
+        if leftx >  depth.shape[1]-1:
             return
 
-        righty = int(joint_points[PyKinectV2.JointType_HipRight].y)
-        if righty > 1079:
+        righty = int(joint_points[PyKinectV2.JointType_HipRight].y / self._downscaler)
+        if righty >  depth.shape[0]-1:
             return
-        rightx = int(joint_points[PyKinectV2.JointType_HipRight].x)
-        if rightx > 1919:
+        rightx = int(joint_points[PyKinectV2.JointType_HipRight].x / self._downscaler)
+        if rightx >  depth.shape[1]-1:
             return
 
         lhip_depth = depth[lefty, leftx]
