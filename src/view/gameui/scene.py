@@ -21,7 +21,8 @@ import pygame
 
 sys.path.append(os.path.abspath("./src"))
 
-from view.gameui.uielements import Button
+from view.gameui.healthbar import HealthBar
+from view.gameui.uielements import Button, TextBox, Panel
 from model.gameobjects.public_enums import Movement
 
 from model.gameobjects.game_interface import PlatformerGame
@@ -54,8 +55,11 @@ class Scene:
         self.menu_buttons = []
         self.loadedGame = False
 
+        self.textbox = None
+        self.healthbar = None
+
         menu_background = pygame.image.load("src/view/assets/menuBG.png").convert_alpha()
-        self.transformed_menu_background = pygame.transform.scale(menu_background, (1024, 768))
+        self.transformed_menu_background = pygame.transform.scale(menu_background, (1280, 768))
 
         self.transformed_game_background = None
         BLACK = (0, 0, 0)
@@ -98,12 +102,29 @@ class Scene:
         logo_rect = logo.get_rect()
         logo_rect.center = (512, 150)
         self.screen.blit(logo, logo_rect)
+    
+    def initialiseGameUIElements(self):
+
+        self.gameUIPanel = Panel(self.screen, 512, 768, 768, 0, "orange")
+        self.gameUIPanel.draw()
+
+        self.textbox = TextBox(self.screen, 25, 25, "monospace", 12, self.gameUIPanel)
+        self.textbox.draw("Monke")
+
+        self.healthbar = HealthBar(self.screen, self.gameUIPanel, 100)
+        self.healthbar.drawMaxHealth()
 
     def initialiseGameScene(self):
         """Run once when the game is created. Generates the AI data.
         """
         pygame.display.set_caption("Boole Raider")
         generate_background("ancient Egypt")
+        self.screen.fill("gold")
+        game_background = pygame.image.load("src/view/assets/gamebg.png").convert_alpha()
+        self.transformed_game_background = pygame.transform.scale(game_background, (768, 768))
+        self.game_manager.set_game_state(GameState.in_session)
+        self.drawBackground(GameState.in_session)
+
 
     def initialiseMenuScene(self):
         """Initialises elements for the menu scene.
@@ -210,10 +231,6 @@ class Scene:
     def check_play_pressed(self, event):
         if self.menu_buttons[0].rect.collidepoint(event.pos):
             if not self.loadedGame:
-                self.screen.fill("gold")
                 self.initialiseGameScene()
-                game_background = pygame.image.load("src/view/assets/gamebg.png").convert_alpha()
-                self.transformed_game_background = pygame.transform.scale(game_background, (768, 768))
-                self.game_manager.set_game_state(GameState.in_session)
-                self.drawBackground(GameState.in_session)
+                self.initialiseGameUIElements()
 

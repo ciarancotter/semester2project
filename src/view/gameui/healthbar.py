@@ -11,7 +11,6 @@ Usage:
 """
 
 import pygame
-from scene import Scene
 
 
 class HealthBar:
@@ -24,7 +23,7 @@ class HealthBar:
         currentHealth: The player's current health.
     """
 
-    def __init__(self, screen: Scene, panel: Scene, maxHealth: int) -> None:
+    def __init__(self, screen, panel, maxHealth: int) -> None:
         """Inits Healthbar
         """
         self.screen = screen
