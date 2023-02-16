@@ -104,7 +104,7 @@ class Entity:
     is_colliding_entity = property(is_colliding_entity)
 
 
-class Block:
+class Block(Entity):
     """An entity platform that sprites can stand on.
 
     Attributes:
