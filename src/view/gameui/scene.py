@@ -210,6 +210,18 @@ class Scene:
                     self.frame_count = 0
 
             # punch picture and code
+            '''
+            # Check if the "P" key is pressed and update the current sprite index to the punching sprite
+        
+            if keys[pygame.K_p]:
+                current_sprite_index = 3
+
+            # Blit the current sprite based on the current sprite index
+            if current_sprite_index < columns:
+                screen.blit(character_sprites[current_sprite_index], (x, y))
+            else:
+                screen.blit(punch_sprite, (x, y))
+            '''
 
             # update the current sprite based on the direction of the character
             if self.direction == "right":
