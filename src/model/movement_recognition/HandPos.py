@@ -18,7 +18,7 @@ class HandPos(object):
         updates the read according to where the right hand is in frame.
     """
 
-    def __init__(self, height: int, width: int, downscaler:int):
+    def __init__(self, height: int, width: int):
         """Creates the handpos object
         
         Args:
@@ -26,10 +26,7 @@ class HandPos(object):
             the range to scale the y between 0 and height.
           width (int):
             the range to scale the x between 0 and width.
-          downscaler (int):
-            The depth frame downscale value
         """
-        self._downscaler = downscaler
         self.x = 0
         self.y = 0
         self._height = height

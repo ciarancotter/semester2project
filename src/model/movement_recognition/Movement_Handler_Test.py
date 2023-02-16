@@ -6,11 +6,11 @@ import pygame
 import ctypes
 
 from HandInfront import HandInfront
-from punch import LeftPunch, RightPunch
+from HandPos import HandPos
 from Jump import Jump
+from punch import LeftPunch, RightPunch
 from RaiseLegs import RaiseLeftLeg, RaiseRightLeg
 from TurnHips import TurnHips
-from HandPos import HandPos
 """
 Worked on from the PyKinectBodyGame example packed with the pykinect2 libary
 """
@@ -67,14 +67,15 @@ class TestMovement(object):
         self._depth = None
         self.downscaler = 1
 
-        self._select = HandInfront(self.downscaler)
-        self._leftpunch = LeftPunch(self.downscaler)
-        self._rightpunch = RightPunch(self.downscaler)
-        self._jump = Jump(self.downscaler)
-        self._leftwalk = RaiseLeftLeg(self.downscaler)
-        self._rightwalk = RaiseRightLeg(self.downscaler)
-        self._turntest = TurnHips(self.downscaler)
-        self._mouse = HandPos(100, 100, self.downscaler)
+        self.select = HandInfront()
+        self.mouse = HandPos(100, 100)
+        self.jump = Jump()
+        self.leftpunch = LeftPunch()
+        self.rightpunch = RightPunch()
+        self.leftwalk = RaiseRightLeg()
+        self.rightwalk = RaiseLeftLeg()
+        self.turntest = TurnHips()
+        
 
     def draw_color_frame(self, frame: numpy.ndarray,
                          target_surface: pygame.Surface) -> None:

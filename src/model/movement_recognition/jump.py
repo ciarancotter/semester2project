@@ -22,14 +22,9 @@ class Jump(object):
         set the speed threashold needed to be reached to allow a jump to be recognised.
     """
 
-    def __init__(self, downscaler:int):
+    def __init__(self):
         """Creates the Jump object
-        
-        Args:
-          downscaler (int):
-            The depth frame downscale value
         """
-        self._downscaler = downscaler
         self._olddelt = 0
         self._speed_threshhold = 15
         self.read = False

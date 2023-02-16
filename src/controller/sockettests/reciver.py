@@ -20,7 +20,6 @@ async def corun():
 async def main():
     async with websockets.connect("ws://127.0.0.1:65432") as websocket:
         await asyncio.gather(receive(websocket), corun())
-        await asyncio.Future()
 
 if __name__ == '__main__':
     asyncio.run(main())

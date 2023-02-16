@@ -23,14 +23,9 @@ class RaiseLeftLeg(object):
         set the angle threashold needed to be reached to allow the motion to be recognised.
     """
 
-    def __init__(self, downscaler:int):
+    def __init__(self):
         """Creates the LeftWalk object
-        
-        Args:
-          downscaler (int):
-            The depth frame downscale value
         """
-        self._downscaler = downscaler
         self._angle_threshhold = 20
         self.read = False
         self.magnitude = 0
@@ -117,14 +112,9 @@ class RaiseRightLeg(object):
         set the angle threashold needed to be reached to allow the motion to be recognised.
     """
 
-    def __init__(self, downscaler:int):
+    def __init__(self):
         """Creates the RightPunch object
-        
-        Args:
-          downscaler (int):
-            The depth frame downscale value
         """
-        self._downscaler = downscaler
         self._angle_threshhold = 20
         self.read = False
         self.magnitude = 0

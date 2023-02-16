@@ -5,12 +5,13 @@ import sys
 import os
 sys.path.append(os.path.abspath("./src"))
 
+from model.movement_recognition.HandInfront import HandInfront
+from model.movement_recognition.HandPos import HandPos
+from model.movement_recognition.Jump import Jump
 from model.movement_recognition.punch import LeftPunch, RightPunch
-from model.movement_recognition.jump import Jump
-from model.movement_recognition.infront import HandInfront
-from model.movement_recognition.raiselegs import LeftWalk, RightWalk
-from model.movement_recognition.turnhips import TurnHips
-from model.movement_recognition.mouse import handpos
+from model.movement_recognition.RaiseLegs import RaiseLeftLeg, RaiseRightLeg
+from model.movement_recognition.TurnHips import TurnHips
+
 
 class MovementHandler(object):
 
@@ -26,14 +27,15 @@ class MovementHandler(object):
         self._bodyid = -1
         self._depth = None
 
+        self.select = HandInfront()
+        self.mouse = HandPos(screenhight, screenwidth)
+        self.jump = Jump()
         self.leftpunch = LeftPunch()
         self.rightpunch = RightPunch()
-        self.jump = Jump()
-        self.select = HandInfront()
-        self.leftwalk = LeftWalk()
-        self.rightwalk = RightWalk()
+        self.leftwalk = RaiseRightLeg()
+        self.rightwalk = RaiseLeftLeg()
         self.turntest = TurnHips()
-        self.mouse = handpos(screenhight, screenwidth)
+        
 
 
     def update(self):
@@ -60,11 +62,12 @@ class MovementHandler(object):
                     joints = body.joints
                     joint_points = self._kinect.body_joints_to_color_space(joints)
 
+                    self.mouse(body, self._depth, joint_points)
+                    self.select(body, self._depth, joint_points)
+                    self.jump(body, self._depth, joint_points)
                     self.rightpunch(body, self._depth, joint_points)
                     self.leftpunch(body, self._depth, joint_points)
-                    self.jump(body, self._depth, joint_points)
-                    self.select(body, self._depth, joint_points)
                     self.rightwalk(body, self._depth, joint_points)
                     self.leftwalk(body, self._depth, joint_points)
                     self.turntest(body, self._depth, joint_points)
-                    self.mouse(body, self._depth, joint_points)
+                    
