@@ -211,10 +211,12 @@ class Scene:
 
             if self.player_data.facing == Movement.no_movement:
                 self.direction = "no movement"
-                self.frame_count += 1
-                if self.frame_count == self.frame_delay:
-                    self.current_sprite_index = (self.current_sprite_index + 1) % self.columns
-                    self.frame_count = 0
+                if self.current_sprite_index >= self.columns:
+                    self.current_sprite_index = self.current_sprite_index
+                else:
+                    #print(self.current_sprite_index)
+                    self.current_sprite_index = self.current_sprite_index + 1
+                    
 
             # punch picture and code
 

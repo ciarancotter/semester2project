@@ -241,6 +241,9 @@ class Player(Monke):
                 self._jumped = False
                 self._jump_baseline = self.yPos
 
+        if direction == Movement.no_movement:
+            self.facing = Movement.no_movement
+
         if not self.gravity(entities):
             self._jump_baseline = self.yPos
             jumped = False
