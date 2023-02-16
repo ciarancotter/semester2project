@@ -269,7 +269,7 @@ class Enemy(Monke):
         super().__init__(self.xPos, self.yPos, width, height, True)
         self._damage = dammage
 
-    def get_dammage(self) -> None:
+    def get_dammage(self) -> int:
         return self._damage
 
     def move(self, entities: list[Entity]):

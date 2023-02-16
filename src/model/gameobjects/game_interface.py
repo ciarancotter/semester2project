@@ -36,7 +36,7 @@ class PlatformerGame(object):
         self._entities = []
         self._gamestate = GameState.start_menu
 
-    def get_render_ctx(self) -> None:
+    def get_render_ctx(self) -> CtxToRender:
         """Returns the information necicary (or the context/shortend to ctx in this program ) to render
 		the game visualy.
 
