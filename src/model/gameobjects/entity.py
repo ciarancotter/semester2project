@@ -331,7 +331,7 @@ class Loot(Entity):
     Atributes:
         power: the potency of the loot
     """
-    def __init__(self,xPos: int, yPos: int, width: int, height: int,colliding: bool,power=2:int):
+    def __init__(self,xPos: int, yPos: int, width: int, height: int,colliding: bool,power=2):
         self._power = power
         super().__init__(self.xPos, self.yPos, width, height, True)
     def get_power(self):
