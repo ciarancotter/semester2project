@@ -6,16 +6,16 @@ import os
 sys.path.append(os.path.abspath("./../../"))
 
 
-movementPool = SharedMemoryDict(name='config', size=1024)
+movementPoolRead = SharedMemoryDict(name='movementPoolRead', size=1024)
 
 if __name__ == "__main__":
+    sleep(0.5)
     while True:
-        print("select:", movementPool["select"],
-            "mouse:", movementPool["mouse"],
-            "jump:", movementPool["jump"],
-            "leftpunch:", movementPool["leftpunch"],
-            "rightpunch:", movementPool["rightpunch"],
-            "leftwalk:", movementPool["leftwalk"],
-            "rightwalk:", movementPool["rightwalk"],
-            "turntest:", movementPool["turntest"]
+        print("select:", movementPoolRead["select"],
+            "jump:", movementPoolRead["jump"],
+            "leftpunch:", movementPoolRead["leftpunch"],
+            "rightpunch:", movementPoolRead["rightpunch"],
+            "leftwalk:", movementPoolRead["leftwalk"],
+            "rightwalk:", movementPoolRead["rightwalk"],
         )
+        #print(movementPoolRead)

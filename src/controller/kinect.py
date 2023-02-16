@@ -4,6 +4,7 @@ from pykinect2.PyKinectV2 import *
 import sys
 import os
 sys.path.append(os.path.abspath("./src"))
+print(sys.path)
 import asyncio
 import websockets
 import json
@@ -41,16 +42,24 @@ class MovementHandler(object):
         self.rightwalk = RaiseLeftLeg()
         self.turntest = TurnHips()
 
-        movementPool = SharedMemoryDict(name='config', size=1024)
+        self.movementPoolRead = SharedMemoryDict(name='movementPoolRead', size=1024)
+        self.movementPoolMisc = SharedMemoryDict(name='movementPoolMisc', size=1024)
 
-        movementPool["select"] = self.select
-        movementPool["mouse"] = self.mouse
-        movementPool["jump"] = self.jump
-        movementPool["leftpunch"] = self.leftpunch
-        movementPool["rightpunch"] = self.rightpunch
-        movementPool["leftwalk"] = self.leftwalk 
-        movementPool["rightwalk"] = self.rightwalk
-        movementPool["turntest"] = self.turntest
+        self.movementPoolRead["select"] = self.select.read
+        self.movementPoolRead["jump"] = self.jump.read
+        self.movementPoolRead["leftpunch"] = self.leftpunch.read
+        self.movementPoolRead["rightpunch"] = self.rightpunch.read
+        self.movementPoolRead["leftwalk"] = self.leftwalk.read
+        self.movementPoolRead["rightwalk"] = self.rightwalk.read
+
+        self.movementPoolMisc["mousex"] = self.mouse.x
+        self.movementPoolMisc["mousey"] = self.mouse.y
+        self.movementPoolMisc["turntest"] = self.turntest.readleft
+        self.movementPoolMisc["turntest"] = self.turntest.readright
+        self.movementPoolMisc["jumpmagnitude"] = self.jump.magnitude
+        self.movementPoolMisc["leftpunchmagnitude"] = self.leftpunch.magnitude
+        self.movementPoolMisc["rightpunchmagnitude"] = self.rightpunch.magnitude
+
 
     def update(self):
         if self._kinect.has_new_body_frame():
@@ -84,9 +93,26 @@ class MovementHandler(object):
                     self.rightwalk(body, self._depth, joint_points)
                     self.leftwalk(body, self._depth, joint_points)
                     self.turntest(body, self._depth, joint_points)
+
+        self.movementPoolRead["select"] = self.select.read
+        self.movementPoolRead["jump"] = self.jump.read
+        self.movementPoolRead["leftpunch"] = self.leftpunch.read
+        self.movementPoolRead["rightpunch"] = self.rightpunch.read
+        self.movementPoolRead["leftwalk"] = self.leftwalk.read
+        self.movementPoolRead["rightwalk"] = self.rightwalk.read
+
+        self.movementPoolMisc["mousex"] = self.mouse.x
+        self.movementPoolMisc["mousey"] = self.mouse.y
+        self.movementPoolMisc["turntest"] = self.turntest.readleft
+        self.movementPoolMisc["turntest"] = self.turntest.readright
+        self.movementPoolMisc["jumpmagnitude"] = self.jump.magnitude
+        self.movementPoolMisc["leftpunchmagnitude"] = self.leftpunch.magnitude
+        self.movementPoolMisc["rightpunchmagnitude"] = self.rightpunch.magnitude
+
+        print(self.movementPoolRead)
         
 
 if __name__ == '__main__':
-    mv = MovementHandler()
+    mv = MovementHandler(100, 100)
     while True:
         mv.update()
