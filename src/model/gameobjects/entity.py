@@ -345,7 +345,7 @@ class JumpLoot(Loot):
             jump_increase: the amoun that your jump height increases when you get the loot
             power_up_time: the time period that your increased jump height remains in place
     """
-    def __init__(self,xPos: int, yPos: int, width: int, height: int,colliding: bool,power=2:int,jump_increase=10,time=1000):
+    def __init__(self,xPos: int, yPos: int, width: int, height: int,colliding: bool,power=2,jump_increase=10,time=1000):
         self._jump_increase = jump_increase
         self.power_up_time = time
         super().__init__(self.xPos, self.yPos, width, height, True,power=power)
@@ -356,6 +356,6 @@ class JumpLoot(Loot):
 
 class InvicibilityLoot(Loot):
     """loot that renders the player unable to be damaged by enemies for a particular period."""
-    def __init__(self,xPos: int, yPos: int, width: int, height: int,colliding: bool,power=2:int,time=1000):
+    def __init__(self,xPos: int, yPos: int, width: int, height: int,colliding: bool,power=2,time=1000):
         self.power_up_time = time
         super().__init__(self.xPos, self.yPos, width, height, True,power=power)
