@@ -4,6 +4,11 @@ from pykinect2.PyKinectV2 import *
 import sys
 import os
 sys.path.append(os.path.abspath("./src"))
+import asyncio
+import websockets
+import json
+
+from shared_memory_dict import SharedMemoryDict
 
 from model.movement_recognition.HandInfront import HandInfront
 from model.movement_recognition.HandPos import HandPos
@@ -35,8 +40,17 @@ class MovementHandler(object):
         self.leftwalk = RaiseRightLeg()
         self.rightwalk = RaiseLeftLeg()
         self.turntest = TurnHips()
-        
 
+        movementPool = SharedMemoryDict(name='config', size=1024)
+
+        movementPool["select"] = self.select
+        movementPool["mouse"] = self.mouse
+        movementPool["jump"] = self.jump
+        movementPool["leftpunch"] = self.leftpunch
+        movementPool["rightpunch"] = self.rightpunch
+        movementPool["leftwalk"] = self.leftwalk 
+        movementPool["rightwalk"] = self.rightwalk
+        movementPool["turntest"] = self.turntest
 
     def update(self):
         if self._kinect.has_new_body_frame():
@@ -70,4 +84,9 @@ class MovementHandler(object):
                     self.rightwalk(body, self._depth, joint_points)
                     self.leftwalk(body, self._depth, joint_points)
                     self.turntest(body, self._depth, joint_points)
-                    
+        
+
+if __name__ == '__main__':
+    mv = MovementHandler()
+    while True:
+        mv.update()
