@@ -218,6 +218,9 @@ class Player(Monke):
                         player is to move.  
 
         """
+        #punching 
+        if direction == Movement.punch:
+            self.facing = Movement.punch
         #move left
         if direction == Movement.left and self.xPos >= 0:
             self.xPos -= self._speed

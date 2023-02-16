@@ -35,6 +35,8 @@ class PlatformerGame(object):
         self._blocks = []
         self._entities = []
         self._gamestate = GameState.start_menu
+        #punch state
+        self._punch_state = False
 
     def get_render_ctx(self) -> None:
         """Returns the information necicary (or the context/shortend to ctx in this program ) to render
@@ -67,14 +69,19 @@ class PlatformerGame(object):
         self._gamestate = GameState.in_session
 
     def update_model(self, player_move: Movement):
+        # if player_move == Movement.punch:
+        #     Movement.punch = True
+        #     player_move = Movement.punch
         self._player.move(player_move, self._blocks)
         if self._player.health <= 0:
             self.game_state = GameState.game_over
 
 
+
+
 class CtxToRender(object):
 
-    def __init__(self, enemies: list[Enemy], player: Player, blocks: list[Block], entities: list[Entity], game_state: GameState) -> None:
+    def __init__(self, enemies: list[Enemy], player: Player, blocks: list[Block], entities: list[Entity] ,game_state: GameState) -> None:
         """contains all the information needed to 
 		display a gamestate to the user.
 
