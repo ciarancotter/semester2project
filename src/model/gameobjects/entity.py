@@ -278,7 +278,7 @@ class Player(Monke):
             creates a timer and decrements it each frame to store the time
             that the powers will run out.
         """
-        if self.current_loot = None:
+        if self.current_loot == None:
             return
         if isinstance(self.current_loot,JumpLoot):
             if self.current_loot.power_up_time <= 0:
