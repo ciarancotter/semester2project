@@ -180,6 +180,7 @@ class Scene:
                     self.character_sprites[i * self.columns + j].blit(self.sprite_sheet, (0, 0), (
                     j * self.player_data.width, i * self.player_data.height, self.player_data.width,
                     self.player_data.height))
+        
 
             # move the character to the right if the right key is pressed
             if self.player_data.facing == Movement.right:
@@ -211,6 +212,10 @@ class Scene:
 
             # punch picture and code
             '''
+            # Load the punching sprite from the sprite sheet
+            punch_sprite = pygame.Surface((character_width, character_height))
+            punch_sprite.blit(sprite_sheet, (0, 0), (3 * character_width, 0, character_width, character_height))
+            
             # Check if the "P" key is pressed and update the current sprite index to the punching sprite
         
             if keys[pygame.K_p]:
