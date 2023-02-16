@@ -335,7 +335,7 @@ class Loot(Entity):
         self._power = power
         super().__init__(self.xPos, self.yPos, width, height, True)
     def get_power(self):
-        return self.power
+        return self._power
     power = property(get_power)
 
 class JumpLoot(Loot):
