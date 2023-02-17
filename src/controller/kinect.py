@@ -5,16 +5,13 @@ import sys
 import os
 sys.path.append(os.path.abspath("./src"))
 print(sys.path)
-import asyncio
-import websockets
-import json
 
 from shared_memory_dict import SharedMemoryDict
 
 from model.movement_recognition.HandInfront import HandInfront
 from model.movement_recognition.HandPos import HandPos
 from model.movement_recognition.Jump import Jump
-from model.movement_recognition.punch import LeftPunch, RightPunch
+from model.movement_recognition.Punch import LeftPunch, RightPunch
 from model.movement_recognition.RaiseLegs import RaiseLeftLeg, RaiseRightLeg
 from model.movement_recognition.TurnHips import TurnHips
 
