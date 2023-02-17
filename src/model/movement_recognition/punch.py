@@ -30,7 +30,8 @@ class LeftPunch(object):
         self.read = False
         self.magnitude = 0
 
-    def __call__(self, body: PyKinectRuntime.KinectBody, depth:ndarray, joint_points:ndarray) -> None:
+    def __call__(self, body: PyKinectRuntime.KinectBody, depth: ndarray,
+                 joint_points: ndarray) -> None:
         """Calling LeftPunch with these perameters updates the read according to whether or not the body is punching or not.
 
         Args:
@@ -57,7 +58,8 @@ class LeftPunch(object):
 
         # a=0.9 == fast react      a=0.1 == slow react
         max_change_per_itteration = 0.4  # change per itteration
-        delt = max_change_per_itteration * posx + (1 -  max_change_per_itteration) * self._olddelt
+        delt = max_change_per_itteration * posx + (
+            1 - max_change_per_itteration) * self._olddelt
 
         move = round(delt - self._olddelt, 3)
         self._olddelt = delt
@@ -117,7 +119,8 @@ class RightPunch(object):
         self.read = False
         self.magnitude = 0
 
-    def __call__(self, body: PyKinectRuntime.KinectBody, depth:ndarray, joint_points:ndarray) -> None:
+    def __call__(self, body: PyKinectRuntime.KinectBody, depth: ndarray,
+                 joint_points: ndarray) -> None:
         """Calling RightPunch with these perameters updates the read according to whether or not the body is punching or not.
 
         Args:
@@ -144,7 +147,8 @@ class RightPunch(object):
         # a=0.9 == fast react      a=0.1 == slow react
         max_change_per_itteration = 0.4  # change per itteration
 
-        delt = max_change_per_itteration * posx + (1 - max_change_per_itteration) * self._olddelt
+        delt = max_change_per_itteration * posx + (
+            1 - max_change_per_itteration) * self._olddelt
 
         move = round(delt - self._olddelt, 3)
         self._olddelt = delt

@@ -23,7 +23,7 @@ class HealthBar:
         currentHealth: The player's current health.
     """
 
-    def __init__(self, screen, panel, maxHealth: int):
+    def __init__(self, screen, panel, maxHealth: int) -> None:
         """Inits Healthbar
         """
         self.screen = screen
@@ -31,22 +31,22 @@ class HealthBar:
         self._maxHealth = maxHealth
         self._currentHealth = maxHealth
 
-    def getMaxHealth(self):
+    def getMaxHealth(self) -> int:
         """Getter method for the maxHealth property
         """
         return self._maxHealth
-    
-    def getCurrentHealth(self):
+
+    def getCurrentHealth(self) -> int:
         """Getter method for the currentHealth property
         """
         return self._currentHealth
 
-    def setCurrentHealth(self, newHealth: int):
+    def setCurrentHealth(self, newHealth: int) -> None:
         """Setter method for the currentHealth property
         """
         self._currentHealth = newHealth
 
-    def reduceHealth(self, damage: int):
+    def reduceHealth(self, damage: int) -> None:
         """Reduces the player's current health.
 
         Args:
@@ -54,7 +54,7 @@ class HealthBar:
         """
         self.setCurrentHealth(self.getCurrentHealth() - damage)
 
-    def drawMaxHealth(self):
+    def drawMaxHealth(self) -> None:
         """Draws the maximum health bar, in white, to the screen.
 
         This is the background section of the healthbar.
@@ -69,7 +69,7 @@ class HealthBar:
         bar.fill("white")
         self.screen.blit(bar, (panelWidth // 35, panelWidth // 20))
 
-    def drawCurrentHealth(self):
+    def drawCurrentHealth(self) -> None:
         """Draws the current health, in green, to the screen.
         
         This is the variable part of the healthbar.
@@ -82,7 +82,8 @@ class HealthBar:
 
         self.drawMaxHealth()
         panelWidth = self.panel.getWidth()
-        barX = (panelWidth - (panelWidth // 1.5)) * (self.getCurrentHealth() / self.getMaxHealth())
+        barX = (panelWidth - (panelWidth // 1.5)) * (self.getCurrentHealth() /
+                                                     self.getMaxHealth())
         bar = pygame.Surface((barX, (panelWidth // 25)))
         bar.fill("green")
         self.screen.blit(bar, (panelWidth // 35, panelWidth // 20))

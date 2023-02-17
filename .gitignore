@@ -1,3 +1,6 @@
 # ignore all pycaches
 **/__pycache__/
 .vscode/launch.json
+.idea/misc.xml
+.idea/semester2project.iml
+src/view/assets/gamebg.png

@@ -36,8 +36,11 @@ screen.blit(background, (0, 0))
 screen.blit(logo, logo_rect)
 
 # Define buttons
+#self.renderer
 play_button = font.render("PLAY", True, BLACK)
+#self.rect
 play_rect = play_button.get_rect()
+#self.rect.center
 play_rect.center = (512, 330)
 
 leaderboard_button = font.render("LEADERBOARD", True, BLACK)
@@ -52,19 +55,14 @@ about_button = font.render("ABOUT", True, BLACK)
 about_rect = about_button.get_rect()
 about_rect.center = (512, 630)
 
-def open_player_panel():
-    from ui_modifications_lab import Player
-    Player()
-
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         # Check if play button is clicked
-        if event.type == pygame.MOUSEBUTTONUP and play_rect.collidepoint(event.pos):
-            open_player_panel()
-    
+        #if event.type == pygame.MOUSEBUTTONUP and play_rect.collidepoint(event.pos):
+
     mouse_pos = pygame.mouse.get_pos()
 
     if play_rect.collidepoint(mouse_pos):
@@ -73,7 +71,6 @@ while running:
     else:
         play_button = font.render("PLAY", True, BLACK)
         pygame.mouse.set_cursor(*pygame.cursors.arrow)
-
 
     # Check if mouse is hovering over buttons and effect
     if play_rect.collidepoint(mouse_pos):
@@ -95,8 +92,6 @@ while running:
         about_button = font.render("ABOUT", True, BLUE)
     else:
         about_button = font.render("ABOUT", True, BLACK)
-
-    # Draw background
 
     # Draw buttons
     screen.blit(play_button, play_rect)

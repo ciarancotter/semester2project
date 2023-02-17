@@ -30,7 +30,8 @@ class RaiseLeftLeg(object):
         self.read = False
         self.magnitude = 0
 
-    def __call__(self, body: PyKinectRuntime.KinectBody, depth:ndarray, joint_points:ndarray) -> None:
+    def __call__(self, body: PyKinectRuntime.KinectBody, depth: ndarray,
+                 joint_points: ndarray) -> None:
         """Calling LeftWalk with these perameters updates the read according to whether or not the body is rasing its left calf or not.
 
         Args:
@@ -57,11 +58,11 @@ class RaiseLeftLeg(object):
                 return None, None, None
 
         # slope = rise/run
-        rise = joint_points[ankle_point_id].y-joint_points[knee_point_id].y
-        run = joint_points[knee_point_id].x-joint_points[ankle_point_id].x
-        slope = (rise/run)
+        rise = joint_points[ankle_point_id].y - joint_points[knee_point_id].y
+        run = joint_points[knee_point_id].x - joint_points[ankle_point_id].x
+        slope = (rise / run)
 
-        angle = 90-degrees(atan(slope))
+        angle = 90 - degrees(atan(slope))
         if angle > 90:
             angle = 0
 
@@ -119,7 +120,8 @@ class RaiseRightLeg(object):
         self.read = False
         self.magnitude = 0
 
-    def __call__(self, body: PyKinectRuntime.KinectBody, depth:ndarray, joint_points:ndarray) -> None:
+    def __call__(self, body: PyKinectRuntime.KinectBody, depth: ndarray,
+                 joint_points: ndarray) -> None:
         """Calling RightPunch with these perameters updates the read according to whether or not the body is rasing its right calf or not.
 
         Args:
@@ -145,11 +147,11 @@ class RaiseRightLeg(object):
                 return None, None, None
 
         # slope = rise/run
-        rise = joint_points[ankle_point_id].y-joint_points[knee_point_id].y
-        run = joint_points[ankle_point_id].x-joint_points[knee_point_id].x
-        slope = (rise/run)
+        rise = joint_points[ankle_point_id].y - joint_points[knee_point_id].y
+        run = joint_points[ankle_point_id].x - joint_points[knee_point_id].x
+        slope = (rise / run)
 
-        angle = 90-degrees(atan(slope))
+        angle = 90 - degrees(atan(slope))
         if angle > 90:
             angle = 0
 

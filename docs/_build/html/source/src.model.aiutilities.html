@@ -14,6 +14,8 @@
     <script src="../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="src.view package" href="src.view.html" />
+    <link rel="prev" title="src.model package" href="src.model.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -38,14 +40,27 @@
 <section id="module-src.model.aiutilities.aiutilities">
 <span id="src-model-aiutilities-aiutilities-module"></span><h2>src.model.aiutilities.aiutilities module<a class="headerlink" href="#module-src.model.aiutilities.aiutilities" title="Permalink to this heading">¶</a></h2>
 <p>Utilities to interact with OpenAI’s models.</p>
-<p>This includes the generation of text via GPT-3, and the generation of images using DALLE.</p>
-<p>Usage:</p>
+<p>This includes the generation of text via GPT-3, and the generation of images using DALLE.
+The background is saved to view/assets as “gamebg.png”.
+Usage:</p>
 <p>configure_openai()
-generate_monolith(“tragic”, “Roman”)</p>
+generate_monolith(“tragic”, “Roman”)
+generate_background(“jungle”)</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="src.model.aiutilities.aiutilities.configure_openai">
 <span class="sig-prename descclassname"><span class="pre">src.model.aiutilities.aiutilities.</span></span><span class="sig-name descname"><span class="pre">configure_openai</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.model.aiutilities.aiutilities.configure_openai" title="Permalink to this definition">¶</a></dt>
 <dd><p>Configures the OpenAI module with the API key from environment variables.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.model.aiutilities.aiutilities.generate_background">
+<span class="sig-prename descclassname"><span class="pre">src.model.aiutilities.aiutilities.</span></span><span class="sig-name descname"><span class="pre">generate_background</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theme</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.aiutilities.aiutilities.generate_background" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a PNG file to be used as the game’s background.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>theme</strong> – The theme of the background.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -88,11 +103,32 @@ generate_monolith(“tragic”, “Roman”)</p>
 
 
 <h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="src.html">src package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.controller.html">src.controller package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.view.gameui.html">src.view.gameui package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.model.html">src.model package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.view.html">src.view package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">src.model.aiutilities package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-src.model.aiutilities.aiutilities">src.model.aiutilities.aiutilities module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-src.model.aiutilities">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.model.gameobjects.html">src.model.gameobjects package</a></li>
+</ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="src.html">src package</a><ul>
+  <li><a href="src.model.html">src.model package</a><ul>
+      <li>Previous: <a href="src.model.html" title="previous chapter">src.model package</a></li>
+      <li>Next: <a href="src.view.html" title="next chapter">src.view package</a></li>
+  </ul></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>

@@ -14,6 +14,8 @@
     <script src="../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="src.model.movement_recognition package" href="src.model.movement_recognition.html" />
+    <link rel="prev" title="src.view package" href="src.view.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -35,65 +37,8 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
 </section>
-<section id="module-src.view.gameui.gameui">
-<span id="src-view-gameui-gameui-module"></span><h2>src.view.gameui.gameui module<a class="headerlink" href="#module-src.view.gameui.gameui" title="Permalink to this heading">¶</a></h2>
-<p>A utility to create a text box at the bottom of the screen.</p>
-<p>This class can be used to create a text box with custom text in the Pygame UI.</p>
-<p>Usage:</p>
-<blockquote>
-<div><p>myTextBox = UITextBox(screen, 20, “monospace”, 14)
-myTextBox.draw(“Pyramids look funny.”)
-myTextBox.erase()</p>
-</div></blockquote>
-<dl class="py class">
-<dt class="sig sig-object py" id="src.view.gameui.gameui.UITextBox">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.view.gameui.gameui.</span></span><span class="sig-name descname"><span class="pre">UITextBox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">margin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fontsize</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.view.gameui.gameui.UITextBox" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A UI text box to write a piece of dialogue or information at the bottom of the screen.</p>
-<p>A UI text box that scales quite well.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="src.view.gameui.gameui.UITextBox.screen">
-<span class="sig-name descname"><span class="pre">screen</span></span><a class="headerlink" href="#src.view.gameui.gameui.UITextBox.screen" title="Permalink to this definition">¶</a></dt>
-<dd><p>The pygame screen.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="src.view.gameui.gameui.UITextBox.margin">
-<span class="sig-name descname"><span class="pre">margin</span></span><a class="headerlink" href="#src.view.gameui.gameui.UITextBox.margin" title="Permalink to this definition">¶</a></dt>
-<dd><p>The space between the window and the box at either side of it.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="src.view.gameui.gameui.UITextBox.font">
-<span class="sig-name descname"><span class="pre">font</span></span><a class="headerlink" href="#src.view.gameui.gameui.UITextBox.font" title="Permalink to this definition">¶</a></dt>
-<dd><p>The font used in the text box.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="src.view.gameui.gameui.UITextBox.fontsize">
-<span class="sig-name descname"><span class="pre">fontsize</span></span><a class="headerlink" href="#src.view.gameui.gameui.UITextBox.fontsize" title="Permalink to this definition">¶</a></dt>
-<dd><p>The size of the text.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.view.gameui.gameui.UITextBox.draw">
-<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.view.gameui.gameui.UITextBox.draw" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draws the box to the screen.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>text</strong> – The text to write in the box.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="src.view.gameui.gameui.UITextBox.erase">
-<span class="sig-name descname"><span class="pre">erase</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.view.gameui.gameui.UITextBox.erase" title="Permalink to this definition">¶</a></dt>
-<dd><p>Removes the current text.</p>
-</dd></dl>
-
-</dd></dl>
-
+<section id="src-view-gameui-gameui-module">
+<h2>src.view.gameui.gameui module<a class="headerlink" href="#src-view-gameui-gameui-module" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="module-src.view.gameui.healthbar">
 <span id="src-view-gameui-healthbar-module"></span><h2>src.view.gameui.healthbar module<a class="headerlink" href="#module-src.view.gameui.healthbar" title="Permalink to this heading">¶</a></h2>
@@ -101,14 +46,14 @@ myTextBox.erase()</p>
 <p>This class can be used to add a health bar to the Pygame UI, with methods to increase and decrease health.</p>
 <p>Usage:</p>
 <blockquote>
-<div><p>myHealthBar = HealthBar(100)
+<div><p>myHealthBar = HealthBar(screen, gamePanel, 100)
 myHealthBar.reduceHealth(20)
-myHealthBar.drawMaxHealth(screen)
-myHealthBar.drawCurrentHealth(screen)</p>
+myHealthBar.drawMaxHealth()
+myHealthBar.drawCurrentHealth()</p>
 </div></blockquote>
 <dl class="py class">
 <dt class="sig sig-object py" id="src.view.gameui.healthbar.HealthBar">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.view.gameui.healthbar.</span></span><span class="sig-name descname"><span class="pre">HealthBar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maxHealth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.view.gameui.healthbar.HealthBar" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.view.gameui.healthbar.</span></span><span class="sig-name descname"><span class="pre">HealthBar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">panel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxHealth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.view.gameui.healthbar.HealthBar" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A UI health indicator to inform the player of their remaining health.</p>
 <p>A health indicator with methods to track the current health.</p>
@@ -126,14 +71,15 @@ myHealthBar.drawCurrentHealth(screen)</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.view.gameui.healthbar.HealthBar.drawCurrentHealth">
-<span class="sig-name descname"><span class="pre">drawCurrentHealth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">currentHealth</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.view.gameui.healthbar.HealthBar.drawCurrentHealth" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">drawCurrentHealth</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.view.gameui.healthbar.HealthBar.drawCurrentHealth" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draws the current health, in green, to the screen.</p>
 <p>This is the variable part of the healthbar.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>screen</strong> – The pygame screen.</p></li>
-<li><p><strong>currentHealth</strong> – The current health amount. This must be less than maxHealth.</p></li>
+<li><p><strong>panel</strong> – The panel to draw the health bar to.</p></li>
+<li><p><strong>currentHealth</strong> – The current health amount, which must be less than maxHealth.</p></li>
 </ul>
 </dd>
 </dl>
@@ -141,7 +87,7 @@ myHealthBar.drawCurrentHealth(screen)</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.view.gameui.healthbar.HealthBar.drawMaxHealth">
-<span class="sig-name descname"><span class="pre">drawMaxHealth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screen</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.view.gameui.healthbar.HealthBar.drawMaxHealth" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">drawMaxHealth</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.view.gameui.healthbar.HealthBar.drawMaxHealth" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draws the maximum health bar, in white, to the screen.</p>
 <p>This is the background section of the healthbar.</p>
 <dl class="field-list simple">
@@ -149,6 +95,18 @@ myHealthBar.drawCurrentHealth(screen)</p>
 <dd class="field-odd"><p><strong>screen</strong> – The pygame screen.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.view.gameui.healthbar.HealthBar.getCurrentHealth">
+<span class="sig-name descname"><span class="pre">getCurrentHealth</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.view.gameui.healthbar.HealthBar.getCurrentHealth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter method for the currentHealth property</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.view.gameui.healthbar.HealthBar.getMaxHealth">
+<span class="sig-name descname"><span class="pre">getMaxHealth</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.view.gameui.healthbar.HealthBar.getMaxHealth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter method for the maxHealth property</p>
 </dd></dl>
 
 <dl class="py method">
@@ -160,6 +118,12 @@ myHealthBar.drawCurrentHealth(screen)</p>
 <dd class="field-odd"><p><strong>damage</strong> – The amount of health to reduce the current health by.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.view.gameui.healthbar.HealthBar.setCurrentHealth">
+<span class="sig-name descname"><span class="pre">setCurrentHealth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newHealth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.view.gameui.healthbar.HealthBar.setCurrentHealth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setter method for the currentHealth property</p>
 </dd></dl>
 
 </dd></dl>
@@ -187,11 +151,34 @@ myHealthBar.drawCurrentHealth(screen)</p>
 
 
 <h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="src.html">src package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.controller.html">src.controller package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">src.view.gameui package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src-view-gameui-gameui-module">src.view.gameui.gameui module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-src.view.gameui.healthbar">src.view.gameui.healthbar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-src.view.gameui">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.model.movement_recognition.html">src.model.movement_recognition package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.model.html">src.model package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.view.html">src.view package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.model.aiutilities.html">src.model.aiutilities package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.model.gameobjects.html">src.model.gameobjects package</a></li>
+</ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="src.html">src package</a><ul>
+  <li><a href="src.view.html">src.view package</a><ul>
+      <li>Previous: <a href="src.view.html" title="previous chapter">src.view package</a></li>
+      <li>Next: <a href="src.model.movement_recognition.html" title="next chapter">src.model.movement_recognition package</a></li>
+  </ul></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>

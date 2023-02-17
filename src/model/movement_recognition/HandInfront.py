@@ -26,8 +26,8 @@ class HandInfront(object):
         self._distance_threshhold = 0.4
         self.read = False
 
-
-    def __call__(self, body: PyKinectRuntime.KinectBody, depth:ndarray, joint_points:ndarray) -> None:
+    def __call__(self, body: PyKinectRuntime.KinectBody, depth: ndarray,
+                 joint_points: ndarray) -> None:
         """Calling HandInfront with these perameters updates the read according to whether or not the body has a hand in front or not.
 
         Args:
@@ -40,7 +40,8 @@ class HandInfront(object):
         """
 
         joints = body.joints
-        points = (PyKinectV2.JointType_HandRight, PyKinectV2.JointType_SpineShoulder)
+        points = (PyKinectV2.JointType_HandRight,
+                  PyKinectV2.JointType_SpineShoulder)
 
         for i in points:
             point = joints[i].TrackingState
@@ -70,12 +71,11 @@ class HandInfront(object):
         distance = chest_depth - hand_depth
 
         if (distance > self._distance_threshhold):
-          self.read = True
-          return
+            self.read = True
+            return
         else:
-          self.read = False
-          return
-
+            self.read = False
+            return
 
     def get_distance_threshhold(self) -> int:
         """Gets the distance threashold needed to be reached to allow a hand in front to be recognised.

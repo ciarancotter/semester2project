@@ -32,7 +32,8 @@ class HandPos(object):
         self._height = height
         self._width = width
 
-    def __call__(self, body: PyKinectRuntime.KinectBody, depth:ndarray, joint_points:ndarray) -> None:
+    def __call__(self, body: PyKinectRuntime.KinectBody, depth: ndarray,
+                 joint_points: ndarray) -> None:
         """Calling handpos with these perameters updates the read according to where the right hand is in frame.
 
         Args:
