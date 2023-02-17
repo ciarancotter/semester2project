@@ -104,7 +104,7 @@ class Entity:
     is_colliding_entity = property(is_colliding_entity)
 
 
-class Block:
+class Block(Entity):
     """An entity platform that sprites can stand on.
 
     Attributes:
@@ -205,6 +205,8 @@ class Player(Monke):
         self._jump_height = 50
         self._jumped = True
         self._health = 10
+        self.current_loot = None
+        self._invincible = False
         super().__init__(self.xPos, self.yPos, width, height, True, 2)
 
     def move(self, direction: Movement, entities: list[Entity]) -> None:
@@ -244,16 +246,61 @@ class Player(Monke):
         if not self.gravity(entities):
             self._jump_baseline = self.yPos
             jumped = False
-        self.calculate_damage(entities)
+        self.calculate_collition_results(entities)
+        self.update_loot_stats()
 
-    def calculate_damage(self, entities):
-        for entity in entities:
+    def calculate_collition_results(self, entities):
+        for i,entity in enumerate(entities):
             if isinstance(entity, Enemy) and (self.is_colliding_entity(entity)):
-                self._health -= entity._damage
+                if not self._invincible:
+                    self._health -= entity._damage
+
+            elif isinstance(entity, Loot) and (self.is_colliding_entity(entity)):
+                self._health += entity.power
+
+            if isinstance(entity, JumpLoot) and (self.is_colliding_entity(entity)):
+                self.current_loot = entity
+                # increasing the jump height because it hit the loot
+                self._jump_height += entity.jump_increase
+                # making the loot disapear when you hit it
+                entities.pop(i)
+
+            if isinstance(entity, InvicibilityLoot) and (self.is_colliding_entity(entity)):
+                self.current_loot = entity
+                self._invincible = True
+                # making the loot disapear when you hit it
+                entities.pop(i)
+
+
+    def update_loot_stats(self):
+        """stores whether the player has gained any special powers.
+            
+            creates a timer and decrements it each frame to store the time
+            that the powers will run out.
+        """
+        if self.current_loot == None:
+            return
+        if isinstance(self.current_loot,JumpLoot):
+            if self.current_loot.power_up_time <= 0:
+                self._jump_height -= self.current_loot.jump_increase
+                self.current_loot = None
+            self.current_loot.power_up_time -= 1
+
+        if isinstance(self.current_loot,InvicibilityLoot):
+            if self.current_loot.power_up_time <= 0:
+                self._invincible = False
+                self.current_loot = None
+            self.current_loot.power_up_time -= 1
+
+            
 
     def get_health(self):
         return self._health
 
+    def get_invincibility(self):
+        return self._invincible
+
+    isInvincable = property(get_invincibility)
     health = property(get_health)
 
 
@@ -269,7 +316,7 @@ class Enemy(Monke):
         super().__init__(self.xPos, self.yPos, width, height, True)
         self._damage = dammage
 
-    def get_dammage(self) -> None:
+    def get_dammage(self) -> int:
         return self._damage
 
     def move(self, entities: list[Entity]):
@@ -277,3 +324,38 @@ class Enemy(Monke):
         #TODO: add autonomous movement
 
     damage = property(get_dammage)
+
+class Loot(Entity):
+    """the Loot class contains power ups that the player can gain once they colide with it.
+        
+    Atributes:
+        power: the potency of the loot
+    """
+    def __init__(self,xPos: int, yPos: int, width: int, height: int,colliding: bool,power=2):
+        self._power = power
+        super().__init__(self.xPos, self.yPos, width, height, True)
+    def get_power(self):
+        return self._power
+    power = property(get_power)
+
+class JumpLoot(Loot):
+    """loot that makes you jump higher.
+        
+        Atributes:
+            jump_increase: the amoun that your jump height increases when you get the loot
+            power_up_time: the time period that your increased jump height remains in place
+    """
+    def __init__(self,xPos: int, yPos: int, width: int, height: int,colliding: bool,power=2,jump_increase=10,time=1000):
+        self._jump_increase = jump_increase
+        self.power_up_time = time
+        super().__init__(self.xPos, self.yPos, width, height, True,power=power)
+    def get_jump_increase(self):
+        return self._jump_increase
+    jump_increase = property(get_jump_increase)
+    power_up_time= property(get_power_up_time)
+
+class InvicibilityLoot(Loot):
+    """loot that renders the player unable to be damaged by enemies for a particular period."""
+    def __init__(self,xPos: int, yPos: int, width: int, height: int,colliding: bool,power=2,time=1000):
+        self.power_up_time = time
+        super().__init__(self.xPos, self.yPos, width, height, True,power=power)
