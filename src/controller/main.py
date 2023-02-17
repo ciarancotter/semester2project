@@ -59,7 +59,7 @@ def main() -> None:
             gamemanager.update_model(Movement.right)
         elif keys_pressed[K_SPACE]:
             gamemanager.update_model(Movement.jump)
-        if keys_pressed[K_p]:
+        elif keys_pressed[K_p]:
             print("arriving punch from p")
             gamemanager.update_model(Movement.punch)
 
