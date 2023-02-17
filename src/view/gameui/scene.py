@@ -173,7 +173,7 @@ class Scene:
             self.drawBackground(GameState.in_session)
             self.updateGameUIElements()
 
-            player_data = self.game_manager.get_render_ctx().player
+            self.player_data = self.game_manager.get_render_ctx().player
             for i in range(self.rows):
                 for j in range(self.columns):
                     self.drawBackground(GameState.in_session)
@@ -189,7 +189,7 @@ class Scene:
                 self.direction = "right"
                 self.frame_count += 1
                 if self.frame_count == self.frame_delay:
-                    self.current_sprite_index = (self.current_sprite_index + 1) % self.columns
+                    self.current_sprite_index = (self.current_sprite_index + 1) % self.columns          ####!!!! for changing the legs moving
                     self.frame_count = 0
 
             # move the character to the left if the left key is pressed
@@ -199,7 +199,7 @@ class Scene:
                 self.direction = "left"
                 self.frame_count += 1
                 if self.frame_count == self.frame_delay:
-                    self.current_sprite_index = self.columns + (self.current_sprite_index + 2) % self.columns
+                    self.current_sprite_index = self.columns + (self.current_sprite_index + 2) % self.columns   ####!!!! for changing the legs moving
                     self.frame_count = 0
 
             # move the character to the up if the space key is pressed
@@ -210,7 +210,6 @@ class Scene:
                 if self.frame_count == self.frame_delay:
                     self.current_sprite_index = self.current_sprite_index
                     self.frame_count = 0
-
             
             # right punch picture and code
             if  self.player_data.facing == Movement.right_punch:

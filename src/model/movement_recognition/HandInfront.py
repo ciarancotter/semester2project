@@ -21,6 +21,7 @@ class HandInfront(object):
 
     def __init__(self):
         """Creates the HandInfront object
+
         """
         self._distance_threshhold = 0.4
         self.read = False
@@ -52,17 +53,17 @@ class HandInfront(object):
                 return None, None, None
 
         handy = int(joint_points[PyKinectV2.JointType_HandRight].y)
-        if handy > 1079:
+        if handy > depth.shape[0]-1:
             return
         handx = int(joint_points[PyKinectV2.JointType_HandRight].x)
-        if handx > 1919:
+        if handx > depth.shape[1]-1:
             return
 
         chesty = int(joint_points[PyKinectV2.JointType_SpineShoulder].y)
-        if chesty > 1079:
+        if chesty > depth.shape[0]-1:
             return
         chestx = int(joint_points[PyKinectV2.JointType_SpineShoulder].x)
-        if chestx > 1919:
+        if chestx > depth.shape[1]-1:
             return
 
         hand_depth = depth[handy, handx]
