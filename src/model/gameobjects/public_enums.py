@@ -6,7 +6,8 @@ class Movement(enum.Enum):
     left = 2
     jump = 3
     no_movement = 4
-
+    left_punch = 5
+    right_punch = 6
 
 class GameState(enum.Enum):
     in_session = 1

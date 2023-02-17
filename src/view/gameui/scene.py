@@ -83,6 +83,7 @@ class Scene:
         self.frame_delay = 5
         self.frame_count = 0
         self.direction = "right"
+        
 
     def drawBackground(self, game_state):
         """Draws the background depending on the current state of the game.
@@ -180,6 +181,7 @@ class Scene:
                     self.character_sprites[i * self.columns + j].blit(self.sprite_sheet, (0, 0), (
                     j * self.player_data.width, i * self.player_data.height, self.player_data.width,
                     self.player_data.height))
+        
 
             # move the character to the right if the right key is pressed
             if self.player_data.facing == Movement.right:
@@ -208,42 +210,47 @@ class Scene:
                 if self.frame_count == self.frame_delay:
                     self.current_sprite_index = self.current_sprite_index
                     self.frame_count = 0
+            
+            # right punch picture and code
+            if  self.player_data.facing == Movement.right_punch:
+                # Load the punching sprite from the sprite sheet
+                print("Arrived to punch ")
+                self.frame_count += 1
 
-            if self.player_data.facing == Movement.no_movement:
-                self.direction = "no movement"
-                if self.current_sprite_index >= self.columns:
-                    self.current_sprite_index = self.current_sprite_index
-                else:
-                    self.current_sprite_index = self.current_sprite_index
+            # Check if the "P" key is pressed and update the current sprite index to the punching sprite
+                if self.frame_count == self.frame_delay:
+                    self.current_sprite_index = 3
+                    self.frame_count = 0
+
                     
+            # left punch picture and code
+            if  self.player_data.facing == Movement.left_punch:
+                # Load the punching sprite from the sprite sheet
+                print("Arrived to punch ")
+                self.frame_count += 1
 
-            # punch picture and code
-
+            # Check if the "P" key is pressed and update the current sprite index to the punching sprite
+                if self.frame_count == self.frame_delay:
+                    self.current_sprite_index = 3
+                    self.frame_count = 0
             # update the current sprite based on the direction of the character
-            if self.direction == "right":
-                if self.current_sprite_index < self.columns:
-                    self.drawBackground(GameState.in_session)
-                    self.updateGameUIElements()
-                    self.screen.blit(self.character_sprites[self.current_sprite_index],
-                                     (self.player_data.xPos, self.player_data.yPos))
-            elif self.direction == "left":
-                if self.current_sprite_index >= self.columns:
-                    self.drawBackground(GameState.in_session)
-                    self.updateGameUIElements()
-                    self.screen.blit(self.character_sprites[self.current_sprite_index],
-                                     (self.player_data.xPos, self.player_data.yPos))
-            elif self.direction == "no movement":
-                if self.current_sprite_index >= self.columns:
-                    self.drawBackground(GameState.in_session)
-                    self.updateGameUIElements()
-                    self.screen.blit(self.character_sprites[self.current_sprite_index],
-                                     (self.player_data.xPos, self.player_data.yPos))
-                if self.current_sprite_index < self.columns:
-                    self.drawBackground(GameState.in_session)
-                    self.updateGameUIElements()
-                    self.screen.blit(self.character_sprites[self.current_sprite_index],
-                                     (self.player_data.xPos, self.player_data.yPos))
+            if self.current_sprite_index < self.columns:
+                self.drawBackground(GameState.in_session)
+                self.updateGameUIElements()
+                self.screen.blit(self.character_sprites[self.current_sprite_index],
+                                    (self.player_data.xPos, self.player_data.yPos))
+            #for punch
 
+            if self.current_sprite_index > self.columns:
+                self.drawBackground(GameState.in_session)
+                self.updateGameUIElements()
+                self.screen.blit(self.character_sprites[self.current_sprite_index],
+                                    (self.player_data.xPos, self.player_data.yPos))
+            if self.current_sprite_index == self.columns:
+                self.drawBackground(GameState.in_session)
+                self.updateGameUIElements()
+                self.screen.blit(self.character_sprites[self.current_sprite_index],
+                                    (self.player_data.xPos, self.player_data.yPos))
 
         elif current_scene.game_state == GameState.start_menu:
             self.drawBackground(current_scene.game_state)
