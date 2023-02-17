@@ -218,10 +218,9 @@ class Scene:
             # right punch picture and code
             if  self.player_data.facing == Movement.right_punch:
                 # Load the punching sprite from the sprite sheet
-                print("Arrived to punch ")
                 self.frame_count += 1
 
-            # Check if the "P" key is pressed and update the current sprite index to the punching sprite
+                # Check if the "P" key is pressed and update the current sprite index to the punching sprite
                 if self.frame_count == self.frame_delay:
                     self.current_sprite_index = 3
                     self.frame_count = 0
@@ -230,7 +229,6 @@ class Scene:
             # left punch picture and code
             if  self.player_data.facing == Movement.left_punch:
                 # Load the punching sprite from the sprite sheet
-                print("Arrived to punch ")
                 self.frame_count += 1
 
             # Check if the "P" key is pressed and update the current sprite index to the punching sprite
