@@ -3,7 +3,7 @@ from pykinect2 import PyKinectV2
 from pykinect2 import PyKinectRuntime
 
 
-class handpos(object):
+class HandPos(object):
     """The handpos Class is used to where the right hand is in frame.
     You need to call this class again once instanciated to update the data.
 

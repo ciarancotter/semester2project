@@ -4,7 +4,7 @@ from pykinect2 import PyKinectRuntime
 from math import degrees, atan
 
 
-class LeftWalk(object):
+class RaiseLeftLeg(object):
     """The LeftWalk Class is used to sense whether or the body in frame has its left calf rased or not.
     You need to call this class again once instanciated to update the data.
 
@@ -94,7 +94,7 @@ class LeftWalk(object):
         self._angle_threshhold = x
 
 
-class RightWalk(object):
+class RaiseRightLeg(object):
     """The RightWalk Class is used to sense whether or the body in frame has its right calf rased or not.
     You need to call this class again once instanciated to update the data.
 
