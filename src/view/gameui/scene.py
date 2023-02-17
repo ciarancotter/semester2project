@@ -210,6 +210,10 @@ class Scene:
                 if self.frame_count == self.frame_delay:
                     self.current_sprite_index = self.current_sprite_index
                     self.frame_count = 0
+
+            if self.player_data.facing == Movement.no_movement:
+                self.direction = "no movement"
+                self.current_sprite_index = self.current_sprite_index
             
             # right punch picture and code
             if  self.player_data.facing == Movement.right_punch:
@@ -251,6 +255,32 @@ class Scene:
                 self.updateGameUIElements()
                 self.screen.blit(self.character_sprites[self.current_sprite_index],
                                     (self.player_data.xPos, self.player_data.yPos))
+                
+            # update the current sprite based on the direction of the character
+            if self.direction == "right":
+                if self.current_sprite_index < self.columns:
+                    self.drawBackground(GameState.in_session)
+                    self.updateGameUIElements()
+                    self.screen.blit(self.character_sprites[self.current_sprite_index],
+                                     (self.player_data.xPos, self.player_data.yPos))
+            elif self.direction == "left":
+                if self.current_sprite_index >= self.columns:
+                    self.drawBackground(GameState.in_session)
+                    self.updateGameUIElements()
+                    self.screen.blit(self.character_sprites[self.current_sprite_index],
+                                     (self.player_data.xPos, self.player_data.yPos))
+            elif self.direction == "no movement":
+                if self.current_sprite_index >= self.columns:
+                    self.drawBackground(GameState.in_session)
+                    self.updateGameUIElements()
+                    self.screen.blit(self.character_sprites[self.current_sprite_index],
+                                     (self.player_data.xPos, self.player_data.yPos))
+                if self.current_sprite_index < self.columns:
+                    self.drawBackground(GameState.in_session)
+                    self.updateGameUIElements()
+                    self.screen.blit(self.character_sprites[self.current_sprite_index],
+                                     (self.player_data.xPos, self.player_data.yPos))
+
 
         elif current_scene.game_state == GameState.start_menu:
             self.drawBackground(current_scene.game_state)
