@@ -220,8 +220,10 @@ class Player(Monke):
 
         """
         #punching 
-        if direction == Movement.punch:
-            self.facing = Movement.punch
+        if direction == Movement.left_punch:
+            self.facing = Movement.left_punch
+        if direction == Movement.right_punch:
+            self.facing = Movement.right_punch
         #move left
         if direction == Movement.left and self.xPos >= 0:
             self.xPos -= self._speed
@@ -269,14 +271,14 @@ class Enemy(Monke):
 
     """
 
-    def __init__(self, xPos: int, yPos: int, width: int, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, height: int,colliding: bool, dammage: int) -> None:
+    def __init__(self, xPos: int, yPos: int, width: int, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, height: int,colliding: bool, dammage: int, player:Player) -> None:
         super().__init__(self.xPos, self.yPos, width, height, True)
         self._damage = dammage
         self._speed = 3
         self._frame_count = 0
         self.screen_width = SCREEN_WIDTH
+        self.player = player
         self.distance_to_player = 0
-
 
     def get_dammage(self) -> None:
         return self._damage

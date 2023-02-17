@@ -212,8 +212,8 @@ class Scene:
                     self.frame_count = 0
 
             
-            # punch picture and code
-            if  self.player_data.facing == Movement.punch:
+            # right punch picture and code
+            if  self.player_data.facing == Movement.right_punch:
                 # Load the punching sprite from the sprite sheet
                 print("Arrived to punch ")
                 self.frame_count += 1
@@ -223,6 +223,17 @@ class Scene:
                     self.current_sprite_index = 3
                     self.frame_count = 0
 
+                    
+            # left punch picture and code
+            if  self.player_data.facing == Movement.left_punch:
+                # Load the punching sprite from the sprite sheet
+                print("Arrived to punch ")
+                self.frame_count += 1
+
+            # Check if the "P" key is pressed and update the current sprite index to the punching sprite
+                if self.frame_count == self.frame_delay:
+                    self.current_sprite_index = 3
+                    self.frame_count = 0
             # update the current sprite based on the direction of the character
             if self.current_sprite_index < self.columns:
                 self.drawBackground(GameState.in_session)
