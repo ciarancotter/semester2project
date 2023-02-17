@@ -209,14 +209,12 @@ class Scene:
                     self.current_sprite_index = self.current_sprite_index
                     self.frame_count = 0
 
-            #----------needs fixing for going right------------
             if self.player_data.facing == Movement.no_movement:
                 self.direction = "no movement"
                 if self.current_sprite_index >= self.columns:
                     self.current_sprite_index = self.current_sprite_index
                 else:
-                    print(self.current_sprite_index)
-                    self.current_sprite_index = self.current_sprite_index + 1
+                    self.current_sprite_index = self.current_sprite_index
                     
 
             # punch picture and code
@@ -228,8 +226,19 @@ class Scene:
                     self.updateGameUIElements()
                     self.screen.blit(self.character_sprites[self.current_sprite_index],
                                      (self.player_data.xPos, self.player_data.yPos))
-            else:
+            elif self.direction == "left":
                 if self.current_sprite_index >= self.columns:
+                    self.drawBackground(GameState.in_session)
+                    self.updateGameUIElements()
+                    self.screen.blit(self.character_sprites[self.current_sprite_index],
+                                     (self.player_data.xPos, self.player_data.yPos))
+            elif self.direction == "no movement":
+                if self.current_sprite_index >= self.columns:
+                    self.drawBackground(GameState.in_session)
+                    self.updateGameUIElements()
+                    self.screen.blit(self.character_sprites[self.current_sprite_index],
+                                     (self.player_data.xPos, self.player_data.yPos))
+                if self.current_sprite_index < self.columns:
                     self.drawBackground(GameState.in_session)
                     self.updateGameUIElements()
                     self.screen.blit(self.character_sprites[self.current_sprite_index],
