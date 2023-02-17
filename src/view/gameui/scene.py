@@ -135,6 +135,7 @@ class Scene:
         self.transformed_game_background = pygame.transform.scale(game_background, (784, 784))
         self.game_manager.set_game_state(GameState.in_session)
         self.drawBackground(GameState.in_session)
+        self.play_music(GameState.in_session)
 
 
     def initialiseMenuScene(self):
@@ -151,6 +152,8 @@ class Scene:
         self.menu_buttons.append(leaderboard_button)
         self.menu_buttons.append(help_button)
         self.menu_buttons.append(about_button)
+
+        self.play_music(GameState.start_menu)
 
     def drawButtons(self):
         # Draw buttons
@@ -248,4 +251,19 @@ class Scene:
             if not self.loadedGame:
                 self.initialiseGameScene()
                 self.initialiseGameUIElements()
+    
+    def play_music(self, game_state):
+        """Handles music in the scene.
 
+           Attributes:
+               - game_state: The current game state.
+        """
+
+        if game_state == GameState.start_menu:
+            pygame.mixer.music.stop()
+            pygame.mixer.music.load("src/view/assets/start_menu.mp3")
+        elif game_state == GameState.in_session:
+            pygame.mixer.music.stop()
+            pygame.mixer.music.load("src/view/assets/gamemusic.mp3")
+        
+        pygame.mixer.music.play(loops=-1)
