@@ -8,6 +8,13 @@ from view.gameui.scene import Scene
 
 from model.gameobjects.public_enums import Movement
 
+try:
+    from pykinect2 import PyKinectV2
+    from shared_memory_dict import SharedMemoryDict
+    KINECT = True
+except ImportError:
+    KINECT = False
+
 
 # key controls
 from pygame.locals import (
@@ -32,6 +39,13 @@ def main() -> None:
     running = True
     game_ran = False
 
+    if KINECT:
+        # init shared memeory pool
+        movementPoolRead = SharedMemoryDict(name='movementPoolRead', size=1024)
+        movementPoolMisc = SharedMemoryDict(name='movementPoolMisc', size=1024)
+        # start python
+
+
     clock = pygame.time.Clock()
 
     gamemanager = PlatformerGame()
@@ -54,20 +68,34 @@ def main() -> None:
 
 
         # player movement
-        keys_pressed = pygame.key.get_pressed()
+        if KINECT:
+            if movementPoolMisc["turnleft"]:
+                gamemanager.update_model(Movement.left)
+            elif movementPoolMisc["turnright"]:
+                gamemanager.update_model(Movement.right)
+            elif movementPoolRead["jump"]:
+                gamemanager.update_model(Movement.jump)
+            elif movementPoolRead["leftpunch"]:
+                gamemanager.update_model(Movement.left_punch)
+            elif movementPoolRead["rightpunch"]:
+                gamemanager.update_model(Movement.right_punch)
+            else:
+                gamemanager.update_model(Movement.no_movement)
 
-        if keys_pressed[K_LEFT]:
-            gamemanager.update_model(Movement.left)
-        elif keys_pressed[K_RIGHT]:
-            gamemanager.update_model(Movement.right)
-        elif keys_pressed[K_UP]:
-            gamemanager.update_model(Movement.jump)
-        elif keys_pressed[K_a]:
-            gamemanager.update_model(Movement.left_punch)
-        elif keys_pressed[K_s]:
-            gamemanager.update_model(Movement.right_punch)
         else:
-            gamemanager.update_model(Movement.no_movement)
+            keys_pressed = pygame.key.get_pressed()
+            if keys_pressed[K_LEFT]:
+                gamemanager.update_model(Movement.left)
+            elif keys_pressed[K_RIGHT]:
+                gamemanager.update_model(Movement.right)
+            elif keys_pressed[K_UP]:
+                gamemanager.update_model(Movement.jump)
+            elif keys_pressed[K_a]:
+                gamemanager.update_model(Movement.left_punch)
+            elif keys_pressed[K_s]:
+                gamemanager.update_model(Movement.right_punch)
+            else:
+                gamemanager.update_model(Movement.no_movement)
 
             
 
