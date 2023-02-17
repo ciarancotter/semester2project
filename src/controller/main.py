@@ -15,7 +15,10 @@ from pygame.locals import (
     K_RIGHT,
     K_ESCAPE,
     K_SPACE,
+    K_UP,
     K_p,
+    K_a,
+    K_s,
     K_DOWN,
     QUIT,
 )
@@ -57,12 +60,12 @@ def main() -> None:
             gamemanager.update_model(Movement.left)
         elif keys_pressed[K_RIGHT]:
             gamemanager.update_model(Movement.right)
-        elif keys_pressed[K_SPACE]:
+        elif keys_pressed[K_UP]:
             gamemanager.update_model(Movement.jump)
-        if keys_pressed[K_p]:
-            print("arriving punch from p")
-            gamemanager.update_model(Movement.punch)
-
+        elif keys_pressed[K_a]:
+            gamemanager.update_model(Movement.left_punch)
+        elif keys_pressed[K_s]:
+            gamemanager.update_model(Movement.right_punch)
         else:
             gamemanager.update_model(Movement.no_movement)
 

@@ -189,7 +189,7 @@ class Scene:
                 self.direction = "right"
                 self.frame_count += 1
                 if self.frame_count == self.frame_delay:
-                    self.current_sprite_index = (self.current_sprite_index + 1) % self.columns          ####!!!! for changing the legs moving
+                    self.current_sprite_index = (self.current_sprite_index + 1) % self.columns
                     self.frame_count = 0
 
             # move the character to the left if the left key is pressed
@@ -199,7 +199,7 @@ class Scene:
                 self.direction = "left"
                 self.frame_count += 1
                 if self.frame_count == self.frame_delay:
-                    self.current_sprite_index = self.columns + (self.current_sprite_index + 2) % self.columns   ####!!!! for changing the legs moving
+                    self.current_sprite_index = self.columns + (self.current_sprite_index + 2) % self.columns
                     self.frame_count = 0
 
             # move the character to the up if the space key is pressed
@@ -237,24 +237,6 @@ class Scene:
                 if self.frame_count == self.frame_delay:
                     self.current_sprite_index = 3
                     self.frame_count = 0
-            # update the current sprite based on the direction of the character
-            if self.current_sprite_index < self.columns:
-                self.drawBackground(GameState.in_session)
-                self.updateGameUIElements()
-                self.screen.blit(self.character_sprites[self.current_sprite_index],
-                                    (self.player_data.xPos, self.player_data.yPos))
-            #for punch
-
-            if self.current_sprite_index > self.columns:
-                self.drawBackground(GameState.in_session)
-                self.updateGameUIElements()
-                self.screen.blit(self.character_sprites[self.current_sprite_index],
-                                    (self.player_data.xPos, self.player_data.yPos))
-            if self.current_sprite_index == self.columns:
-                self.drawBackground(GameState.in_session)
-                self.updateGameUIElements()
-                self.screen.blit(self.character_sprites[self.current_sprite_index],
-                                    (self.player_data.xPos, self.player_data.yPos))
                 
             # update the current sprite based on the direction of the character
             if self.direction == "right":
