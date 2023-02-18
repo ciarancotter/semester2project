@@ -32,6 +32,7 @@ def main() -> None:
     clock = pygame.time.Clock()
 
     gamemanager = PlatformerGame()
+    gamemanager.generate_level()
     gamepanel = Scene(gamemanager)
     gamepanel.initialiseMenuScene()
 

@@ -120,7 +120,7 @@ class Block(Entity):
     """
 
     def __init__(self, xPos: int, yPos: int, width: int, height: int) -> None:
-        super().__init__(self.xPos, self.yPos, width, height, True)
+        super().__init__(xPos, yPos, width, height, True)
 
 
 class Monke(Entity):
@@ -386,7 +386,7 @@ class JumpLoot(Loot):
     def get_jump_increase(self):
         return self._jump_increase
     jump_increase = property(get_jump_increase)
-    power_up_time= property(get_power_up_time)
+    #power_up_time= property(get_power_up_time)
 
 class InvicibilityLoot(Loot):
     """loot that renders the player unable to be damaged by enemies for a particular period."""

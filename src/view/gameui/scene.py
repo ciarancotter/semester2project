@@ -21,12 +21,13 @@ import pygame
 
 sys.path.append(os.path.abspath("./src"))
 
-from view.gameui.healthbar import HealthBar
+from view.gameui.healthbar import HealthBar, LevelIndicator
 from view.gameui.uielements import Button, TextBox, Panel
 from model.gameobjects.public_enums import Movement
 
 from model.gameobjects.game_interface import PlatformerGame
 from model.gameobjects.public_enums import GameState
+from model.gameobjects.entity import Block
 
 from model.aiutilities.aiutilities import generate_background
 
@@ -57,8 +58,10 @@ class Scene:
 
         self.textbox = None
         self.healthbar = None
+        self.levelindicator = None
         self.gameUIPanel = None
         self.mainGamePanel = None
+        self.blockImage = None
 
         menu_background = pygame.image.load("src/view/assets/menuBG.png").convert_alpha()
         self.transformed_menu_background = pygame.transform.scale(menu_background, (1280, 784))
@@ -83,6 +86,7 @@ class Scene:
         self.frame_delay = 5
         self.frame_count = 0
         self.direction = "right"
+        self.blockImage = pygame.image.load("src/view/assets/block2.png").convert_alpha()
         
 
     def drawBackground(self, game_state):
@@ -98,7 +102,7 @@ class Scene:
         self.screen.blit(self.background, (0, 0))
 
     def drawLogo(self):
-        """Draws the logo
+        """Draws the logo.
         """
         logo_base = pygame.image.load("src/view/assets/logo.png")
         logo = pygame.transform.scale(logo_base, (800, 150))
@@ -107,7 +111,9 @@ class Scene:
         self.screen.blit(logo, logo_rect)
     
     def initialiseGameUIElements(self):
-        
+        """Initialises and draws the main UI elements to the game.
+        """
+
         self.mainGamePanel = Panel(self.screen, 784, 512, 0, 0, "black")
         self.mainGamePanel.draw()
 
@@ -120,11 +126,18 @@ class Scene:
         self.healthbar = HealthBar(self.screen, self.mainGamePanel, 100)
         self.healthbar.drawMaxHealth()
         self.healthbar.drawCurrentHealth()
-        print("Should have drawn the health bar")
 
-    def updateGameUIElements(self):
+        self.levelindicator = LevelIndicator(self.screen, self.gameUIPanel)
+
+
+    def updateGameUIElements(self, current_scene):
         self.healthbar.drawMaxHealth()
         self.healthbar.drawCurrentHealth()
+
+        for block in current_scene.get_blocks():
+            self.draw_block(block)
+
+        self.levelindicator.draw(current_scene.get_current_level())
 
     def initialiseGameScene(self):
         """Run once when the game is created. Generates the AI data.
@@ -156,11 +169,19 @@ class Scene:
 
         self.play_music(GameState.start_menu)
 
+    def draw_block(self, block: Block):
+        """Draws the block to the screen based on the block's coordinates.
+            Attributes:
+                - block: The Block object.
+        """
+        self.screen.blit(self.blockImage, (block.x, block.y))
+
     def drawButtons(self):
-        # Draw buttons
+        """Draws the interactive UI buttons onto the screen.
+        """
         for button in self.menu_buttons:
             self.screen.blit(button.renderer, button.rect)
-
+    
     def updateScene(self):
         """Updates the current scene.
 
@@ -174,13 +195,13 @@ class Scene:
         # Decides what to draw
         if current_scene.game_state == GameState.in_session:
             self.drawBackground(GameState.in_session)
-            self.updateGameUIElements()
+            self.updateGameUIElements(current_scene)
+            self.player_data = current_scene.player
 
-            self.player_data = self.game_manager.get_render_ctx().player
             for i in range(self.rows):
                 for j in range(self.columns):
                     self.drawBackground(GameState.in_session)
-                    self.updateGameUIElements()
+                    self.updateGameUIElements(current_scene)
                     self.character_sprites[i * self.columns + j].blit(self.sprite_sheet, (0, 0), (
                     j * self.player_data.width, i * self.player_data.height, self.player_data.width,
                     self.player_data.height))
@@ -236,22 +257,24 @@ class Scene:
                 if self.frame_count == self.frame_delay:
                     self.current_sprite_index = 3
                     self.frame_count = 0
+
             # update the current sprite based on the direction of the character
             if self.current_sprite_index < self.columns:
                 self.drawBackground(GameState.in_session)
-                self.updateGameUIElements()
+                self.updateGameUIElements(current_scene)
                 self.screen.blit(self.character_sprites[self.current_sprite_index],
                                     (self.player_data.xPos, self.player_data.yPos))
             #for punch
 
             if self.current_sprite_index > self.columns:
                 self.drawBackground(GameState.in_session)
-                self.updateGameUIElements()
+                self.updateGameUIElements(current_scene)
                 self.screen.blit(self.character_sprites[self.current_sprite_index],
                                     (self.player_data.xPos, self.player_data.yPos))
+
             if self.current_sprite_index == self.columns:
                 self.drawBackground(GameState.in_session)
-                self.updateGameUIElements()
+                self.updateGameUIElements(current_scene)
                 self.screen.blit(self.character_sprites[self.current_sprite_index],
                                     (self.player_data.xPos, self.player_data.yPos))
 
@@ -264,7 +287,7 @@ class Scene:
         """check for hovering over the buttons in menue
             This method checks whether the mouse over any buttons start menu which is an array,
              Attributes:
-                 menu_buttons: an array of menu buttons
+                 - mouse_pos: A tuple containing the x and y positions of the mouse.
             """
         for button in self.menu_buttons:
             if button.rect.collidepoint(mouse_pos):
@@ -273,6 +296,10 @@ class Scene:
                 button.setBlack()
 
     def check_play_pressed(self, event):
+        """Continuously checks if the Play button in the menu has been pressed, and loads the game if so.
+            Attributes:
+                - event: The event object in Pygame.
+        """
         if self.menu_buttons[0].rect.collidepoint(event.pos):
             if not self.loadedGame:
                 self.initialiseGameScene()
