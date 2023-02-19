@@ -124,9 +124,16 @@ class Block(Entity):
         super().__init__(xPos, yPos, width, height, True)
 
 class Door(Block):
+    """an entity that sends you to a differnt level on contact.
+    """
     def __init__(self, xPos: int, yPos: int, width: int, height: int):
-        super().__init__(xPos, yPos, width, height, True)
+        super().__init__(xPos, yPos, width, height)
     def check_for_entery(self, player,level) -> bool:
+        """
+        a method that checks if the door has been entered
+
+        Returns: True if entered false if not 
+        """
         if super().is_colliding_with_entity(player) == True:
             return True
         return False

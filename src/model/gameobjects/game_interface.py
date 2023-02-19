@@ -1,6 +1,7 @@
 from model.gameobjects.level import level
 from model.gameobjects.entity import *
 from model.gameobjects.public_enums import Movement, GameState
+import json
 """This is the module that a view would use to interact with a game object to get info about the game state.
 
 This module contains 2 classes PlatformerGame and CtxToRender. PlatformerGame is the class that contains all
@@ -112,7 +113,7 @@ class PlatformerGame(object):
         level1 = level()
         level1.add_block(4, 26)
         level1.add_block(5, 26)
-        self._door = Door(32,32,500,500)
+        self._door = Door(500,500,32,32)
         self._blocks = level1.get_blocks()
         self._entities = level1.get_blocks()
 
@@ -127,6 +128,34 @@ class PlatformerGame(object):
             self.game_state = GameState.game_over
         if self._door.check_for_entery(self._player,self._current_level):
             self._current_level += 1
+            self.create_level_from_json()
+
+    def create_level_from_json(self):
+        """finds out what level the game is on and then parses the json file to 
+        get the information required to set up that level.
+        """
+        with open('model/gameobjects/level_info.json', 'r') as file:
+            level_object = level()
+            json_info = json.load(file)
+            # compiling the correct key to find the level information
+            level_selecter = "level_"+str(self._current_level)
+            level = json_info[level_selecter]
+            self._door = Door(level["door"]["x"],level["door"]["y"],32,32)
+            for block in level["blocks"]:
+                level_object.add_block(block["x"],block["y"])
+
+            # setting up the level information in this object
+            self._blocks = level_object.get_blocks()
+            for i,entity in enumerate(self._entities):
+                if isinstance(entity,Block):
+                    self._entities.pop(i)
+            
+            self._entities.extend(level_object.get_blocks())
+            self._player = Player(self._playerwidth, self._playerheight,
+                              self._screen_width, self._screen_height)
+
+
+
 
 
 
