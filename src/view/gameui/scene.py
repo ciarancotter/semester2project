@@ -69,10 +69,8 @@ class Scene:
         self.transformed_game_background = None
         BLACK = (0, 0, 0)
         BLUE = (104, 119, 225)
-
-        # following variables is to be used for drawing player
-
         self.sprite_sheet = pygame.image.load("src/view/assets/playerSprite.png").convert_alpha()
+
         # set the starting sprite for the character
         self.current_sprite_index = 0
         self.columns = 3
@@ -80,14 +78,18 @@ class Scene:
         self.context = game_manager.get_render_ctx()
         size = (self.context.player.width, self.context.player.height)
         self.character_sprites = [pygame.Surface(size, pygame.SRCALPHA) for i in range(self.columns * self.rows)]
+
         # shortcut for player data that we're getting from render_ctx
         self.player_data = self.context.player
+
         # set the delay between each frame
         self.frame_delay = 5
         self.frame_count = 0
         self.direction = "right"
         self.blockImage = pygame.image.load("src/view/assets/block2.png").convert_alpha()
         
+        # Sounds
+        #self.punch_sound = pygame.mixer.Sound("src/view/assets/punch.mp3")
 
     def drawBackground(self, game_state):
         """Draws the background depending on the current state of the game.
@@ -257,6 +259,7 @@ class Scene:
                 if self.frame_count == self.frame_delay:
                     self.current_sprite_index = 3
                     self.frame_count = 0
+                    # self.play_sound("punch")
 
             # update the current sprite based on the direction of the character
             if self.current_sprite_index < self.columns:
@@ -264,8 +267,8 @@ class Scene:
                 self.updateGameUIElements(current_scene)
                 self.screen.blit(self.character_sprites[self.current_sprite_index],
                                     (self.player_data.xPos, self.player_data.yPos))
-            #for punch
 
+            #for punch
             if self.current_sprite_index > self.columns:
                 self.drawBackground(GameState.in_session)
                 self.updateGameUIElements(current_scene)
@@ -320,3 +323,16 @@ class Scene:
             pygame.mixer.music.load("src/view/assets/gamemusic.mp3")
         
         pygame.mixer.music.play(loops=-1)
+
+    
+    def play_sound_effect(self, sound: str):
+        """Plays a sound effect.
+
+            Attributes:
+                - sound: The sound to play.
+        """
+        
+        if sound == "punch":
+            pass
+            # pygame.mixer.Sound.play(self.punch_sound)
+        
