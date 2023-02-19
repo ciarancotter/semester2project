@@ -73,7 +73,15 @@ class Entity:
         """
         return self.colliding
 
-    def is_colliding_with_entity(self, entities: list) -> bool:
+    def is_colliding_with_entity(self, entity):
+        # check if one rectangle is to the left of an other
+        if (entity.x + entity.width < self.xPos) or (self.xPos + self._width < entity.x):
+            # check if one rectangle is on top of an other
+            if (entity.y + entity.height < self.yPos) or (self.yPos + self._height < entity.y):
+                return False
+        return True
+
+    def is_colliding_with_entitys(self, entities: list) -> bool:
         """checks if this entity is colliding with anything in the list of 
         entitys provided.
         
@@ -86,14 +94,7 @@ class Entity:
         """
 
         for entity in entities:
-            # check if one rectangle is to the left of an other
-            if (entity.x + entity.width < self.xPos) or (self.xPos + self._width
-                                                         < entity.x):
-                continue
-            # check if one rectangle is on top of an other
-            if (entity.y + entity.height <
-                    self.yPos) or (self.yPos + self._height < entity.y):
-                continue
+           if self.is_colliding_entity(entity):
             return True
         return False
 
@@ -121,6 +122,22 @@ class Block(Entity):
 
     def __init__(self, xPos: int, yPos: int, width: int, height: int) -> None:
         super().__init__(xPos, yPos, width, height, True)
+
+class Door(Block):
+    """an entity that sends you to a differnt level on contact.
+    """
+    def __init__(self, xPos: int, yPos: int, width: int, height: int):
+        super().__init__(xPos, yPos, width, height)
+    def check_for_entery(self, player) -> bool:
+        """
+        a method that checks if the door has been entered
+
+        Returns: True if entered false if not 
+        """
+        if super().is_colliding_with_entity(player) == True:
+            print("how")
+            return True
+        return False
 
 
 class Monke(Entity):
@@ -260,21 +277,21 @@ class Player(Monke):
 
     def calculate_collition_results(self, entities):
         for i,entity in enumerate(entities):
-            if isinstance(entity, Enemy) and (self.is_colliding_entity(entity)):
+            if isinstance(entity, Enemy) and (self.is_colliding_with_entity(entity)):
                 if not self._invincible:
                     self._health -= entity._damage
 
-            elif isinstance(entity, Loot) and (self.is_colliding_entity(entity)):
+            elif isinstance(entity, Loot) and (self.is_colliding_with_entity(entity)):
                 self._health += entity.power
 
-            if isinstance(entity, JumpLoot) and (self.is_colliding_entity(entity)):
+            if isinstance(entity, JumpLoot) and (self.is_colliding_with_entity(entity)):
                 self.current_loot = entity
                 # increasing the jump height because it hit the loot
                 self._jump_height += entity.jump_increase
                 # making the loot disapear when you hit it
                 entities.pop(i)
 
-            if isinstance(entity, InvicibilityLoot) and (self.is_colliding_entity(entity)):
+            if isinstance(entity, InvicibilityLoot) and (self.is_colliding_with_entity(entity)):
                 self.current_loot = entity
                 self._invincible = True
                 # making the loot disapear when you hit it

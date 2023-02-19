@@ -1,6 +1,7 @@
-from model.gameobjects.level import level
+from model.gameobjects.level import Level
 from model.gameobjects.entity import *
 from model.gameobjects.public_enums import Movement, GameState
+import json
 """This is the module that a view would use to interact with a game object to get info about the game state.
 
 This module contains 2 classes PlatformerGame and CtxToRender. PlatformerGame is the class that contains all
@@ -88,6 +89,7 @@ class PlatformerGame(object):
         self._gamestate = GameState.start_menu
         #punch state
         self._punch_state = False
+        self._door = None
 
     def get_render_ctx(self) -> CtxToRender:
         """Returns the information necicary (or the context/shortend to ctx in this program ) to render
@@ -108,9 +110,10 @@ class PlatformerGame(object):
 		it then sets the blocks and entities accordingly in the Platformer Game 
 		to reflect this.
 		"""
-        level1 = level()
+        level1 = Level()
         level1.add_block(4, 26)
         level1.add_block(5, 26)
+        self._door = Door(0,0,32,32)
         self._blocks = level1.get_blocks()
         self._entities = level1.get_blocks()
 
@@ -120,12 +123,42 @@ class PlatformerGame(object):
         self._gamestate = GameState.in_session
 
     def update_model(self, player_move: Movement):
-        # if player_move == Movement.punch:
-        #     Movement.punch = True
-        #     player_move = Movement.punch
         self._player.move(player_move, self._blocks)
         if self._player.health <= 0:
             self.game_state = GameState.game_over
+
+        # check if it is time to switch levels
+        if self._door != None and self._door.check_for_entery(self._player):
+            self._current_level += 1
+            self.create_level_from_json()
+
+    def create_level_from_json(self):
+        """finds out what level the game is on and then parses the json file to 
+        get the information required to set up that level.
+        """
+        with open('src/model/gameobjects/level_info.json', 'r') as file:
+            level_object = Level()
+            json_info = json.load(file)
+            # compiling the correct key to find the level information
+            level_selecter = "level_"+str(self._current_level)
+            level = json_info[level_selecter]
+            self._door = Door(level["door"]["x"],level["door"]["y"],32,32)
+            for block in level["blocks"]:
+                level_object.add_block(block["x"],block["y"])
+
+            # setting up the level information in this object
+            self._blocks = level_object.get_blocks()
+            for i,entity in enumerate(self._entities):
+                if isinstance(entity,Block):
+                    self._entities.pop(i)
+
+            self._entities.extend(level_object.get_blocks())
+            self._player = Player(self._playerwidth, self._playerheight,
+                              self._screen_width, self._screen_height)
+
+
+
+
 
 
 
