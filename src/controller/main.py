@@ -15,7 +15,8 @@ from pygame.locals import (
     K_RIGHT,
     K_ESCAPE,
     K_SPACE,
-    K_p,
+    K_d,
+    K_f,
     K_DOWN,
     QUIT,
 )
@@ -53,21 +54,23 @@ def main() -> None:
 
         # player movement
         keys_pressed = pygame.key.get_pressed()
-
+        movements_for_model = []
         if keys_pressed[K_LEFT]:
-            gamemanager.update_model(Movement.left)
-        elif keys_pressed[K_RIGHT]:
-            gamemanager.update_model(Movement.right)
-        elif keys_pressed[K_SPACE]:
-            gamemanager.update_model(Movement.jump)
-        if keys_pressed[K_p]:
-            print("arriving punch from p")
-            gamemanager.update_model(Movement.punch)
+            movements_for_model.append(Movement.left)
+        if keys_pressed[K_RIGHT]:
+            movements_for_model.append(Movement.right)
+        if keys_pressed[K_SPACE]:
+            movements_for_model.append(Movement.jump)
+        if keys_pressed[K_d]:
+            movements_for_model.append(Movement.left_punch)
 
-        else:
-            gamemanager.update_model(Movement.no_movement)
+        if keys_pressed[K_f]:
+            movements_for_model.append(Movement.right_punch)
 
-            
+        if movements_for_model==[]:
+            movements_for_model = [Movement.no_movement]
+
+        gamemanager.update_model(movements_for_model)
 
         # <-- Update calls go here -->
 

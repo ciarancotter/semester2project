@@ -227,7 +227,7 @@ class Player(Monke):
         self._invincible = False
         super().__init__(self.xPos, self.yPos, width, height, True, 2)
 
-    def move(self, direction: Movement, entities: list[Entity]) -> None:
+    def move(self, directions: list[Movement], entities: list[Entity]) -> None:
         """this method is called to change the state of the player.
 
         this method is called to change the state of the player and does not have to 
@@ -238,26 +238,29 @@ class Player(Monke):
                         player is to move.  
 
         """
-        #punching 
-        if direction == Movement.left_punch:
-            self.facing = Movement.left_punch
-        if direction == Movement.right_punch:
-            self.facing = Movement.right_punch
-        #move left
-        if direction == Movement.left and self.xPos >= 0:
-            self.xPos -= self._speed
-            self.facing = Movement.left
-        #move right
-        if direction == Movement.right and self.xPos < self.screen_width - self._width:
-            self.xPos += self._speed
-            self.facing = Movement.right
+        if directions == [Movement.no_movement]:
+            self.facing = Movement.no_movement
+        for direction in directions:
+            #punching 
+            if direction == Movement.left_punch:
+                self.facing = Movement.left_punch
+            if direction == Movement.right_punch:
+                self.facing = Movement.right_punch
+            #move left
+            if direction == Movement.left and self.xPos >= 0:
+                self.xPos -= self._speed
+                self.facing = Movement.left
+            #move right
+            if direction == Movement.right and self.xPos < self.screen_width - self._width:
+                self.xPos += self._speed
+                self.facing = Movement.right
 
-        if direction == Movement.jump and (
-            (self._jump_baseline - self.yPos < self._jump_height) and
-                not self._jumped):
-            self.yPos -= self._speed * 20
-        elif (self._jump_baseline - self.yPos >= self._jump_height):
-            self._jumped = True
+            if direction == Movement.jump and (
+                (self._jump_baseline - self.yPos < self._jump_height) and
+                    not self._jumped):
+                self.yPos -= self._speed * 20
+            elif (self._jump_baseline - self.yPos >= self._jump_height):
+                self._jumped = True
 
         if self._jumped == True:
             if self.check_no_hit(entities):
@@ -266,8 +269,6 @@ class Player(Monke):
                 self._jumped = False
                 self._jump_baseline = self.yPos
 
-        if direction == Movement.no_movement:
-            self.facing = Movement.no_movement
 
         if not self.gravity(entities):
             self._jump_baseline = self.yPos
