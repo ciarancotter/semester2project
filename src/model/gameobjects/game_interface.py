@@ -88,6 +88,7 @@ class PlatformerGame(object):
         self._gamestate = GameState.start_menu
         #punch state
         self._punch_state = False
+        self._door = None
 
     def get_render_ctx(self) -> CtxToRender:
         """Returns the information necicary (or the context/shortend to ctx in this program ) to render
@@ -111,6 +112,7 @@ class PlatformerGame(object):
         level1 = level()
         level1.add_block(4, 26)
         level1.add_block(5, 26)
+        self._door = Door(32,32,500,500)
         self._blocks = level1.get_blocks()
         self._entities = level1.get_blocks()
 
@@ -120,12 +122,12 @@ class PlatformerGame(object):
         self._gamestate = GameState.in_session
 
     def update_model(self, player_move: Movement):
-        # if player_move == Movement.punch:
-        #     Movement.punch = True
-        #     player_move = Movement.punch
         self._player.move(player_move, self._blocks)
         if self._player.health <= 0:
             self.game_state = GameState.game_over
+        if self._door.check_for_entery(self._player,self._current_level):
+            self._current_level += 1
+
 
 
 
