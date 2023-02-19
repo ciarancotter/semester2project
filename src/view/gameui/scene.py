@@ -102,7 +102,7 @@ class Scene:
             self.background = self.transformed_game_background
 
         self.screen.blit(self.background, (0, 0))
-
+    
     def drawLogo(self):
         """Draws the logo.
         """
@@ -112,6 +112,18 @@ class Scene:
         logo_rect.center = (640, 150)
         self.screen.blit(logo, logo_rect)
     
+
+    def loading_screen(self):
+        """Draws a loading screen.
+        """
+        self.screen.fill("black")
+        self.drawLogo()
+        loading_text = pygame.font.SysFont("monospace", 30).render('Loading...', True, "white")
+        loading_text_rect = loading_text.get_rect()
+        loading_text_rect.center = (self.screen.get_width() // 2, self.screen.get_height() // 2)
+        self.screen.blit(loading_text, loading_text_rect)
+        pygame.display.update()
+
     def initialiseGameUIElements(self):
         """Initialises and draws the main UI elements to the game.
         """
@@ -305,6 +317,7 @@ class Scene:
         """
         if self.menu_buttons[0].rect.collidepoint(event.pos):
             if not self.loadedGame:
+                self.loading_screen()
                 self.initialiseGameScene()
                 self.initialiseGameUIElements()
     
