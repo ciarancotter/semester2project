@@ -1,4 +1,4 @@
-from model.gameobjects.level import level
+from model.gameobjects.level import Level
 from model.gameobjects.entity import *
 from model.gameobjects.public_enums import Movement, GameState
 import json
@@ -110,10 +110,10 @@ class PlatformerGame(object):
 		it then sets the blocks and entities accordingly in the Platformer Game 
 		to reflect this.
 		"""
-        level1 = level()
+        level1 = Level()
         level1.add_block(4, 26)
         level1.add_block(5, 26)
-        self._door = Door(500,500,32,32)
+        self._door = Door(0,0,32,32)
         self._blocks = level1.get_blocks()
         self._entities = level1.get_blocks()
 
@@ -126,7 +126,9 @@ class PlatformerGame(object):
         self._player.move(player_move, self._blocks)
         if self._player.health <= 0:
             self.game_state = GameState.game_over
-        if self._door.check_for_entery(self._player,self._current_level):
+
+        # check if it is time to switch levels
+        if self._door != None and self._door.check_for_entery(self._player):
             self._current_level += 1
             self.create_level_from_json()
 
@@ -134,8 +136,8 @@ class PlatformerGame(object):
         """finds out what level the game is on and then parses the json file to 
         get the information required to set up that level.
         """
-        with open('model/gameobjects/level_info.json', 'r') as file:
-            level_object = level()
+        with open('src/model/gameobjects/level_info.json', 'r') as file:
+            level_object = Level()
             json_info = json.load(file)
             # compiling the correct key to find the level information
             level_selecter = "level_"+str(self._current_level)
@@ -149,7 +151,7 @@ class PlatformerGame(object):
             for i,entity in enumerate(self._entities):
                 if isinstance(entity,Block):
                     self._entities.pop(i)
-            
+
             self._entities.extend(level_object.get_blocks())
             self._player = Player(self._playerwidth, self._playerheight,
                               self._screen_width, self._screen_height)

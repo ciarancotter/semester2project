@@ -78,8 +78,8 @@ class Entity:
         if (entity.x + entity.width < self.xPos) or (self.xPos + self._width < entity.x):
             # check if one rectangle is on top of an other
             if (entity.y + entity.height < self.yPos) or (self.yPos + self._height < entity.y):
-                return True
-        return False
+                return False
+        return True
 
     def is_colliding_with_entitys(self, entities: list) -> bool:
         """checks if this entity is colliding with anything in the list of 
@@ -128,13 +128,14 @@ class Door(Block):
     """
     def __init__(self, xPos: int, yPos: int, width: int, height: int):
         super().__init__(xPos, yPos, width, height)
-    def check_for_entery(self, player,level) -> bool:
+    def check_for_entery(self, player) -> bool:
         """
         a method that checks if the door has been entered
 
         Returns: True if entered false if not 
         """
         if super().is_colliding_with_entity(player) == True:
+            print("how")
             return True
         return False
 

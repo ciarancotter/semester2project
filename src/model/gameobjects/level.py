@@ -9,7 +9,7 @@ Typical ussage example:
 """
 
 
-class level(object):
+class Level(object):
     """level contains all the blocks in the level 
     and provides an interface to set and get them
     """
