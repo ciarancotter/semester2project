@@ -12,6 +12,7 @@ try:
     from pykinect2 import PyKinectV2
     from shared_memory_dict import SharedMemoryDict
     KINECT = True
+    print("kinect connected")
 except ImportError:
     KINECT = False
 

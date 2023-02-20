@@ -100,13 +100,19 @@ class MovementHandler(object):
 
         self.movementPoolMisc["mousex"] = self.mouse.x
         self.movementPoolMisc["mousey"] = self.mouse.y
-        self.movementPoolMisc["turntest"] = self.turntest.readleft
-        self.movementPoolMisc["turntest"] = self.turntest.readright
+        self.movementPoolMisc["turnleft"] = self.turntest.readleft
+        self.movementPoolMisc["turnright"] = self.turntest.readright
         self.movementPoolMisc["jumpmagnitude"] = self.jump.magnitude
         self.movementPoolMisc["leftpunchmagnitude"] = self.leftpunch.magnitude
         self.movementPoolMisc["rightpunchmagnitude"] = self.rightpunch.magnitude
 
-        print(self.movementPoolRead)
+        print("select:", self.movementPoolRead["select"],
+            "jump:", self.movementPoolRead["jump"],
+            "leftpunch:", self.movementPoolRead["leftpunch"],
+            "rightpunch:", self.movementPoolRead["rightpunch"],
+            "leftwalk:", self.movementPoolMisc["turnleft"],
+            "rightwalk:", self.movementPoolMisc["turnright"],
+        )
         
 
 if __name__ == '__main__':
