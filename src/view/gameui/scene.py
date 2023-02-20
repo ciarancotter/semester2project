@@ -217,7 +217,6 @@ class Scene:
             
             # right punch picture and code
             if  self.player_data.facing == Movement.right_punch:
-                prev_index = self.current_sprite_index
                 self.direction = "right punch"
                 self.frame_count += 1
                 if self.frame_count == self.frame_delay:
@@ -262,21 +261,21 @@ class Scene:
                 self.updateGameUIElements()
                 self.screen.blit(self.character_sprites[self.current_sprite_index],
                                  (self.player_data.xPos, self.player_data.yPos))
-                self.current_sprite_index = 0
-                #self.drawBackground(GameState.in_session)
-                #self.updateGameUIElements()
+                '''self.current_sprite_index = 0
+                self.drawBackground(GameState.in_session)
+                self.updateGameUIElements()
                 self.screen.blit(self.character_sprites[self.current_sprite_index],
-                                 (self.player_data.xPos, self.player_data.yPos))
+                                 (self.player_data.xPos, self.player_data.yPos))'''
             elif self.direction == "left punch":
                 self.drawBackground(GameState.in_session)
                 self.updateGameUIElements()
                 self.screen.blit(self.character_sprites[self.current_sprite_index],
                                  (self.player_data.xPos, self.player_data.yPos))
-                self.current_sprite_index = 3
-                #self.drawBackground(GameState.in_session)
-                #self.updateGameUIElements()
+                '''self.current_sprite_index = 3
+                self.drawBackground(GameState.in_session)
+                self.updateGameUIElements()
                 self.screen.blit(self.character_sprites[self.current_sprite_index],
-                                 (self.player_data.xPos, self.player_data.yPos))
+                                 (self.player_data.xPos, self.player_data.yPos))'''
                 
 
 
