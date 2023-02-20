@@ -116,9 +116,6 @@ class PlatformerGame(object):
         self._gamestate = GameState.in_session
 
     def update_model(self, player_move: Movement):
-        # if player_move == Movement.punch:
-        #     Movement.punch = True
-        #     player_move = Movement.punch
         self._player.move(player_move, self._blocks)
         if self._player.health <= 0:
             self.game_state = GameState.game_over

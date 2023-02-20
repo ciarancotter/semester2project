@@ -73,7 +73,7 @@ class Scene:
         # set the starting sprite for the character
         self.current_sprite_index = 0
         self.columns = 3
-        self.rows = 2
+        self.rows = 3
         self.context = game_manager.get_render_ctx()
         size = (self.context.player.width, self.context.player.height)
         self.character_sprites = [pygame.Surface(size, pygame.SRCALPHA) for i in range(self.columns * self.rows)]
@@ -217,23 +217,20 @@ class Scene:
             
             # right punch picture and code
             if  self.player_data.facing == Movement.right_punch:
-                # Load the punching sprite from the sprite sheet
+                prev_index = self.current_sprite_index
+                self.direction = "right punch"
                 self.frame_count += 1
-
-                # Check if the "P" key is pressed and update the current sprite index to the punching sprite
                 if self.frame_count == self.frame_delay:
-                    self.current_sprite_index = 3
+                    self.current_sprite_index = 6
                     self.frame_count = 0
 
                     
             # left punch picture and code
             if  self.player_data.facing == Movement.left_punch:
-                # Load the punching sprite from the sprite sheet
+                self.direction = "right punch"
                 self.frame_count += 1
-
-            # Check if the "P" key is pressed and update the current sprite index to the punching sprite
                 if self.frame_count == self.frame_delay:
-                    self.current_sprite_index = 3
+                    self.current_sprite_index = 7
                     self.frame_count = 0
                 
             # update the current sprite based on the direction of the character
@@ -260,6 +257,27 @@ class Scene:
                     self.updateGameUIElements()
                     self.screen.blit(self.character_sprites[self.current_sprite_index],
                                      (self.player_data.xPos, self.player_data.yPos))
+            elif self.direction == "right punch":
+                self.drawBackground(GameState.in_session)
+                self.updateGameUIElements()
+                self.screen.blit(self.character_sprites[self.current_sprite_index],
+                                 (self.player_data.xPos, self.player_data.yPos))
+                self.current_sprite_index = 0
+                #self.drawBackground(GameState.in_session)
+                #self.updateGameUIElements()
+                self.screen.blit(self.character_sprites[self.current_sprite_index],
+                                 (self.player_data.xPos, self.player_data.yPos))
+            elif self.direction == "left punch":
+                self.drawBackground(GameState.in_session)
+                self.updateGameUIElements()
+                self.screen.blit(self.character_sprites[self.current_sprite_index],
+                                 (self.player_data.xPos, self.player_data.yPos))
+                self.current_sprite_index = 3
+                #self.drawBackground(GameState.in_session)
+                #self.updateGameUIElements()
+                self.screen.blit(self.character_sprites[self.current_sprite_index],
+                                 (self.player_data.xPos, self.player_data.yPos))
+                
 
 
         elif current_scene.game_state == GameState.start_menu:
