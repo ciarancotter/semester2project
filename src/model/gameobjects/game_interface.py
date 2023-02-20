@@ -141,7 +141,11 @@ class PlatformerGame(object):
             json_info = json.load(file)
             # compiling the correct key to find the level information
             level_selecter = "level_"+str(self._current_level)
-            level = json_info[level_selecter]
+            try:
+                level = json_info[level_selecter]
+            except KeyError:
+                self._gamestate = GameState.game_over
+                return
             self._door = Door(level["door"]["x"],level["door"]["y"],32,32)
             for block in level["blocks"]:
                 level_object.add_block(block["x"],block["y"])
