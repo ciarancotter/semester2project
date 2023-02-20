@@ -1,10 +1,9 @@
 from multiprocessing import Process
-from kinect import MovementHandler
 from main import main
 
 def run_kinect():
     try:
-        from pykinect2 import PyKinectV2
+        from kinect import MovementHandler
         mv = MovementHandler(100, 100)
         while True:
             mv.update()
