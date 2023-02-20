@@ -3,11 +3,13 @@ from kinect import MovementHandler
 from main import main
 
 def run_kinect():
-    # code to run script1
-    mv = MovementHandler(100, 100)
-    while True:
-        mv.update()
-
+    try:
+        from pykinect2 import PyKinectV2
+        mv = MovementHandler(100, 100)
+        while True:
+            mv.update()
+    except:
+        return
 
 def run_game():
     # code to run script2
