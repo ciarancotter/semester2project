@@ -22,7 +22,7 @@ from model.gameobjects.public_enums import Movement, GameState
 
 class CtxToRender(object):
 
-    def __init__(self, enemies: list[Enemy], player: Player, blocks: list[Block], entities: list[Entity] , game_state: GameState, current_level: int ) -> None:
+    def __init__(self, enemies: list[Enemy], player: Player, blocks: list[Block], entities: list[Entity] , game_state: GameState, current_level: int, door: Door) -> None:
         """contains all the information needed to 
 		display a gamestate to the user.
 
@@ -44,12 +44,16 @@ class CtxToRender(object):
         self._entities = entities
         self._gamestate = game_state
         self._current_level = current_level
+        self._door = door
 
     def get_entities(self) -> list[Entity]:
         return self._entities
 
     def get_player(self) -> Player:
         return self._player
+    
+    def get_door(self) -> Door:
+        return self._door
 
     def get_blocks(self) -> list[Block]:
         return self._blocks
@@ -65,6 +69,7 @@ class CtxToRender(object):
 
     enemies = property(get_enemies)
     player = property(get_player)
+    door = property(get_door)
     blocks = property(get_blocks)
     entities = property(get_entities)
     game_state = property(get_game_state)
@@ -117,7 +122,7 @@ class PlatformerGame(object):
 
 		"""
         return CtxToRender(self._enemies, self._player, self._blocks,
-                           self._entities, self._gamestate, self._current_level)
+                           self._entities, self._gamestate, self._current_level, self._door)
 
     def set_game_state(self, new_game_state):
         """Setter method for game state.
