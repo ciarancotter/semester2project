@@ -226,7 +226,7 @@ class Scene:
                     
             # left punch picture and code
             if  self.player_data.facing == Movement.left_punch:
-                self.direction = "right punch"
+                self.direction = "left punch"
                 self.frame_count += 1
                 if self.frame_count == self.frame_delay:
                     self.current_sprite_index = 7
