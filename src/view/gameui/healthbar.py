@@ -116,7 +116,7 @@ class LevelIndicator:
             Attributes:
                 level: The current level.
         """
-        
+         
         text = str(level)
         screen_width = 496
         screen_height = 784

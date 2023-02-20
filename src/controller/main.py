@@ -33,9 +33,9 @@ def main() -> None:
     clock = pygame.time.Clock()
 
     gamemanager = PlatformerGame()
-    gamemanager.generate_level()
     gamepanel = Scene(gamemanager)
     gamepanel.initialiseMenuScene()
+    gamemanager.create_level_from_json()
 
     # Main game loop
     while running:

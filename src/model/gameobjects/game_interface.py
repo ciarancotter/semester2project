@@ -1,7 +1,3 @@
-from model.gameobjects.level import Level
-from model.gameobjects.entity import *
-from model.gameobjects.public_enums import Movement, GameState
-import json
 """This is the module that a view would use to interact with a game object to get info about the game state.
 
 This module contains 2 classes PlatformerGame and CtxToRender. PlatformerGame is the class that contains all
@@ -18,6 +14,11 @@ for block in ctx.blocks:
 # print the coordinates of all the blocks in the game
 """
 
+import json
+import random
+from model.gameobjects.level import Level
+from model.gameobjects.entity import *
+from model.gameobjects.public_enums import Movement, GameState
 
 class CtxToRender(object):
 
@@ -104,6 +105,7 @@ class PlatformerGame(object):
         self._gamestate = GameState.start_menu
         #punch state
         self._punch_state = False
+        self._level_added = False
         self._door = None
 
     def get_render_ctx(self) -> CtxToRender:
@@ -117,21 +119,6 @@ class PlatformerGame(object):
         return CtxToRender(self._enemies, self._player, self._blocks,
                            self._entities, self._gamestate, self._current_level)
 
-    def generate_level(self) -> None:
-        """
-		a temporary meathod to demonstrate the use of the level class in generating a level
-
-		this class creates a new level class and populates with blocks 
-		it then sets the blocks and entities accordingly in the Platformer Game 
-		to reflect this.
-		"""
-        level1 = Level()
-        level1.add_block(4, 26)
-        level1.add_block(5, 26)
-        self._door = Door(0,0,32,32)
-        self._blocks = level1.get_blocks()
-        self._entities = level1.get_blocks()
-
     def set_game_state(self, new_game_state):
         """Setter method for game state.
         """
@@ -139,11 +126,13 @@ class PlatformerGame(object):
 
     def update_model(self, player_moves: list(Movement)):
         self._player.move(player_moves, self._blocks)
+
         if self._player.health <= 0:
             self.game_state = GameState.game_over
 
         # check if it is time to switch levels
-        if self._door != None and self._door.check_for_entery(self._player):
+        if self._door != None and self._door.check_for_entry(self._player) and self._level_added is False:
+            self._level_added = True
             self._current_level += 1
             self.create_level_from_json()
 
@@ -154,11 +143,14 @@ class PlatformerGame(object):
 
         with open('src/model/gameobjects/level_info.json', 'r') as file:
             level_object = Level()
+            self._level_added = False
             json_info = json.load(file)
-
+            number_of_levels = len(json_info)
+            new_level_number = random.randint(0, number_of_levels)
+            print(new_level_number)
             # compiling the correct key to find the level information
             try:
-                level = json_info[self._current_level - 1]
+                level = json_info[new_level_number - 1]
             except Exception as e:
                 print(e)
                 self._gamestate = GameState.game_over

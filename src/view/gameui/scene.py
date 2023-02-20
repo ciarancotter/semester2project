@@ -151,6 +151,8 @@ class Scene:
         for block in current_scene.get_blocks():
             self.draw_block(block)
 
+        self.gameUIPanel.erase("orange")
+        # Still draws on top of itself? Idk why.
         self.levelindicator.draw(current_scene.get_current_level())
 
     def initialiseGameScene(self):
