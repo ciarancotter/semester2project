@@ -71,7 +71,22 @@ class CtxToRender(object):
 
 
 class PlatformerGame(object):
-    """ The main game class that stores the gamestate."""
+    """ The main game class that stores the gamestate.
+    
+        Attributes:
+            - playerwidth: The width of the player.
+            - playerheight: The height of the player.
+            - screen_width: The width of the screen.
+            - screen_height: The height of the screen.
+            - current_level: The value of the current level.
+            - enemies: The array of enemies in the game at the moment.
+            - player: The Player object to interact with the game.
+            - blocks: The blocks that are placed on the level.
+            - entities: The Entity objects in the level.
+            - gamestate: The enum that denotes the current scene.
+            - punch_state: The check for a punch.
+            - door: The door of the level.
+    """
 
     def __init__(self) -> None:
         # initialise all the objects
