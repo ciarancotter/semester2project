@@ -122,8 +122,8 @@ class PlatformerGame(object):
         """
         self._gamestate = GameState.in_session
 
-    def update_model(self, player_move: Movement):
-        self._player.move(player_move, self._blocks)
+    def update_model(self, player_moves: list(Movement)):
+        self._player.move(player_moves, self._blocks)
         if self._player.health <= 0:
             self.game_state = GameState.game_over
 
@@ -141,7 +141,11 @@ class PlatformerGame(object):
             json_info = json.load(file)
             # compiling the correct key to find the level information
             level_selecter = "level_"+str(self._current_level)
-            level = json_info[level_selecter]
+            try:
+                level = json_info[level_selecter]
+            except KeyError:
+                self._gamestate = GameState.game_over
+                return
             self._door = Door(level["door"]["x"],level["door"]["y"],32,32)
             for block in level["blocks"]:
                 level_object.add_block(block["x"],block["y"])
