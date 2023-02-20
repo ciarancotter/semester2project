@@ -55,7 +55,8 @@ class Scene:
         self.screen = pygame.display.set_mode((1280, 784))
         self.menu_buttons = []
         self.loadedGame = False
-
+        
+        self.door = None
         self.textbox = None
         self.healthbar = None
         self.levelindicator = None
@@ -65,6 +66,9 @@ class Scene:
 
         menu_background = pygame.image.load("src/view/assets/menuBG.png").convert_alpha()
         self.transformed_menu_background = pygame.transform.scale(menu_background, (1280, 784))
+
+        door_image = pygame.image.load("src/view/assets/door.png").convert_alpha() 
+        self.doorImage = pygame.transform.scale(door_image, (56, 56))
 
         self.transformed_game_background = None
         BLACK = (0, 0, 0)
@@ -87,7 +91,7 @@ class Scene:
         self.frame_count = 0
         self.direction = "right"
         self.blockImage = pygame.image.load("src/view/assets/block2.png").convert_alpha()
-        
+
         # Sounds
         #self.punch_sound = pygame.mixer.Sound("src/view/assets/punch.mp3")
 
@@ -124,6 +128,7 @@ class Scene:
         self.screen.blit(loading_text, loading_text_rect)
         pygame.display.update()
 
+
     def initialiseGameUIElements(self):
         """Initialises and draws the main UI elements to the game.
         """
@@ -140,7 +145,7 @@ class Scene:
         self.healthbar = HealthBar(self.screen, self.mainGamePanel, 100)
         self.healthbar.drawMaxHealth()
         self.healthbar.drawCurrentHealth()
-
+        
         self.levelindicator = LevelIndicator(self.screen, self.gameUIPanel)
 
 
@@ -151,8 +156,8 @@ class Scene:
         for block in current_scene.get_blocks():
             self.draw_block(block)
 
+        self.draw_door(current_scene) 
         self.gameUIPanel.erase("orange")
-        # Still draws on top of itself? Idk why.
         self.levelindicator.draw(current_scene.get_current_level())
 
     def initialiseGameScene(self):
@@ -191,6 +196,11 @@ class Scene:
                 - block: The Block object.
         """
         self.screen.blit(self.blockImage, (block.x, block.y))
+    
+    def draw_door(self, scene):
+        """Draws the door onto the scene.
+        """
+        self.screen.blit(self.doorImage, (scene.door.x, scene.door.y))
 
     def drawButtons(self):
         """Draws the interactive UI buttons onto the screen.
