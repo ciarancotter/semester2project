@@ -148,25 +148,30 @@ class PlatformerGame(object):
             self.create_level_from_json()
 
     def create_level_from_json(self):
-        """finds out what level the game is on and then parses the json file to 
+        """Finds out what level the game is on and then parses the json file to 
         get the information required to set up that level.
         """
+
         with open('src/model/gameobjects/level_info.json', 'r') as file:
             level_object = Level()
             json_info = json.load(file)
+
             # compiling the correct key to find the level information
-            level_selecter = "level_"+str(self._current_level)
             try:
-                level = json_info[level_selecter]
-            except KeyError:
+                level = json_info[self._current_level - 1]
+            except Exception as e:
+                print(e)
                 self._gamestate = GameState.game_over
                 return
-            self._door = Door(level["door"]["x"],level["door"]["y"],32,32)
+
+            self._door = Door(level["door"]["x"] * 28, level["door"]["y"] * 28, 28, 28)
+
             for block in level["blocks"]:
                 level_object.add_block(block["x"],block["y"])
 
             # setting up the level information in this object
             self._blocks = level_object.get_blocks()
+
             for i,entity in enumerate(self._entities):
                 if isinstance(entity,Block):
                     self._entities.pop(i)
