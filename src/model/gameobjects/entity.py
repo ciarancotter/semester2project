@@ -135,7 +135,6 @@ class Door(Block):
         Returns: True if entered false if not 
         """
         if super().is_colliding_with_entity(player) == True:
-            print("how")
             return True
         return False
 
@@ -147,6 +146,7 @@ class Monke(Entity):
     def __init__(self, xPos: int, yPos: int, width: int, height: int,
                  colliding: bool, speed: int) -> None:
         self._speed = speed
+        self._fall_speed = 5
         super().__init__(self.xPos, self.yPos, width, height, True)
 
     def collideTop(self, entities: list[Entity]) -> bool:
@@ -173,10 +173,12 @@ class Monke(Entity):
     def gravity(self, entities: list[Entity]) -> bool:
         """if monke let go of tree it fall.
         """
-        if self.check_no_hit(entities):
-            self.yPos += self._speed
-            return True
-        return False
+        for i in range(self._fall_speed):
+            if self.check_no_hit(entities):
+                self.yPos += 1
+                continue
+            return False
+        return True
 
     def check_no_hit(self, blocks: list[Entity]) -> None:
         """checks if the Monke has hit the top of the block or the ground.
@@ -185,8 +187,9 @@ class Monke(Entity):
                 blocks: a list of blocks of type Block
             Returns: True If you have not hit the top of the block or the ground.
         """
-        return (self.yPos < self.screen_height - self._height) and (
-            not (self.collideTop(blocks)))
+
+        return not ((self.yPos >= self.screen_height - self._height) or (
+            self.collideTop(blocks)))
 
 
 class Player(Monke):
@@ -220,8 +223,10 @@ class Player(Monke):
         self.xPos = SCREEN_WIDTH / 2
         self.yPos = SCREEN_HEIGHT / 2
         self._jump_baseline = self.yPos
-        self._jump_height = 50
+        self._jump_height = 100
         self._jumped = True
+        self._jumping = False
+        self._jump_power = 50
         self._health = 10
         self.current_loot = None
         self._invincible = False
@@ -255,24 +260,26 @@ class Player(Monke):
                 self.xPos += self._speed
                 self.facing = Movement.right
 
-            if direction == Movement.jump and (
-                (self._jump_baseline - self.yPos < self._jump_height) and
-                    not self._jumped):
-                self.yPos -= self._speed * 20
-            elif (self._jump_baseline - self.yPos >= self._jump_height):
-                self._jumped = True
 
-        if self._jumped == True:
-            if self.check_no_hit(entities):
-                self.yPos += self._speed
-            else:
-                self._jumped = False
+            if (not self._jumping) and direction == Movement.jump:
+                self._jumping = True
                 self._jump_baseline = self.yPos
+                
+        # if the player is jumping create an ark
+        if self._jumping:
+            self.yPos -= self._jump_power
+            self._jump_power -= 5
 
+            # done to prevent overshooting the ground
+            if self._jump_power <= -10:
+                self._jump_power = -10
 
+        # if no longer falling then reset jump stuff
         if not self.gravity(entities):
+            self._jumping = False
             self._jump_baseline = self.yPos
-            jumped = False
+            self._jump_power = 50
+
         self.calculate_collition_results(entities)
         self.update_loot_stats()
 
