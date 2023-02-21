@@ -10,10 +10,10 @@ from shared_memory_dict import SharedMemoryDict
 
 from model.movement_recognition.HandInfront import HandInfront
 from model.movement_recognition.HandPos import HandPos
-from model.movement_recognition.jump import Jump
-from model.movement_recognition.punch import LeftPunch, RightPunch
-from model.movement_recognition.raiselegs import RaiseLeftLeg, RaiseRightLeg
-from model.movement_recognition.turnhips import TurnHips
+from model.movement_recognition.Jump import Jump
+from model.movement_recognition.Punch import LeftPunch, RightPunch
+from model.movement_recognition.RaiseLegs import RaiseLeftLeg, RaiseRightLeg
+from model.movement_recognition.TurnHips import TurnHips
 
 
 class MovementHandler(object):
@@ -51,8 +51,8 @@ class MovementHandler(object):
 
         self.movementPoolMisc["mousex"] = self.mouse.x
         self.movementPoolMisc["mousey"] = self.mouse.y
-        self.movementPoolMisc["turnleft"] = self.turntest.readleft
-        self.movementPoolMisc["turnright"] = self.turntest.readright
+        self.movementPoolMisc["turntest"] = self.turntest.readleft
+        self.movementPoolMisc["turntest"] = self.turntest.readright
         self.movementPoolMisc["jumpmagnitude"] = self.jump.magnitude
         self.movementPoolMisc["leftpunchmagnitude"] = self.leftpunch.magnitude
         self.movementPoolMisc["rightpunchmagnitude"] = self.rightpunch.magnitude
@@ -100,19 +100,13 @@ class MovementHandler(object):
 
         self.movementPoolMisc["mousex"] = self.mouse.x
         self.movementPoolMisc["mousey"] = self.mouse.y
-        self.movementPoolMisc["turnleft"] = self.turntest.readleft
-        self.movementPoolMisc["turnright"] = self.turntest.readright
+        self.movementPoolMisc["turntest"] = self.turntest.readleft
+        self.movementPoolMisc["turntest"] = self.turntest.readright
         self.movementPoolMisc["jumpmagnitude"] = self.jump.magnitude
         self.movementPoolMisc["leftpunchmagnitude"] = self.leftpunch.magnitude
         self.movementPoolMisc["rightpunchmagnitude"] = self.rightpunch.magnitude
 
-        print("select:", self.movementPoolRead["select"],
-            "jump:", self.movementPoolRead["jump"],
-            "leftpunch:", self.movementPoolRead["leftpunch"],
-            "rightpunch:", self.movementPoolRead["rightpunch"],
-            "leftwalk:", self.movementPoolMisc["turnleft"],
-            "rightwalk:", self.movementPoolMisc["turnright"],
-        )
+        print(self.movementPoolRead)
         
 
 if __name__ == '__main__':

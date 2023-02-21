@@ -1,5 +1,2 @@
 #!/bin/bash
-
-python src/controller/kinect.py 
-
-python src/controller/main.py 
+python3 src/controller/main.py 2>/dev/null || python src/controller/main.py 2>/dev/null
