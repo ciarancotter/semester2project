@@ -78,7 +78,7 @@ class Scene:
         # set the starting sprite for the character
         self.current_sprite_index = 0
         self.columns = 3
-        self.rows = 3
+        self.rows = 2
         self.context = game_manager.get_render_ctx()
         size = (self.context.player.width, self.context.player.height)
         self.character_sprites = [pygame.Surface(size, pygame.SRCALPHA) for i in range(self.columns * self.rows)]
@@ -207,13 +207,7 @@ class Scene:
         """
         for button in self.menu_buttons:
             self.screen.blit(button.renderer, button.rect)
-
-    def updateSprite(self):
-        self.drawBackground(GameState.in_session)
-        self.updateGameUIElements()
-        self.screen.blit(self.character_sprites[self.current_sprite_index],
-                         (self.player_data.xPos, self.player_data.yPos))
-
+    
     def updateScene(self):
         """Updates the current scene.
 
@@ -244,7 +238,7 @@ class Scene:
                 self.direction = "right"
                 self.frame_count += 1
                 if self.frame_count == self.frame_delay:
-                    self.current_sprite_index = (self.current_sprite_index + 1) % self.columns
+                    self.current_sprite_index = (self.current_sprite_index + 1) % self.columns          ####!!!! for changing the legs moving
                     self.frame_count = 0
 
             # move the character to the left if the left key is pressed
@@ -254,7 +248,7 @@ class Scene:
                 self.direction = "left"
                 self.frame_count += 1
                 if self.frame_count == self.frame_delay:
-                    self.current_sprite_index = self.columns + (self.current_sprite_index + 2) % self.columns
+                    self.current_sprite_index = self.columns + (self.current_sprite_index + 2) % self.columns   ####!!!! for changing the legs moving
                     self.frame_count = 0
 
             # move the character to the up if the space key is pressed
@@ -265,36 +259,50 @@ class Scene:
                 if self.frame_count == self.frame_delay:
                     self.current_sprite_index = self.current_sprite_index
                     self.frame_count = 0
-
-            if self.player_data.facing == Movement.no_movement:
-                self.direction = "no movement"
-                self.current_sprite_index = self.current_sprite_index
             
             # right punch picture and code
             if  self.player_data.facing == Movement.right_punch:
-                self.direction = "right punch"
-                self.current_sprite_index = 6
+                # Load the punching sprite from the sprite sheet
+                print("Arrived to punch ")
+                self.frame_count += 1
+
+            # Check if the "P" key is pressed and update the current sprite index to the punching sprite
+                if self.frame_count == self.frame_delay:
+                    self.current_sprite_index = 3
+                    self.frame_count = 0
 
                     
             # left punch picture and code
             if  self.player_data.facing == Movement.left_punch:
-                self.direction = "left punch"
-                self.current_sprite_index = 7
-                
+                # Load the punching sprite from the sprite sheet
+                print("Arrived to punch ")
+                self.frame_count += 1
+
+            # Check if the "P" key is pressed and update the current sprite index to the punching sprite
+                if self.frame_count == self.frame_delay:
+                    self.current_sprite_index = 3
+                    self.frame_count = 0
+                    # self.play_sound("punch")
+
             # update the current sprite based on the direction of the character
-            if self.direction == "right":
-                if self.current_sprite_index < self.columns:
-                    self.updateSprite()
-            elif self.direction == "left":
-                if self.current_sprite_index >= self.columns:
-                    self.updateSprite()
-            elif self.direction == "no movement":
-                if self.current_sprite_index >= self.columns:
-                    self.updateSprite()
-                if self.current_sprite_index < self.columns:
-                    self.updateSprite()
-            elif self.direction == "right punch" or self.direction == "left punch" or self.direction == "jump":
-                self.updateSprite()
+            if self.current_sprite_index < self.columns:
+                self.drawBackground(GameState.in_session)
+                self.updateGameUIElements(current_scene)
+                self.screen.blit(self.character_sprites[self.current_sprite_index],
+                                    (self.player_data.xPos, self.player_data.yPos))
+
+            #for punch
+            if self.current_sprite_index > self.columns:
+                self.drawBackground(GameState.in_session)
+                self.updateGameUIElements(current_scene)
+                self.screen.blit(self.character_sprites[self.current_sprite_index],
+                                    (self.player_data.xPos, self.player_data.yPos))
+
+            if self.current_sprite_index == self.columns:
+                self.drawBackground(GameState.in_session)
+                self.updateGameUIElements(current_scene)
+                self.screen.blit(self.character_sprites[self.current_sprite_index],
+                                    (self.player_data.xPos, self.player_data.yPos))
 
         elif current_scene.game_state == GameState.start_menu:
             self.drawBackground(current_scene.game_state)
