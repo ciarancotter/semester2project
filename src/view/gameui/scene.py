@@ -255,23 +255,21 @@ class Scene:
                 self.updateGameUIElements()
                 self.screen.blit(self.character_sprites[self.current_sprite_index],
                                  (self.player_data.xPos, self.player_data.yPos))
-                #pygame. time. delay(1000)
-                self.current_sprite_index = 0
-                #self.drawBackground(GameState.in_session)
-                #self.updateGameUIElements()
+                '''self.current_sprite_index = 0
+                self.drawBackground(GameState.in_session)
+                self.updateGameUIElements()
                 self.screen.blit(self.character_sprites[self.current_sprite_index],
-                                 (self.player_data.xPos, self.player_data.yPos))
+                                 (self.player_data.xPos, self.player_data.yPos))'''
             elif self.direction == "left punch":
                 self.drawBackground(GameState.in_session)
                 self.updateGameUIElements()
                 self.screen.blit(self.character_sprites[self.current_sprite_index],
                                  (self.player_data.xPos, self.player_data.yPos))
-                #pygame. time. delay(1000)
-                self.current_sprite_index = 3
-                #self.drawBackground(GameState.in_session)
-                #self.updateGameUIElements()
+                '''self.current_sprite_index = 3
+                self.drawBackground(GameState.in_session)
+                self.updateGameUIElements()
                 self.screen.blit(self.character_sprites[self.current_sprite_index],
-                                 (self.player_data.xPos, self.player_data.yPos))
+                                 (self.player_data.xPos, self.player_data.yPos))'''
                 
 
 
