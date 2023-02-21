@@ -28,7 +28,7 @@ from model.gameobjects.public_enums import Movement
 from model.gameobjects.game_interface import PlatformerGame
 from model.gameobjects.public_enums import GameState
 
-from model.aiutilities.aiutilities import generate_background
+#from model.aiutilities.aiutilities import generate_background
 
 
 class Scene:
@@ -130,7 +130,7 @@ class Scene:
         """Run once when the game is created. Generates the AI data.
         """
         pygame.display.set_caption("Boole Raider")
-        generate_background("ancient Egypt")
+        #generate_background("ancient Egypt")
         self.screen.fill("gold")
         game_background = pygame.image.load("src/view/assets/gamebg.png").convert_alpha()
         self.transformed_game_background = pygame.transform.scale(game_background, (784, 784))
@@ -218,19 +218,13 @@ class Scene:
             # right punch picture and code
             if  self.player_data.facing == Movement.right_punch:
                 self.direction = "right punch"
-                self.frame_count += 1
-                if self.frame_count == self.frame_delay:
-                    self.current_sprite_index = 6
-                    self.frame_count = 0
+                self.current_sprite_index = 6
 
                     
             # left punch picture and code
             if  self.player_data.facing == Movement.left_punch:
                 self.direction = "left punch"
-                self.frame_count += 1
-                if self.frame_count == self.frame_delay:
-                    self.current_sprite_index = 7
-                    self.frame_count = 0
+                self.current_sprite_index = 7
                 
             # update the current sprite based on the direction of the character
             if self.direction == "right":
@@ -261,21 +255,23 @@ class Scene:
                 self.updateGameUIElements()
                 self.screen.blit(self.character_sprites[self.current_sprite_index],
                                  (self.player_data.xPos, self.player_data.yPos))
-                '''self.current_sprite_index = 0
-                self.drawBackground(GameState.in_session)
-                self.updateGameUIElements()
+                #pygame. time. delay(1000)
+                self.current_sprite_index = 0
+                #self.drawBackground(GameState.in_session)
+                #self.updateGameUIElements()
                 self.screen.blit(self.character_sprites[self.current_sprite_index],
-                                 (self.player_data.xPos, self.player_data.yPos))'''
+                                 (self.player_data.xPos, self.player_data.yPos))
             elif self.direction == "left punch":
                 self.drawBackground(GameState.in_session)
                 self.updateGameUIElements()
                 self.screen.blit(self.character_sprites[self.current_sprite_index],
                                  (self.player_data.xPos, self.player_data.yPos))
-                '''self.current_sprite_index = 3
-                self.drawBackground(GameState.in_session)
-                self.updateGameUIElements()
+                #pygame. time. delay(1000)
+                self.current_sprite_index = 3
+                #self.drawBackground(GameState.in_session)
+                #self.updateGameUIElements()
                 self.screen.blit(self.character_sprites[self.current_sprite_index],
-                                 (self.player_data.xPos, self.player_data.yPos))'''
+                                 (self.player_data.xPos, self.player_data.yPos))
                 
 
 
