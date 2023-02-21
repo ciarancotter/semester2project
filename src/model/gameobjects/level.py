@@ -9,7 +9,7 @@ Typical ussage example:
 """
 
 
-class level(object):
+class Level(object):
     """level contains all the blocks in the level 
     and provides an interface to set and get them
     """
@@ -18,14 +18,14 @@ class level(object):
         self._blocks = []
 
     def add_block(self, row: int, column: int) -> None:
-        """ add a block in a particular 32*32 blockspace
+        """ add a block in a particular 28*28 blockspace
             
             Args:
                 row:
-                    a number between 0 and 31 defining which blockspace down from 
+                    a number between 0 and 27 defining which blockspace down from 
                     the top of the screen you wish to place your block.
                 column:
-                    a number between 0 and 31 defining which blockspace across from the
+                    a number between 0 and 27 defining which blockspace across from the
                     side you wish to place your block.
         """
         if ((0 <= row <= 27) and (0 <= column <= 27)):

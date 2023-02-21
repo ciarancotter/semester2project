@@ -1,3 +1,4 @@
+
 from multiprocessing import Process
 from game import main
 
@@ -11,7 +12,6 @@ def run_kinect():
         return
 
 def run_game():
-    # code to run script2
     main()
 
 if __name__ == '__main__':

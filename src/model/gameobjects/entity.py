@@ -37,6 +37,12 @@ class Entity:
         self.xPos = xPos
         self.yPos = yPos
 
+        # creating the hitbox
+        self._hitbox_x_offset = 0
+        self._hitbox_y_offset = 0
+        self._hitbox_width_reduction = 0
+        self._hitbox_height_reduction = 0
+
     def set_x(self, newX: int) -> None:
         """Setter method for the x-coordinate.
         """
@@ -73,7 +79,15 @@ class Entity:
         """
         return self.colliding
 
-    def is_colliding_with_entity(self, entities: list) -> bool:
+    def is_colliding_with_entity(self, entity):
+        if ((entity.x+entity._hitbox_x_offset) + (entity.width-entity._hitbox_width_reduction) < self.xPos) or ((self.xPos + self._hitbox_x_offset) + (self._width-self._hitbox_width_reduction) < (entity.x+entity._hitbox_x_offset)):
+            return False
+        if ((entity.y+entity._hitbox_y_offset) + (entity.height-entity._hitbox_height_reduction) < (self.yPos+self._hitbox_y_offset)) or ((self.yPos+self._hitbox_y_offset) + (self._height-self._hitbox_height_reduction) < (entity.y+entity._hitbox_y_offset)):
+            return False
+        return True
+
+
+    def is_colliding_with_entitys(self, entities: list) -> bool:
         """checks if this entity is colliding with anything in the list of 
         entitys provided.
         
@@ -86,14 +100,7 @@ class Entity:
         """
 
         for entity in entities:
-            # check if one rectangle is to the left of an other
-            if (entity.x + entity.width < self.xPos) or (self.xPos + self._width
-                                                         < entity.x):
-                continue
-            # check if one rectangle is on top of an other
-            if (entity.y + entity.height <
-                    self.yPos) or (self.yPos + self._height < entity.y):
-                continue
+           if self.is_colliding_entity(entity):
             return True
         return False
 
@@ -120,7 +127,26 @@ class Block(Entity):
     """
 
     def __init__(self, xPos: int, yPos: int, width: int, height: int) -> None:
-        super().__init__(self.xPos, self.yPos, width, height, True)
+        super().__init__(xPos, yPos, width, height, True)
+
+class Door(Block):
+    """An entity that sends you to a differnt level on contact.
+    """
+
+    def __init__(self, xPos: int, yPos: int, width: int, height: int):
+        """Inits the Door class.
+        """
+        super().__init__(xPos, yPos, width, height)
+        self._hitbox_width_reduction = 10
+
+    def check_for_entry(self, player) -> bool:
+        """Checks if the door has been entered.
+
+            Returns: True if entered false if not 
+        """
+        if super().is_colliding_with_entity(player) == True:
+            return True
+        return False
 
 
 class Monke(Entity):
@@ -130,6 +156,7 @@ class Monke(Entity):
     def __init__(self, xPos: int, yPos: int, width: int, height: int,
                  colliding: bool, speed: int) -> None:
         self._speed = speed
+        self._fall_speed = 5
         super().__init__(self.xPos, self.yPos, width, height, True)
 
     def collideTop(self, entities: list[Entity]) -> bool:
@@ -144,11 +171,11 @@ class Monke(Entity):
         """
         for entity in entities:
             if isinstance(entity, Block):
-                monke_feet = self.yPos + self._height
+                monke_feet = (self.yPos+self._hitbox_y_offset) + (self._height-self._hitbox_height_reduction)
                 check_above = not (monke_feet <= entity.yPos)
                 check_below = (monke_feet <= entity.yPos + entity._height)
-                check_left = (not (self.xPos + self._width < entity.xPos))
-                check_right = (self.xPos <= entity.xPos + entity._width)
+                check_left = (not ((self.xPos+self._hitbox_x_offset) + (self._width - self._hitbox_width_reduction) < entity.xPos))
+                check_right = ((self.xPos+self._hitbox_x_offset) <= entity.xPos + entity._width)
             if (check_below and check_above and check_left and check_right):
                 return True
         return False
@@ -156,10 +183,12 @@ class Monke(Entity):
     def gravity(self, entities: list[Entity]) -> bool:
         """if monke let go of tree it fall.
         """
-        if self.check_no_hit(entities):
-            self.yPos += self._speed
-            return True
-        return False
+        for i in range(self._fall_speed):
+            if self.check_no_hit(entities):
+                self.yPos += 1
+                continue
+            return False
+        return True
 
     def check_no_hit(self, blocks: list[Entity]) -> None:
         """checks if the Monke has hit the top of the block or the ground.
@@ -168,8 +197,9 @@ class Monke(Entity):
                 blocks: a list of blocks of type Block
             Returns: True If you have not hit the top of the block or the ground.
         """
-        return (self.yPos < self.screen_height - self._height) and (
-            not (self.collideTop(blocks)))
+
+        return not ((self.yPos >= self.screen_height - self._height) or (
+            self.collideTop(blocks)))
 
 
 class Player(Monke):
@@ -203,14 +233,21 @@ class Player(Monke):
         self.xPos = SCREEN_WIDTH / 2
         self.yPos = SCREEN_HEIGHT / 2
         self._jump_baseline = self.yPos
-        self._jump_height = 50
+        self._jump_height = 100
         self._jumped = True
+        self._jumping = False
+        self._jump_power = 50
         self._health = 10
         self.current_loot = None
         self._invincible = False
-        super().__init__(self.xPos, self.yPos, width, height, True, 2)
 
-    def move(self, direction: Movement, entities: list[Entity]) -> None:
+        super().__init__(self.xPos, self.yPos, width, height, True, 2)
+        self._hitbox_x_offset = 15
+        self._hitbox_y_offset = 10
+        self._hitbox_width_reduction = 35
+        self._hitbox_height_reduction = 10
+
+    def move(self, directions: list[Movement], entities: list[Entity]) -> None:
         """this method is called to change the state of the player.
 
         this method is called to change the state of the player and does not have to 
@@ -221,60 +258,63 @@ class Player(Monke):
                         player is to move.  
 
         """
-        #punching 
-        if direction == Movement.left_punch:
-            self.facing = Movement.left_punch
-        if direction == Movement.right_punch:
-            self.facing = Movement.right_punch
-        #move left
-        if direction == Movement.left and self.xPos >= 0:
-            self.xPos -= self._speed
-            self.facing = Movement.left
-        #move right
-        if direction == Movement.right and self.xPos < self.screen_width - self._width:
-            self.xPos += self._speed
-            self.facing = Movement.right
-
-        if direction == Movement.jump and (
-            (self._jump_baseline - self.yPos < self._jump_height) and
-                not self._jumped):
-            self.yPos -= self._speed * 20
-        elif (self._jump_baseline - self.yPos >= self._jump_height):
-            self._jumped = True
-
-        if self._jumped == True:
-            if self.check_no_hit(entities):
-                self.yPos += self._speed
-            else:
-                self._jumped = False
-                self._jump_baseline = self.yPos
-
-        if direction == Movement.no_movement:
+        if directions == [Movement.no_movement]:
             self.facing = Movement.no_movement
+        for direction in directions:
+            #punching 
+            if direction == Movement.left_punch:
+                self.facing = Movement.left_punch
+            if direction == Movement.right_punch:
+                self.facing = Movement.right_punch
+            #move left
+            if direction == Movement.left and self.xPos >= 0:
+                self.xPos -= self._speed
+                self.facing = Movement.left
+            #move right
+            if direction == Movement.right and self.xPos < self.screen_width - self._width:
+                self.xPos += self._speed
+                self.facing = Movement.right
 
+
+            if (not self._jumping) and direction == Movement.jump:
+                self._jumping = True
+                self._jump_baseline = self.yPos
+                
+        # if the player is jumping create an ark
+        if self._jumping:
+            self.yPos -= self._jump_power
+            self._jump_power -= 5
+
+            # done to prevent overshooting the ground
+            if self._jump_power <= -10:
+                self._jump_power = -10
+
+        # if no longer falling then reset jump stuff
         if not self.gravity(entities):
+            self._jumping = False
             self._jump_baseline = self.yPos
-            jumped = False
+            self._jump_power = 50
+
         self.calculate_collition_results(entities)
         self.update_loot_stats()
 
     def calculate_collition_results(self, entities):
         for i,entity in enumerate(entities):
-            if isinstance(entity, Enemy) and (self.is_colliding_entity(entity)):
+            if isinstance(entity, Enemy) and (self.is_colliding_with_entity(entity)):
                 if not self._invincible:
                     self._health -= entity._damage
 
-            elif isinstance(entity, Loot) and (self.is_colliding_entity(entity)):
+            elif isinstance(entity, Loot) and (self.is_colliding_with_entity(entity)):
                 self._health += entity.power
 
-            if isinstance(entity, JumpLoot) and (self.is_colliding_entity(entity)):
+            if isinstance(entity, JumpLoot) and (self.is_colliding_with_entity(entity)):
                 self.current_loot = entity
                 # increasing the jump height because it hit the loot
                 self._jump_height += entity.jump_increase
                 # making the loot disapear when you hit it
                 entities.pop(i)
 
-            if isinstance(entity, InvicibilityLoot) and (self.is_colliding_entity(entity)):
+            if isinstance(entity, InvicibilityLoot) and (self.is_colliding_with_entity(entity)):
                 self.current_loot = entity
                 self._invincible = True
                 # making the loot disapear when you hit it
@@ -386,6 +426,7 @@ class JumpLoot(Loot):
     def get_jump_increase(self):
         return self._jump_increase
     jump_increase = property(get_jump_increase)
+    #power_up_time= property(get_power_up_time)
 
 class InvicibilityLoot(Loot):
     """loot that renders the player unable to be damaged by enemies for a particular period."""
