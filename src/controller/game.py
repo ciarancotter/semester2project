@@ -65,36 +65,37 @@ def main() -> None:
             if event.type == pygame.MOUSEBUTTONUP:
                 gamepanel.check_play_pressed(event)
 
+        keys_pressed = pygame.key.get_pressed()
+        movements_for_model = []
 
         # player movement
         if KINECT:
             if movementPoolMisc["turnleft"]:
-                gamemanager.update_model(Movement.left)
+                movements_for_model.append(Movement.left)
             elif movementPoolMisc["turnright"]:
-                gamemanager.update_model(Movement.right)
+                movements_for_model.append(Movement.right)
             elif movementPoolRead["jump"]:
-                gamemanager.update_model(Movement.jump)
+                movements_for_model.append(Movement.jump)
             elif movementPoolRead["leftpunch"]:
-                gamemanager.update_model(Movement.left_punch)
+                movements_for_model.append(Movement.left_punch)
             elif movementPoolRead["rightpunch"]:
-                gamemanager.update_model(Movement.right_punch)
+                movements_for_model.append(Movement.right_punch)
             else:
-                gamemanager.update_model(Movement.no_movement)
+                movements_for_model.append(Movement.no_movement)
 
         else:
-            keys_pressed = pygame.key.get_pressed()
             if keys_pressed[K_LEFT]:
-                gamemanager.update_model(Movement.left)
+                movements_for_model.append(Movement.left)
             elif keys_pressed[K_RIGHT]:
-                gamemanager.update_model(Movement.right)
+                movements_for_model.append(Movement.right)
             elif keys_pressed[K_UP]:
-                gamemanager.update_model(Movement.jump)
+                movements_for_model.append(Movement.jump)
             elif keys_pressed[K_a]:
-                gamemanager.update_model(Movement.left_punch)
+                movements_for_model.append(Movement.left_punch)
             elif keys_pressed[K_s]:
-                gamemanager.update_model(Movement.right_punch)
+                movements_for_model.append(Movement.right_punch)
             else:
-                gamemanager.update_model(Movement.no_movement)
+                movements_for_model.append(Movement.no_movement)
 
             
 

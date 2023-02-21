@@ -71,8 +71,6 @@ class Scene:
         self.doorImage = pygame.transform.scale(door_image, (56, 56))
 
         self.transformed_game_background = None
-        BLACK = (0, 0, 0)
-        BLUE = (104, 119, 225)
         self.sprite_sheet = pygame.image.load("src/view/assets/playerSprite.png").convert_alpha()
 
         # set the starting sprite for the character

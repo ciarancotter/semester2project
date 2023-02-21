@@ -78,7 +78,7 @@ class CtxToRender(object):
 
 class CtxToRender(object):
 
-    def __init__(self, enemies: list[Enemy], player: Player, blocks: list[Block], entities: list[Entity] ,game_state: GameState) -> None:
+    def __init__(self, enemies: list[Enemy], player: Player, blocks: list[Block], entities: list[Entity], game_state: GameState, current_level: int, door:Door) -> None:
         """contains all the information needed to 
 		display a gamestate to the user.
 
@@ -99,12 +99,17 @@ class CtxToRender(object):
         self._blocks = blocks
         self._entities = entities
         self._gamestate = game_state
+        self._current_level = current_level
+        self._door = door
 
     def get_entities(self) -> list[Entity]:
         return self._entities
 
     def get_player(self) -> Player:
         return self._player
+    
+    def get_door(self) -> Door:
+        return self._door
 
     def get_blocks(self) -> list[Block]:
         return self._blocks
@@ -114,12 +119,17 @@ class CtxToRender(object):
 
     def get_game_state(self) -> GameState:
         return self._gamestate
+    
+    def get_current_level(self) -> int:
+        return self._current_level
      
     enemies = property(get_enemies)
     player = property(get_player)
+    door = property(get_door)
     blocks = property(get_blocks)
     entities = property(get_entities)
     game_state = property(get_game_state)
+    current_level = property(get_current_level)
 
 
 
