@@ -1,5 +1,5 @@
 from multiprocessing import Process
-from main import main
+from game import main
 
 def run_kinect():
     try:
