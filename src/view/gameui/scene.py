@@ -16,7 +16,6 @@ Usage:
 
 import os
 import sys
-import enum
 import pygame
 
 sys.path.append(os.path.abspath("./src"))
@@ -71,8 +70,6 @@ class Scene:
         self.doorImage = pygame.transform.scale(door_image, (56, 56))
 
         self.transformed_game_background = None
-        BLACK = (0, 0, 0)
-        BLUE = (104, 119, 225)
         self.sprite_sheet = pygame.image.load("src/view/assets/playerSprite.png").convert_alpha()
 
         # set the starting sprite for the character
@@ -106,7 +103,16 @@ class Scene:
             self.background = self.transformed_game_background
 
         self.screen.blit(self.background, (0, 0))
-    
+   
+
+    def drawBradley(self):
+        bradley_base = pygame.image.load("src/view/assets/bradley.png")
+        bradley = pygame.transform.scale(bradley_base, (244, 244))
+        bradley_rekt = bradley.get_rect()
+        bradley_rekt.center = (640, 200)
+        self.screen.blit(bradley, bradley_rekt)
+
+
     def drawLogo(self):
         """Draws the logo.
         """
@@ -121,7 +127,7 @@ class Scene:
         """Draws a loading screen.
         """
         self.screen.fill("black")
-        self.drawLogo()
+        self.drawBradley()
         loading_text = pygame.font.SysFont("monospace", 30).render('Loading...', True, "white")
         loading_text_rect = loading_text.get_rect()
         loading_text_rect.center = (self.screen.get_width() // 2, self.screen.get_height() // 2)
@@ -348,7 +354,6 @@ class Scene:
         
         pygame.mixer.music.play(loops=-1)
 
-    
     def play_sound_effect(self, sound: str):
         """Plays a sound effect.
 
