@@ -387,13 +387,13 @@ class Enemy(Monke):
         
         # follow the player if they are within a certain distance
         if self.distance_to_player < 200:
-            if player.xPos < self.xPos:
+            if self.player.xPos < self.xPos:
                 self.xVel = -self.speed
-            elif player.xPos > self.xPos:
+            elif self.player.xPos > self.xPos:
                 self.xVel = self.speed
-            if player.yPos < self.yPos:
+            if self.player.yPos < self.yPos:
                 self.yVel = -self.speed
-            elif player.yPos > self.yPos:
+            elif self.player.yPos > self.yPos:
                 self.yVel = self.speed
         self._frame_count += 1
 
