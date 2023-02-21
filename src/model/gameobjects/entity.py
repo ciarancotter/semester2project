@@ -37,6 +37,12 @@ class Entity:
         self.xPos = xPos
         self.yPos = yPos
 
+        # creating the hitbox
+        self._hitbox_x_offset = 0
+        self._hitbox_y_offset = 0
+        self._hitbox_width_reduction = 0
+        self._hitbox_height_reduction = 0
+
     def set_x(self, newX: int) -> None:
         """Setter method for the x-coordinate.
         """
@@ -74,10 +80,10 @@ class Entity:
         return self.colliding
 
     def is_colliding_with_entity(self, entity):
-        if (entity.x + entity.width < self.xPos) or (self.xPos + self._width < entity.x):
+        if ((entity.x+entity._hitbox_x_offset) + (entity.width-entity._hitbox_width_reduction) < self.xPos) or ((self.xPos + self._hitbox_x_offset) + (self._width-self._hitbox_width_reduction) < (entity.x+entity._hitbox_x_offset)):
             return False
-        if (entity.y + entity.height < self.yPos) or (self.yPos + self._height < entity.y):
-                return False
+        if ((entity.y+entity._hitbox_y_offset) + (entity.height-entity._hitbox_height_reduction) < (self.yPos+self._hitbox_y_offset)) or ((self.yPos+self._hitbox_y_offset) + (self._height-self._hitbox_height_reduction) < (entity.y+entity._hitbox_y_offset)):
+            return False
         return True
 
 
@@ -131,6 +137,7 @@ class Door(Block):
         """Inits the Door class.
         """
         super().__init__(xPos, yPos, width, height)
+        self._hitbox_width_reduction = 10
 
     def check_for_entry(self, player) -> bool:
         """Checks if the door has been entered.
@@ -164,11 +171,11 @@ class Monke(Entity):
         """
         for entity in entities:
             if isinstance(entity, Block):
-                monke_feet = self.yPos + self._height
+                monke_feet = (self.yPos+self._hitbox_y_offset) + (self._height-self._hitbox_height_reduction)
                 check_above = not (monke_feet <= entity.yPos)
                 check_below = (monke_feet <= entity.yPos + entity._height)
-                check_left = (not (self.xPos + self._width < entity.xPos))
-                check_right = (self.xPos <= entity.xPos + entity._width)
+                check_left = (not ((self.xPos+self._hitbox_x_offset) + (self._width - self._hitbox_width_reduction) < entity.xPos))
+                check_right = ((self.xPos+self._hitbox_x_offset) <= entity.xPos + entity._width)
             if (check_below and check_above and check_left and check_right):
                 return True
         return False
@@ -233,7 +240,12 @@ class Player(Monke):
         self._health = 10
         self.current_loot = None
         self._invincible = False
+
         super().__init__(self.xPos, self.yPos, width, height, True, 2)
+        self._hitbox_x_offset = 15
+        self._hitbox_y_offset = 10
+        self._hitbox_width_reduction = 35
+        self._hitbox_height_reduction = 10
 
     def move(self, directions: list[Movement], entities: list[Entity]) -> None:
         """this method is called to change the state of the player.

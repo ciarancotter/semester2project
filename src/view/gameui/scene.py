@@ -223,7 +223,6 @@ class Scene:
             self.drawBackground(GameState.in_session)
             self.updateGameUIElements(current_scene)
             self.player_data = current_scene.player
-
             for i in range(self.rows):
                 for j in range(self.columns):
                     self.drawBackground(GameState.in_session)

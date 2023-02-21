@@ -136,7 +136,7 @@ class PlatformerGame(object):
             self.game_state = GameState.game_over
 
         # check if it is time to switch levels
-        if self._door != None and self._door.check_for_entry(self._player) and self._level_added is False:
+        if self._door != None and self._door.check_for_entry(self._player):
             self._level_added = True
             self._current_level += 1
             self.create_level_from_json()
@@ -152,7 +152,6 @@ class PlatformerGame(object):
             json_info = json.load(file)
             number_of_levels = len(json_info)
             new_level_number = random.randint(0, number_of_levels)
-            print(new_level_number)
             # compiling the correct key to find the level information
             try:
                 level = json_info[new_level_number - 1]
@@ -161,7 +160,7 @@ class PlatformerGame(object):
                 self._gamestate = GameState.game_over
                 return
 
-            self._door = Door(level["door"]["x"] * 28, level["door"]["y"] * 28, 28, 28)
+            self._door = Door(level["door"]["x"] * 28, level["door"]["y"] * 28, 64, 64)
 
             for block in level["blocks"]:
                 level_object.add_block(block["x"],block["y"])
