@@ -98,7 +98,10 @@ def main() -> None:
         gamemanager.update_model(movements_for_model)
 
         # loading the game panel for main menu and game
-        gamepanel.checking_hover(pygame.mouse.get_pos())
+        mouse_pos = pygame.mouse.get_pos()
+        if KINECT:
+            mouse_pos = (movementPoolMisc["mousex"], movementPoolMisc["mousey"])
+        gamepanel.checking_hover(mouse_pos)
         gamepanel.updateScene()
 
 
