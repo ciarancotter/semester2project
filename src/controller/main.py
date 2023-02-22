@@ -18,3 +18,12 @@ if __name__ == '__main__':
     p2 = Process(target=run_game)
     p1.start()
     p2.start()
+
+    while p2.is_alive():
+        if not p1.is_alive():
+            p2.terminate()
+            break
+
+    # If the Kinect process is still running, terminate it
+    if p1.is_alive():
+        p1.terminate()
