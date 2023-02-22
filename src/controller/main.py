@@ -4,7 +4,7 @@ from game import main
 def run_kinect():
     try:
         from kinect import MovementHandler
-        mv = MovementHandler(100, 100)
+        mv = MovementHandler(1280, 784)
         while True:
             mv.update()
     except:

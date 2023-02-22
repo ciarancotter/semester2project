@@ -106,10 +106,10 @@ class MovementHandler(object):
         self.movementPoolMisc["leftpunchmagnitude"] = self.leftpunch.magnitude
         self.movementPoolMisc["rightpunchmagnitude"] = self.rightpunch.magnitude
 
-        print(self.movementPoolRead)
+        print(self.movementPoolMisc)
         
 
 if __name__ == '__main__':
-    mv = MovementHandler(100, 100)
+    mv = MovementHandler(1280, 784)
     while True:
         mv.update()
