@@ -66,14 +66,14 @@ class TestMovement(object):
         self._bodyid = -1
         self._depth = None
 
-        self.select = HandInfront()
-        self.mouse = HandPos(100, 100)
-        self.jump = Jump()
-        self.leftpunch = LeftPunch()
-        self.rightpunch = RightPunch()
-        self.leftwalk = RaiseRightLeg()
-        self.rightwalk = RaiseLeftLeg()
-        self.turntest = TurnHips()
+        self._select = HandInfront()
+        self._mouse = HandPos(100, 100)
+        self._jump = Jump()
+        self._leftpunch = LeftPunch()
+        self._rightpunch = RightPunch()
+        self._leftwalk = RaiseRightLeg()
+        self._rightwalk = RaiseLeftLeg()
+        self._turntest = TurnHips()
         
 
     def draw_color_frame(self, frame: numpy.ndarray,
