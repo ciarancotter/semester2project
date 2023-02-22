@@ -111,7 +111,7 @@ def main() -> None:
 
         # refresh entire screen
         pygame.display.flip()
-        print(round(clock.get_fps(), 2))
+        #print(round(clock.get_fps(), 2))
 
     # Exit pygame
     pygame.quit()
