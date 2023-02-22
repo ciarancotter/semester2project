@@ -102,16 +102,23 @@ class PlatformerGame(object):
         self._screen_width = 768
         self._screen_height = 768
         self._current_level = 1
-        self._enemies = []
+        damage = 0 
+        #xPos: int, yPos: int, width: int, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, height: int,colliding: bool, dammage: int, player:Player) -> None:
         self._player = Player(self._playerwidth, self._playerheight,
                               self._screen_width, self._screen_height)
+        self._enemy = Enemy(self._playerwidth, self._playerheight, 
+                            self._screen_width, self._screen_height
+                            ,damage ,self._player)
+        self._enemies = [self._enemy]
+
         self._blocks = []
-        self._entities = []
+        self._entities = [self._enemies]
         self._gamestate = GameState.start_menu
         #punch state
         self._punch_state = False
         self._level_added = False
         self._door = None
+        self.frame_count = 0 
 
     def get_render_ctx(self) -> CtxToRender:
         """Returns the information necicary (or the context/shortend to ctx in this program ) to render
@@ -130,7 +137,9 @@ class PlatformerGame(object):
         self._gamestate = GameState.in_session
 
     def update_model(self, player_moves: list(Movement)):
+        self.frame_count +=1
         self._player.move(player_moves, self._blocks)
+        self._enemy.move(self.frame_count, self._blocks)
 
         if self._player.health <= 0:
             self.game_state = GameState.game_over
