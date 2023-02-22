@@ -353,6 +353,7 @@ class Player(Monke):
     health = property(get_health)
 
 
+
 class Enemy(Monke):
     """the enemy sprites that travel around the game deal damage to our innocent explorer
     inheretes from Monke
@@ -361,22 +362,31 @@ class Enemy(Monke):
 
     """
 
-    def __init__(self, xPos: int, yPos: int, width: int, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, height: int,colliding: bool, dammage: int, player:Player) -> None:
-        super().__init__(self.xPos, self.yPos, width, height, True)
+    def __init__(self, width: int, height: int, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, dammage: int, player:Player) -> None:
+        self.screen_width = SCREEN_WIDTH
+        self.screen_height = SCREEN_HEIGHT
         self._damage = dammage
         self._speed = 3
-        self._frame_count = 0
         self.screen_width = SCREEN_WIDTH
         self.player = player
         self.distance_to_player = 0
+        self.xPos = random.randint(0, SCREEN_WIDTH)
+        print("enemy x first", self.xPos)
+        self.yPos = SCREEN_HEIGHT
+        print("enemy y first", self.yPos)
+
+        self.facing = Movement.left
+        super().__init__(self.xPos, self.yPos, width, height, True, 3)
 
     def get_dammage(self) -> int:
         return self._damage
 
-    def move(self, entities: list[Entity]):
+    def move(self, frame_count, entities: list[Entity]):
         self.gravity(entities)
-        #TODO: add autonomous movement
-        if self._frame_count % 30 == 0:
+        print("falling down ")
+
+        #only from top, no moving upwards
+        if frame_count % 30 == 0:
             direction = random.choice(["left", "right"])
             if direction == "left" and self.xPos >= 0:
                 self.xPos -= self._speed
@@ -387,15 +397,14 @@ class Enemy(Monke):
         
         # follow the player if they are within a certain distance
         if self.distance_to_player < 200:
-            if player.xPos < self.xPos:
-                self.xVel = -self.speed
-            elif player.xPos > self.xPos:
-                self.xVel = self.speed
-            if player.yPos < self.yPos:
-                self.yVel = -self.speed
-            elif player.yPos > self.yPos:
-                self.yVel = self.speed
-        self._frame_count += 1
+            if self.player.xPos < self.xPos:
+                self.xPos = -self._speed
+            elif self.player.xPos > self.xPos:
+                self.xPos = self._speed
+            elif self.player.yPos < self.yPos:
+                self.yPos = -self._speed
+            elif self.player.yPos > self.yPos:
+                self.yPos = self._speed
 
     damage = property(get_dammage)
 
