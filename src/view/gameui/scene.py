@@ -71,11 +71,14 @@ class Scene:
 
         self.transformed_game_background = None
         self.sprite_sheet = pygame.image.load("src/view/assets/playerSprite.png").convert_alpha()
+        self.sprite_sheet_mummy = pygame.image.load("src/view/assets/mummy_spritesheet.png").convert_alpha()
 
         # set the starting sprite for the character
         self.current_sprite_index = 0
         self.columns = 3
         self.rows = 3
+        self.enemy_columns= 3
+        self.enemy_rows = 2        
         self.context = game_manager.get_render_ctx()
         size = (self.context.player.width, self.context.player.height)
         self.character_sprites = [pygame.Surface(size, pygame.SRCALPHA) for i in range(self.columns * self.rows)]
@@ -235,6 +238,7 @@ class Scene:
             self.drawBackground(GameState.in_session)
             self.updateGameUIElements(current_scene)
             self.player_data = current_scene.player
+
             for i in range(self.rows):
                 for j in range(self.columns):
                     self.drawBackground(GameState.in_session)
@@ -243,6 +247,16 @@ class Scene:
                     j * self.player_data.width, i * self.player_data.height, self.player_data.width,
                     self.player_data.height))
         
+            self.enemies_data = current_scene.enemies
+            for enemy in self.enemies_data:
+                for i in range(self.enemy_rows):
+                    for j in range(self.enemy_columns):
+                        self.drawBackground(GameState.in_session)
+                        self.updateGameUIElements(current_scene)
+                        self.character_sprites[i * self.enemy_columns + j].blit(self.sprite_sheet_mummy, (0, 0), (
+                        j * enemy.width, i * enemy.height, enemy.width,
+                        enemy.height))
+            
 
             # move the character to the right if the right key is pressed
             if self.player_data.facing == Movement.right:
@@ -301,7 +315,33 @@ class Scene:
                     self.updateSprite(current_scene)
             elif self.direction == "right punch" or self.direction == "left punch" or self.direction == "jump":
                 self.updateSprite(current_scene)
-            
+
+            # move the enemy to the right if the right key is pressed
+            for enemy in self.enemies_data:
+                if enemy.facing == Movement.right:
+                    # x += 1
+                    self.direction = "right"
+                    self.frame_count += 1
+                    if self.frame_count == self.frame_delay:
+                        self.current_sprite_index = (self.current_sprite_index + 1) % self.enemy_columns          ####!!!! for changing the legs moving
+                        self.frame_count = 0
+
+                # move the enemy to the left if the left key is pressed
+
+                if enemy.facing == Movement.left:
+                    # x += 1
+                    self.direction = "left"
+                    self.frame_count += 1
+                    if self.frame_count == self.frame_delay:
+                        self.current_sprite_index = self.enemy_columns + (self.current_sprite_index + 2) % self.enemy_columns   ####!!!! for changing the legs moving
+                        self.frame_count = 0
+            # update the current sprite based on the direction of the character
+            if self.direction == "right":
+                if self.current_sprite_index < self.enemy_columns:
+                    self.updateSprite(current_scene)
+            elif self.direction == "left":
+                if self.current_sprite_index >= self.enemy_columns:
+                    self.updateSprite(current_scene)
         elif current_scene.game_state == GameState.start_menu:
             self.drawBackground(current_scene.game_state)
             self.drawLogo()
