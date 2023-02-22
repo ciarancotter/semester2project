@@ -320,14 +320,10 @@ class Scene:
                 button.setBlack()
 
     def draw_pos(self, mouse_pos: tuple):
-        circle_radius = 5
-        circle_color = "green"
-        circle_surface = pygame.Surface((circle_radius * 2, circle_radius * 2), pygame.SRCALPHA)
-        pygame.draw.circle(circle_surface, circle_color, (circle_radius, circle_radius), circle_radius)
-
-        # Blit the circle onto the screen
-        self.screen.blit(circle_surface, (mouse_pos[0] - circle_radius, mouse_pos[1] - circle_radius))
-
+        cursor_base = pygame.image.load("src/view/assets/cursor.png")
+        cursor_rekt = cursor_base.get_rect()
+        cursor_rekt.center = (mouse_pos[0] - 12, mouse_pos[1] - 12)
+        self.screen.blit(cursor_base, cursor_rekt)
         
 
     def check_play_pressed(self, eventpos: tuple):

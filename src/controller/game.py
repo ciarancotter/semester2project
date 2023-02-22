@@ -99,19 +99,21 @@ def main() -> None:
         gamemanager.update_model(movements_for_model)
 
         # loading the game panel for main menu and game
-        #pygame.mouse.set_visible(False)
+        pygame.mouse.set_visible(False)
         pygame.mouse.set_cursor(pygame.cursors.diamond)
         mouse_pos = pygame.mouse.get_pos()
         if KINECT:
-            mouse_pos = (movementPoolMisc["mousex"], movementPoolMisc["mousey"])
+            if movementPoolMisc["mousex"] > 0:
+                if movementPoolMisc["mousey"] > 0:
+                    mouse_pos = (int(movementPoolMisc["mousex"]), int(movementPoolMisc["mousey"]))
             if movementPoolRead["select"]:
                 gamepanel.check_play_pressed(mouse_pos)
 
-        pygame.mouse.set_pos(mouse_pos)
+        print((int(movementPoolMisc["mousex"]), int(movementPoolMisc["mousey"])), mouse_pos)
 
         gamepanel.checking_hover(mouse_pos)
         gamepanel.updateScene()
-        #gamepanel.draw_pos(mouse_pos)
+        gamepanel.draw_pos(mouse_pos)
 
 
         # <-- View calls go here -->
