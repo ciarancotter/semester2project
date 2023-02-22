@@ -319,12 +319,23 @@ class Scene:
             else:
                 button.setBlack()
 
-    def check_play_pressed(self, event):
+    def draw_pos(self, mouse_pos: tuple):
+        circle_radius = 5
+        circle_color = "green"
+        circle_surface = pygame.Surface((circle_radius * 2, circle_radius * 2), pygame.SRCALPHA)
+        pygame.draw.circle(circle_surface, circle_color, (circle_radius, circle_radius), circle_radius)
+
+        # Blit the circle onto the screen
+        self.screen.blit(circle_surface, (mouse_pos[0] - circle_radius, mouse_pos[1] - circle_radius))
+
+        
+
+    def check_play_pressed(self, eventpos: tuple):
         """Continuously checks if the Play button in the menu has been pressed, and loads the game if so.
             Attributes:
                 - event: The event object in Pygame.
         """
-        if self.menu_buttons[0].rect.collidepoint(event.pos):
+        if self.menu_buttons[0].rect.collidepoint(eventpos):
             if not self.loadedGame:
                 self.loading_screen()
                 self.initialiseGameScene()
