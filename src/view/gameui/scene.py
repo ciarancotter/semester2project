@@ -63,7 +63,7 @@ class Scene:
         self.mainGamePanel = None
         self.blockImage = None
 
-        door_image = pygame.image.load("src/view/assets/invincibility.png").convert_alpha() 
+        door_image = pygame.image.load("src/view/assets/door.png").convert_alpha() 
         self.doorImage = pygame.transform.scale(door_image, (56, 56))
 
         # Background variables
@@ -78,7 +78,7 @@ class Scene:
         # set the starting sprite for the character
         self.current_sprite_index = 0
         self.columns = 3
-        self.rows = 2
+        self.rows = 3
         self.context = game_manager.get_render_ctx()
         size = (self.context.player.width, self.context.player.height)
         self.character_sprites = [pygame.Surface(size, pygame.SRCALPHA) for i in range(self.columns * self.rows)]
@@ -242,10 +242,12 @@ class Scene:
         """
         self.screen.blit(self.blockImage, (block.x, block.y))
     
+
     def draw_door(self, scene):
         """Draws the door onto the scene.
         """
         self.screen.blit(self.doorImage, (scene.door.x, scene.door.y))
+
 
     def drawButtons(self):
         """Draws the interactive UI buttons onto the screen.
@@ -253,9 +255,17 @@ class Scene:
         for button in self.menu_buttons:
             self.screen.blit(button.renderer, button.rect)
 
+
     def drawBackButton(self):
         for button in self.about_menu_buttons:
             self.screen.blit(button.renderer, button.rect)
+
+
+    def updateSprite(self, current_scene):
+        self.drawBackground(GameState.in_session)
+        self.updateGameUIElements(current_scene)
+        self.screen.blit(self.character_sprites[self.current_sprite_index],
+                         (self.player_data.xPos, self.player_data.yPos))
     
 
     def updateScene(self):
@@ -309,51 +319,37 @@ class Scene:
                 if self.frame_count == self.frame_delay:
                     self.current_sprite_index = self.current_sprite_index
                     self.frame_count = 0
+
+            if self.player_data.facing == Movement.no_movement:
+                self.direction = "no movement"
+                self.current_sprite_index = self.current_sprite_index
             
             # right punch picture and code
             if  self.player_data.facing == Movement.right_punch:
-                # Load the punching sprite from the sprite sheet
-                print("Arrived to punch ")
-                self.frame_count += 1
-
-            # Check if the "P" key is pressed and update the current sprite index to the punching sprite
-                if self.frame_count == self.frame_delay:
-                    self.current_sprite_index = 3
-                    self.frame_count = 0
-
+                self.direction = "right punch"
+                self.current_sprite_index = 6
                     
             # left punch picture and code
             if  self.player_data.facing == Movement.left_punch:
-                # Load the punching sprite from the sprite sheet
-                print("Arrived to punch ")
-                self.frame_count += 1
+                self.direction = "left punch"
+                self.current_sprite_index = 7
 
-            # Check if the "P" key is pressed and update the current sprite index to the punching sprite
-                if self.frame_count == self.frame_delay:
-                    self.current_sprite_index = 3
-                    self.frame_count = 0
-                    # self.play_sound("punch")
-
+            
             # update the current sprite based on the direction of the character
-            if self.current_sprite_index < self.columns:
-                self.drawBackground(GameState.in_session)
-                self.updateGameUIElements(current_scene)
-                self.screen.blit(self.character_sprites[self.current_sprite_index],
-                                    (self.player_data.xPos, self.player_data.yPos))
-
-            #for punch
-            if self.current_sprite_index > self.columns:
-                self.drawBackground(GameState.in_session)
-                self.updateGameUIElements(current_scene)
-                self.screen.blit(self.character_sprites[self.current_sprite_index],
-                                    (self.player_data.xPos, self.player_data.yPos))
-
-            if self.current_sprite_index == self.columns:
-                self.drawBackground(GameState.in_session)
-                self.updateGameUIElements(current_scene)
-                self.screen.blit(self.character_sprites[self.current_sprite_index],
-                                    (self.player_data.xPos, self.player_data.yPos))
-
+            if self.direction == "right":
+                if self.current_sprite_index < self.columns:
+                    self.updateSprite(current_scene)
+            elif self.direction == "left":
+                if self.current_sprite_index >= self.columns:
+                    self.updateSprite(current_scene)
+            elif self.direction == "no movement":
+                if self.current_sprite_index >= self.columns:
+                    self.updateSprite(current_scene)
+                if self.current_sprite_index < self.columns:
+                    self.updateSprite(current_scene)
+            elif self.direction == "right punch" or self.direction == "left punch" or self.direction == "jump":
+                self.updateSprite(current_scene)
+            
         elif current_scene.game_state == GameState.start_menu:
             self.drawBackground(current_scene.game_state)
             self.drawLogo()
@@ -362,6 +358,7 @@ class Scene:
         elif current_scene.game_state == GameState.about:
             self.drawBackground(current_scene.game_state)
             self.updateAboutMenu()
+
 
     def checking_hover(self, mouse_pos: tuple):
         """check for hovering over the buttons in menue
@@ -375,6 +372,7 @@ class Scene:
             else:
                 button.setBlack()
 
+
     def check_play_pressed(self, event):
         """Continuously checks if the Play button in the menu has been pressed, and loads the game if so.
             Attributes:
@@ -386,14 +384,17 @@ class Scene:
                 self.initialiseGameScene()
                 self.initialiseGameUIElements()
     
+
     def check_about_pressed(self, event):
         """Continuousy checks if the About button in the menu has been pressed.
         """
         if self.menu_buttons[3].rect.collidepoint(event.pos) and self.game_manager._gamestate == GameState.start_menu:
             self.initialiseAboutScene()
 
+
     def check_back_pressed(self, event):
         pass
+
 
     def play_music(self, game_state):
         """Handles music in the scene.

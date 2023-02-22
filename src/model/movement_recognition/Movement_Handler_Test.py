@@ -7,10 +7,10 @@ import ctypes
 
 from HandInfront import HandInfront
 from HandPos import HandPos
-from Jump import Jump
+from jump import Jump
 from punch import LeftPunch, RightPunch
-from RaiseLegs import RaiseLeftLeg, RaiseRightLeg
-from TurnHips import TurnHips
+from raiselegs import RaiseLeftLeg, RaiseRightLeg
+from turnhips import TurnHips
 """
 Worked on from the PyKinectBodyGame example packed with the pykinect2 libary
 """
