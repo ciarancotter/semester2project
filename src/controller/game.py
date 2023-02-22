@@ -21,14 +21,9 @@ except ImportError:
 from pygame.locals import (
     K_LEFT,
     K_RIGHT,
-    K_ESCAPE,
     K_UP,
     K_a,
     K_s,
-    K_d,
-    QUIT,
-    K_SPACE,
-    K_f
 )
 
 def main() -> None:
@@ -67,39 +62,45 @@ def main() -> None:
             if event.type == pygame.MOUSEBUTTONUP:
                 gamepanel.check_play_pressed(event)
 
-
-        # player movement
         keys_pressed = pygame.key.get_pressed()
         movements_for_model = []
-        if keys_pressed[K_LEFT]:
-            movements_for_model.append(Movement.left)
-        if keys_pressed[K_RIGHT]:
-            movements_for_model.append(Movement.right)
-        if keys_pressed[K_SPACE]:
-            movements_for_model.append(Movement.jump)
-        if keys_pressed[K_d]:
-            movements_for_model.append(Movement.left_punch)
 
-        if keys_pressed[K_f]:
-            movements_for_model.append(Movement.right_punch)
+        # player movement
+        if KINECT:
+            if movementPoolMisc["turnleft"]:
+                movements_for_model.append(Movement.left)
+            elif movementPoolMisc["turnright"]:
+                movements_for_model.append(Movement.right)
+            elif movementPoolRead["jump"]:
+                movements_for_model.append(Movement.jump)
+            elif movementPoolRead["leftpunch"]:
+                movements_for_model.append(Movement.left_punch)
+            elif movementPoolRead["rightpunch"]:
+                movements_for_model.append(Movement.right_punch)
+            else:
+                movements_for_model.append(Movement.no_movement)
 
-        if movements_for_model==[]:
-            movements_for_model = [Movement.no_movement]
-
-        gamemanager.update_model(movements_for_model)
+        else:
+            if keys_pressed[K_LEFT]:
+                movements_for_model.append(Movement.left)
+            elif keys_pressed[K_RIGHT]:
+                movements_for_model.append(Movement.right)
+            elif keys_pressed[K_UP]:
+                movements_for_model.append(Movement.jump)
+            elif keys_pressed[K_a]:
+                movements_for_model.append(Movement.left_punch)
+            elif keys_pressed[K_s]:
+                movements_for_model.append(Movement.right_punch)
+            else:
+                movements_for_model.append(Movement.no_movement)
 
         # <-- Update calls go here -->
-
+        gamemanager.update_model(movements_for_model)
 
         # loading the game panel for main menu and game
         gamepanel.checking_hover(pygame.mouse.get_pos())
         gamepanel.updateScene()
 
-
-
-        
-
-        
 
         # <-- View calls go here -->
         # game screen needs to be drawn after update call
@@ -107,6 +108,7 @@ def main() -> None:
 
         # refresh entire screen
         pygame.display.flip()
+        print(round(clock.get_fps(), 2))
 
     # Exit pygame
     pygame.quit()
