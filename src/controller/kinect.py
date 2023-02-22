@@ -10,10 +10,10 @@ from shared_memory_dict import SharedMemoryDict
 
 from model.movement_recognition.HandInfront import HandInfront
 from model.movement_recognition.HandPos import HandPos
-from model.movement_recognition.Jump import Jump
-from model.movement_recognition.Punch import LeftPunch, RightPunch
-from model.movement_recognition.RaiseLegs import RaiseLeftLeg, RaiseRightLeg
-from model.movement_recognition.TurnHips import TurnHips
+from model.movement_recognition.jump import Jump
+from model.movement_recognition.punch import LeftPunch, RightPunch
+from model.movement_recognition.raiselegs import RaiseLeftLeg, RaiseRightLeg
+from model.movement_recognition.turnhips import TurnHips
 
 
 class MovementHandler(object):
