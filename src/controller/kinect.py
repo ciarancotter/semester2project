@@ -1,3 +1,4 @@
+import ctypes
 from pykinect2 import PyKinectV2, PyKinectRuntime
 from pykinect2.PyKinectV2 import *
 
@@ -48,7 +49,7 @@ class MovementHandler(object):
 
         self.movementPoolRead = SharedMemoryDict(name='movementPoolRead', size=1024)
         self.movementPoolMisc = SharedMemoryDict(name='movementPoolMisc', size=1024)
-        self.video = SharedMemoryDict(name='movementVideo', size=1000000)
+        self.video = SharedMemoryDict(name='movementVideo', size=500000)
 
         self.movementPoolRead["select"] = self.select.read
         self.movementPoolRead["jump"] = self.jump.read
@@ -64,6 +65,21 @@ class MovementHandler(object):
         self.movementPoolMisc["jumpmagnitude"] = self.jump.magnitude
         self.movementPoolMisc["leftpunchmagnitude"] = self.leftpunch.magnitude
         self.movementPoolMisc["rightpunchmagnitude"] = self.rightpunch.magnitude
+
+    def _draw_color_frame(self, frame: numpy.ndarray,
+                            target_surface: pygame.Surface) -> None:
+            """
+            Draws the current frame to the screen
+            Parameters:
+            - frame (numpy.ndarray): The frame to draw.
+            - target_surface (pygame.Surface): the surface to draw to.
+            """
+
+            target_surface.lock()
+            address = self._kinect.surface_as_array(target_surface.get_buffer())
+            ctypes.memmove(address, frame.ctypes.data, frame.size)
+            del address
+            target_surface.unlock()
 
     def _draw_body_bone(self, joints: numpy.ndarray, jointpoints: numpy.ndarray,
                        color: str, joint0: int, joint1: int) -> None:
@@ -103,6 +119,11 @@ class MovementHandler(object):
 
 
     def update(self):
+        if self._kinect.has_new_color_frame():
+            colorframe = self._kinect.get_last_color_frame()        # colorframe is linear array of uint8 as 1920*1080 samples of R,G,B,D = 8294400 bytes
+            self._draw_color_frame(colorframe, self._frame_surface)
+            colorframe = None
+
         if self._kinect.has_new_body_frame():
                 self._bodies = self._kinect.get_last_body_frame()
 
@@ -279,10 +300,9 @@ class MovementHandler(object):
 
         #print(self.movementPoolMisc)
 
-        surface_to_draw = pygame.transform.scale(self._frame_surface, (496, 496))
-        #pygame.surfarray.array2d(surface_to_draw)
-        #print(sys.getsizeof(pygame.surfarray.array2d(surface_to_draw)))
-        self.video["src"] = pygame.surfarray.array2d(surface_to_draw)
+        surface_to_draw = pygame.transform.scale(self._frame_surface, (496, 279))
+        vid = pygame.surfarray.array3d(surface_to_draw)
+        self.video["src"] = vid
         
 
 if __name__ == '__main__':
