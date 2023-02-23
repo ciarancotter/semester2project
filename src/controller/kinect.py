@@ -277,16 +277,12 @@ class MovementHandler(object):
         self.movementPoolMisc["leftpunchmagnitude"] = self.leftpunch.magnitude
         self.movementPoolMisc["rightpunchmagnitude"] = self.rightpunch.magnitude
 
-<<<<<<< Updated upstream
-        print(self.movementPoolRead)
-=======
         #print(self.movementPoolMisc)
 
         surface_to_draw = pygame.transform.scale(self._frame_surface, (496, 496))
         #pygame.surfarray.array2d(surface_to_draw)
         #print(sys.getsizeof(pygame.surfarray.array2d(surface_to_draw)))
         self.video["src"] = pygame.surfarray.array2d(surface_to_draw)
->>>>>>> Stashed changes
         
 
 if __name__ == '__main__':
