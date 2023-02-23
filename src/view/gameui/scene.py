@@ -49,10 +49,10 @@ class Scene:
 
         self.game_manager = game_manager
         self.player = None
-        self.background = None
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((1280, 784))
         self.menu_buttons = []
+        self.about_menu_buttons = []
         self.loadedGame = False
         
         self.door = None
@@ -63,15 +63,18 @@ class Scene:
         self.mainGamePanel = None
         self.blockImage = None
 
-        menu_background = pygame.image.load("src/view/assets/menuBG.png").convert_alpha()
-        self.transformed_menu_background = pygame.transform.scale(menu_background, (1280, 784))
-
         door_image = pygame.image.load("src/view/assets/door.png").convert_alpha() 
         self.doorImage = pygame.transform.scale(door_image, (56, 56))
+
+        # Background variables
+        menu_background = pygame.image.load("src/view/assets/menuBG.png").convert_alpha()
+        self.transformed_menu_background = pygame.transform.scale(menu_background, (1280, 784))
 
         self.transformed_game_background = None
         self.sprite_sheet = pygame.image.load("src/view/assets/playerSprite.png").convert_alpha()
 
+        self.background = None
+        
         # set the starting sprite for the character
         self.current_sprite_index = 0
         self.columns = 3
@@ -88,6 +91,9 @@ class Scene:
         self.frame_count = 0
         self.direction = "right"
         self.blockImage = pygame.image.load("src/view/assets/block2.png").convert_alpha()
+        
+        about_back_button = Button("BACK", (50, 50), 40)
+        self.about_menu_buttons.append(about_back_button)
 
         # Sounds
         #self.punch_sound = pygame.mixer.Sound("src/view/assets/punch.mp3")
@@ -101,6 +107,9 @@ class Scene:
 
         elif game_state == GameState.in_session:
             self.background = self.transformed_game_background
+
+        elif game_state == GameState.about:
+            self.background = self.transformed_menu_background
 
         self.screen.blit(self.background, (0, 0))
    
@@ -166,6 +175,18 @@ class Scene:
         self.gameUIPanel.erase("orange")
         self.levelindicator.draw(current_scene.get_current_level())
 
+    
+    def updateAboutMenu(self):
+        """Updates the About menu
+        """
+        self.screen.fill("white")
+        self.drawBackButton()
+        about_text = pygame.font.SysFont("monospace", 30).render('About', True, "black")
+        about_text_rect = about_text.get_rect()
+        about_text_rect.center = (self.screen.get_width() // 2, (self.screen.get_height() // 2) - 50)
+        self.screen.blit(about_text, about_text_rect)
+
+
     def initialiseGameScene(self):
         """Run once when the game is created. Generates the AI data.
         """
@@ -184,10 +205,10 @@ class Scene:
         """
         pygame.display.set_caption("Main Menu")
 
-        play_button = Button("PLAY", (640, 330))
-        leaderboard_button = Button("LEADERBOARD", (640, 430))
-        help_button = Button("HELP", (640, 530))
-        about_button = Button("ABOUT", (640, 630))
+        play_button = Button("PLAY", (640, 330), 85)
+        leaderboard_button = Button("LEADERBOARD", (640, 430), 85)
+        help_button = Button("HELP", (640, 530), 85)
+        about_button = Button("ABOUT", (640, 630), 85)
 
         self.menu_buttons.append(play_button)
         self.menu_buttons.append(leaderboard_button)
@@ -196,6 +217,24 @@ class Scene:
 
         self.play_music(GameState.start_menu)
 
+
+    def initialiseAboutScene(self):
+        """Draws the About scene.
+        """
+        self.game_manager.set_game_state(GameState.about)
+        print(self.game_manager._gamestate)
+        self.screen.fill("white")
+        
+        self.background = self.transformed_menu_background
+
+        loading_text = pygame.font.SysFont("monospace", 30).render('About', True, "black")
+        loading_text_rect = loading_text.get_rect()
+        loading_text_rect.center = (self.screen.get_width() // 2, (self.screen.get_height() // 2) - 200)
+        
+        self.drawBackButton()
+        self.screen.blit(loading_text, loading_text_rect)
+
+
     def draw_block(self, block: Block):
         """Draws the block to the screen based on the block's coordinates.
             Attributes:
@@ -203,10 +242,12 @@ class Scene:
         """
         self.screen.blit(self.blockImage, (block.x, block.y))
     
+
     def draw_door(self, scene):
         """Draws the door onto the scene.
         """
         self.screen.blit(self.doorImage, (scene.door.x, scene.door.y))
+
 
     def drawButtons(self):
         """Draws the interactive UI buttons onto the screen.
@@ -214,12 +255,19 @@ class Scene:
         for button in self.menu_buttons:
             self.screen.blit(button.renderer, button.rect)
 
+
+    def drawBackButton(self):
+        for button in self.about_menu_buttons:
+            self.screen.blit(button.renderer, button.rect)
+
+
     def updateSprite(self, current_scene):
         self.drawBackground(GameState.in_session)
         self.updateGameUIElements(current_scene)
         self.screen.blit(self.character_sprites[self.current_sprite_index],
                          (self.player_data.xPos, self.player_data.yPos))
     
+
     def updateScene(self):
         """Updates the current scene.
 
@@ -307,6 +355,11 @@ class Scene:
             self.drawLogo()
             self.drawButtons()
 
+        elif current_scene.game_state == GameState.about:
+            self.drawBackground(current_scene.game_state)
+            self.updateAboutMenu()
+
+
     def checking_hover(self, mouse_pos: tuple):
         """check for hovering over the buttons in menue
             This method checks whether the mouse over any buttons start menu which is an array,
@@ -319,24 +372,30 @@ class Scene:
             else:
                 button.setBlack()
 
-    def draw_pos(self, mouse_pos: tuple):
-        cursor_base = pygame.image.load("src/view/assets/cursor.png")
-        cursor_rekt = cursor_base.get_rect()
-        cursor_rekt.center = (mouse_pos[0] - 12, mouse_pos[1] - 12)
-        self.screen.blit(cursor_base, cursor_rekt)
-        
 
-    def check_play_pressed(self, eventpos: tuple):
+    def check_play_pressed(self, event_pos: tuple):
         """Continuously checks if the Play button in the menu has been pressed, and loads the game if so.
             Attributes:
                 - event: The event object in Pygame.
         """
-        if self.menu_buttons[0].rect.collidepoint(eventpos):
+        if self.menu_buttons[0].rect.collidepoint(event_pos) and self.game_manager._gamestate == GameState.start_menu:
             if not self.loadedGame:
                 self.loading_screen()
                 self.initialiseGameScene()
                 self.initialiseGameUIElements()
     
+
+    def check_about_pressed(self, event_pos: tuple):
+        """Continuousy checks if the About button in the menu has been pressed.
+        """
+        if self.menu_buttons[3].rect.collidepoint(event_pos) and self.game_manager._gamestate == GameState.start_menu:
+            self.initialiseAboutScene()
+
+
+    def check_back_pressed(self, event):
+        pass
+
+
     def play_music(self, game_state):
         """Handles music in the scene.
 
