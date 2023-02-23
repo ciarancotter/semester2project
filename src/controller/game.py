@@ -60,8 +60,8 @@ def main() -> None:
                     running = False
             #check if play button is clicked in the main menu
             if event.type == pygame.MOUSEBUTTONUP:
-                gamepanel.check_play_pressed(event)
-                gamepanel.check_about_pressed(event)
+                gamepanel.check_play_pressed(event.pos)
+                gamepanel.check_about_pressed(event.pos)
 
         keys_pressed = pygame.key.get_pressed()
         movements_for_model = []
@@ -99,8 +99,22 @@ def main() -> None:
         gamemanager.update_model(movements_for_model)
 
         # loading the game panel for main menu and game
-        gamepanel.checking_hover(pygame.mouse.get_pos())
+        pygame.mouse.set_visible(False)
+        pygame.mouse.set_cursor(pygame.cursors.diamond)
+        mouse_pos = pygame.mouse.get_pos()
+        if KINECT:
+            if movementPoolMisc["mousex"] > 0:
+                if movementPoolMisc["mousey"] > 0:
+                    mouse_pos = (int(movementPoolMisc["mousex"]), int(movementPoolMisc["mousey"]))
+            if movementPoolRead["select"]:
+                gamepanel.check_play_pressed(mouse_pos)
+                gamepanel.check_about_pressed(mouse_pos)
+
+        print((int(movementPoolMisc["mousex"]), int(movementPoolMisc["mousey"])), mouse_pos)
+
+        gamepanel.checking_hover(mouse_pos)
         gamepanel.updateScene()
+        gamepanel.draw_pos(mouse_pos)
 
 
         # <-- View calls go here -->
@@ -109,7 +123,7 @@ def main() -> None:
 
         # refresh entire screen
         pygame.display.flip()
-        print(round(clock.get_fps(), 2))
+        #print(round(clock.get_fps(), 2))
 
     # Exit pygame
     pygame.quit()

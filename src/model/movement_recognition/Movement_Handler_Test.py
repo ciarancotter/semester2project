@@ -65,16 +65,15 @@ class TestMovement(object):
         self._bodies = None
         self._bodyid = -1
         self._depth = None
-        self.downscaler = 1
 
-        self.select = HandInfront()
-        self.mouse = HandPos(100, 100)
-        self.jump = Jump()
-        self.leftpunch = LeftPunch()
-        self.rightpunch = RightPunch()
-        self.leftwalk = RaiseRightLeg()
-        self.rightwalk = RaiseLeftLeg()
-        self.turntest = TurnHips()
+        self._select = HandInfront()
+        self._mouse = HandPos(100, 100)
+        self._jump = Jump()
+        self._leftpunch = LeftPunch()
+        self._rightpunch = RightPunch()
+        self._leftwalk = RaiseRightLeg()
+        self._rightwalk = RaiseLeftLeg()
+        self._turntest = TurnHips()
         
 
     def draw_color_frame(self, frame: numpy.ndarray,
@@ -163,7 +162,7 @@ class TestMovement(object):
             if self._kinect.has_new_depth_frame():
                 depthframe = self._kinect.get_last_depth_frame()        # depthframe is linear array of uint16 as 512*424 samples of D = 217088 bytes
                 depthframe = depthframe.reshape(self._kinect.depth_frame_desc.Height, self._kinect.depth_frame_desc.Width)
-                self._depth = self._kinect.depth_frame_to_color_space(depthframe, self.downscaler)
+                self._depth = self._kinect.depth_frame_to_color_space(depthframe)
                 
                 '''
                 # Transform the depth frame values to pixel brightness

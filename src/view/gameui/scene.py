@@ -372,23 +372,21 @@ class Scene:
             else:
                 button.setBlack()
 
-
-    def check_play_pressed(self, event):
+    def check_play_pressed(self, event_pos: tuple):
         """Continuously checks if the Play button in the menu has been pressed, and loads the game if so.
             Attributes:
                 - event: The event object in Pygame.
         """
-        if self.menu_buttons[0].rect.collidepoint(event.pos) and self.game_manager._gamestate == GameState.start_menu:
+        if self.menu_buttons[0].rect.collidepoint(event_pos) and self.game_manager._gamestate == GameState.start_menu:
             if not self.loadedGame:
                 self.loading_screen()
                 self.initialiseGameScene()
                 self.initialiseGameUIElements()
     
-
-    def check_about_pressed(self, event):
+    def check_about_pressed(self, event_pos: tuple):
         """Continuousy checks if the About button in the menu has been pressed.
         """
-        if self.menu_buttons[3].rect.collidepoint(event.pos) and self.game_manager._gamestate == GameState.start_menu:
+        if self.menu_buttons[3].rect.collidepoint(event_pos) and self.game_manager._gamestate == GameState.start_menu:
             self.initialiseAboutScene()
 
 

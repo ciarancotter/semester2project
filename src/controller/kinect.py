@@ -51,8 +51,8 @@ class MovementHandler(object):
 
         self.movementPoolMisc["mousex"] = self.mouse.x
         self.movementPoolMisc["mousey"] = self.mouse.y
-        self.movementPoolMisc["turntest"] = self.turntest.readleft
-        self.movementPoolMisc["turntest"] = self.turntest.readright
+        self.movementPoolMisc["turnleft"] = self.turntest.readleft
+        self.movementPoolMisc["turnright"] = self.turntest.readright
         self.movementPoolMisc["jumpmagnitude"] = self.jump.magnitude
         self.movementPoolMisc["leftpunchmagnitude"] = self.leftpunch.magnitude
         self.movementPoolMisc["rightpunchmagnitude"] = self.rightpunch.magnitude
@@ -100,16 +100,16 @@ class MovementHandler(object):
 
         self.movementPoolMisc["mousex"] = self.mouse.x
         self.movementPoolMisc["mousey"] = self.mouse.y
-        self.movementPoolMisc["turntest"] = self.turntest.readleft
-        self.movementPoolMisc["turntest"] = self.turntest.readright
+        self.movementPoolMisc["turnleft"] = self.turntest.readleft
+        self.movementPoolMisc["turnright"] = self.turntest.readright
         self.movementPoolMisc["jumpmagnitude"] = self.jump.magnitude
         self.movementPoolMisc["leftpunchmagnitude"] = self.leftpunch.magnitude
         self.movementPoolMisc["rightpunchmagnitude"] = self.rightpunch.magnitude
 
-        print(self.movementPoolRead)
+        #print(self.movementPoolMisc)
         
 
 if __name__ == '__main__':
-    mv = MovementHandler(100, 100)
+    mv = MovementHandler(1280, 784)
     while True:
         mv.update()

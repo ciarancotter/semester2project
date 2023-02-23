@@ -371,9 +371,7 @@ class Enemy(Monke):
         self.player = player
         self.distance_to_player = 0
         self.xPos = random.randint(0, SCREEN_WIDTH)
-        print("enemy x first", self.xPos)
         self.yPos = SCREEN_HEIGHT
-        print("enemy y first", self.yPos)
 
         self.facing = Movement.left
         super().__init__(self.xPos, self.yPos, width, height, True, 3)
@@ -383,7 +381,6 @@ class Enemy(Monke):
 
     def move(self, frame_count, entities: list[Entity]):
         self.gravity(entities)
-        print("falling down ")
 
         #only from top, no moving upwards
         if frame_count % 30 == 0:
