@@ -61,6 +61,7 @@ def main() -> None:
             #check if play button is clicked in the main menu
             if event.type == pygame.MOUSEBUTTONUP:
                 gamepanel.check_play_pressed(event)
+                gamepanel.check_about_pressed(event)
 
         keys_pressed = pygame.key.get_pressed()
         movements_for_model = []
