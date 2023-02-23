@@ -372,7 +372,6 @@ class Scene:
             else:
                 button.setBlack()
 
-
     def check_play_pressed(self, event_pos: tuple):
         """Continuously checks if the Play button in the menu has been pressed, and loads the game if so.
             Attributes:
@@ -384,7 +383,6 @@ class Scene:
                 self.initialiseGameScene()
                 self.initialiseGameUIElements()
     
-
     def check_about_pressed(self, event_pos: tuple):
         """Continuousy checks if the About button in the menu has been pressed.
         """

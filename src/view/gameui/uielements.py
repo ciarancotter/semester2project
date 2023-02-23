@@ -149,9 +149,9 @@ class TextBox:
 
 class Button:
 
-    def __init__(self, text: str, button_center: tuple) -> None:
+    def __init__(self, text: str, button_center: tuple, font_size: int) -> None:
         self.text = text
-        self.font = pygame.font.Font(None, 85)
+        self.font = pygame.font.Font(None, font_size)
         self.renderer = self.font.render(self.text, True, "black")
         self.rect = self.renderer.get_rect()
         self.rect.center = button_center

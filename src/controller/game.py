@@ -63,7 +63,6 @@ def main() -> None:
                 gamepanel.check_play_pressed(event.pos)
                 gamepanel.check_about_pressed(event.pos)
 
-
         keys_pressed = pygame.key.get_pressed()
         movements_for_model = []
 

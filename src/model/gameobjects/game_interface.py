@@ -134,7 +134,7 @@ class PlatformerGame(object):
     def set_game_state(self, new_game_state):
         """Setter method for game state.
         """
-        self._gamestate = GameState.in_session
+        self._gamestate = new_game_state
 
     def update_model(self, player_moves: list(Movement)):
         self.frame_count +=1
