@@ -110,7 +110,6 @@ def main() -> None:
                 gamepanel.check_play_pressed(mouse_pos)
                 gamepanel.check_about_pressed(mouse_pos)
 
-        print((int(movementPoolMisc["mousex"]), int(movementPoolMisc["mousey"])), mouse_pos)
 
         gamepanel.checking_hover(mouse_pos)
         gamepanel.updateScene()
