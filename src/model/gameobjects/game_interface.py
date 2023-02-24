@@ -119,6 +119,7 @@ class PlatformerGame(object):
         self._level_added = False
         self._door = None
         self.frame_count = 0 
+        self._loot = []
 
     def get_render_ctx(self) -> CtxToRender:
         """Returns the information necicary (or the context/shortend to ctx in this program ) to render
@@ -139,12 +140,13 @@ class PlatformerGame(object):
     def update_model(self, player_moves: list(Movement)):
         print(player_moves)
         self.frame_count +=1
-        self._player.move(player_moves, self._blocks)
+        self._entities =  self._player.move(player_moves, self._entities)
         self._enemy.move(self.frame_count, self._blocks)
 
         if self._player.health <= 0:
             self.game_state = GameState.game_over
 
+        self.add_powerups()
         # check if it is time to switch levels
         if self._door != None and self._door.check_for_entry(self._player):
             self._level_added = True
@@ -185,6 +187,35 @@ class PlatformerGame(object):
             self._entities.extend(level_object.get_blocks())
             self._player = Player(self._playerwidth, self._playerheight,
                               self._screen_width, self._screen_height)
+
+    def add_powerups(self):
+        """adds powerups to the screen.
+
+        adds powerups to the screen as long as it is not spawning ontop of an entity.
+        """
+        if self.frame_count % 1000:
+            random_number = random.randint(0, 3)
+            x = random.randint(0,self._screen_width)
+            y = random.randint(0,self._screen_height)
+
+
+
+            if random_number == 0:
+                loot = Loot(x, y, 64, 64)
+                if not loot.is_colliding_with_entitys():
+                    self._entities.append(loot)
+                    self._loot.append(loot)
+            elif random_number == 1:
+                loot = JumpLoot(x, y, 64, 64)
+                if not loot.is_colliding_with_entitys():
+                    self._entities.append(loot)
+                    self._loot.append(loot)
+            else:
+                loot = InvicibilityLoot(x, y, 64, 64)
+                if not loot.is_colliding_with_entitys():
+                    self._entities.append(loot)
+                    self._loot.append(loot)
+
 
 
 
