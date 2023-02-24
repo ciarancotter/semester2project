@@ -191,7 +191,7 @@ class Scene:
         """Run once when the game is created. Generates the AI data.
         """
         pygame.display.set_caption("Boole Raider")
-        generate_background("ancient Egypt")
+        #generate_background("ancient Egypt")
         self.screen.fill("gold")
         game_background = pygame.image.load("src/view/assets/gamebg.png").convert_alpha()
         self.transformed_game_background = pygame.transform.scale(game_background, (784, 784))

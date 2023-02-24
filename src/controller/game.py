@@ -70,30 +70,30 @@ def main() -> None:
         if KINECT:
             if movementPoolMisc["turnleft"]:
                 movements_for_model.append(Movement.left)
-            elif movementPoolMisc["turnright"]:
+            if movementPoolMisc["turnright"]:
                 movements_for_model.append(Movement.right)
-            elif movementPoolRead["jump"]:
+            if movementPoolRead["jump"]:
                 movements_for_model.append(Movement.jump)
-            elif movementPoolRead["leftpunch"]:
+            if movementPoolRead["leftpunch"]:
                 movements_for_model.append(Movement.left_punch)
-            elif movementPoolRead["rightpunch"]:
+            if movementPoolRead["rightpunch"]:
                 movements_for_model.append(Movement.right_punch)
             else:
-                movements_for_model.append(Movement.no_movement)
+                movements_for_model = [Movement.no_movement]
 
         else:
             if keys_pressed[K_LEFT]:
                 movements_for_model.append(Movement.left)
-            elif keys_pressed[K_RIGHT]:
+            if keys_pressed[K_RIGHT]:
                 movements_for_model.append(Movement.right)
-            elif keys_pressed[K_UP]:
+            if keys_pressed[K_UP]:
                 movements_for_model.append(Movement.jump)
-            elif keys_pressed[K_a]:
+            if keys_pressed[K_a]:
                 movements_for_model.append(Movement.left_punch)
-            elif keys_pressed[K_s]:
+            if keys_pressed[K_s]:
                 movements_for_model.append(Movement.right_punch)
-            else:
-                movements_for_model.append(Movement.no_movement)
+            if movements_for_model == []:
+                movements_for_model = [Movement.no_movement]
 
         # <-- Update calls go here -->
         gamemanager.update_model(movements_for_model)
