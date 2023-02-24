@@ -72,8 +72,8 @@ class Scene:
 
         self.transformed_game_background = None
         self.sprite_sheet = pygame.image.load("src/view/assets/playerSprite.png").convert_alpha()
-        random_enemy = random.choice(["mummy_spritesheet", "anubis_spritesheet", "horus_spritesheet", "sobek_spritesheet"])
-        self.sprite_sheet_mummy = pygame.image.load("src/view/assets/%s.png" % random_enemy).convert_alpha()
+        self.random_enemy = ["mummy_spritesheet", "anubis_spritesheet", "horus_spritesheet", "sobek_spritesheet"]
+        self.sprite_sheet_mummy = pygame.image.load("src/view/assets/%s.png" % self.random_enemy[0]).convert_alpha()
 
         # set the starting sprite for the character
         self.current_sprite_index = 0
@@ -91,6 +91,9 @@ class Scene:
         # shortcut for player data that we're getting from render_ctx
         self.player_data = self.context.player
         self.enemies_data = self.context.enemies  #list
+        self.extra_eneimes_data = self.enemies_data
+
+
         # set the delay between each frame
         self.frame_delay = 5
         self.frame_count = 0
@@ -114,7 +117,11 @@ class Scene:
             self.background = self.transformed_game_background
 
         self.screen.blit(self.background, (0, 0))
+        # for enemy in self.enemies_data:
+        #     self.sprite_sheet_mummy = pygame.image.load("src/view/assets/%s.png" % self.random_enemy[enemy.choice_of_sprit]).convert_alpha()
+
    
+
 
     def drawBradley(self):
         bradley_base = pygame.image.load("src/view/assets/bradley.png")
@@ -138,7 +145,7 @@ class Scene:
         """Draws a loading screen.
         """
         self.screen.fill("black")
-        #self.drawBradley()
+        self.drawBradley()
         loading_text = pygame.font.SysFont("monospace", 30).render('Loading...', True, "white")
         loading_text_rect = loading_text.get_rect()
         loading_text_rect.center = (self.screen.get_width() // 2, self.screen.get_height() // 2)
@@ -231,17 +238,13 @@ class Scene:
         self.screen.blit(self.character_sprites[self.current_sprite_index],
                          (self.player_data.xPos, self.player_data.yPos))
         for enemy in self.enemies_data:
-            self.screen.blit(self.enemy_sprites[self.current_sprite_index_enemy],
-                         (enemy.xPos, enemy.yPos))
-    def new_enemy(self, enemy, current_scene ):
-
-        for i in range(self.enemy_rows):
-            for j in range(self.enemy_columns):
-                self.drawBackground(GameState.in_session)
-                self.updateGameUIElements(current_scene)
-                self.enemy_sprites[i * self.enemy_columns + j].blit(self.sprite_sheet_mummy, (0, 0), (
-                j * enemy.width, i * enemy.height, enemy.width,
-                enemy.height))
+            self.screen.blit(self.enemy_sprites[self.current_sprite_index_enemy],(enemy.xPos, enemy.yPos))
+            
+    #method for generating different sprites for enemis 
+    def generate_enemy_sprite(self, enemy):
+            random_enemy = ["mummy_spritesheet", "anubis_spritesheet", "horus_spritesheet", "sobek_spritesheet"]
+            self.sprite_sheet_mummy = pygame.image.load("src/view/assets/%s.png" % random_enemy[enemy.choice_of_sprit]).convert_alpha()
+            return self.sprite_sheet_mummy
     def updateScene(self):
         """Updates the current scene.
 
@@ -249,10 +252,14 @@ class Scene:
         the game itself. The result of this check determines what will be rendered
         in the scene
         """
+        self.extra_eneimes_data = self.enemies_data
 
         # Fetches the current game state
         current_scene = self.game_manager.get_render_ctx()
         # Decides what to draw
+        # for enemy in self.extra_eneimes_data:
+        #     self.sprite_sheet_mummy = pygame.image.load("src/view/assets/%s.png" % self.random_enemy[enemy.choice_of_sprit]).convert_alpha()
+        #     self.extra_eneimes_data.remove(enemy)
         if current_scene.game_state == GameState.in_session:
             self.drawBackground(GameState.in_session)
             self.updateGameUIElements(current_scene)
@@ -269,10 +276,14 @@ class Scene:
                     self.player_data.height))
         
             for enemy in self.enemies_data:
-                print(enemy.yPos)
-                # random_enemy = random.choice(["mummy_spritesheet", "anubis_spritesheet", "horus_spritesheet", "sobek_spritesheet"])
-                # self.sprite_sheet_mummy = pygame.image.load("src/view/assets/%s.png" % random_enemy).convert_alpha()
-                self.new_enemy(enemy, current_scene )
+                #self.generate_enemy_sprite(enemy)
+                for i in range(self.enemy_rows):
+                    for j in range(self.enemy_columns):
+                        self.drawBackground(GameState.in_session)
+                        self.updateGameUIElements(current_scene)
+                        self.enemy_sprites[i * self.enemy_columns + j].blit(self.generate_enemy_sprite(enemy), (0, 0), (
+                        j * enemy.width, i * enemy.height, enemy.width,
+                        enemy.height))
             
 
             # move the character to the right if the right key is pressed

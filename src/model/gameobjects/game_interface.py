@@ -148,6 +148,7 @@ class PlatformerGame(object):
             
         self._player.move(player_moves, self._blocks)
         for enemy in self._enemies:
+            print(enemy.choice_of_sprit, "from gameinterface ")
             enemy.move(self.frame_count, self._player,self._blocks)
 
         if self._player.health <= 0:

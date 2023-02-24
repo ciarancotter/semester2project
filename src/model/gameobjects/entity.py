@@ -373,6 +373,7 @@ class Enemy(Monke):
         self.distance_to_player = 0
         self.xPos = random.randint(0, SCREEN_WIDTH)
         self.yPos = 2
+        self.choice_of_sprit = random.randint(0,3)
 
 
         self.facing = random.choice([Movement.right, Movement.left])
