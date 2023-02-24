@@ -393,6 +393,12 @@ class Scene:
     def check_back_pressed(self, event):
         pass
 
+    def draw_pos(self, mouse_pos):
+        cursor = pygame.image.load("src/view/assets/cursor.png")
+        cursor_rekt = cursor.get_rect()
+        cursor_rekt.center = mouse_pos
+        self.screen.blit(cursor, cursor_rekt)
+
 
     def play_music(self, game_state):
         """Handles music in the scene.
