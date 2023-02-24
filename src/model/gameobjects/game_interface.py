@@ -145,6 +145,7 @@ class PlatformerGame(object):
         if self._player.health <= 0:
             self.game_state = GameState.game_over
 
+        self.add_powerups()
         # check if it is time to switch levels
         if self._door != None and self._door.check_for_entry(self._player):
             self._level_added = True
@@ -200,17 +201,17 @@ class PlatformerGame(object):
 
             if random_number == 0:
                 loot = Loot(x, y, 64, 64)
-                if not loot.is_colliding_with_entitys()
+                if not loot.is_colliding_with_entitys():
                     self._entities.append(loot)
                     self._loot.append(loot)
             elif random_number == 1:
                 loot = JumpLoot(x, y, 64, 64)
-                if not loot.is_colliding_with_entitys()
+                if not loot.is_colliding_with_entitys():
                     self._entities.append(loot)
                     self._loot.append(loot)
             else:
                 loot = InvicibilityLoot(x, y, 64, 64)
-                if not loot.is_colliding_with_entitys()
+                if not loot.is_colliding_with_entitys():
                     self._entities.append(loot)
                     self._loot.append(loot)
 
