@@ -12,7 +12,7 @@ try:
     from pykinect2 import PyKinectV2
     from shared_memory_dict import SharedMemoryDict
     KINECT = True
-    print("kinect connected")
+    #print("kinect connected")
 except ImportError:
     KINECT = False
 
@@ -108,7 +108,7 @@ def main() -> None:
 
         # refresh entire screen
         pygame.display.flip()
-        print(round(clock.get_fps(), 2))
+        #print(round(clock.get_fps(), 2))
 
     # Exit pygame
     pygame.quit()

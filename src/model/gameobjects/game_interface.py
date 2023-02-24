@@ -102,15 +102,14 @@ class PlatformerGame(object):
         self._screen_width = 768
         self._screen_height = 768
         self._current_level = 1
-        damage = 0 
+        self.damage = 0 
         #xPos: int, yPos: int, width: int, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, height: int,colliding: bool, dammage: int, player:Player) -> None:
         self._player = Player(self._playerwidth, self._playerheight,
                               self._screen_width, self._screen_height)
         self._enemy = Enemy(self._playerwidth, self._playerheight, 
                             self._screen_width, self._screen_height
-                            ,damage ,self._player)
+                            ,self.damage  ,self._player)
         self._enemies = [self._enemy]
-
         self._blocks = []
         self._entities = [self._enemies]
         self._gamestate = GameState.start_menu
@@ -138,8 +137,20 @@ class PlatformerGame(object):
 
     def update_model(self, player_moves: list(Movement)):
         self.frame_count +=1
+        if self.frame_count > 200:
+            print("count", self.frame_count)
+            for enemy in self._enemies:
+                print(enemy.x, enemy.y)
+            self._enemy = Enemy(self._playerwidth, self._playerheight, 
+                       self._screen_width, self._screen_height
+                       ,self.damage ,self._player)
+            self._enemies.append(self._enemy)
+            self.frame_count = 0
+            self._entities.append(self._enemy)
+            
         self._player.move(player_moves, self._blocks)
-        self._enemy.move(self.frame_count, self._blocks)
+        for enemy in self._enemies:
+            enemy.move(self.frame_count, self._player,self._blocks)
 
         if self._player.health <= 0:
             self.game_state = GameState.game_over
@@ -165,7 +176,7 @@ class PlatformerGame(object):
             try:
                 level = json_info[new_level_number - 1]
             except Exception as e:
-                print(e)
+                #print(e)
                 self._gamestate = GameState.game_over
                 return
 

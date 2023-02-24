@@ -10,7 +10,7 @@ Usage:
 import sys
 import os
 import random
-
+import math
 sys.path.append(os.path.abspath("./src"))
 from .public_enums import Movement
 
@@ -366,47 +366,47 @@ class Enemy(Monke):
         self.screen_width = SCREEN_WIDTH
         self.screen_height = SCREEN_HEIGHT
         self._damage = dammage
-        self._speed = 3
+        self._speed = 0.5
+
         self.screen_width = SCREEN_WIDTH
         self.player = player
         self.distance_to_player = 0
         self.xPos = random.randint(0, SCREEN_WIDTH)
-        print("enemy x first", self.xPos)
-        self.yPos = SCREEN_HEIGHT
-        print("enemy y first", self.yPos)
+        self.yPos = 2
 
-        self.facing = Movement.left
+
+        self.facing = random.choice([Movement.right, Movement.left])
         super().__init__(self.xPos, self.yPos, width, height, True, 3)
 
     def get_dammage(self) -> int:
         return self._damage
 
-    def move(self, frame_count, entities: list[Entity]):
+    def move(self, frame_count, player_date ,entities: list[Entity]):
         self.gravity(entities)
-        print("falling down ")
 
-        #only from top, no moving upwards
-        if frame_count % 30 == 0:
-            direction = random.choice(["left", "right"])
-            if direction == "left" and self.xPos >= 0:
-                self.xPos -= self._speed
-                self.facing = Movement.left
-            elif direction == "right" and self.xPos < self.screen_width - self._width:
-                self.xPos += self._speed
-                self.facing = Movement.right
-        
-        # follow the player if they are within a certain distance
-        if self.distance_to_player < 200:
-            if self.player.xPos < self.xPos:
-                self.xPos = -self._speed
-            elif self.player.xPos > self.xPos:
-                self.xPos = self._speed
-            elif self.player.yPos < self.yPos:
-                self.yPos = -self._speed
-            elif self.player.yPos > self.yPos:
-                self.yPos = self._speed
+        if not self.gravity(entities):
+            self.distance_to_player = math.sqrt((player_date.xPos - self.xPos)**2 + (player_date.yPos - self.yPos)**2)
 
-    damage = property(get_dammage)
+            #logic for following player 
+            if int(self.distance_to_player) < 100:
+                if player_date.xPos + (player_date.width/2) < self.xPos:
+                    self.facing = Movement.left
+                    self.xPos -= self._speed
+                elif player_date.xPos > self.xPos + (self.width/2):
+                    self.facing = Movement.right
+                    self.xPos += self._speed
+            else:
+                if self.facing == Movement.left and self.xPos >= 0:
+                    self.xPos -= self._speed
+                elif self.facing == Movement.right and self.xPos < self.screen_width - self._width:
+                    self.xPos += self._speed
+                elif self.facing == Movement.left and self.xPos <= self._width:
+                    self.facing = Movement.right
+                elif self.facing == Movement.right and self.xPos >= self.screen_width - self._width:
+                    self.facing = Movement.left 
+
+
+
 
 class Loot(Entity):
     """the Loot class contains power ups that the player can gain once they colide with it.
