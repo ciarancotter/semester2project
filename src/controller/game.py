@@ -79,7 +79,7 @@ def main() -> None:
                 movements_for_model.append(Movement.left_punch)
             if movementPoolRead["rightpunch"]:
                 movements_for_model.append(Movement.right_punch)
-            else:
+            if movements_for_model == []:
                 movements_for_model = [Movement.no_movement]
 
         else:
