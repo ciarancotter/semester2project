@@ -138,10 +138,8 @@ class PlatformerGame(object):
     def update_model(self, player_moves: list(Movement)):
         self.frame_count +=1
         if self.frame_count > 200:
-            print("count", self.frame_count)
             for enemy in self._enemies:
-                print(enemy.x, enemy.y)
-            self._enemy = Enemy(self._playerwidth, self._playerheight, 
+                self._enemy = Enemy(self._playerwidth, self._playerheight, 
                        self._screen_width, self._screen_height
                        ,self.damage ,self._player)
             self._enemies.append(self._enemy)

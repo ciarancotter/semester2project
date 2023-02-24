@@ -101,6 +101,8 @@ class Scene:
         # Sounds
         #self.punch_sound = pygame.mixer.Sound("src/view/assets/punch.mp3")
 
+
+
     def drawBackground(self, game_state):
         """Draws the background depending on the current state of the game.
         """
@@ -231,6 +233,15 @@ class Scene:
         for enemy in self.enemies_data:
             self.screen.blit(self.enemy_sprites[self.current_sprite_index_enemy],
                          (enemy.xPos, enemy.yPos))
+    def new_enemy(self, enemy, current_scene ):
+
+        for i in range(self.enemy_rows):
+            for j in range(self.enemy_columns):
+                self.drawBackground(GameState.in_session)
+                self.updateGameUIElements(current_scene)
+                self.enemy_sprites[i * self.enemy_columns + j].blit(self.sprite_sheet_mummy, (0, 0), (
+                j * enemy.width, i * enemy.height, enemy.width,
+                enemy.height))
     def updateScene(self):
         """Updates the current scene.
 
@@ -258,13 +269,10 @@ class Scene:
                     self.player_data.height))
         
             for enemy in self.enemies_data:
-                for i in range(self.enemy_rows):
-                    for j in range(self.enemy_columns):
-                        self.drawBackground(GameState.in_session)
-                        self.updateGameUIElements(current_scene)
-                        self.enemy_sprites[i * self.enemy_columns + j].blit(self.sprite_sheet_mummy, (0, 0), (
-                        j * enemy.width, i * enemy.height, enemy.width,
-                        enemy.height))
+                print(enemy.yPos)
+                # random_enemy = random.choice(["mummy_spritesheet", "anubis_spritesheet", "horus_spritesheet", "sobek_spritesheet"])
+                # self.sprite_sheet_mummy = pygame.image.load("src/view/assets/%s.png" % random_enemy).convert_alpha()
+                self.new_enemy(enemy, current_scene )
             
 
             # move the character to the right if the right key is pressed
