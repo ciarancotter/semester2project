@@ -257,9 +257,7 @@ class Scene:
         # Fetches the current game state
         current_scene = self.game_manager.get_render_ctx()
         # Decides what to draw
-        # for enemy in self.extra_eneimes_data:
-        #     self.sprite_sheet_mummy = pygame.image.load("src/view/assets/%s.png" % self.random_enemy[enemy.choice_of_sprit]).convert_alpha()
-        #     self.extra_eneimes_data.remove(enemy)
+
         if current_scene.game_state == GameState.in_session:
             self.drawBackground(GameState.in_session)
             self.updateGameUIElements(current_scene)
