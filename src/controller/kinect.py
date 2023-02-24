@@ -60,8 +60,8 @@ class MovementHandler(object):
 
         self.movementPoolMisc["mousex"] = self.mouse.x
         self.movementPoolMisc["mousey"] = self.mouse.y
-        self.movementPoolMisc["turntest"] = self.turntest.readleft
-        self.movementPoolMisc["turntest"] = self.turntest.readright
+        self.movementPoolMisc["turnleft"] = self.turntest.readleft
+        self.movementPoolMisc["turnright"] = self.turntest.readright
         self.movementPoolMisc["jumpmagnitude"] = self.jump.magnitude
         self.movementPoolMisc["leftpunchmagnitude"] = self.leftpunch.magnitude
         self.movementPoolMisc["rightpunchmagnitude"] = self.rightpunch.magnitude
@@ -303,9 +303,9 @@ class MovementHandler(object):
         surface_to_draw = pygame.transform.scale(self._frame_surface, (496, 279))
         vid = pygame.surfarray.array3d(surface_to_draw)
         self.video["src"] = vid
-        
+       
 
 if __name__ == '__main__':
-    mv = MovementHandler(100, 100)
+    mv = MovementHandler(1280, 784)
     while True:
         mv.update()
