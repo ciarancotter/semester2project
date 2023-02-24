@@ -24,6 +24,7 @@ from pygame.locals import (
     K_UP,
     K_a,
     K_s,
+    K_SPACE,
 )
 
 def main() -> None:
@@ -86,7 +87,7 @@ def main() -> None:
                 movements_for_model.append(Movement.left)
             if keys_pressed[K_RIGHT]:
                 movements_for_model.append(Movement.right)
-            if keys_pressed[K_UP]:
+            if keys_pressed[K_UP] or keys_pressed[K_SPACE]:
                 movements_for_model.append(Movement.jump)
             if keys_pressed[K_a]:
                 movements_for_model.append(Movement.left_punch)
