@@ -176,8 +176,8 @@ class Monke(Entity):
                 check_below = (monke_feet <= entity.yPos + entity._height)
                 check_left = (not ((self.xPos+self._hitbox_x_offset) + (self._width - self._hitbox_width_reduction) < entity.xPos))
                 check_right = ((self.xPos+self._hitbox_x_offset) <= entity.xPos + entity._width)
-            if (check_below and check_above and check_left and check_right):
-                return True
+                if (check_below and check_above and check_left and check_right):
+                    return True
         return False
 
     def gravity(self, entities: list[Entity]) -> bool:

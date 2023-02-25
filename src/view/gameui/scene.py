@@ -422,19 +422,19 @@ class MainMenuScene(Scene):
         self.play_music()
 
 
-    def check_about_pressed(self, event):
+    def check_about_pressed(self, event_pos: tuple):
         """Continuously checks if the About button in the menu has been pressed.
         """
-        if self.buttons[2].rect.collidepoint(event.pos) and self.game_manager._gamestate == GameState.start_menu:
+        if self.buttons[2].rect.collidepoint(event_pos) and self.game_manager._gamestate == GameState.start_menu:
             pass # Replace with scene transition to About
 
 
-    def check_play_pressed(self, event, game: GameScene):
+    def check_play_pressed(self, event_pos: tuple, game: GameScene):
         """Continuously checks if the Play button in the menu has been pressed, and loads the game if so.
             Attributes:
                 - event: The event object in Pygame.
         """
-        if self.buttons[0].rect.collidepoint(event.pos) and self.game_manager._gamestate == GameState.start_menu:
+        if self.buttons[0].rect.collidepoint(event_pos) and self.game_manager._gamestate == GameState.start_menu:
             self.game_manager.set_game_state(GameState.in_session)
             game.initialise()
             # Fader(MainMenuScene, GameScene)
