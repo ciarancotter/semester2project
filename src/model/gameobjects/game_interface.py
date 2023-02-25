@@ -66,6 +66,10 @@ class CtxToRender(object):
      
     def get_current_level(self) -> int:
         return self._current_level
+    
+    def get_monolith(self):
+        return self._monolith
+
 
     enemies = property(get_enemies)
     player = property(get_player)
@@ -74,6 +78,7 @@ class CtxToRender(object):
     entities = property(get_entities)
     game_state = property(get_game_state)
     current_level = property(get_current_level)
+    monolith = property(get_monolith)
 
 
 class PlatformerGame(object):
@@ -118,6 +123,7 @@ class PlatformerGame(object):
         self._punch_state = False
         self._level_added = False
         self._door = None
+        self._monolith = None
         self.frame_count = 0 
 
     def get_render_ctx(self) -> CtxToRender:
@@ -131,10 +137,12 @@ class PlatformerGame(object):
         return CtxToRender(self._enemies, self._player, self._blocks,
                            self._entities, self._gamestate, self._current_level, self._door)
 
+
     def set_game_state(self, new_game_state):
         """Setter method for game state.
         """
         self._gamestate = new_game_state
+
 
     def update_model(self, player_moves: list(Movement)):
         self.frame_count +=1
@@ -149,6 +157,7 @@ class PlatformerGame(object):
             self._level_added = True
             self._current_level += 1
             self.create_level_from_json()
+
 
     def create_level_from_json(self):
         """Finds out what level the game is on and then parses the json file to 

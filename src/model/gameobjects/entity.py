@@ -383,7 +383,6 @@ class Enemy(Monke):
 
     def move(self, frame_count, entities: list[Entity]):
         self.gravity(entities)
-        print("falling down ")
 
         #only from top, no moving upwards
         if frame_count % 30 == 0:
