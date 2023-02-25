@@ -62,8 +62,8 @@ def main() -> None:
                     running = False
 
             if event.type == pygame.MOUSEBUTTONUP:
-                gamepanel.check_play_pressed(event.pos, game_scene)
-                gamepanel.check_about_pressed(event.pos)
+                main_menu_scene.check_play_pressed(event.pos, game_scene)
+                main_menu_scene.check_about_pressed(event.pos)
 
         keys_pressed = pygame.key.get_pressed()
         movements_for_model = []
@@ -107,11 +107,11 @@ def main() -> None:
                     if movementPoolMisc["mousey"] > 0:
                         mouse_pos = (int(movementPoolMisc["mousex"]), int(movementPoolMisc["mousey"]))
                 if movementPoolRead["select"]:
-                    gamepanel.check_play_pressed(mouse_pos)
-                    gamepanel.check_about_pressed(mouse_pos)
-            main_menu_scene.draw_cursor(mouse_pos)
+                    main_menu_scene.check_play_pressed(mouse_pos, game_scene)
+                    main_menu_scene.check_about_pressed(mouse_pos)
             main_menu_scene.checking_hover(mouse_pos)
             main_menu_scene.update() 
+            main_menu_scene.draw_cursor(mouse_pos)
 
         elif game_manager._gamestate == GameState.in_session:
             game_manager.update_model(movements_for_model)
