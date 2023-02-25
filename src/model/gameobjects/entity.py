@@ -295,9 +295,9 @@ class Player(Monke):
             self._jump_baseline = self.yPos
             self._jump_power = 50
 
-        self._entities = self.calculate_collition_results(entities)
+        entities_to_return = self.calculate_collition_results(entities)
         self.update_loot_stats()
-        return self._entities
+        return entities_to_return
 
     def calculate_collition_results(self, entities):
         for i,entity in enumerate(entities):
@@ -320,6 +320,7 @@ class Player(Monke):
                 self._invincible = True
                 # making the loot disapear when you hit it
                 entities.pop(i)
+        return entities
 
 
     def update_loot_stats(self):
