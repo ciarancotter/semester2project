@@ -41,7 +41,7 @@ class Scene:
         game_manager: The PlatformerGame object that contains all of the game's current state data. 
     """
 
-    def __init__(self, buttons: [Button], background, screen):
+    def __init__(self, buttons: list[Button], background, screen):
         """Inits the Scene class.
         """
         pygame.init()
@@ -98,6 +98,15 @@ class Scene:
                 button.setBlue()
             else:
                 button.setBlack()
+
+    def draw_cursor(self, mouse_pos: tuple):
+        """Draws the cursor where the mouse is or the hand is.
+        """
+        cursor = pygame.image.load("src/view/assets/cursor.png")
+        cursor_rekt = cursor.get_rect()
+        cursor_rekt.center = mouse_pos
+        self.screen.blit(cursor, cursor_rekt)
+
 
     def play_music(self):
         """Handles music in the scene.
