@@ -115,6 +115,7 @@ def main() -> None:
         gamepanel.checking_hover(mouse_pos)
         gamepanel.updateScene()
         gamepanel.draw_pos(mouse_pos)
+        gamepanel.draw_kinect()
 
 
         # <-- View calls go here -->

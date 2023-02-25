@@ -20,6 +20,8 @@ import pygame
 
 sys.path.append(os.path.abspath("./src"))
 
+from shared_memory_dict import SharedMemoryDict
+
 from view.gameui.healthbar import HealthBar, LevelIndicator
 from view.gameui.uielements import Button, TextBox, Panel
 from model.gameobjects.public_enums import Movement
@@ -51,6 +53,7 @@ class Scene:
         self.player = None
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((1280, 784))
+        self.video = SharedMemoryDict(name='movementVideo', size=500000)
         self.menu_buttons = []
         self.about_menu_buttons = []
         self.loadedGame = False
@@ -399,6 +402,10 @@ class Scene:
         cursor_rekt.center = mouse_pos
         self.screen.blit(cursor, cursor_rekt)
 
+    def draw_kinect(self):
+        surface = pygame.surfarray.make_surface(self.video["src"])
+        self.screen.blit(surface, (1280, 505))
+        pygame.display.flip()
 
     def play_music(self, game_state):
         """Handles music in the scene.
