@@ -295,8 +295,9 @@ class Player(Monke):
             self._jump_baseline = self.yPos
             self._jump_power = 50
 
-        self.calculate_collition_results(entities)
+        self._entities = self.calculate_collition_results(entities)
         self.update_loot_stats()
+        return self._entities
 
     def calculate_collition_results(self, entities):
         for i,entity in enumerate(entities):
@@ -371,9 +372,7 @@ class Enemy(Monke):
         self.player = player
         self.distance_to_player = 0
         self.xPos = random.randint(0, SCREEN_WIDTH)
-        print("enemy x first", self.xPos)
         self.yPos = SCREEN_HEIGHT
-        print("enemy y first", self.yPos)
 
         self.facing = Movement.left
         super().__init__(self.xPos, self.yPos, width, height, True, 3)
@@ -413,7 +412,7 @@ class Loot(Entity):
     Atributes:
         power: the potency of the loot
     """
-    def __init__(self,xPos: int, yPos: int, width: int, height: int,colliding: bool,power=2):
+    def __init__(self,xPos: int, yPos: int, width: int, height: int,power=2):
         self._power = power
         super().__init__(self.xPos, self.yPos, width, height, True)
     def get_power(self):
@@ -427,10 +426,10 @@ class JumpLoot(Loot):
             jump_increase: the amoun that your jump height increases when you get the loot
             power_up_time: the time period that your increased jump height remains in place
     """
-    def __init__(self,xPos: int, yPos: int, width: int, height: int,colliding: bool,power=2,jump_increase=10,time=1000):
+    def __init__(self,xPos: int, yPos: int, width: int, height: int,power=2,jump_increase=10,time=1000):
         self._jump_increase = jump_increase
         self.power_up_time = time
-        super().__init__(self.xPos, self.yPos, width, height, True,power=power)
+        super().__init__(self.xPos, self.yPos, width, height,power=power)
     def get_jump_increase(self):
         return self._jump_increase
     jump_increase = property(get_jump_increase)
@@ -438,6 +437,6 @@ class JumpLoot(Loot):
 
 class InvicibilityLoot(Loot):
     """loot that renders the player unable to be damaged by enemies for a particular period."""
-    def __init__(self,xPos: int, yPos: int, width: int, height: int,colliding: bool,power=2,time=1000):
+    def __init__(self,xPos: int, yPos: int, width: int, height: int,power=2,time=1000):
         self.power_up_time = time
-        super().__init__(self.xPos, self.yPos, width, height, True,power=power)
+        super().__init__(self.xPos, self.yPos, width, height,power=power)

@@ -23,6 +23,7 @@ from pygame.locals import (
     K_UP,
     K_a,
     K_s,
+    K_SPACE,
 )
 
 def main() -> None:
@@ -61,8 +62,8 @@ def main() -> None:
                     running = False
 
             if event.type == pygame.MOUSEBUTTONUP:
-                main_menu_scene.check_play_pressed(event, game_scene)
-                main_menu_scene.check_about_pressed(event)
+                gamepanel.check_play_pressed(event.pos, game_scene)
+                gamepanel.check_about_pressed(event.pos)
 
         keys_pressed = pygame.key.get_pressed()
         movements_for_model = []
@@ -71,41 +72,54 @@ def main() -> None:
         if KINECT:
             if movementPoolMisc["turnleft"]:
                 movements_for_model.append(Movement.left)
-            elif movementPoolMisc["turnright"]:
+            if movementPoolMisc["turnright"]:
                 movements_for_model.append(Movement.right)
-            elif movementPoolRead["jump"]:
+            if movementPoolRead["jump"]:
                 movements_for_model.append(Movement.jump)
-            elif movementPoolRead["leftpunch"]:
+            if movementPoolRead["leftpunch"]:
                 movements_for_model.append(Movement.left_punch)
-            elif movementPoolRead["rightpunch"]:
+            if movementPoolRead["rightpunch"]:
                 movements_for_model.append(Movement.right_punch)
-            else:
-                movements_for_model.append(Movement.no_movement)
+            if movements_for_model == []:
+                movements_for_model = [Movement.no_movement]
 
         else:
             if keys_pressed[K_LEFT]:
                 movements_for_model.append(Movement.left)
-            elif keys_pressed[K_RIGHT]:
+            if keys_pressed[K_RIGHT]:
                 movements_for_model.append(Movement.right)
-            elif keys_pressed[K_UP]:
+            if keys_pressed[K_UP] or keys_pressed[K_SPACE]:
                 movements_for_model.append(Movement.jump)
-            elif keys_pressed[K_a]:
+            if keys_pressed[K_a]:
                 movements_for_model.append(Movement.left_punch)
-            elif keys_pressed[K_s]:
+            if keys_pressed[K_s]:
                 movements_for_model.append(Movement.right_punch)
             else:
                 movements_for_model.append(Movement.no_movement)
         
-
         if game_manager._gamestate == GameState.start_menu:
-            main_menu_scene.checking_hover(pygame.mouse.get_pos())
+            # handles cursor in the menu
+            pygame.mouse.set_visible(False)
+            pygame.mouse.set_cursor(pygame.cursors.diamond)
+            mouse_pos = pygame.mouse.get_pos()
+            if KINECT:
+                if movementPoolMisc["mousex"] > 0:
+                    if movementPoolMisc["mousey"] > 0:
+                        mouse_pos = (int(movementPoolMisc["mousex"]), int(movementPoolMisc["mousey"]))
+                if movementPoolRead["select"]:
+                    gamepanel.check_play_pressed(mouse_pos)
+                    gamepanel.check_about_pressed(mouse_pos)
+            main_menu_scene.draw_cursor(mouse_pos)
+            main_menu_scene.checking_hover(mouse_pos)
             main_menu_scene.update() 
-            pygame.display.flip()
 
         elif game_manager._gamestate == GameState.in_session:
             game_manager.update_model(movements_for_model)
             game_scene.update()
-            pygame.display.flip()
+
+        # refresh entire screen
+        pygame.display.flip()
+        #print(round(clock.get_fps(), 2))
 
     # Exit pygame
     pygame.quit()

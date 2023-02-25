@@ -391,7 +391,6 @@ class MainMenuScene(Scene):
 
     def __init__(self, game_manager: PlatformerGame, screen):
         """Inits MainMenuScene.
-
             Attributes:
                 - game_manager: The data from the model.
                 - screen: The globally-defined pygame display.

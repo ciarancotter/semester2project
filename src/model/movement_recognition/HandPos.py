@@ -59,5 +59,5 @@ class HandPos(object):
         posx = joint_points[point_id].x
         posy = joint_points[point_id].y
 
-        self.x = interp(posx, [300, 1780], [0, self._width])
-        self.y = interp(posy, [20, 1080], [0, self._height])
+        self.x = interp(posx, [500, 1500], [0, self._width])
+        self.y = interp(posy, [100, 900], [0, self._height])
