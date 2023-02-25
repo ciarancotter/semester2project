@@ -211,17 +211,17 @@ class PlatformerGame(object):
 
             if random_number == 0:
                 loot = Loot(x, y, 64, 64)
-                if not loot.is_colliding_with_entitys():
+                if not loot.is_colliding_with_entitys(self._entities):
                     self._entities.append(loot)
                     self._loot.append(loot)
             elif random_number == 1:
                 loot = JumpLoot(x, y, 64, 64)
-                if not loot.is_colliding_with_entitys():
+                if not loot.is_colliding_with_entitys(self._entities):
                     self._entities.append(loot)
                     self._loot.append(loot)
             else:
                 loot = InvicibilityLoot(x, y, 64, 64)
-                if not loot.is_colliding_with_entitys():
+                if not loot.is_colliding_with_entitys(self._entities):
                     self._entities.append(loot)
                     self._loot.append(loot)
 

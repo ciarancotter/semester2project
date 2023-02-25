@@ -74,7 +74,7 @@ class Entity:
         """
         return self._height
 
-    def is_colliding_entity(self) -> bool:
+    def get_is_colliding_entity(self) -> bool:
         """Getter method for the colliding property.
         """
         return self.colliding
@@ -100,7 +100,7 @@ class Entity:
         """
 
         for entity in entities:
-           if self.is_colliding_entity(entity):
+           if self.is_colliding_entity:
             return True
         return False
 
@@ -109,7 +109,7 @@ class Entity:
     coordinates = property(get_coordinates)
     width = property(get_width)
     height = property(get_height)
-    is_colliding_entity = property(is_colliding_entity)
+    is_colliding_entity = property(get_is_colliding_entity)
 
 
 class Block(Entity):
@@ -415,7 +415,7 @@ class Loot(Entity):
     """
     def __init__(self,xPos: int, yPos: int, width: int, height: int,power=2):
         self._power = power
-        super().__init__(self.xPos, self.yPos, width, height, True)
+        super().__init__(xPos, yPos, width, height, True)
     def get_power(self):
         return self._power
     power = property(get_power)
@@ -430,7 +430,7 @@ class JumpLoot(Loot):
     def __init__(self,xPos: int, yPos: int, width: int, height: int,power=2,jump_increase=10,time=1000):
         self._jump_increase = jump_increase
         self.power_up_time = time
-        super().__init__(self.xPos, self.yPos, width, height,power=power)
+        super().__init__(xPos, yPos, width, height,power=power)
     def get_jump_increase(self):
         return self._jump_increase
     jump_increase = property(get_jump_increase)
@@ -440,4 +440,4 @@ class InvicibilityLoot(Loot):
     """loot that renders the player unable to be damaged by enemies for a particular period."""
     def __init__(self,xPos: int, yPos: int, width: int, height: int,power=2,time=1000):
         self.power_up_time = time
-        super().__init__(self.xPos, self.yPos, width, height,power=power)
+        super().__init__(xPos,yPos, width, height,power=power)
