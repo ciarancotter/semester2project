@@ -267,6 +267,7 @@ class GameScene(Scene):
         self.healthbar.drawMaxHealth()
         self.healthbar.drawCurrentHealth()
 
+
     def draw_door(self, context):
         """Draws the door onto the scene.
         """
@@ -287,6 +288,7 @@ class GameScene(Scene):
         self.screen.blit(self.block_image, (block.x, block.y))
 
     
+
     def draw_monolith(self, context):
         """Draws the monolith to the screen
         """
@@ -312,7 +314,13 @@ class GameScene(Scene):
         self.draw_monolith(context)
         self.healthbar.drawMaxHealth()
         self.healthbar.drawCurrentHealth()
+        self.levelindicator.draw(context.get_current_level())
 
+        # Checks to see if we are approaching the end of the current legend.
+        if context.get_current_level() == (len(self.inscriptions) - 1):
+            self.inscriptions += generate_monolith("tragic", "Egyptian")
+
+        # Writes the monolith.  
         if context.get_monolith().is_being_read is True:
             self.textbox.draw(
                     self.inscriptions[
