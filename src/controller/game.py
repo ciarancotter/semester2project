@@ -4,9 +4,8 @@ import os
 
 sys.path.append(os.path.abspath("./src"))
 from model.gameobjects.game_interface import PlatformerGame
-from view.gameui.scene import Scene
-
-from model.gameobjects.public_enums import Movement
+from view.gameui.scene import MainMenuScene, GameScene, LoadingScene
+from model.gameobjects.public_enums import Movement, GameState
 
 try:
     from pykinect2 import PyKinectV2
@@ -30,8 +29,6 @@ from pygame.locals import (
 def main() -> None:
     # Initialize pygame
     pygame.init()
-
-    # a boolean to ensure the game is running
     running = True
     game_ran = False
 
@@ -43,31 +40,35 @@ def main() -> None:
 
 
     clock = pygame.time.Clock()
-
-    gamemanager = PlatformerGame()
-    gamepanel = Scene(gamemanager)
-    gamepanel.initialiseMenuScene()
-    gamemanager.create_level_from_json()
+    
+    global_screen = pygame.display.set_mode((1280, 784))
+    game_manager = PlatformerGame()
+    main_menu_scene = MainMenuScene(game_manager, global_screen)
+    loading_scene = LoadingScene(global_screen)
+    game_scene = GameScene(game_manager, global_screen, loading_scene)
+    main_menu_scene.initialise() # Loads up the menu scene
+    game_manager.create_level_from_json()
 
     # Main game loop
     while running:
+
         clock.tick(60)
-        # exit the game in emergency
+
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:  # If user clicked close
-                    running = False
-            if event.type == pygame.KEYDOWN: # If user hit the q key
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     running = False
-            #check if play button is clicked in the main menu
+
             if event.type == pygame.MOUSEBUTTONUP:
-                gamepanel.check_play_pressed(event.pos)
-                gamepanel.check_about_pressed(event.pos)
+                main_menu_scene.check_play_pressed(event.pos, game_scene)
+                main_menu_scene.check_about_pressed(event.pos)
 
         keys_pressed = pygame.key.get_pressed()
         movements_for_model = []
 
-        # player movement
+        # Controls
         if KINECT:
             if movementPoolMisc["turnleft"]:
                 movements_for_model.append(Movement.left)
@@ -93,34 +94,29 @@ def main() -> None:
                 movements_for_model.append(Movement.left_punch)
             if keys_pressed[K_s]:
                 movements_for_model.append(Movement.right_punch)
-            if movements_for_model == []:
-                movements_for_model = [Movement.no_movement]
-
-        # <-- Update calls go here -->
-        gamemanager.update_model(movements_for_model)
-
-        # loading the game panel for main menu and game
-        pygame.mouse.set_visible(False)
-        pygame.mouse.set_cursor(pygame.cursors.diamond)
-        mouse_pos = pygame.mouse.get_pos()
-        if KINECT:
-            if movementPoolMisc["mousex"] > 0:
-                if movementPoolMisc["mousey"] > 0:
-                    mouse_pos = (int(movementPoolMisc["mousex"]), int(movementPoolMisc["mousey"]))
-            if movementPoolRead["select"]:
-                gamepanel.check_play_pressed(mouse_pos)
-                gamepanel.check_about_pressed(mouse_pos)
-
-
-        gamepanel.checking_hover(mouse_pos)
-        gamepanel.updateScene()
-        gamepanel.draw_pos(mouse_pos)
-        gamepanel.draw_kinect()
-
-
-        # <-- View calls go here -->
-        # game screen needs to be drawn after update call
+            else:
+                movements_for_model.append(Movement.no_movement)
         
+        if game_manager._gamestate == GameState.start_menu:
+            # handles cursor in the menu
+            pygame.mouse.set_visible(False)
+            pygame.mouse.set_cursor(pygame.cursors.diamond)
+            mouse_pos = pygame.mouse.get_pos()
+            if KINECT:
+                if movementPoolMisc["mousex"] > 0:
+                    if movementPoolMisc["mousey"] > 0:
+                        mouse_pos = (int(movementPoolMisc["mousex"]), int(movementPoolMisc["mousey"]))
+                if movementPoolRead["select"]:
+                    main_menu_scene.check_play_pressed(mouse_pos, game_scene)
+                    main_menu_scene.check_about_pressed(mouse_pos)
+            main_menu_scene.checking_hover(mouse_pos)
+            main_menu_scene.update() 
+            main_menu_scene.draw_cursor(mouse_pos)
+            main_menu_scene.draw_kinect()
+
+        elif game_manager._gamestate == GameState.in_session:
+            game_manager.update_model(movements_for_model)
+            game_scene.update()
 
         # refresh entire screen
         pygame.display.flip()

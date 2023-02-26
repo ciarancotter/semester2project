@@ -74,7 +74,7 @@ class Entity:
         """
         return self._height
 
-    def is_colliding_entity(self) -> bool:
+    def get_is_colliding_entity(self) -> bool:
         """Getter method for the colliding property.
         """
         return self.colliding
@@ -100,7 +100,7 @@ class Entity:
         """
 
         for entity in entities:
-           if self.is_colliding_entity(entity):
+           if self.is_colliding_entity:
             return True
         return False
 
@@ -109,7 +109,7 @@ class Entity:
     coordinates = property(get_coordinates)
     width = property(get_width)
     height = property(get_height)
-    is_colliding_entity = property(is_colliding_entity)
+    is_colliding_entity = property(get_is_colliding_entity)
 
 
 class Block(Entity):
@@ -176,8 +176,8 @@ class Monke(Entity):
                 check_below = (monke_feet <= entity.yPos + entity._height)
                 check_left = (not ((self.xPos+self._hitbox_x_offset) + (self._width - self._hitbox_width_reduction) < entity.xPos))
                 check_right = ((self.xPos+self._hitbox_x_offset) <= entity.xPos + entity._width)
-            if (check_below and check_above and check_left and check_right):
-                return True
+                if (check_below and check_above and check_left and check_right):
+                    return True
         return False
 
     def gravity(self, entities: list[Entity]) -> bool:
@@ -295,9 +295,9 @@ class Player(Monke):
             self._jump_baseline = self.yPos
             self._jump_power = 50
 
-        self._entities = self.calculate_collition_results(entities)
+        entities_to_return = self.calculate_collition_results(entities)
         self.update_loot_stats()
-        return self._entities
+        return entities_to_return
 
     def calculate_collition_results(self, entities):
         for i,entity in enumerate(entities):
@@ -320,6 +320,7 @@ class Player(Monke):
                 self._invincible = True
                 # making the loot disapear when you hit it
                 entities.pop(i)
+        return entities
 
 
     def update_loot_stats(self):
@@ -414,7 +415,7 @@ class Loot(Entity):
     """
     def __init__(self,xPos: int, yPos: int, width: int, height: int,power=2):
         self._power = power
-        super().__init__(self.xPos, self.yPos, width, height, True)
+        super().__init__(xPos, yPos, width, height, True)
     def get_power(self):
         return self._power
     power = property(get_power)
@@ -429,7 +430,7 @@ class JumpLoot(Loot):
     def __init__(self,xPos: int, yPos: int, width: int, height: int,power=2,jump_increase=10,time=1000):
         self._jump_increase = jump_increase
         self.power_up_time = time
-        super().__init__(self.xPos, self.yPos, width, height,power=power)
+        super().__init__(xPos, yPos, width, height,power=power)
     def get_jump_increase(self):
         return self._jump_increase
     jump_increase = property(get_jump_increase)
@@ -439,4 +440,4 @@ class InvicibilityLoot(Loot):
     """loot that renders the player unable to be damaged by enemies for a particular period."""
     def __init__(self,xPos: int, yPos: int, width: int, height: int,power=2,time=1000):
         self.power_up_time = time
-        super().__init__(self.xPos, self.yPos, width, height,power=power)
+        super().__init__(xPos,yPos, width, height,power=power)
