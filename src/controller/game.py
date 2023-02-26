@@ -116,6 +116,8 @@ def main() -> None:
         elif game_manager._gamestate == GameState.in_session:
             game_manager.update_model(movements_for_model)
             game_scene.update()
+            if KINECT:
+                game_scene.draw_kinect()
 
         # refresh entire screen
         pygame.display.flip()
@@ -123,6 +125,14 @@ def main() -> None:
 
     # Exit pygame
     pygame.quit()
+    # close and clean up shared memory pool
+    if KINECT:
+        movementPoolRead.close()
+        movementPoolRead.unlink()
+        movementPoolMisc.close()
+        movementPoolMisc.unlink()
+        game_scene.video.close()
+        game_scene.video.unlink()
     sys.exit()
 
 

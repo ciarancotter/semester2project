@@ -20,6 +20,8 @@ import pygame
 
 sys.path.append(os.path.abspath("./src"))
 
+from shared_memory_dict import SharedMemoryDict
+
 from model.gameobjects.entity import Block
 from model.gameobjects.public_enums import Movement
 from model.gameobjects.public_enums import GameState
@@ -235,6 +237,9 @@ class GameScene(Scene):
         # Sounds
         #self.punch_sound = pygame.mixer.Sound("src/view/assets/punch.mp3")
 
+        # Kinect video
+        self.video = SharedMemoryDict(name='movementVideo', size=500000)
+
 
     def initialise(self):
         """Initialises some properties of the game scene.
@@ -370,6 +375,10 @@ class GameScene(Scene):
                 self.update_sprite()
         elif self.direction == "right punch" or self.direction == "left punch" or self.direction == "jump":
             self.update_sprite()
+
+    def draw_kinect(self):
+        surface = pygame.surfarray.make_surface(self.video["src"])
+        self.screen.blit(surface, (784, 505))
 
 
     def update(self):
