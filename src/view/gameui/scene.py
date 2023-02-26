@@ -53,8 +53,6 @@ class Scene:
         self.background = background
         self.direction = "right"
 
-        self.video = SharedMemoryDict(name='movementVideo', size=500000)
-
         # Load the assets that should be used globally.
         bradley_base = pygame.image.load("src/view/assets/bradley.png").convert_alpha()
         logo_base = pygame.image.load("src/view/assets/logo.png")
@@ -239,6 +237,9 @@ class GameScene(Scene):
         # Sounds
         #self.punch_sound = pygame.mixer.Sound("src/view/assets/punch.mp3")
 
+        # Kinect video
+        self.video = SharedMemoryDict(name='movementVideo', size=500000)
+
 
     def initialise(self):
         """Initialises some properties of the game scene.
@@ -374,6 +375,11 @@ class GameScene(Scene):
                 self.update_sprite()
         elif self.direction == "right punch" or self.direction == "left punch" or self.direction == "jump":
             self.update_sprite()
+
+    def draw_kinect(self):
+        surface = pygame.surfarray.make_surface(self.video["src"])
+        #self.screen.blit(surface, (1280, 505))
+        self.screen.blit(surface, (784, 505))
 
 
     def update(self):

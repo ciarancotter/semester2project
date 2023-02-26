@@ -36,6 +36,7 @@ def main() -> None:
         # init shared memeory pool  
         movementPoolRead = SharedMemoryDict(name='movementPoolRead', size=1024) 
         movementPoolMisc = SharedMemoryDict(name='movementPoolMisc', size=1024) 
+        video = SharedMemoryDict(name='movementVideo', size=500000)
         # start python  
 
 
@@ -112,11 +113,12 @@ def main() -> None:
             main_menu_scene.checking_hover(mouse_pos)
             main_menu_scene.update() 
             main_menu_scene.draw_cursor(mouse_pos)
-            main_menu_scene.draw_kinect()
 
         elif game_manager._gamestate == GameState.in_session:
             game_manager.update_model(movements_for_model)
             game_scene.update()
+            if KINECT:
+                game_scene.draw_kinect()
 
         # refresh entire screen
         pygame.display.flip()

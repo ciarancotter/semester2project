@@ -146,7 +146,6 @@ class PlatformerGame(object):
 
 
     def update_model(self, player_moves: list(Movement)):
-        print(player_moves)
         self.frame_count +=1
         self._entities =  self._player.move(player_moves, self._entities)
         self._enemy.move(self.frame_count, self._blocks)
