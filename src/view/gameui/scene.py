@@ -28,7 +28,7 @@ from view.gameui.uielements import Button, TextBox, Panel
 from view.gameui.healthbar import HealthBar, LevelIndicator
 
 from model.gameobjects.game_interface import PlatformerGame
-from model.aiutilities.aiutilities import generate_background
+from model.aiutilities.aiutilities import generate_background, generate_monolith
 
 
 class Scene:
@@ -199,6 +199,7 @@ class GameScene(Scene):
         self.frame_count = 0
         self.frame_delay = 5
         self.current_sprite_index = 0
+        self.inscriptions = []
 
         # Initialising the game manager
         self.screen = screen
@@ -211,15 +212,18 @@ class GameScene(Scene):
         # UI elements
         self.gameplay_panel = Panel(self.screen, 784, 512, 0, 0, "black")
         self.game_ui_panel = Panel(self.screen, 496, 784, 784, 0, "orange")
-        self.textbox = TextBox(self.screen, 40, 25, "monospace", 16, self.game_ui_panel)
+        self.textbox = TextBox(self.screen, 40, 25, "monospace", 12, self.game_ui_panel)
         self.levelindicator = LevelIndicator(self.screen, self.game_ui_panel)
         self.healthbar = HealthBar(self.screen, self.gameplay_panel, 100)
 
-        game_background = pygame.image.load("src/view/assets/gamebg.png").convert_alpha()
-        self.background = pygame.transform.scale(game_background, (784, 784))
+        self.background = None
 
         door_image = pygame.image.load("src/view/assets/door.png").convert_alpha()
         self.door_image = pygame.transform.scale(door_image, (56, 56))
+
+        monolith_image = pygame.image.load("src/view/assets/monolith.png").convert_alpha()
+        self.monolith_image = pygame.transform.scale(monolith_image, (56, 56))
+ 
         self.block_image = pygame.image.load("src/view/assets/block2.png").convert_alpha()
         self.sprite_sheet = pygame.image.load("src/view/assets/playerSprite.png").convert_alpha()
 
@@ -242,8 +246,11 @@ class GameScene(Scene):
         pygame.display.set_caption("Boole Raider")
         self.loading_screen.update()
         generate_background("ancient Egypt")
-
+        game_background = pygame.image.load("src/view/assets/gamebg.png").convert_alpha()
+        self.background = pygame.transform.scale(game_background, (784, 784))
+        self.inscriptions = generate_monolith("tragic", "Egyptian")
         self.screen.fill("gold")
+
         self.game_manager.set_game_state(GameState.in_session)
 
         self.play_music()
@@ -251,7 +258,7 @@ class GameScene(Scene):
 
         self.gameplay_panel.draw()
         self.game_ui_panel.draw()
-        self.textbox.draw("Monke")
+        self.textbox.draw("")
         self.healthbar.drawMaxHealth()
         self.healthbar.drawCurrentHealth()
 
@@ -274,18 +281,41 @@ class GameScene(Scene):
         """
         self.screen.blit(self.block_image, (block.x, block.y))
 
+    
+    def draw_monolith(self, context):
+        """Draws the monolith to the screen
+        """
+        self.screen.blit(
+                self.monolith_image,
+                (
+                    context.monolith.x,
+                    context.monolith.y
+                )
+            )
+
 
     def update_game_ui(self): 
         """Draws the UI elements onto the game.
         """
         context = self.game_manager.get_render_ctx()
-        self.textbox.draw("Monke")
+        self.game_ui_panel.draw()
         for block in context.get_blocks():
             self.draw_block(block)
 
+        self.textbox.erase()
         self.draw_door(context)
+        self.draw_monolith(context)
         self.healthbar.drawMaxHealth()
         self.healthbar.drawCurrentHealth()
+
+        if context.get_monolith().is_being_read is True:
+            self.textbox.draw(
+                    self.inscriptions[
+                        context.get_current_level() - 1
+                        ]
+                    )
+        else:
+            self.textbox.draw("")
 
 
     def update_sprite(self):
@@ -356,7 +386,7 @@ class GameScene(Scene):
         elif self.player_data.facing == Movement.left_punch:
             self.direction = "left punch"
             self.current_sprite_index = 7
-        
+ 
         if self.direction == "right":
             if self.current_sprite_index < self.columns:
                 self.update_sprite()
@@ -437,7 +467,7 @@ class MainMenuScene(Scene):
         if self.buttons[0].rect.collidepoint(event_pos) and self.game_manager._gamestate == GameState.start_menu:
             self.game_manager.set_game_state(GameState.in_session)
             game.initialise()
-            # Fader(MainMenuScene, GameScene)
+            # Fader(MainMenuScene, GameScene
 
 
     def update(self):
