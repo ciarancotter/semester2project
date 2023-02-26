@@ -139,15 +139,21 @@ class LoadingScene(Scene):
                 self.screen.get_height() // 2
                 )
         super().__init__([], None, screen)
+        
+        # Load the background image
+        self.background = pygame.image.load("src/view/assets/loadingBG.png").convert()
 
+    def draw_background(self):
+        """Draws the background image onto the screen."""
+        self.screen.blit(self.background, (0, 0))
 
     def update(self):
-        """Draws a loading screen.
-        """
-        self.screen.fill("black")
+        """Draws a loading screen with a background image."""
+        self.draw_background()
         self.draw_bradley()
         self.screen.blit(self.text, self.text_rect)
         pygame.display.update()
+
 
 
 class AboutMenuScene(Scene):
