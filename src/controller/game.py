@@ -36,7 +36,6 @@ def main() -> None:
         # init shared memeory pool  
         movementPoolRead = SharedMemoryDict(name='movementPoolRead', size=1024) 
         movementPoolMisc = SharedMemoryDict(name='movementPoolMisc', size=1024) 
-        video = SharedMemoryDict(name='movementVideo', size=500000)
         # start python  
 
 
@@ -126,6 +125,14 @@ def main() -> None:
 
     # Exit pygame
     pygame.quit()
+    # close and clean up shared memory pool
+    if KINECT:
+        movementPoolRead.close()
+        movementPoolRead.unlink()
+        movementPoolMisc.close()
+        movementPoolMisc.unlink()
+        game_scene.video.close()
+        game_scene.video.unlink()
     sys.exit()
 
 

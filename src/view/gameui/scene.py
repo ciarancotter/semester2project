@@ -378,7 +378,6 @@ class GameScene(Scene):
 
     def draw_kinect(self):
         surface = pygame.surfarray.make_surface(self.video["src"])
-        #self.screen.blit(surface, (1280, 505))
         self.screen.blit(surface, (784, 505))
 
 
