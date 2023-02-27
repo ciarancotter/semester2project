@@ -4,7 +4,7 @@ import os
 
 sys.path.append(os.path.abspath("./src"))
 from model.gameobjects.game_interface import PlatformerGame
-from view.gameui.scene import MainMenuScene, GameScene, LoadingScene, AboutMenuScene
+from view.gameui.scene import MainMenuScene, GameScene, LoadingScene, AboutMenuScene, HelpMenuScene
 from model.gameobjects.public_enums import Movement, GameState
 
 try:
@@ -46,7 +46,7 @@ def main() -> None:
     main_menu_scene = MainMenuScene(game_manager, global_screen)
     loading_scene = LoadingScene(global_screen)
     #self.leaderboard_scene = LeaderboardScene(global_screen)
-    #self.help_scene = HelpScene(global_screen)
+    help_scene = HelpMenuScene(game_manager, global_screen)
     about_scene = AboutMenuScene(game_manager, global_screen)
     game_scene = GameScene(game_manager, global_screen, loading_scene)
     main_menu_scene.initialise() # Loads up the menu scene
@@ -66,8 +66,11 @@ def main() -> None:
 
             if event.type == pygame.MOUSEBUTTONUP:
                 main_menu_scene.check_play_pressed(event.pos, game_scene)
+                main_menu_scene.check_help_pressed(event.pos, help_scene)
                 main_menu_scene.check_about_pressed(event.pos, about_scene)
+                help_scene.check_back_pressed(mouse_pos, main_menu_scene)
                 about_scene.check_back_pressed(mouse_pos, main_menu_scene)
+                
 
         keys_pressed = pygame.key.get_pressed()
         movements_for_model = []
@@ -113,6 +116,7 @@ def main() -> None:
         if game_manager._gamestate == GameState.start_menu:
             if KINECT and movementPoolRead["select"]:
                 main_menu_scene.check_play_pressed(mouse_pos, game_scene)
+                main_menu_scene.check_help_pressed(mouse_pos, help_scene)
                 main_menu_scene.check_about_pressed(mouse_pos, about_scene)
             main_menu_scene.checking_hover(mouse_pos)
             main_menu_scene.update() 
@@ -121,6 +125,13 @@ def main() -> None:
         elif game_manager._gamestate == GameState.in_session:
             game_manager.update_model(movements_for_model)
             game_scene.update()
+
+        elif game_manager._gamestate == GameState.help_screen:
+            if KINECT and movementPoolRead["select"]:
+                help_scene.check_back_pressed(mouse_pos, main_menu_scene)
+            help_scene.checking_hover(mouse_pos)
+            help_scene.update() 
+            help_scene.draw_cursor(mouse_pos)
 
         elif game_manager._gamestate == GameState.about:
             if KINECT and movementPoolRead["select"]:

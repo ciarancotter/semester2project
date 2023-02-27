@@ -155,6 +155,54 @@ class LoadingScene(Scene):
         pygame.display.update()
 
 
+class HelpMenuScene(Scene):
+
+    def __init__(self, game_manager: PlatformerGame, screen):
+        """Inits the About menu.
+        """
+        pygame.init()
+        self.text = None
+        self.text_rect = None
+        self.screen = screen
+        self.game_manager = game_manager
+        self.label = GameState.help_screen
+        self.buttons = []
+
+
+    def initialise(self):
+        """Initialises some values of the About menu, but not immediately when the instance is created.
+        """
+        self.screen.fill("white")
+        help_back_button = Button("BACK", (50, 50), 40)
+        self.buttons.append(help_back_button)
+
+        help_text = pygame.font.SysFont("monospace", 30).render('Help', True, "black")
+        help_text_rect = help_text.get_rect()
+        help_text_rect.center = (self.screen.get_width() // 2, (self.screen.get_height() // 2) - 50)
+
+        self.text = help_text
+        self.text_rect = help_text_rect
+
+        self.screen.blit(help_text, help_text_rect)
+
+
+    def update(self):
+        """Updates the About screen.
+        """
+        self.screen.fill("white")
+        self.screen.blit(self.text, self.text_rect)
+        self.draw_buttons()
+
+
+    def check_back_pressed(self, event_pos: tuple, main_menu_scene: Scene):
+        """Continuously checks if the Back button in the menu has been pressed, and returns to main menu.
+            Attributes:
+                - event: The event object in Pygame.
+        """
+        if self.game_manager._gamestate == GameState.help_screen and self.buttons[0].rect.collidepoint(event_pos):
+            self.game_manager.set_game_state(GameState.start_menu)
+            main_menu_scene.initialise()
+
 
 class AboutMenuScene(Scene):
 
@@ -200,7 +248,7 @@ class AboutMenuScene(Scene):
             Attributes:
                 - event: The event object in Pygame.
         """
-        if self.buttons[0].rect.collidepoint(event_pos) and self.game_manager._gamestate == GameState.about:
+        if self.game_manager._gamestate == GameState.about and self.buttons[0].rect.collidepoint(event_pos):
             self.game_manager.set_game_state(GameState.start_menu)
             main_menu_scene.initialise()
 
@@ -455,14 +503,14 @@ class MainMenuScene(Scene):
         """Continuously checks if the leaderboard button in the menu has been pressed.
         """
         if self.buttons[1].rect.collidepoint(event_pos) and self.game_manager._gamestate == GameState.start_menu:
-            self.game_manager.set_game_state(GameState.leaderboard)
+            self.game_manager.set_game_state(GameState.leaderboard)'''
 
-    def check_help_pressed(self, event_pos: tuple):
+    def check_help_pressed(self, event_pos: tuple, help: HelpMenuScene):
         """Continuously checks if the help button in the menu has been pressed.
         """
         if self.buttons[2].rect.collidepoint(event_pos) and self.game_manager._gamestate == GameState.start_menu:
-            self.game_manager.set_game_state(GameState.help_screen)'''
-
+            self.game_manager.set_game_state(GameState.help_screen)
+            help.initialise()
 
     def check_about_pressed(self, event_pos: tuple, about: AboutMenuScene):
         """Continuously checks if the About button in the menu has been pressed.
