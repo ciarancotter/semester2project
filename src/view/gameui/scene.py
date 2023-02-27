@@ -217,29 +217,53 @@ class HelpMenuScene(Scene):
         self.label = GameState.help_screen
         self.buttons = []
 
+        self.background_image = pygame.image.load("src/view/assets/aboutBG.png")
+
+        self.font = pygame.font.Font(None, 30)
+
+        self.logo = pygame.image.load("src/view/assets/logo.png")
+        self.logo = pygame.transform.scale(self.logo, (800, 150))
+
+        self.loot_image = pygame.image.load("src/view/assets/loot.png")
+        self.jump_boost_image = pygame.image.load("src/view/assets/jump_boost.png")
+        self.health_boost_image = pygame.image.load("src/view/assets/health_boost.png")
+
+        self.loot_description = "Collect money for items"
+        self.jump_boost_description = "Higher jump"
+        self.health_boost_description = "Increase health"
+
+    def _render(self):
+        self.screen.blit(self.background_image, (0, 0))
+
+        logo_x_pos = (self.screen.get_width() - self.logo.get_width()) // 2
+
+        self.screen.blit(self.logo, (logo_x_pos, 20))
+
+        # draw item images and descriptions
+        self.screen.blit(self.loot_image, (50, 200))
+        self.screen.blit(self.jump_boost_image, (50, 350))
+        self.screen.blit(self.health_boost_image, (50, 500))
+
+        loot_text = self.font.render(self.loot_description, True, (255, 255, 255))
+        self.screen.blit(loot_text, (150, 200))
+
+        jump_boost_text = self.font.render(self.jump_boost_description, True, (255, 255, 255))
+        self.screen.blit(jump_boost_text, (150, 350))
+
+        health_boost_text = self.font.render(self.health_boost_description, True, (255, 255, 255))
+        self.screen.blit(health_boost_text, (150, 500))
 
     def initialise(self):
         """Initialises some values of the About menu, but not immediately when the instance is created.
         """
-        self.screen.fill("white")
         help_back_button = Button("BACK", (50, 50), 40)
         self.buttons.append(help_back_button)
-
-        help_text = pygame.font.SysFont("monospace", 30).render('Help', True, "black")
-        help_text_rect = help_text.get_rect()
-        help_text_rect.center = (self.screen.get_width() // 2, (self.screen.get_height() // 2) - 50)
-
-        self.text = help_text
-        self.text_rect = help_text_rect
-
-        self.screen.blit(help_text, help_text_rect)
-
+        self._render()
 
     def update(self):
         """Updates the About screen.
         """
-        self.screen.fill("white")
-        self.screen.blit(self.text, self.text_rect)
+        self._render()
         self.draw_buttons()
 
 
