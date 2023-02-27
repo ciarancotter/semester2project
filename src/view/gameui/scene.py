@@ -72,8 +72,11 @@ class Scene:
 
         self.transformed_game_background = None
         self.sprite_sheet = pygame.image.load("src/view/assets/playerSprite.png").convert_alpha()
-        self.random_enemy = random.choice(["mummy_spritesheet", "anubis_spritesheet", "horus_spritesheet", "sobek_spritesheet"])
-        self.sprite_sheet_mummy = pygame.image.load("src/view/assets/%s.png" % self.random_enemy).convert_alpha()
+        #self.random_enemy = random.choice(["mummy_spritesheet", "anubis_spritesheet", "horus_spritesheet", "sobek_spritesheet"])
+        self.sprite_sheet_mummy = pygame.image.load("src/view/assets/mummy_spritesheet.png").convert_alpha()
+        self.sprite_sheet_anubis = pygame.image.load("src/view/assets/anubis_spritesheet.png").convert_alpha()
+        self.sprite_sheet_horus = pygame.image.load("src/view/assets/horus_spritesheet.png").convert_alpha()
+        self.sprite_sheet_sobek = pygame.image.load("src/view/assets/sobek_spritesheet.png").convert_alpha()
 
         # set the starting sprite for the character
         self.current_sprite_index = 0
