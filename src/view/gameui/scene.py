@@ -72,8 +72,8 @@ class Scene:
 
         self.transformed_game_background = None
         self.sprite_sheet = pygame.image.load("src/view/assets/playerSprite.png").convert_alpha()
-        self.random_enemy = ["mummy_spritesheet", "anubis_spritesheet", "horus_spritesheet", "sobek_spritesheet"]
-        self.sprite_sheet_mummy = pygame.image.load("src/view/assets/%s.png" % self.random_enemy[0]).convert_alpha()
+        self.random_enemy = random.choice(["mummy_spritesheet", "anubis_spritesheet", "horus_spritesheet", "sobek_spritesheet"])
+        self.sprite_sheet_mummy = pygame.image.load("src/view/assets/%s.png" % self.random_enemy).convert_alpha()
 
         # set the starting sprite for the character
         self.current_sprite_index = 0
@@ -241,10 +241,10 @@ class Scene:
             self.screen.blit(self.enemy_sprites[self.current_sprite_index_enemy],(enemy.xPos, enemy.yPos))
             
     #method for generating different sprites for enemis 
-    def generate_enemy_sprite(self, enemy):
-            random_enemy = ["mummy_spritesheet", "anubis_spritesheet", "horus_spritesheet", "sobek_spritesheet"]
-            self.sprite_sheet_mummy = pygame.image.load("src/view/assets/%s.png" % random_enemy[enemy.choice_of_sprit]).convert_alpha()
-            return self.sprite_sheet_mummy
+    # def generate_enemy_sprite(self, enemy):
+    #         random_enemy = ["mummy_spritesheet", "anubis_spritesheet", "horus_spritesheet", "sobek_spritesheet"]
+    #         self.sprite_sheet_mummy = pygame.image.load("src/view/assets/%s.png" % random_enemy[enemy.choice_of_sprit]).convert_alpha()
+    #         return self.sprite_sheet_mummy
     def updateScene(self):
         """Updates the current scene.
 
@@ -279,7 +279,7 @@ class Scene:
                     for j in range(self.enemy_columns):
                         self.drawBackground(GameState.in_session)
                         self.updateGameUIElements(current_scene)
-                        self.enemy_sprites[i * self.enemy_columns + j].blit(self.generate_enemy_sprite(enemy), (0, 0), (
+                        self.enemy_sprites[i * self.enemy_columns + j].blit(self.sprite_sheet_mummy, (0, 0), (
                         j * enemy.width, i * enemy.height, enemy.width,
                         enemy.height))
             
