@@ -1,2 +1,3 @@
 openai==0.26.3
 pygame==2.1.2
+shared-memory-dict==0.7.2
