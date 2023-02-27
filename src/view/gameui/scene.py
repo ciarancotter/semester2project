@@ -52,7 +52,7 @@ class Scene:
         self.direction = "right"
 
         # Load the assets that should be used globally.
-        bradley_base = pygame.image.load("src/view/assets/bradley.png").convert_alpha()
+        bradley_base = pygame.image.load("src/view/assets/bradley_squish.gif").convert_alpha()
         logo_base = pygame.image.load("src/view/assets/logo.png")
         self.bradley = pygame.transform.scale(bradley_base, (244, 244))
         self.logo = pygame.transform.scale(logo_base, (800, 150))
