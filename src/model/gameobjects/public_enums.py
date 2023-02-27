@@ -16,3 +16,11 @@ class GameState(enum.Enum):
     about = 4
     help_screen = 5
     game_over = 6
+
+#self.random_enemy = random.choice(["mummy_spritesheet", "anubis_spritesheet", "horus_spritesheet", "sobek_spritesheet"])
+
+class EnemySprite(enum.Enum):
+    mummy_spritesheet = 1
+    anubis_spritesheet = 2
+    horus_spritesheet = 3
+    sobek_spritesheet = 4

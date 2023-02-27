@@ -13,6 +13,7 @@ import random
 import math
 sys.path.append(os.path.abspath("./src"))
 from .public_enums import Movement
+from .public_enums import EnemySprite 
 
 
 class Entity:
@@ -373,7 +374,7 @@ class Enemy(Monke):
         self.distance_to_player = 0
         self.xPos = random.randint(0, SCREEN_WIDTH-64)
         self.yPos = 2
-        self.choice_of_sprit = random.randint(0,3)
+        self.choice_of_sprit = EnemySprite.mummy_spritesheet
 
 
         self.facing = random.choice([Movement.right, Movement.left])
