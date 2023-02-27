@@ -4,7 +4,7 @@ import os
 
 sys.path.append(os.path.abspath("./src"))
 from model.gameobjects.game_interface import PlatformerGame
-from view.gameui.scene import MainMenuScene, GameScene, LoadingScene
+from view.gameui.scene import MainMenuScene, GameScene, LoadingScene, AboutMenuScene
 from model.gameobjects.public_enums import Movement, GameState
 
 try:
@@ -45,6 +45,9 @@ def main() -> None:
     game_manager = PlatformerGame()
     main_menu_scene = MainMenuScene(game_manager, global_screen)
     loading_scene = LoadingScene(global_screen)
+    #self.leaderboard_scene = LeaderboardScene(global_screen)
+    #self.help_scene = HelpScene(global_screen)
+    about_scene = AboutMenuScene(game_manager, global_screen)
     game_scene = GameScene(game_manager, global_screen, loading_scene)
     main_menu_scene.initialise() # Loads up the menu scene
     game_manager.create_level_from_json()
@@ -63,7 +66,8 @@ def main() -> None:
 
             if event.type == pygame.MOUSEBUTTONUP:
                 main_menu_scene.check_play_pressed(event.pos, game_scene)
-                main_menu_scene.check_about_pressed(event.pos)
+                main_menu_scene.check_about_pressed(event.pos, about_scene)
+                about_scene.check_back_pressed(mouse_pos, main_menu_scene)
 
         keys_pressed = pygame.key.get_pressed()
         movements_for_model = []
@@ -96,19 +100,20 @@ def main() -> None:
                 movements_for_model.append(Movement.right_punch)
             else:
                 movements_for_model.append(Movement.no_movement)
+
+        # handles cursor in the menu
+        pygame.mouse.set_visible(False)
+        pygame.mouse.set_cursor(pygame.cursors.diamond)
+        mouse_pos = pygame.mouse.get_pos()
+        if KINECT:
+            if movementPoolMisc["mousex"] > 0:
+                if movementPoolMisc["mousey"] > 0:
+                    mouse_pos = (int(movementPoolMisc["mousex"]), int(movementPoolMisc["mousey"]))
         
         if game_manager._gamestate == GameState.start_menu:
-            # handles cursor in the menu
-            pygame.mouse.set_visible(False)
-            pygame.mouse.set_cursor(pygame.cursors.diamond)
-            mouse_pos = pygame.mouse.get_pos()
-            if KINECT:
-                if movementPoolMisc["mousex"] > 0:
-                    if movementPoolMisc["mousey"] > 0:
-                        mouse_pos = (int(movementPoolMisc["mousex"]), int(movementPoolMisc["mousey"]))
-                if movementPoolRead["select"]:
-                    main_menu_scene.check_play_pressed(mouse_pos, game_scene)
-                    main_menu_scene.check_about_pressed(mouse_pos)
+            if KINECT and movementPoolRead["select"]:
+                main_menu_scene.check_play_pressed(mouse_pos, game_scene)
+                main_menu_scene.check_about_pressed(mouse_pos, about_scene)
             main_menu_scene.checking_hover(mouse_pos)
             main_menu_scene.update() 
             main_menu_scene.draw_cursor(mouse_pos)
@@ -116,6 +121,13 @@ def main() -> None:
         elif game_manager._gamestate == GameState.in_session:
             game_manager.update_model(movements_for_model)
             game_scene.update()
+
+        elif game_manager._gamestate == GameState.about:
+            if KINECT and movementPoolRead["select"]:
+                about_scene.check_back_pressed(mouse_pos, main_menu_scene)
+            about_scene.checking_hover(mouse_pos)
+            about_scene.update() 
+            about_scene.draw_cursor(mouse_pos)
 
         # refresh entire screen
         pygame.display.flip()
