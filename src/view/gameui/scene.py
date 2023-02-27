@@ -168,13 +168,8 @@ class LeaderboardMenuScene(Scene):
         self.label = GameState.leaderboard
         self.buttons = []
 
-
-    def initialise(self):
-        """Initialises some values of the About menu, but not immediately when the instance is created.
-        """
+    def _render(self):
         self.screen.fill("white")
-        leaderboard_back_button = Button("BACK", (50, 50), 40)
-        self.buttons.append(leaderboard_back_button)
 
         leaderboard_text = pygame.font.SysFont("monospace", 30).render('Leaderboard', True, "black")
         leaderboard_text_rect = leaderboard_text.get_rect()
@@ -185,12 +180,18 @@ class LeaderboardMenuScene(Scene):
 
         self.screen.blit(leaderboard_text, leaderboard_text_rect)
 
+    def initialise(self):
+        """Initialises some values of the About menu, but not immediately when the instance is created.
+        """
+        leaderboard_back_button = Button("BACK", (50, 50), 40)
+        self.buttons.append(leaderboard_back_button)
+        self._render()
+
 
     def update(self):
         """Updates the About screen.
         """
-        self.screen.fill("white")
-        self.screen.blit(self.text, self.text_rect)
+        self._render()
         self.draw_buttons()
 
 
@@ -290,14 +291,8 @@ class AboutMenuScene(Scene):
         self.label = GameState.about
         self.buttons = []
 
-
-    def initialise(self):
-        """Initialises some values of the About menu, but not immediately when the instance is created.
-        """
+    def _render(self):
         self.screen.fill("white")
-        about_back_button = Button("BACK", (50, 50), 40)
-        self.buttons.append(about_back_button)
-
         about_text = pygame.font.SysFont("monospace", 30).render('About', True, "black")
         about_text_rect = about_text.get_rect()
         about_text_rect.center = (self.screen.get_width() // 2, (self.screen.get_height() // 2) - 50)
@@ -307,12 +302,17 @@ class AboutMenuScene(Scene):
 
         self.screen.blit(about_text, about_text_rect)
 
+    def initialise(self):
+        """Initialises some values of the About menu, but not immediately when the instance is created.
+        """
+        about_back_button = Button("BACK", (50, 50), 40)
+        self.buttons.append(about_back_button)
+        self._render()
 
     def update(self):
         """Updates the About screen.
         """
-        self.screen.fill("white")
-        self.screen.blit(self.text, self.text_rect)
+        self._render()
         self.draw_buttons()
 
 
