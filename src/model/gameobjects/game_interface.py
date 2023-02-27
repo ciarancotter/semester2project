@@ -225,13 +225,15 @@ class PlatformerGame(object):
             # setting up the level information in this object
             self._blocks = level_object.get_blocks()
 
-            for i,entity in enumerate(self._entities):
-                if isinstance(entity,Block):
-                    self._entities.pop(i)
-
+            self._entities = []
             self._entities.extend(level_object.get_blocks())
             self._player = Player(self._playerwidth, self._playerheight,
-                              self._screen_width, self._screen_height)
+                             self._screen_width, self._screen_height)
+            
+            self._entities.append(self._player)
+            self._entities.append(self._door)
+            self._entities.append(self._monolith)
+
 
     def add_powerups(self):
         """adds powerups to the screen.
