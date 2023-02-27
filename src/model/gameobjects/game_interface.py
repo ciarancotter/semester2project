@@ -109,6 +109,7 @@ class PlatformerGame(object):
         self._enemy = Enemy(self._playerwidth, self._playerheight, 
                             self._screen_width, self._screen_height
                             ,self.damage  ,self._player)
+        
         self._enemies = [self._enemy]
         self._blocks = []
         self._entities = [self._enemies]
@@ -139,9 +140,11 @@ class PlatformerGame(object):
         self.frame_count +=1
         if self.frame_count > 200:
             for enemy in self._enemies:
+
                 self._enemy = Enemy(self._playerwidth, self._playerheight, 
                        self._screen_width, self._screen_height
                        ,self.damage ,self._player)
+                self._enemy.choice_of_sprit = random.choice([EnemySprite.mummy_spritesheet, EnemySprite.anubis_spritesheet, EnemySprite.horus_spritesheet, EnemySprite.sobek_spritesheet])
             self._enemies.append(self._enemy)
             self.frame_count = 0
             self._entities.append(self._enemy)

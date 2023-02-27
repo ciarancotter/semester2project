@@ -28,7 +28,7 @@ from model.gameobjects.public_enums import Movement
 from model.gameobjects.game_interface import PlatformerGame
 from model.gameobjects.public_enums import GameState
 from model.gameobjects.entity import Block
-
+from model.gameobjects.public_enums import EnemySprite 
 from model.aiutilities.aiutilities import generate_background
 
 
@@ -241,10 +241,10 @@ class Scene:
             self.screen.blit(self.enemy_sprites[self.current_sprite_index_enemy],(enemy.xPos, enemy.yPos))
             
     #method for generating different sprites for enemis 
-    # def generate_enemy_sprite(self, enemy):
-    #         random_enemy = ["mummy_spritesheet", "anubis_spritesheet", "horus_spritesheet", "sobek_spritesheet"]
-    #         self.sprite_sheet_mummy = pygame.image.load("src/view/assets/%s.png" % random_enemy[enemy.choice_of_sprit]).convert_alpha()
-    #         return self.sprite_sheet_mummy
+    def generate_enemy_sprite(self, enemy):
+            random_enemy = ["mummy_spritesheet", "anubis_spritesheet", "horus_spritesheet", "sobek_spritesheet"]
+            self.sprite_sheet_mummy = pygame.image.load("src/view/assets/%s.png" % random_enemy[enemy.choice_of_sprit]).convert_alpha()
+            return self.sprite_sheet_mummy
     def updateScene(self):
         """Updates the current scene.
 
