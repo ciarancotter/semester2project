@@ -214,7 +214,7 @@ class GameScene(Scene):
         # UI elements
         self.gameplay_panel = Panel(self.screen, 784, 512, 0, 0, "black")
         self.game_ui_panel = Panel(self.screen, 496, 784, 784, 0, "orange")
-        self.textbox = TextBox(self.screen, 40, 25, "monospace", 12, self.game_ui_panel)
+        self.textbox = TextBox(self.screen, 40, 25, "monospace", 18, self.game_ui_panel)
         self.levelindicator = LevelIndicator(self.screen, self.game_ui_panel)
         self.healthbar = HealthBar(self.screen, self.gameplay_panel, 100)
 

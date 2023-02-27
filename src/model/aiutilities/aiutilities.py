@@ -41,7 +41,7 @@ def generate_monolith(emotion: str, theme: str) -> list:
     Each inscription should be a single, vividly descriptive line.
     Do not write anything except the lines, no more than 11 lines long.
     Do not number each line.
-    Each line must be no more than 10 words long and must end in a full stop.
+    Each line must be no more than 7 words long and must end in a full stop.
     Consider the above instructions and set the protagonist to be a hero where the theme is {theme}
     and the story has a {emotion} ending.
     """.format(emotion=emotion, theme=theme)
