@@ -169,6 +169,8 @@ class LeaderboardMenuScene(Scene):
         self.buttons = []
 
     def _render(self):
+        '''Renders the Leaderboard to the screen.
+        '''
         self.screen.fill("white")
 
         leaderboard_text = pygame.font.SysFont("monospace", 30).render('Leaderboard', True, "black")
@@ -181,7 +183,7 @@ class LeaderboardMenuScene(Scene):
         self.screen.blit(leaderboard_text, leaderboard_text_rect)
 
     def initialise(self):
-        """Initialises some values of the About menu, but not immediately when the instance is created.
+        """Initialises some values of the Leaderboard menu, but not immediately when the instance is created.
         """
         leaderboard_back_button = Button("BACK", (50, 50), 40)
         self.buttons.append(leaderboard_back_button)
@@ -234,6 +236,8 @@ class HelpMenuScene(Scene):
         self.health_boost_description = "Increase health"
 
     def _render(self):
+        '''Renders the help screen
+        '''
         self.screen.blit(self.background_image, (0, 0))
 
         logo_x_pos = (self.screen.get_width() - self.logo.get_width()) // 2
@@ -255,7 +259,7 @@ class HelpMenuScene(Scene):
         self.screen.blit(health_boost_text, (150, 500))
 
     def initialise(self):
-        """Initialises some values of the About menu, but not immediately when the instance is created.
+        """Initialises some values of the Help menu, but not immediately when the instance is created.
         """
         help_back_button = Button("BACK", (50, 50), 40)
         self.buttons.append(help_back_button)
@@ -292,6 +296,8 @@ class AboutMenuScene(Scene):
         self.buttons = []
 
     def _render(self):
+        '''Renders the about menu
+        '''
         self.screen.fill("white")
         about_text = pygame.font.SysFont("monospace", 30).render('About', True, "black")
         about_text_rect = about_text.get_rect()

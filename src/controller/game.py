@@ -65,13 +65,17 @@ def main() -> None:
                     running = False
 
             if event.type == pygame.MOUSEBUTTONUP:
-                main_menu_scene.check_play_pressed(event.pos, game_scene)
-                main_menu_scene.check_leaderboard_pressed(event.pos, leaderboard_scene)
-                main_menu_scene.check_help_pressed(event.pos, help_scene)
-                main_menu_scene.check_about_pressed(event.pos, about_scene)
-                leaderboard_scene.check_back_pressed(event.pos, main_menu_scene)
-                help_scene.check_back_pressed(mouse_pos, main_menu_scene)
-                about_scene.check_back_pressed(mouse_pos, main_menu_scene)
+                if game_manager._gamestate == GameState.start_menu:
+                    main_menu_scene.check_play_pressed(event.pos, game_scene)
+                    main_menu_scene.check_leaderboard_pressed(event.pos, leaderboard_scene)
+                    main_menu_scene.check_help_pressed(event.pos, help_scene)
+                    main_menu_scene.check_about_pressed(event.pos, about_scene)
+                elif game_manager._gamestate == GameState.leaderboard_menu:
+                    leaderboard_scene.check_back_pressed(event.pos, main_menu_scene)
+                elif game_manager._gamestate == GameState.help_menu:
+                    help_scene.check_back_pressed(mouse_pos, main_menu_scene)
+                elif game_manager._gamestate == GameState.about_menu:
+                    about_scene.check_back_pressed(mouse_pos, main_menu_scene)
                 
 
         keys_pressed = pygame.key.get_pressed()
