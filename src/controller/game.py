@@ -4,7 +4,7 @@ import os
 
 sys.path.append(os.path.abspath("./src"))
 from model.gameobjects.game_interface import PlatformerGame
-from view.gameui.scene import MainMenuScene, GameScene, LoadingScene, AboutMenuScene, HelpMenuScene
+from view.gameui.scene import MainMenuScene, GameScene, LoadingScene, LeaderboardMenuScene,  AboutMenuScene, HelpMenuScene
 from model.gameobjects.public_enums import Movement, GameState
 
 try:
@@ -45,7 +45,7 @@ def main() -> None:
     game_manager = PlatformerGame()
     main_menu_scene = MainMenuScene(game_manager, global_screen)
     loading_scene = LoadingScene(global_screen)
-    #self.leaderboard_scene = LeaderboardScene(global_screen)
+    leaderboard_scene = LeaderboardMenuScene(game_manager, global_screen)
     help_scene = HelpMenuScene(game_manager, global_screen)
     about_scene = AboutMenuScene(game_manager, global_screen)
     game_scene = GameScene(game_manager, global_screen, loading_scene)
@@ -66,8 +66,10 @@ def main() -> None:
 
             if event.type == pygame.MOUSEBUTTONUP:
                 main_menu_scene.check_play_pressed(event.pos, game_scene)
+                main_menu_scene.check_leaderboard_pressed(event.pos, leaderboard_scene)
                 main_menu_scene.check_help_pressed(event.pos, help_scene)
                 main_menu_scene.check_about_pressed(event.pos, about_scene)
+                leaderboard_scene.check_back_pressed(event.pos, main_menu_scene)
                 help_scene.check_back_pressed(mouse_pos, main_menu_scene)
                 about_scene.check_back_pressed(mouse_pos, main_menu_scene)
                 
@@ -116,6 +118,7 @@ def main() -> None:
         if game_manager._gamestate == GameState.start_menu:
             if KINECT and movementPoolRead["select"]:
                 main_menu_scene.check_play_pressed(mouse_pos, game_scene)
+                main_menu_scene.check_leaderboard_pressed(mouse_pos, leaderboard_scene)
                 main_menu_scene.check_help_pressed(mouse_pos, help_scene)
                 main_menu_scene.check_about_pressed(mouse_pos, about_scene)
             main_menu_scene.checking_hover(mouse_pos)
@@ -125,6 +128,13 @@ def main() -> None:
         elif game_manager._gamestate == GameState.in_session:
             game_manager.update_model(movements_for_model)
             game_scene.update()
+
+        elif game_manager._gamestate == GameState.leaderboard:
+            if KINECT and movementPoolRead["select"]:
+                leaderboard_scene.check_back_pressed(mouse_pos, main_menu_scene)
+            leaderboard_scene.checking_hover(mouse_pos)
+            leaderboard_scene.update() 
+            leaderboard_scene.draw_cursor(mouse_pos)
 
         elif game_manager._gamestate == GameState.help_screen:
             if KINECT and movementPoolRead["select"]:

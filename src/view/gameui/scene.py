@@ -155,6 +155,55 @@ class LoadingScene(Scene):
         pygame.display.update()
 
 
+class LeaderboardMenuScene(Scene):
+
+    def __init__(self, game_manager: PlatformerGame, screen):
+        """Inits the About menu.
+        """
+        pygame.init()
+        self.text = None
+        self.text_rect = None
+        self.screen = screen
+        self.game_manager = game_manager
+        self.label = GameState.leaderboard
+        self.buttons = []
+
+
+    def initialise(self):
+        """Initialises some values of the About menu, but not immediately when the instance is created.
+        """
+        self.screen.fill("white")
+        leaderboard_back_button = Button("BACK", (50, 50), 40)
+        self.buttons.append(leaderboard_back_button)
+
+        leaderboard_text = pygame.font.SysFont("monospace", 30).render('Leaderboard', True, "black")
+        leaderboard_text_rect = leaderboard_text.get_rect()
+        leaderboard_text_rect.center = (self.screen.get_width() // 2, (self.screen.get_height() // 2) - 50)
+
+        self.text = leaderboard_text
+        self.text_rect = leaderboard_text_rect
+
+        self.screen.blit(leaderboard_text, leaderboard_text_rect)
+
+
+    def update(self):
+        """Updates the About screen.
+        """
+        self.screen.fill("white")
+        self.screen.blit(self.text, self.text_rect)
+        self.draw_buttons()
+
+
+    def check_back_pressed(self, event_pos: tuple, main_menu_scene: Scene):
+        """Continuously checks if the Back button in the menu has been pressed, and returns to main menu.
+            Attributes:
+                - event: The event object in Pygame.
+        """
+        if self.game_manager._gamestate == GameState.leaderboard and self.buttons[0].rect.collidepoint(event_pos):
+            self.game_manager.set_game_state(GameState.start_menu)
+            main_menu_scene.initialise()
+
+
 class HelpMenuScene(Scene):
 
     def __init__(self, game_manager: PlatformerGame, screen):
@@ -499,11 +548,12 @@ class MainMenuScene(Scene):
             game.initialise()
             # Fader(MainMenuScene, GameScene)
 
-    '''def check_leaderboard_pressed(self, event_pos: tuple):
+    def check_leaderboard_pressed(self, event_pos: tuple, leaderboard: LeaderboardMenuScene):
         """Continuously checks if the leaderboard button in the menu has been pressed.
         """
         if self.buttons[1].rect.collidepoint(event_pos) and self.game_manager._gamestate == GameState.start_menu:
-            self.game_manager.set_game_state(GameState.leaderboard)'''
+            self.game_manager.set_game_state(GameState.leaderboard)
+            leaderboard.initialise()
 
     def check_help_pressed(self, event_pos: tuple, help: HelpMenuScene):
         """Continuously checks if the help button in the menu has been pressed.
