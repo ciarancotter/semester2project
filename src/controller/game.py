@@ -70,11 +70,11 @@ def main() -> None:
                     main_menu_scene.check_leaderboard_pressed(event.pos, leaderboard_scene)
                     main_menu_scene.check_help_pressed(event.pos, help_scene)
                     main_menu_scene.check_about_pressed(event.pos, about_scene)
-                elif game_manager._gamestate == GameState.leaderboard_menu:
+                elif game_manager._gamestate == GameState.leaderboard:
                     leaderboard_scene.check_back_pressed(event.pos, main_menu_scene)
-                elif game_manager._gamestate == GameState.help_menu:
+                elif game_manager._gamestate == GameState.help_screen:
                     help_scene.check_back_pressed(mouse_pos, main_menu_scene)
-                elif game_manager._gamestate == GameState.about_menu:
+                elif game_manager._gamestate == GameState.about:
                     about_scene.check_back_pressed(mouse_pos, main_menu_scene)
                 
 
