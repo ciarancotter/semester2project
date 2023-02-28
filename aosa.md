@@ -49,7 +49,7 @@ This is the a module that represents the state of the game and contains all game
 ### 3. The View
 This is the module that is used to display the information contained in model. For this project, we used the Pygame game engine to run the game.
 
-![](doc_assets/All Boards.png)
+![]('doc_assets/All_Boards.png')
 
 ### Why this architecture?
 The rationale behind the selection of this architecture is as follows:
@@ -567,9 +567,6 @@ The movements relating to hip motion are also treated differently. These actions
 
 - In the `infront`  detector, we use the depth of the chest, and compare it to the depth of the right hand at a particular threshold. This is used to indicate intentions such as a selection on a UI menu, or the pausing of the game itself. 
 - For the `turnhips` motion, we note the depth points on each side of the hips - left and right - and determine which is closer to the sensor. This data is used to determine which direction the person in the frame is facing. 
-
-HERE PLEASE
-
 
 The table below lists the supported motions.
 
