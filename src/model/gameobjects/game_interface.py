@@ -19,10 +19,21 @@ import random
 from model.gameobjects.level import Level
 from model.gameobjects.entity import *
 from model.gameobjects.public_enums import Movement, GameState
+from model.aiutilities.aiutilities import generate_monolith
 
 class CtxToRender(object):
 
-    def __init__(self, enemies: list[Enemy], player: Player, blocks: list[Block], entities: list[Entity] , game_state: GameState, current_level: int, door: Door) -> None:
+    def __init__(
+            self, enemies: list[Enemy],
+            player: Player,
+            blocks: list[Block],
+            entities: list[Entity],
+            game_state: GameState,
+            current_level: int,
+            door: Door,
+            monolith: Monolith
+            ) -> None:
+
         """contains all the information needed to 
 		display a gamestate to the user.
 
@@ -45,6 +56,7 @@ class CtxToRender(object):
         self._gamestate = game_state
         self._current_level = current_level
         self._door = door
+        self._monolith = monolith
 
     def get_entities(self) -> list[Entity]:
         return self._entities
@@ -124,7 +136,7 @@ class PlatformerGame(object):
         self._level_added = False
         self._door = None
         self._monolith = None
-        self.frame_count = 0 
+        self.frame_count = 0
         self._loot = []
 
     def get_render_ctx(self) -> CtxToRender:
@@ -135,8 +147,16 @@ class PlatformerGame(object):
 			a CtxToRender object containing the necicary rendering information.
 
 		"""
-        return CtxToRender(self._enemies, self._player, self._blocks,
-                           self._entities, self._gamestate, self._current_level, self._door)
+        return CtxToRender(
+                self._enemies,
+                self._player,
+                self._blocks,
+                self._entities,
+                self._gamestate,
+                self._current_level,
+                self._door,
+                self._monolith
+                )
 
 
     def set_game_state(self, new_game_state):
@@ -154,11 +174,16 @@ class PlatformerGame(object):
             self.game_state = GameState.game_over
 
         self.add_powerups()
-        # check if it is time to switch levels
+
         if self._door != None and self._door.check_for_entry(self._player):
             self._level_added = True
             self._current_level += 1
             self.create_level_from_json()
+
+        if self._monolith != None and self._monolith.check_for_read(self._player):
+            self._monolith.is_being_read = True
+        elif self._monolith != None and not self._monolith.check_for_read(self._player):
+            self._monolith.is_being_read = False
 
 
     def create_level_from_json(self):
@@ -180,7 +205,19 @@ class PlatformerGame(object):
                 self._gamestate = GameState.game_over
                 return
 
-            self._door = Door(level["door"]["x"] * 28, level["door"]["y"] * 28, 64, 64)
+            self._door = Door(
+                    level["door"]["x"] * 28,
+                    level["door"]["y"] * 28, 
+                    64,
+                    64
+                    )
+
+            self._monolith = Monolith(
+                    level["monolith"]["x"] * 28,
+                    level["monolith"]["y"] * 28,
+                    64,
+                    64
+                    )
 
             for block in level["blocks"]:
                 level_object.add_block(block["x"],block["y"])
@@ -188,13 +225,15 @@ class PlatformerGame(object):
             # setting up the level information in this object
             self._blocks = level_object.get_blocks()
 
-            for i,entity in enumerate(self._entities):
-                if isinstance(entity,Block):
-                    self._entities.pop(i)
-
+            self._entities = []
             self._entities.extend(level_object.get_blocks())
             self._player = Player(self._playerwidth, self._playerheight,
-                              self._screen_width, self._screen_height)
+                             self._screen_width, self._screen_height)
+            
+            self._entities.append(self._player)
+            self._entities.append(self._door)
+            self._entities.append(self._monolith)
+
 
     def add_powerups(self):
         """adds powerups to the screen.
