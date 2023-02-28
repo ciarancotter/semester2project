@@ -1,7 +1,22 @@
-# Boole Raider by Team 2
+<p align="center">
+<img src="src/view/assets/logo-for-README.png">
+</p>
 
-![](doc_assets/game_screenshot.png)
+<p align="center"> •
+  <a href="#intro">Summary</a> •
+  <a href="#core-technologies">Core Technologies</a> •
+  <a href="#architecture">Architecture</a> •
+  <a href="#model">Model</a> •
+  <a href="#view">View</a> •
+  <a href="#controller">Controller</a> •
+  <a href="#kinect">Kinect</a> •
+  <a href="#development">Development</a> •
+</p>
 
+---
+<p align="center">
+<img src="doc_assets/Control_capture.png">
+</p>
 
 ## Intro
 Boole Raider is an **experimental 2D roguelike platformer**. The player controls the character using machine vision. This is achieved through the use of a Kinect. The text - and parts of the art - are generated using GPT-3 and DALL.E respectively.
@@ -599,8 +614,8 @@ In addition to transporting the movement reads, we also used a dictionary to pro
 
 
 
-# Development
-## Collaboration/Version control
+## Development
+### Collaboration/Version control
 
 - We used [git](https://git-scm.com/) as our version control and we used [Github](https://github.com/) for code centralisation and management. 
 - We used [Github Actions](https://docs.github.com/en/actions) scripts to automate the checking and ensuring that the codebase adheres to specific guidelines, such as consistent formatting or proper documentation of functions and classes of our project.
@@ -609,6 +624,6 @@ In addition to transporting the movement reads, we also used a dictionary to pro
 - Using these tools allowed us to automate tasks and workflows for our project, that run on specified events, such as a push to a repository or the creation of a new pull request.
 - We restricted direct pushes to the main branch while allowing pushing code to branches and then merging them with main, and the reason for that is to reduce the risk of conflicts and major changes to the main branch that can break the codebase or cause significant delays in the development process.
 
-## Testing
+### Testing
 - We used the [*unittest*](https://docs.python.org/3/library/unittest.html) library that comes with python for our unittests.
 - These tests ran automatically in the manner described above during the development process to stop breakages. 
