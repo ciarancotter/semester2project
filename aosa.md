@@ -1,6 +1,6 @@
 # Boole Raider by Team 2
 
-![](https://notes.monke.ie/uploads/baa6c114-720e-48c0-ad23-c5b9af01519a.png)
+![](doc_assets/game_screenshot.png)
 
 
 ## Intro
@@ -49,7 +49,7 @@ This is the a module that represents the state of the game and contains all game
 ### 3. The View
 This is the module that is used to display the information contained in model. For this project, we used the Pygame game engine to run the game.
 
-![](https://notes.monke.ie/uploads/440605b3-d8cc-4bd5-9012-b7f358069958.png)
+![](doc_assets/All Boards.png)
 
 ### Why this architecture?
 The rationale behind the selection of this architecture is as follows:
@@ -124,7 +124,7 @@ The following instance variables can be set in all entities, and via inheritance
         self._hitbox_width_reduction = 0
         self._hitbox_height_reduction = 0
 ```
-![](https://notes.monke.ie/uploads/1188cf60-533a-453e-814b-56ef200ed8f9.png)
+![](doc_assets/Hitbox.png)
 
 The collision detection section of the entity code checks whether or not an entity is colliding with something.
 
@@ -139,13 +139,13 @@ The collision detection section of the entity code checks whether or not an enti
 
 ```
 The collision detection of entities checks to see if two hitboxes overlap, and returns `True` if they do.
-![](https://notes.monke.ie/uploads/b85f62be-8d13-4ac3-90f2-31a3c57c0653.png)
+![](doc_assets/Colision.png)
 
 
 #### Block
 The Block class inherits from entity, and is a entity that acts as a platform to be stood on.
 
-![player standing on a block](https://notes.monke.ie/uploads/cb1c1172-b3f5-44e2-9759-bd007b20bd67.png)
+![player standing on a block](doc_assets/Block.png)
 
 ### Monke
 The [Monke](https://knowyourmeme.com/memes/return-to-monke) represents a humanoid player/enemy that has several distinct properties.
@@ -284,7 +284,7 @@ The view component consists of five primary scenes.
 Each of these are a subclass of the `Scene` class. For the most part, the backgrounds were drawn by hand. The game scene, however, employs the generative artistry of DALL.E, a deep-learning model, to create generated backgrounds that complement the game's Ancient Egyptian theme. The design scheme of the hand-drawn components was also chosen with Egyptian colours in mind.
 
 Below is an example of a menu background drawn by a member of the team.
-![](https://notes.monke.ie/uploads/f054ee03-4dfc-4a34-a2d3-ce92b1789786.png)
+![](doc_assets/Background_triangles.png)
 
 The `generate_background` method was written to generate the game background using OpenAI's Python SDK. This method was written so that the logic could be segregated in a manner that allows of reuse. This makes it possible to change the background image in each level.
 
@@ -309,7 +309,7 @@ The Help section explains how the game works, demonstrates the variety of contro
 #### Game
 The game itself is split into three main UI panels - the main game, the text box with information, and the camera panel which displays the Kinect feed.
 
-![](https://notes.monke.ie/uploads/a0067c10-696f-4ea5-84e7-afe13b909c9a.png)
+![](doc_assets/Control_capture.png)
 
 
 ### Character Sprites
@@ -487,7 +487,7 @@ pygame.display.flip()
 
 To encourage development into machine vision, Microsoft has made the tools used to develop applications with the Kinect easy to access in C, simply with the SDK, and Python, via [PyKinect2](https://github.com/Kinect/PyKinect2). By getting the coordinate positions for each joint on the human body in the frame using the SDK, we can interpret movements that can be used to control the game.
 
-![](https://notes.monke.ie/uploads/9c630eed-ca6c-487a-8b15-a84d68f22a58.jpg)
+![](doc_assets/Xbox-One-Kinect.jpg)
 
 - A 1920x1080 colour camera with a FOV of 84.1° × 53.8° at 30 frames per second. That provides an array of rgb vaules.
 - A 520x424 inferred camera with a FOV of 70.6° × 60° at 30 frames per second. Depth is obtained using an inferred point cloud projected from the center of the kinect sensor array that is interpreted by the inferred camera to provide the array of depth vaules in mm.
@@ -568,7 +568,7 @@ The movements relating to hip motion are also treated differently. These actions
 - In the `infront`  detector, we use the depth of the chest, and compare it to the depth of the right hand at a particular threshold. This is used to indicate intentions such as a selection on a UI menu, or the pausing of the game itself. 
 - For the `turnhips` motion, we note the depth points on each side of the hips - left and right - and determine which is closer to the sensor. This data is used to determine which direction the person in the frame is facing. 
 
-MP4 HERE PLEASE
+HERE PLEASE
 
 
 The table below lists the supported motions.
@@ -584,7 +584,7 @@ The table below lists the supported motions.
 | RightWalk | read: bool, magnitude: int | Motion interpretation |
 | TurnHips | readleft: bool, readright: bool | Depth |
 
-![](https://notes.monke.ie/uploads/f02575dc-2e00-48b6-b442-92a34be095ea.png)
+![](doc_assets/Movement_sequence.png)
 
 ### FPS improvements
 Placing the movement handler in the game loop was having a significant impact on the performance and playability of the game. The game would run optimally at 60 frames per second, but with the movement handler in the main loop, it was reduced to 10 frames per second. We explored several options, from reducing how much the depth frame was upscaled to decoupling it using sockets. We concluded that the only viable option was to use shared memory dictionaries.
