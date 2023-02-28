@@ -16,7 +16,7 @@
 
 # Summary
 **Boole Raider** is an experimental 2D roguelike platformer that uses a Kinect with MV (machine vision) to control the player character and generates image assets as well a
-parts of the story with OpenAI's AI software. This game represents the amalgamation of several cutting-edge technologies in a format that is fun to interact with.
+parts of the story with OpenAI's AI software. This game represents the amalgamation of several cutting-edge technologies in a format that is fun to interact with. **To read our Architecture of Open Source (AOSA) document, refer to the aosa.md file.**
 
 ![pixil-frame-0_9](https://user-images.githubusercontent.com/61756898/216027732-d97a34fe-bbe5-4f2c-a74a-69e1aef42768.png)
 
