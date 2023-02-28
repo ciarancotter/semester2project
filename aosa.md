@@ -10,7 +10,7 @@ Boole Raider is an **experimental 2D roguelike platformer**. The player controls
 
 ### Machine Vision
 The game can be controlled using **machine vision**, in a similar manner to the games developed for the Xbox Kinect on the Xbox console. After some exploration into OpenCV libraries, such as OpenPose and the Nvidia libraries for the Jetson Nano, we concluded that the [Kineck SDK](https://learn.microsoft.com/en-us/previous-versions/windows/kinect/dn799271(v=ieb.10)) for Windows was the best option.
-
+![](doc_assets/skeleton.gif)
 
 ### Pygame
 `Pygame`is a popular Python library for game development that provides a set of tools and functionalities for creating 2D games. It includes modules for graphics, sound, input handling, and more. Pygame is the most well-known and stable of Python libraries for this type of development, with over [5,000 stars on Github](https://github.com/pygame/pygame).
@@ -501,9 +501,7 @@ This was necessary because the sensors would output arrays that have different s
 
 ### First Tests
 By working with the examples provided with the SDK and the library, we were able to get the body recognition system to interface with a Pygame display by receiving data from the camera feed and drawing the skeleton, composed of vector-like objects, onto each person in frame. 
-
-
-
+![](doc_assets/Movemt_Test.mp4)
 
 ### Movement Recognition
 From the proof-of-concept code (that is, the aforementioned skeleton), we first chose to write the logic for interpreting a punch - both to the left and to the right. 
