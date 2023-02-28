@@ -49,7 +49,7 @@ This is the a module that represents the state of the game and contains all game
 ### 3. The View
 This is the module that is used to display the information contained in model. For this project, we used the Pygame game engine to run the game.
 
-![]('doc_assets/All_Boards.png')
+![](doc_assets/All_Boards.png)
 
 ### Why this architecture?
 The rationale behind the selection of this architecture is as follows:
