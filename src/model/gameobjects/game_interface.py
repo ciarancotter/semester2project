@@ -106,11 +106,11 @@ class PlatformerGame(object):
         #xPos: int, yPos: int, width: int, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, height: int,colliding: bool, dammage: int, player:Player) -> None:
         self._player = Player(self._playerwidth, self._playerheight,
                               self._screen_width, self._screen_height)
-        self._enemy = Enemy(self._playerwidth, self._playerheight, 
-                            self._screen_width, self._screen_height
-                            ,self.damage  ,self._player)
-        
-        self._enemies = [self._enemy]
+        # self._enemy = Enemy(self._playerwidth, self._playerheight, 
+        #                     self._screen_width, self._screen_height
+        #                     ,self.damage  ,self._player)
+
+        self._enemies: list[Enemy]=[]
         self._blocks = []
         self._entities = [self._enemies]
         self._gamestate = GameState.start_menu
@@ -136,22 +136,24 @@ class PlatformerGame(object):
         """
         self._gamestate = GameState.in_session
 
+    def create_enemy(self):
+        enemy = Enemy(self._playerwidth, self._playerheight, 
+                       self._screen_width, self._screen_height
+                       ,self.damage ,self._player)
+        enemy.choice_of_sprite = random.choice([EnemySprite.mummy_spritesheet, EnemySprite.anubis_spritesheet, EnemySprite.horus_spritesheet, EnemySprite.sobek_spritesheet])
+        self._enemies.append(enemy)
+        self._entities.append(enemy)
+
+
     def update_model(self, player_moves: list(Movement)):
         self.frame_count +=1
         if self.frame_count > 200:
-            for enemy in self._enemies:
-
-                self._enemy = Enemy(self._playerwidth, self._playerheight, 
-                       self._screen_width, self._screen_height
-                       ,self.damage ,self._player)
-                self._enemy.choice_of_sprit = random.choice([EnemySprite.mummy_spritesheet, EnemySprite.anubis_spritesheet, EnemySprite.horus_spritesheet, EnemySprite.sobek_spritesheet])
-            self._enemies.append(self._enemy)
-            self.frame_count = 0
-            self._entities.append(self._enemy)
-            
+            self.create_enemy()
+            self.frame_count = 0    
         self._player.move(player_moves, self._blocks)
-        for enemy in self._enemies:
-            enemy.move(self.frame_count, self._player,self._blocks)
+        if self._enemies != []:
+            for enemy in self._enemies:
+                enemy.move(self._player, self._blocks)
 
         if self._player.health <= 0:
             self.game_state = GameState.game_over

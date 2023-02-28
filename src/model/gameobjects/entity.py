@@ -374,7 +374,7 @@ class Enemy(Monke):
         self.distance_to_player = 0
         self.xPos = random.randint(0, SCREEN_WIDTH-64)
         self.yPos = 2
-        self.choice_of_sprit = EnemySprite.mummy_spritesheet
+        self.choice_of_sprite = EnemySprite.anubis_spritesheet
 
 
         self.facing = random.choice([Movement.right, Movement.left])
@@ -383,7 +383,7 @@ class Enemy(Monke):
     def get_dammage(self) -> int:
         return self._damage
 
-    def move(self, frame_count, player_date ,entities: list[Entity]):
+    def move(self, player_date ,entities: list[Entity]) -> None:
         self.gravity(entities)
 
         if not self.gravity(entities):

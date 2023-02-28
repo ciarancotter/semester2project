@@ -27,7 +27,7 @@ from model.gameobjects.public_enums import Movement
 
 from model.gameobjects.game_interface import PlatformerGame
 from model.gameobjects.public_enums import GameState
-from model.gameobjects.entity import Block
+from model.gameobjects.entity import Block, Enemy
 from model.gameobjects.public_enums import EnemySprite 
 from model.aiutilities.aiutilities import generate_background
 
@@ -72,7 +72,7 @@ class Scene:
 
         self.transformed_game_background = None
         self.sprite_sheet = pygame.image.load("src/view/assets/playerSprite.png").convert_alpha()
-        #self.random_enemy = random.choice(["mummy_spritesheet", "anubis_spritesheet", "horus_spritesheet", "sobek_spritesheet"])
+        self.random_enemy = None
         self.sprite_sheet_mummy = pygame.image.load("src/view/assets/mummy_spritesheet.png").convert_alpha()
         self.sprite_sheet_anubis = pygame.image.load("src/view/assets/anubis_spritesheet.png").convert_alpha()
         self.sprite_sheet_horus = pygame.image.load("src/view/assets/horus_spritesheet.png").convert_alpha()
@@ -93,7 +93,7 @@ class Scene:
 
         # shortcut for player data that we're getting from render_ctx
         self.player_data = self.context.player
-        self.enemies_data = self.context.enemies  #list
+        self.enemies_data = self.context._enemies  #list
         self.extra_eneimes_data = self.enemies_data
 
 
@@ -245,10 +245,20 @@ class Scene:
             
     #method for generating different sprites for enemis 
     def generate_enemy_sprite(self, enemy):
-            random_enemy = ["mummy_spritesheet", "anubis_spritesheet", "horus_spritesheet", "sobek_spritesheet"]
-            self.sprite_sheet_mummy = pygame.image.load("src/view/assets/%s.png" % random_enemy[enemy.choice_of_sprit]).convert_alpha()
-            return self.sprite_sheet_mummy
+        
+        #print("after current",enemy.choice_of_sprite )
+        if enemy.choice_of_sprite == EnemySprite.mummy_spritesheet:
+            self.random_enemy= self.sprite_sheet_mummy
+        elif enemy.choice_of_sprite == EnemySprite.anubis_spritesheet:
+            self.random_enemy=  self.sprite_sheet_anubis
+        elif enemy.choice_of_sprite == EnemySprite.horus_spritesheet:
+            self.random_enemy=  self.sprite_sheet_horus
+
+        elif enemy.choice_of_sprite == EnemySprite.sobek_spritesheet:
+            self.random_enemy=  self.sprite_sheet_sobek
+
     def updateScene(self):
+
         """Updates the current scene.
 
         This method checks whether the current scene is the start menu, or 
@@ -275,14 +285,16 @@ class Scene:
                     self.character_sprites[i * self.columns + j].blit(self.sprite_sheet, (0, 0), (
                     j * self.player_data.width, i * self.player_data.height, self.player_data.width,
                     self.player_data.height))
-        
+
             for enemy in self.enemies_data:
-                #self.generate_enemy_sprite(enemy)
+                # print("enemy",enemy)
+                # print("before corrent ")
+                self.generate_enemy_sprite(enemy)
                 for i in range(self.enemy_rows):
                     for j in range(self.enemy_columns):
                         self.drawBackground(GameState.in_session)
                         self.updateGameUIElements(current_scene)
-                        self.enemy_sprites[i * self.enemy_columns + j].blit(self.sprite_sheet_mummy, (0, 0), (
+                        self.enemy_sprites[i * self.enemy_columns + j].blit(self.random_enemy, (0, 0), (
                         j * enemy.width, i * enemy.height, enemy.width,
                         enemy.height))
             
