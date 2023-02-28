@@ -1,5 +1,6 @@
 # ignore all pycaches
 **/__pycache__/
+**/.DS_Store
 .vscode/launch.json
 .idea/misc.xml
 .idea/semester2project.iml
