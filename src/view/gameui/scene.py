@@ -248,14 +248,14 @@ class Scene:
         
         #print("after current",enemy.choice_of_sprite )
         if enemy.choice_of_sprite == EnemySprite.mummy_spritesheet:
-            self.random_enemy= self.sprite_sheet_mummy
+            return self.sprite_sheet_mummy
         elif enemy.choice_of_sprite == EnemySprite.anubis_spritesheet:
-            self.random_enemy=  self.sprite_sheet_anubis
+            return  self.sprite_sheet_anubis
         elif enemy.choice_of_sprite == EnemySprite.horus_spritesheet:
-            self.random_enemy=  self.sprite_sheet_horus
+            return  self.sprite_sheet_horus
 
         elif enemy.choice_of_sprite == EnemySprite.sobek_spritesheet:
-            self.random_enemy=  self.sprite_sheet_sobek
+            return  self.sprite_sheet_sobek
 
     def updateScene(self):
 
@@ -289,12 +289,13 @@ class Scene:
             for enemy in self.enemies_data:
                 # print("enemy",enemy)
                 # print("before corrent ")
-                self.generate_enemy_sprite(enemy)
+                enemy_selected = self.generate_enemy_sprite(enemy)
                 for i in range(self.enemy_rows):
                     for j in range(self.enemy_columns):
                         self.drawBackground(GameState.in_session)
                         self.updateGameUIElements(current_scene)
-                        self.enemy_sprites[i * self.enemy_columns + j].blit(self.random_enemy, (0, 0), (
+                        print(enemy.choice_of_sprite)
+                        self.enemy_sprites[i * self.enemy_columns + j].blit(enemy_selected, (0, 0), (
                         j * enemy.width, i * enemy.height, enemy.width,
                         enemy.height))
             
