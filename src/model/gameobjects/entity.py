@@ -84,6 +84,7 @@ class Entity:
             return False
         if ((entity.y+entity._hitbox_y_offset) + (entity.height-entity._hitbox_height_reduction) < (self.yPos+self._hitbox_y_offset)) or ((self.yPos+self._hitbox_y_offset) + (self._height-self._hitbox_height_reduction) < (entity.y+entity._hitbox_y_offset)):
             return False
+
         return True
 
 
@@ -129,8 +130,28 @@ class Block(Entity):
     def __init__(self, xPos: int, yPos: int, width: int, height: int) -> None:
         super().__init__(xPos, yPos, width, height, True)
 
+
+class Monolith(Block):
+    """An entity that shows you an inscription when interacted with.
+    """
+
+    def __init__(self, xPos: int, yPos: int, width: int, height: int):
+        """Inits the Monolith class.
+        """
+        self.is_being_read = False
+        self._hitbox_width_reduction = 10
+        super().__init__(xPos, yPos, width, height)
+
+    def check_for_read(self, player) -> bool:
+        """Checks if the monolith is being read.
+        """
+        if super().is_colliding_with_entity(player) == True:
+            return True
+        return False
+
+
 class Door(Block):
-    """An entity that sends you to a differnt level on contact.
+    """An entity that sends you to a different level on contact.
     """
 
     def __init__(self, xPos: int, yPos: int, width: int, height: int):
@@ -142,9 +163,9 @@ class Door(Block):
     def check_for_entry(self, player) -> bool:
         """Checks if the door has been entered.
 
-            Returns: True if entered false if not 
+            Returns: True if entered false if not
         """
-        if super().is_colliding_with_entity(player) == True:
+        if super().is_colliding_with_entity(player) is True:
             return True
         return False
 
