@@ -300,7 +300,7 @@ class AboutMenuScene(Scene):
     def _render(self):
         '''Renders the about menu
         '''
-        self.screen.fill("white")
+        self.background_image = pygame.image.load("src/view/assets/aboutBG.png")
         about_text = pygame.font.SysFont("monospace", 30).render('About', True, "black")
         about_text_rect = about_text.get_rect()
         about_text_rect.center = (self.screen.get_width() // 2, (self.screen.get_height() // 2) - 50)
