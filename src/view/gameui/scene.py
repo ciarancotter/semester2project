@@ -20,7 +20,7 @@ import pygame
 
 sys.path.append(os.path.abspath("./src"))
 
-from shared_memory_dict import SharedMemoryDict
+#from shared_memory_dict import SharedMemoryDict
 
 from model.gameobjects.entity import Block
 from model.gameobjects.public_enums import Movement
@@ -202,6 +202,8 @@ class GameScene(Scene):
         self.frame_delay = 5
         self.current_sprite_index = 0
         self.inscriptions = []
+        self.enemy_rows = 2
+        self.enemy_columns = 3
 
         # Initialising the game manager
         self.screen = screen
@@ -229,6 +231,8 @@ class GameScene(Scene):
         self.block_image = pygame.image.load("src/view/assets/block2.png").convert_alpha()
         self.sprite_sheet = pygame.image.load("src/view/assets/playerSprite.png").convert_alpha()
 
+        self.sprite_sheet_mummy = pygame.image.load("src/view/assets/mummy_spritesheet.png").convert_alpha()
+
         # Initialises objects to None
         self.direction = "right"
         self.loaded_game = False
@@ -237,12 +241,13 @@ class GameScene(Scene):
         size = (context.player.width, context.player.height)
         self.character_sprites = [pygame.Surface(size, pygame.SRCALPHA) for i in range(self.columns * self.rows)]
         self.player_data = context.player
+        self.enemy_sprites = [pygame.Surface(size, pygame.SRCALPHA) for i in range(self.enemy_columns * self.enemy_rows)]
 
         # Sounds
         #self.punch_sound = pygame.mixer.Sound("src/view/assets/punch.mp3")
 
         # Kinect video
-        self.video = SharedMemoryDict(name='movementVideo', size=500000)
+        #self.video = SharedMemoryDict(name='movementVideo', size=500000)
 
 
     def initialise(self):
@@ -418,6 +423,52 @@ class GameScene(Scene):
         surface = pygame.surfarray.make_surface(self.video["src"])
         self.screen.blit(surface, (784, 505))
 
+    def draw_enemy(self):
+        context = self.game_manager.get_render_ctx()
+        self.enemy_data = context._enemies
+        for enemy in self.enemy_data: 
+            for i in range(self.enemy_rows):
+                for j in range(self.enemy_columns):
+                    self.enemy_sprites[
+                            i * self.enemy_columns + j
+                            ].blit(
+                                    self.sprite_sheet_mummy,
+                                    (0, 0),
+                                    (
+                                        j * enemy.width,
+                                        i * enemy.height,
+                                        enemy.width,
+                                        enemy.height
+                                    )
+                                )
+                    
+            if enemy.facing == Movement.right:
+                self.direction = "right"
+                self.frame_count += 1
+                if self.frame_count == self.frame_delay:
+                    self.current_sprite_index = (self.current_sprite_index + 1) % self.enemy_columns
+                    self.frame_count = 0
+            
+            if enemy.facing == Movement.left:
+                self.direction = "left"
+                self.frame_count += 1
+                if self.frame_count == self.frame_delay:
+                    self.current_sprite_index = self.enemy_columns + (self.current_sprite_index + 2) % self.enemy_columns
+                    self.frame_count = 0
+                    
+            #update the current sprite based on the direction of the character
+            if self.direction == "right":
+                if self.current_sprite_index < self.enemy_columns:
+                    self.screen.blit(
+                                    self.enemy_sprites[self.current_sprite_index],
+                                    (enemy.xPos, enemy.yPos)
+                                )
+            elif self.direction == "left":
+                if self.current_sprite_index >= self.enemy_columns:
+                    self.screen.blit(
+                                    self.enemy_sprites[self.current_sprite_index],
+                                    (enemy.xPos, enemy.yPos)
+                                )
 
     def update(self):
         """Updates the current scene.
@@ -432,6 +483,7 @@ class GameScene(Scene):
         self.draw_background()
         self.update_game_ui()
         self.draw_player()
+        self.draw_enemy()
 
 
 class MainMenuScene(Scene):
