@@ -164,11 +164,8 @@ def main() -> None:
     pygame.quit()
     # close and clean up shared memory pool
     if KINECT:
-        movementPoolRead.close()
         movementPoolRead.unlink()
-        movementPoolMisc.close()
         movementPoolMisc.unlink()
-        game_scene.video.close()
         game_scene.video.unlink()
     sys.exit()
 
