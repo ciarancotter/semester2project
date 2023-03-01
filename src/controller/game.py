@@ -118,43 +118,44 @@ def main() -> None:
             if movementPoolMisc["mousex"] > 0:
                 if movementPoolMisc["mousey"] > 0:
                     mouse_pos = (int(movementPoolMisc["mousex"]), int(movementPoolMisc["mousey"]))
-        
-        if game_manager._gamestate == GameState.start_menu:
-            if KINECT and movementPoolRead["select"]:
-                main_menu_scene.check_play_pressed(mouse_pos, game_scene)
-                main_menu_scene.check_leaderboard_pressed(mouse_pos, leaderboard_scene)
-                main_menu_scene.check_help_pressed(mouse_pos, help_scene)
-                main_menu_scene.check_about_pressed(mouse_pos, about_scene)
-            main_menu_scene.checking_hover(mouse_pos)
-            main_menu_scene.update() 
-            main_menu_scene.draw_cursor(mouse_pos)
 
-        elif game_manager._gamestate == GameState.in_session:
-            game_manager.update_model(movements_for_model)
-            game_scene.update()
-            if KINECT:
-                game_scene.draw_kinect()
+        match game_manager._gamestate:
+            case GameState.start_menu:
+                if KINECT and movementPoolRead["select"]:
+                    main_menu_scene.check_play_pressed(mouse_pos, game_scene)
+                    main_menu_scene.check_leaderboard_pressed(mouse_pos, leaderboard_scene)
+                    main_menu_scene.check_help_pressed(mouse_pos, help_scene)
+                    main_menu_scene.check_about_pressed(mouse_pos, about_scene)
+                main_menu_scene.checking_hover(mouse_pos)
+                main_menu_scene.update() 
+                main_menu_scene.draw_cursor(mouse_pos)
 
-        elif game_manager._gamestate == GameState.leaderboard:
-            if KINECT and movementPoolRead["select"]:
-                leaderboard_scene.check_back_pressed(mouse_pos, main_menu_scene)
-            leaderboard_scene.checking_hover(mouse_pos)
-            leaderboard_scene.update() 
-            leaderboard_scene.draw_cursor(mouse_pos)
+            case GameState.in_session:
+                game_manager.update_model(movements_for_model)
+                game_scene.update()
+                if KINECT:
+                    game_scene.draw_kinect()
 
-        elif game_manager._gamestate == GameState.help_screen:
-            if KINECT and movementPoolRead["select"]:
-                help_scene.check_back_pressed(mouse_pos, main_menu_scene)
-            help_scene.checking_hover(mouse_pos)
-            help_scene.update() 
-            help_scene.draw_cursor(mouse_pos)
+            case GameState.leaderboard:
+                if KINECT and movementPoolRead["select"]:
+                    leaderboard_scene.check_back_pressed(mouse_pos, main_menu_scene)
+                leaderboard_scene.checking_hover(mouse_pos)
+                leaderboard_scene.update() 
+                leaderboard_scene.draw_cursor(mouse_pos)
 
-        elif game_manager._gamestate == GameState.about:
-            if KINECT and movementPoolRead["select"]:
-                about_scene.check_back_pressed(mouse_pos, main_menu_scene)
-            about_scene.checking_hover(mouse_pos)
-            about_scene.update() 
-            about_scene.draw_cursor(mouse_pos)
+            case GameState.help_screen:
+                if KINECT and movementPoolRead["select"]:
+                    help_scene.check_back_pressed(mouse_pos, main_menu_scene)
+                help_scene.checking_hover(mouse_pos)
+                help_scene.update() 
+                help_scene.draw_cursor(mouse_pos)
+
+            case GameState.about:
+                if KINECT and movementPoolRead["select"]:
+                    about_scene.check_back_pressed(mouse_pos, main_menu_scene)
+                about_scene.checking_hover(mouse_pos)
+                about_scene.update() 
+                about_scene.draw_cursor(mouse_pos)
 
         # refresh entire screen
         pygame.display.flip()
