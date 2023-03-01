@@ -186,7 +186,7 @@ class PlatformerGame(object):
         if self._enemies != []:
             for enemy in self._enemies:
                 
-                enemy.move(self._player, self._blocks)
+                enemy.move(self.frame_count, self._blocks)
 
         if self._player.health <= 0:
             self.game_state = GameState.game_over

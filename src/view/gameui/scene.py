@@ -370,8 +370,8 @@ class GameScene(Scene):
         for enemy in context.enemies:
             enemy_image = self.enemy_selector(enemy)
 
-            i = self.frame_count2_electric_boogaloo % self.enemy_rows
-            j = self.frame_count2_electric_boogaloo % self.enemy_columns
+            i = self.frame_count % self.enemy_rows
+            j = self.frame_count % self.enemy_columns
 
             self.draw_background()
             self.update_game_ui()
