@@ -20,11 +20,12 @@ import pygame
 
 sys.path.append(os.path.abspath("./src"))
 
-from shared_memory_dict import SharedMemoryDict
+#from shared_memory_dict import SharedMemoryDict
 
 from model.gameobjects.entity import Block
 from model.gameobjects.public_enums import Movement
 from model.gameobjects.public_enums import GameState
+from model.gameobjects.public_enums import EnemySprite
 
 from view.gameui.uielements import Button, TextBox, Panel
 from view.gameui.healthbar import HealthBar, LevelIndicator
@@ -198,6 +199,8 @@ class GameScene(Scene):
         # Integer variables
         self.rows = 3
         self.columns = 3
+        self.enemy_rows = 2
+        self.enemy_columns = 3
         self.frame_count = 0
         self.frame_delay = 5
         self.current_sprite_index = 0
@@ -240,13 +243,14 @@ class GameScene(Scene):
 
         size = (context.player.width, context.player.height)
         self.character_sprites = [pygame.Surface(size, pygame.SRCALPHA) for i in range(self.columns * self.rows)]
-        self.player_data = context.player
+        #self.player_data = context.player
+        self.enemy_sprites = [pygame.Surface(size, pygame.SRCALPHA) for i in range(self.enemy_columns * self.enemy_rows)]
 
         # Sounds
         #self.punch_sound = pygame.mixer.Sound("src/view/assets/punch.mp3")
 
         # Kinect video
-        self.video = SharedMemoryDict(name='movementVideo', size=500000)
+        #self.video = SharedMemoryDict(name='movementVideo', size=500000)
 
 
     def initialise(self):
@@ -366,19 +370,19 @@ class GameScene(Scene):
         for enemy in context.enemies:
             enemy_image = self.enemy_selector(enemy)
 
-            i = self.frame_count2_electric_boogaloo % self.rows
-            j = self.frame_count2_electric_boogaloo % self.columns
+            i = self.frame_count2_electric_boogaloo % self.enemy_rows
+            j = self.frame_count2_electric_boogaloo % self.enemy_columns
 
             self.draw_background()
             self.update_game_ui()
 
-            self.character_sprites[i * self.columns + j].blit(
-                    self.sprite_sheet, (0, 0),
+            self.enemy_sprites[i * self.enemy_columns + j].blit(
+                    enemy_image, (0, 0),
                     (
-                        j * self.player_data.width,
-                        i * self.player_data.height,
-                        self.player_data.width,
-                        self.player_data.height
+                        j * enemy.width,
+                        i * enemy.height,
+                        enemy.width,
+                        enemy.height
                     )
                 )
             """

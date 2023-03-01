@@ -18,7 +18,7 @@ import json
 import random
 from model.gameobjects.level import Level
 from model.gameobjects.entity import *
-from model.gameobjects.public_enums import Movement, GameState
+from model.gameobjects.public_enums import Movement, GameState, EnemySprite
 from model.aiutilities.aiutilities import generate_monolith
 
 class CtxToRender(object):
@@ -119,17 +119,17 @@ class PlatformerGame(object):
         self._screen_width = 768
         self._screen_height = 768
         self._current_level = 1
-        damage = 0 
+        self.damage = 0 
         #xPos: int, yPos: int, width: int, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, height: int,colliding: bool, dammage: int, player:Player) -> None:
         self._player = Player(self._playerwidth, self._playerheight,
                               self._screen_width, self._screen_height)
-        self._enemy = Enemy(self._playerwidth, self._playerheight, 
-                            self._screen_width, self._screen_height
-                            ,damage ,self._player)
-        self._enemies = [self._enemy]
+        # self._enemy = Enemy(self._playerwidth, self._playerheight, 
+        #                     self._screen_width, self._screen_height
+        #                     ,damage ,self._player)
+        self._enemies = []
 
         self._blocks = []
-        self._entities = [self._enemies]
+        self._entities = []
         self._gamestate = GameState.start_menu
         #punch state
         self._punch_state = False
@@ -164,11 +164,29 @@ class PlatformerGame(object):
         """
         self._gamestate = new_game_state
 
+    def create_enemy(self):
+        enemy = Enemy(self._playerwidth, self._playerheight, 
+                       self._screen_width, self._screen_height
+                       ,self.damage ,self._player)
+        enemy.choice_of_sprite = random.choice([EnemySprite.mummy_spritesheet, 
+                                                EnemySprite.anubis_spritesheet, 
+                                                EnemySprite.horus_spritesheet, 
+                                                EnemySprite.sobek_spritesheet
+                                            ])
+        self._enemies.append(enemy)
+        self._entities.append(enemy)
+
 
     def update_model(self, player_moves: list(Movement)):
         self.frame_count +=1
+        if self.frame_count > 200:
+            self.create_enemy()
+            self.frame_count = 0 
         self._entities =  self._player.move(player_moves, self._entities)
-        self._enemy.move(self.frame_count, self._blocks)
+        if self._enemies != []:
+            for enemy in self._enemies:
+                
+                enemy.move(self._player, self._blocks)
 
         if self._player.health <= 0:
             self.game_state = GameState.game_over

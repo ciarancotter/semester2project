@@ -1,3 +1,4 @@
+
 import enum
 
 
@@ -16,3 +17,9 @@ class GameState(enum.Enum):
     about = 4
     help_screen = 5
     game_over = 6
+
+class EnemySprite(enum.Enum):
+    mummy_spritesheet = 1
+    anubis_spritesheet = 2
+    horus_spritesheet = 3
+    sobek_spritesheet = 4
