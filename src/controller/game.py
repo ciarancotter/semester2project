@@ -48,7 +48,7 @@ def main() -> None:
     leaderboard_scene = LeaderboardMenuScene(game_manager, global_screen)
     help_scene = HelpMenuScene(game_manager, global_screen)
     about_scene = AboutMenuScene(game_manager, global_screen)
-    game_scene = GameScene(game_manager, global_screen, loading_scene)
+    game_scene = GameScene(game_manager, global_screen, loading_scene, KINECT)
     main_menu_scene.initialise() # Loads up the menu scene
     game_manager.create_level_from_json()
 
@@ -164,12 +164,12 @@ def main() -> None:
     pygame.quit()
     # close and clean up shared memory pool
     if KINECT:
-        movementPoolRead.close()
         movementPoolRead.unlink()
-        movementPoolMisc.close()
+        movementPoolRead.cleanup()
         movementPoolMisc.unlink()
-        game_scene.video.close()
+        movementPoolMisc.cleanup()
         game_scene.video.unlink()
+        game_scene.video.cleanup()
     sys.exit()
 
 

@@ -479,7 +479,7 @@ class AboutMenuScene(Scene):
 
 class GameScene(Scene):
 
-    def __init__(self, game_manager: PlatformerGame, screen, loading_screen: LoadingScene):
+    def __init__(self, game_manager: PlatformerGame, screen, loading_screen: LoadingScene, KINECT: bool):
         """Inits GameScene.
         """
         pygame.init()
@@ -531,7 +531,8 @@ class GameScene(Scene):
         #self.punch_sound = pygame.mixer.Sound("src/view/assets/punch.mp3")
 
         # Kinect video
-        self.video = SharedMemoryDict(name='movementVideo', size=500000)
+        if KINECT:
+            self.video = SharedMemoryDict(name='movementVideo', size=500000)
 
 
     def initialise(self):
