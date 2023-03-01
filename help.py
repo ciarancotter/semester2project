@@ -27,14 +27,27 @@ invincibility_description = "Shield"
 monolith_description = "Stand by this monolith to continue the story."
 door_description = "Get to the door and walk through to complete each level."
 
-bradley_gif = pygame.image.load("src/view/assets/help_screen/Bradley_twistleft_spritesheet.png")
-niamh_gif = pygame.image.load("src/view/assets/help_screen/Niamh_punchleft_spritesheet.png")
-ciaran_gif = pygame.image.load("src/view/assets/help_screen/Ciaran_jump_spritesheet.png")
-samina_gif = pygame.image.load("src/view/assets/help_screen/Sam_punchright_spritesheet.png")
-shaza_gif = pygame.image.load("src/view/assets/help_screen/Shaza_select_spritesheet.png")
-patrick_gif = pygame.image.load("src/view/assets/help_screen/Patrick_twistright_spritesheet.png")
+spritesheets = [
+    ("src/view/assets/help_screen/Bradley_twistleft_spritesheet.png", 200, 300),
+    ("src/view/assets/help_screen/Patrick_twistright_spritesheet.png", 200, 300),
+    ("src/view/assets/help_screen/Shaza_select_spritesheet.png", 200, 300),
+    ("src/view/assets/help_screen/Niamh_punchleft_spritesheet.png", 200, 300),
+    ("src/view/assets/help_screen/Sam_punchright_spritesheet.png", 200, 300),
+    ("src/view/assets/help_screen/Ciaran_jump_spritesheet.png", 200, 300),
+]
+
+sprite_rects = [
+    [
+        pygame.Rect((x, 0), (width, height)) for x in range(0, 800, width)
+    ] for filename, width, height in spritesheets
+]
+
+# Set the initial sprite index for each spritesheet to 0
+sprite_indices = [0] * len(spritesheets)
 
 font = pygame.font.Font(None, 30, bold=True)
+
+clock = pygame.time.Clock()
 
 running = True
 while running:
@@ -49,20 +62,16 @@ while running:
 
     screen.blit(logo, (logo_x_pos, 20))
 
-    # Draw a gold square with rounded corners under the developers
     square_position = (0, 190)
     square_size = (700, 300)
     border_radius = 20
     pygame.draw.rect(screen, (255, 215, 0), (square_position, square_size), border_radius=border_radius)
 
-    # Draw a black border around the square
     border_position = (square_position[0] - 5, square_position[1] - 5)
     border_size = (square_size[0] + 10, square_size[1] + 10)
     border_radius = 20
     pygame.draw.rect(screen, (0, 0, 0), (border_position, border_size), 5, border_radius=border_radius)
 
-
-    # title
     font = pygame.font.SysFont("monospace", 40, bold=True)
     text = "COLLECT YOUR ITEMS!"
     text_surface = font.render(text, True, black, gold)
@@ -70,7 +79,6 @@ while running:
     text_rect.center = ((square_position[0] + square_size[0]) // 2, square_position[1] + 50)
     screen.blit(text_surface, text_rect)
 
-    # draw item images and descriptions
     font = pygame.font.SysFont("monospace", 24, bold=True)
     screen.blit(loot_image, (0, 300))
     loot_text = font.render(loot_description, True, (0,0,0))
@@ -108,15 +116,13 @@ while running:
     door_text = font.render(door_description, True, (0,0,0))
     screen.blit(door_text, (140, 620))
 
-    '''
-    screen.blit(bradley_gif, (800, 170))
-    screen.blit(ciaran_gif, (800, 470))
-    screen.blit(niamh_gif, (800, 770))
-    screen.blit(samina_gif, (800, 1000))
-    screen.blit(shaza_gif, (800, 1300))
-    screen.blit(patrick_gif, (800, 1600))
-    '''
+    for i, (filename, _, _) in enumerate(spritesheets):
+        current_sprite_rect = sprite_rects[i][sprite_indices[i]]
+        spritesheet = pygame.image.load(filename)
+        screen.blit(spritesheet, (i * 200, 0), current_sprite_rect)
+
+        sprite_indices[i] = (sprite_indices[i] + 1) % len(sprite_rects[i])
     
     pygame.display.flip()
-    
+    clock.tick(6)
 pygame.quit()
