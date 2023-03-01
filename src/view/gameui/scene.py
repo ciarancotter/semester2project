@@ -228,6 +228,10 @@ class GameScene(Scene):
  
         self.block_image = pygame.image.load("src/view/assets/block2.png").convert_alpha()
         self.sprite_sheet = pygame.image.load("src/view/assets/playerSprite.png").convert_alpha()
+        self.sprite_sheet_mummy = pygame.image.load("src/view/assets/mummy_spritesheet.png").convert_alpha()
+        self.sprite_sheet_anubis = pygame.image.load("src/view/assets/anubis_spritesheet.png").convert_alpha()
+        self.sprite_sheet_horus = pygame.image.load("src/view/assets/horus_spritesheet.png").convert_alpha()
+        self.sprite_sheet_sobek = pygame.image.load("src/view/assets/sobek_spritesheet.png").convert_alpha()
 
         # Initialises objects to None
         self.direction = "right"
@@ -336,10 +340,66 @@ class GameScene(Scene):
             self.character_sprites[self.current_sprite_index],
             (self.player_data.xPos, self.player_data.yPos)
         )
+    
+    def enemy_selector(self, enemy):
+
+        match enemy.choice_of_sprite:
+
+            case EnemySprite.mummy_spritesheet:
+                return self.sprite_sheet_mummy
+
+            case EnemySprite.anubis_spritesheet:
+                return self.sprite_sheet_anubis
+
+            case EnemySprite.horus_spritesheet:
+                return self.sprite_sheet_horus
+
+            case EnemySprite.sobek_spritesheet:
+                return self.sprite_sheet_sobek
+
+            case other:
+                return None
 
 
-    def draw_player(self):
-        context = self.game_manager.get_render_ctx()
+    def draw_enemy(self, context):
+
+        for enemy in context.enemies:
+            enemy_image = self.enemy_selector(enemy)
+
+            i = self.frame_count2_electric_boogaloo % self.rows
+            j = self.frame_count2_electric_boogaloo % self.columns
+
+            self.draw_background()
+            self.update_game_ui()
+
+            self.character_sprites[i * self.columns + j].blit(
+                    self.sprite_sheet, (0, 0),
+                    (
+                        j * self.player_data.width,
+                        i * self.player_data.height,
+                        self.player_data.width,
+                        self.player_data.height
+                    )
+                )
+            """
+            for enemy in self.enemies_data:
+                i = self.frame_count2_electric_boogaloo %self.enemy_rows
+                j = self.frame_count2_electric_boogaloo % self.enemy_columns
+                # print("enemy",enemy)
+                # print("before corrent ")
+                self.generate_enemy_sprite(enemy)
+                self.frame_count2_electric_boogaloo += 1
+                #for i in range(self.enemy_rows):
+                #for j in range(self.enemy_columns):
+                self.drawBackground(GameState.in_session)
+                self.updateGameUIElements(current_scene)
+                self.enemy_sprites[i * self.enemy_columns + j].blit(self.random_enemy, (0, 0), (
+                j * enemy.width, i * enemy.height, enemy.width,
+                enemy.height))
+            """
+
+    def draw_player(self, context):
+
         self.player_data = context.player
 
         for i in range(self.rows):
@@ -431,7 +491,10 @@ class GameScene(Scene):
         
         self.draw_background()
         self.update_game_ui()
-        self.draw_player()
+
+        context = self.game_manager.get_render_ctx()
+        self.draw_player(context)
+        self.draw_enemy(context)
 
 
 class MainMenuScene(Scene):
