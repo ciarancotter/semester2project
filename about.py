@@ -21,25 +21,29 @@ samina = pygame.image.load("src/view/assets/profiles/saminaAbout.png")
 shaza = pygame.image.load("src/view/assets/profiles/shazaAbout.png")
 patrick = pygame.image.load("src/view/assets/profiles/patrickAbout.png")
 
-# Create a list of the images and developer names
-developers = [
-    ("Bradley Harris", bradley),
-    ("Niamh Connolly", niamh),
-    ("Ciaran Cotter", ciaran),
-    ("Samina Arshad", samina),
-    ("Shaza", shaza),
-    ("Patrick Lennihan", patrick)
-]
+bradley_description="Bradley Harris"
+samina_description="Samina Arshad"
+niamh_description="Niamh Connolly"
+shaza_description="Shaza"
+ciaran_description="Ciaran Cotter"
+patrick_description="Patrick Lenhian"
+
+bradley_role="Developer"
+samina_role="Developer"
+niamh_role="Developer"
+shaza_role="Developer"
+ciaran_role="Developer"
+patrick_role="Developer"
 
 # Set the dimensions and positions of the images and developer names
-image_width = 100
+'''image_width = 100
 image_height = 100
 image_spacing = 20
 image_x1 = 0
 image_x2 = 320
 image_y1 = 300
 image_y2 = 300
-font_color = black
+font_color = black'''
 
 window = pygame.display.set_mode(WINDOW_SIZE)
 pygame.display.set_caption("About")
@@ -115,7 +119,7 @@ while running:
     # Blit the wrapped text surface onto the text box surface
     y = 10
     for line in lines:
-        text_surface = font.render(line, True, font_color, gold)
+        text_surface = font.render(line, True, black, gold)
         text_box_surface.blit(text_surface, (10, y))
         y += text_surface.get_height() + 5
 
@@ -132,23 +136,44 @@ while running:
     # Blit the border surface onto the main window surface
     window.blit(border_surface, text_box_position)
 
+    # draw item images and descriptions
+    font = pygame.font.SysFont("monospace", 24, bold=True)
+    screen.blit(bradley, (0, 280))
+    bradley_text = font.render(bradley_description, True, (0,0,0))
+    screen.blit(bradley_text, (120, 350))
+    bradley_text2 = font.render(bradley_role, True, (0,0,0))
+    screen.blit(bradley_text2, (120, 380))
 
-    for i in range(len(developers)):
-        if i < 3:
-            x = image_x1
-            y = image_y1 + (image_height + image_spacing) * i
-        else:
-            x = image_x2
-            y = image_y2 + (image_height + image_spacing) * (i - 3)
-        image_rect = developers[i][1].get_rect()
-        image_rect.topleft = (x + background_rect.left, y + background_rect.top)
-        window.blit(developers[i][1], image_rect)
-        
-        font = pygame.font.SysFont("monospace", 22, bold=True)
-        text = font.render(developers[i][0] + "", True, black)
-        text_rect = text.get_rect()
-        text_rect.topleft = (x + image_width + 10 + background_rect.left, y + background_rect.top)
-        window.blit(text, text_rect)
+    screen.blit(niamh, (0, 420))
+    niamh_text = font.render(niamh_description, True, (0,0,0))
+    screen.blit(niamh_text, (120, 470))
+    niamh_text2 = font.render(niamh_role, True, (0,0,0))
+    screen.blit(niamh_text2, (120, 500))
+
+    screen.blit(ciaran, (0, 540))
+    ciaran_text = font.render(ciaran_description, True, (0,0,0))
+    screen.blit(ciaran_text, (120, 600))
+    ciaran_text2 = font.render(ciaran_role, True, (0,0,0))
+    screen.blit(ciaran_text2, (120, 630))
+
+    screen.blit(samina, (320, 300))
+    samina_text = font.render(samina_description, True, (0,0,0))
+    screen.blit(samina_text, (450, 350))
+    samina_text2 = font.render(samina_role, True, (0,0,0))
+    screen.blit(samina_text2, (450, 380))
+
+    screen.blit(shaza, (320, 420))
+    shaza_text = font.render(shaza_description, True, (0,0,0))
+    screen.blit(shaza_text, (450, 470))
+    shaza_text2 = font.render(shaza_role, True, (0,0,0))
+    screen.blit(shaza_text2, (450, 500))
+
+    screen.blit(patrick, (320, 540))
+    patrick_text = font.render(patrick_description, True, (0,0,0))
+    screen.blit(patrick_text, (450, 600))
+    patrick_text2 = font.render(patrick_role, True, (0,0,0))
+    screen.blit(patrick_text2, (450, 630))
+    
 
     logo_x_pos = (WINDOW_SIZE[0] - logo.get_width()) // 2
 
