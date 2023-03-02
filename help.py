@@ -10,6 +10,8 @@ black = (0, 0, 0)
 white = (255, 255, 255)
 gold = (255, 215, 0)
 
+### load assets
+
 loot_image = pygame.image.load("src/view/assets/loot.png")
 jump_boost_image = pygame.image.load("src/view/assets/jump_boost.png")
 health_boost_image = pygame.image.load("src/view/assets/health_boost.png")
@@ -59,7 +61,7 @@ sprite_rects = [
 # Set the initial sprite index for each spritesheet to 0
 sprite_indices = [0] * len(spritesheets)
 
-# Set the clock for controlling the frame rate
+# clock for frame rate
 clock = pygame.time.Clock()
 
 running = True
@@ -69,6 +71,8 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+
+    ### ITEMS BOX
 
     square_position = (0, 50)
     square_size = (600, 200)
@@ -104,6 +108,8 @@ while running:
     invincibility_text = font.render(invincibility_description, True, (0,0,0))
     screen.blit(invincibility_text, (500, 190))
 
+    ### DOOR AND MONOLITH BOX
+
     square_position = (0, 300)
     square_size = (600, 228)
     border_radius = 20
@@ -123,6 +129,8 @@ while running:
     screen.blit(door_image, (0, 400))
     door_text = font.render(door_description, True, (0,0,0))
     screen.blit(door_text, (140, 450))
+
+    ### ENEMIES BOX
 
     square_position = (0, 600)
     square_size = (600, 150)
@@ -146,6 +154,8 @@ while running:
     screen.blit(enemy3, (300, 670))
     screen.blit(enemy4, (400, 670))
 
+    ### MOVEMENTS BOX
+
     square_position = (700, 0)
     square_size = (580, 780)
     
@@ -156,7 +166,6 @@ while running:
     
     pygame.draw.rect(screen, (0, 0, 0), (border_position, border_size), 5)
 
-    # Add heading
     font = pygame.font.SysFont("monospace", 40, bold=True)
     text = "MOVEMENTS"
     text_surface = font.render(text, True, black, gold)
@@ -164,13 +173,13 @@ while running:
     text_rect.center = (square_position[0] + square_size[0] // 2, square_position[1] + 50)
     screen.blit(text_surface, text_rect)
 
-# Set the x and y coordinates for each row of sprites
+    #position of each row of spritesheets
     rows = [
-        (700, 75),
+        (700, 75), 
         (700, 430),
     ]
-
-    # Draw the sprites in their respective rows
+    
+    # iterate through the spritesheets list and keep track of the index of each one
     for i, (spritesheet, width, height) in enumerate(spritesheets):
         sprite_index = sprite_indices[i]
         sprite_rect = sprite_rects[i][sprite_index]
