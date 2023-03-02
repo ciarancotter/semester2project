@@ -205,6 +205,7 @@ class GameScene(Scene):
         self.frame_delay = 5
         self.current_sprite_index = 0
         self.inscriptions = []
+        self.frame_count_enemy = 0
 
         # Initialising the game manager
         self.screen = screen
@@ -367,23 +368,26 @@ class GameScene(Scene):
 
     def draw_enemy(self, context):
 
-        for enemy in context.enemies:
-            enemy_image = self.enemy_selector(enemy)
+        for enemy in context._enemies:
+            #enemy_image = self.enemy_selector(enemy)
+            enemy_image = self.sprite_sheet_mummy
 
-            i = self.frame_count % self.enemy_rows
-            j = self.frame_count % self.enemy_columns
+            i = self.frame_count_enemy % self.enemy_rows
+            j = self.frame_count_enemy % self.enemy_columns
 
-            self.draw_background()
-            self.update_game_ui()
+            self.frame_count_enemy += 1
 
-            self.enemy_sprites[i * self.enemy_columns + j].blit(
-                    enemy_image, (0, 0),
-                    (
-                        j * enemy.width,
-                        i * enemy.height,
-                        enemy.width,
-                        enemy.height
-                    )
+            self.enemy_sprites[
+                i * self.enemy_columns + j
+                ].blit(
+                        enemy_image, 
+                        (0, 0),
+                        (
+                            j * enemy.width,
+                            i * enemy.height,
+                            enemy.width,
+                            enemy.height
+                        )
                 )
             """
             for enemy in self.enemies_data:
