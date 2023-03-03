@@ -88,6 +88,7 @@ class Entity:
         return True
 
 
+
     def is_colliding_with_entitys(self, entities: list) -> bool:
         """checks if this entity is colliding with anything in the list of 
         entitys provided.
@@ -258,9 +259,11 @@ class Player(Monke):
         self._jumped = True
         self._jumping = False
         self._jump_power = 50
+        self._max_health = 10
         self._health = 10
         self.current_loot = None
         self._invincible = False
+        self._score = 0
 
         super().__init__(self.xPos, self.yPos, width, height, True, 2)
         self._hitbox_x_offset = 15
@@ -316,14 +319,24 @@ class Player(Monke):
             self._jump_baseline = self.yPos
             self._jump_power = 50
 
-        entities_to_return = self.calculate_collition_results(entities)
+        entities_to_return = self.calculate_collition_results(entities,directions)
         self.update_loot_stats()
         return entities_to_return
 
-    def calculate_collition_results(self, entities):
+    def calculate_collition_results(self, entities,directions):
         for i,entity in enumerate(entities):
             if isinstance(entity, Enemy) and (self.is_colliding_with_entity(entity)):
-                if not self._invincible:
+                # checking if the player is puching the enemey and removing the enemy 
+                if (Movement.left_punch in directions) and (entity.x < self.x):
+                    entities.pop(i)
+                    self._score += 1
+                elif (Movement.right in directions) and (self.x < entity.x):
+                    entities.pop(i)
+                    self._score += 1
+
+
+                #decreasing your lives if you hit an enemy
+                elif not self._invincible:
                     self._health -= entity._damage
 
             elif isinstance(entity, Loot) and (self.is_colliding_with_entity(entity)):
@@ -372,6 +385,10 @@ class Player(Monke):
     def get_invincibility(self):
         return self._invincible
 
+    def get_score(self):
+        return self._score
+    
+    score = property(get_score)
     isInvincable = property(get_invincibility)
     health = property(get_health)
 
