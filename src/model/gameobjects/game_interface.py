@@ -264,7 +264,33 @@ class PlatformerGame(object):
                     self._loot.append(loot)
 
 
+    def add_score(self,name:str):
+        """adds the score of the player to the models stored leaderboard.
 
+        Args:
+            name: a string that appears with the score in the stored leaderboard to
+            identify the person who recieved the score. 
+        """
+        with open('src/model/gameobjects/leaderboard.json', 'r') as file:
+            leaderboard = json.load(file)
+        leaderboard["most recent player"] = name
+        leaderboard["scores"][name] = self._player.score
+
+        # sorting 
+        leaderboard["scores"] = sorted(leaderboard["scores"].items(), key=lambda x:x[1])
+        leaderboard["scores"] = dict(leaderboard["scores"])
+
+        with open('src/model/gameobjects/leaderboard.json', 'w') as file:
+            json.dump(leaderboard,file)
+
+    def return_scores(self):
+        """
+        Returns: a json python structure in the following format
+        {"most recent player": <most recent player>, "scores": {name:score....}}
+        """
+        with open('src/model/gameobjects/leaderboard.json', 'r') as file:
+            leaderboard = json.load(file)
+            return leaderboard
 
 
 
