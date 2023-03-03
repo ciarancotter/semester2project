@@ -352,9 +352,11 @@ class GameScene(Scene):
         )
 
     def display_enemies(self,ctx):
-          for enemy in ctx.enemies:
+          for i,enemy in enumerate(ctx.enemies):
+            print("kdjfksafj",self.enemy_sufaces[i][self.current_sprite_index_enemy],
+                (enemy.x, enemy.y))
             self.screen.blit(
-                self.enemy_sprites[self.current_sprite_index_enemy],
+                self.enemy_sufaces[i][self.current_sprite_index_enemy],
                 (enemy.x, enemy.y)
             )
     
@@ -389,7 +391,7 @@ class GameScene(Scene):
 
 
 
-        for i,enemy in enumerate(context.enemies):
+        for e,enemy in enumerate(context.enemies):
 
             #enemy_image = self.enemy_selector(enemy)
 
@@ -398,9 +400,12 @@ class GameScene(Scene):
             i = self.frame_count_enemy % self.enemy_rows
             j = self.frame_count_enemy % self.enemy_columns
             self.frame_count_enemy += 1
-            print(self.enemy_sprites)
-            print("hallala",i,self.enemy_sufaces,context.enemies)
-            self.enemy_sufaces[0][i * self.enemy_columns + j].blit(enemy_image, (0, 0), (
+            #print(self.enemy_sprites)
+            #print("hallala",i,self.enemy_sufaces,context.enemies)
+
+            #print("ahh",self.enemy_sufaces[e][i * self.enemy_columns + j])
+
+            self.enemy_sufaces[e][i * self.enemy_columns + j].blit(enemy_image, (0, 0), (
                     j * enemy.width, i * enemy.height, enemy.width,
                         enemy.height))
 
@@ -419,7 +424,7 @@ class GameScene(Scene):
                         self.current_sprite_index_enemy = self.enemy_columns + (self.current_sprite_index_enemy + 2) % self.enemy_columns   ####!!!! for changing the legs moving
                         self.frame_count_enemy2 = 0
 
-            if self.enemy_direction == "right":
+            """if self.enemy_direction == "right":
                 if self.current_sprite_index_enemy < self.enemy_columns:
                     self.screen.blit(self.enemy_sprites[self.current_sprite_index],
                                     (enemy.xPos, enemy.yPos)
@@ -428,7 +433,7 @@ class GameScene(Scene):
                 if self.current_sprite_index_enemy >= self.enemy_columns:
                     self.screen.blit(self.enemy_sprites[self.current_sprite_index],
                                     (enemy.xPos, enemy.yPos)
-                                )
+                                )"""
 
             """
             #move the enemy to the right if the right key is pressed
