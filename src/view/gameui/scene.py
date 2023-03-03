@@ -132,7 +132,6 @@ class Scene:
 class LoadingScene(Scene):
     
     def __init__(self, screen):
-        pygame.init()
         self.screen = screen
         self.text = pygame.font.SysFont("monospace", 30).render('Loading...', True, "white")
         self.text_rect = self.text.get_rect()
@@ -157,7 +156,6 @@ class AboutMenuScene(Scene):
     def __init__(self, screen):
         """Inits the About menu.
         """
-        pygame.init()
         self.text = None
         self.text_rect = None
         self.screen = screen
@@ -193,7 +191,6 @@ class GameScene(Scene):
     def __init__(self, game_manager: PlatformerGame, screen, loading_screen: LoadingScene):
         """Inits GameScene.
         """
-        pygame.init()
         context = game_manager.get_render_ctx()
         # Integer variables
         self.rows = 3
@@ -488,7 +485,6 @@ class MainMenuScene(Scene):
                 - game_manager: The data from the model.
                 - screen: The globally-defined pygame display.
         """
-        pygame.init()
         self.screen = screen
         self.game_manager = game_manager
         self.label = GameState.start_menu
