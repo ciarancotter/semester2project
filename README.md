@@ -21,6 +21,29 @@
 ## Intro
 Boole Raider is an **experimental 2D roguelike platformer**. The player controls the character using machine vision. This is achieved through the use of a Kinect. The text - and parts of the art - are generated using GPT-3 and DALL.E respectively.
 
+## Installation Guide
+<details>
+  <summary>Linux and macOS</summary>
+  
+  - Run `pip install -r requirements.txt` (you may have to use `pip3` depending on how Python is configured).
+  - Configure your OpenAI API key by setting the `OPENAI_API_KEY` environment variable in your system.
+  - Give `run.sh` executable permissions.
+  - To run the game, run the `run.sh` shell script.
+  
+</details>
+
+<details>
+  <summary>Windows</summary>
+  
+  - Run `pip install -r requirements.txt` (you may have to use `pip3` depending on how Python is configured).
+  - Open the directory in Bash.
+  - Configure your OpenAI API key by setting the `OPENAI_API_KEY` environment variable in your system.
+  - Give `run.sh` executable permissions.
+  - To run the game, run the `run.sh` shell script.
+  - On moral grounds, we do not support the use of Powershell.
+  
+</details>
+
 ## Core Technologies
 
 ### Machine Vision
