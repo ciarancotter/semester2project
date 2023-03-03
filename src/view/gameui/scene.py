@@ -22,7 +22,7 @@ sys.path.append(os.path.abspath("./src"))
 
 #from shared_memory_dict import SharedMemoryDict
 
-from model.gameobjects.entity import Block
+from model.gameobjects.entity import Block, Enemy
 from model.gameobjects.public_enums import Movement
 from model.gameobjects.public_enums import GameState
 from model.gameobjects.public_enums import EnemySprite
@@ -54,7 +54,7 @@ class Scene:
         self.direction = "right"
 
         # Load the assets that should be used globally.
-        bradley_base = pygame.image.load("src/view/assets/bradley.png").convert_alpha()
+        bradley_base = pygame.image.load("src/view/assets/bradley_squish.gif").convert_alpha()
         logo_base = pygame.image.load("src/view/assets/logo.png")
         self.bradley = pygame.transform.scale(bradley_base, (244, 244))
         self.logo = pygame.transform.scale(logo_base, (800, 150))
@@ -140,55 +140,508 @@ class LoadingScene(Scene):
                 self.screen.get_height() // 2
                 )
         super().__init__([], None, screen)
+        
+        # Load the background image
+        self.background = pygame.image.load("src/view/assets/loadingBG.png").convert()
 
+    def draw_background(self):
+        """Draws the background image onto the screen."""
+        self.screen.blit(self.background, (0, 0))
 
     def update(self):
-        """Draws a loading screen.
-        """
-        self.screen.fill("black")
+        """Draws a loading screen with a background image."""
+        self.draw_background()
         self.draw_bradley()
         self.screen.blit(self.text, self.text_rect)
         pygame.display.update()
 
 
-class AboutMenuScene(Scene):
+class LeaderboardMenuScene(Scene):
 
-    def __init__(self, screen):
+    def __init__(self, game_manager: PlatformerGame, screen):
         """Inits the About menu.
         """
         self.text = None
         self.text_rect = None
         self.screen = screen
+        self.game_manager = game_manager
+        self.label = GameState.leaderboard
+        self.buttons = []
 
+    def _render(self):
+        '''Renders the Leaderboard to the screen.
+        '''
+        self.screen.fill("white")
+
+        leaderboard_text = pygame.font.SysFont("monospace", 30).render('Leaderboard', True, "black")
+        leaderboard_text_rect = leaderboard_text.get_rect()
+        leaderboard_text_rect.center = (self.screen.get_width() // 2, (self.screen.get_height() // 2) - 50)
+
+        self.text = leaderboard_text
+        self.text_rect = leaderboard_text_rect
+
+        self.screen.blit(leaderboard_text, leaderboard_text_rect)
 
     def initialise(self):
-        """Initialises some values of the About menu, but not immediately when the instance is created.
+        """Initialises some values of the Leaderboard menu, but not immediately when the instance is created.
         """
-        self.screen.fill("white")
-        about_back_button = Button("BACK", (50, 50), 40)
-        self.buttons.append(about_back_button)
-
-        about_text = pygame.font.SysFont("monospace", 30).render('About', True, "black")
-        about_text_rect = about_text.get_rect()
-        about_text_rect.center = (super().screen.get_width() // 2, (super().screen.get_height() // 2) - 50)
-
-        self.text = about_text
-        self.text_rect = about_text_rect
-
-        self.screen.blit(about_text, about_text_rect)
-        super().game_manager.set_game_state(GameState.about)
+        leaderboard_back_button = Button("BACK", (50, 50), 40)
+        self.buttons.append(leaderboard_back_button)
+        self._render()
 
 
     def update(self):
         """Updates the About screen.
         """
-        self.screen.blit(self.text, self.text_rect)
+        self._render()
         self.draw_buttons()
+
+
+    def check_back_pressed(self, event_pos: tuple, main_menu_scene: Scene):
+        """Continuously checks if the Back button in the menu has been pressed, and returns to main menu.
+            Attributes:
+                - event: The event object in Pygame.
+        """
+        if self.game_manager._gamestate == GameState.leaderboard and self.buttons[0].rect.collidepoint(event_pos):
+            self.game_manager.set_game_state(GameState.start_menu)
+            main_menu_scene.initialise()
+
+
+class HelpMenuScene(Scene):
+
+    def __init__(self, game_manager: PlatformerGame, screen):
+        """Inits the About menu.
+        """
+        self.text = None
+        self.text_rect = None
+        self.screen = screen
+        self.game_manager = game_manager
+        self.label = GameState.about
+        self.buttons = []
+
+        self.black = (0, 0, 0)
+        self.white = (255, 255, 255)
+        self.gold = (255, 215, 0)
+
+        ### load assets
+
+        self.loot_image = pygame.image.load("src/view/assets/loot.png")
+        self.jump_boost_image = pygame.image.load("src/view/assets/jump_boost.png")
+        self.health_boost_image = pygame.image.load("src/view/assets/health_boost.png")
+        self.invincibility_image = pygame.image.load("src/view/assets/invincibility.png")
+        self.monolith_image = pygame.image.load("src/view/assets/monolith.png")
+        self.door_image = pygame.image.load("src/view/assets/door.png")
+
+        self.loot_description = "Loot"
+        self.jump_boost_description = "Jump Boost"
+        self.health_boost_description = "Health Boost"
+        self.invincibility_description = "Shield"
+        self.monolith_description = "Stand by this monolith to continue the story."
+        self.door_description = "Get to the door and walk through to complete each level."
+
+        self.walk_left_image = pygame.image.load("src/view/assets/help_sprite_walk_left.png")
+        self.walk_right_image = pygame.image.load("src/view/assets/help_sprite_walk_right.png")
+        self.punch_left_image =  pygame.image.load("src/view/assets/help_sprite_punch_left.png")
+        self.punch_right_image =  pygame.image.load("src/view/assets/help_sprite_punch_right.png")
+
+        self.walk_left_description = "To walk left"
+        self.walk_right_description = "To walk right"
+        self.punch_left_description = "To punch left"
+        self.punch_right_description = "To punch right"
+
+        self.enemy1 = pygame.image.load("src/view/assets/help_enemy_1.png")
+        self.enemy2 = pygame.image.load("src/view/assets/help_enemy_2.png")
+        self.enemy3 = pygame.image.load("src/view/assets/help_enemy_3.png")
+        self.enemy4 = pygame.image.load("src/view/assets/help_enemy_4.png")
+
+        # Load the spritesheet images and set the size of each sprite in the spritesheet
+        self.spritesheets = [
+            (pygame.image.load("src/view/assets/help_screen/Bradley_twistleft_spritesheet.png"), 200, 300),
+            (pygame.image.load("src/view/assets/help_screen/Patrick_twistright_spritesheet.png"), 200, 300),
+            (pygame.image.load("src/view/assets/help_screen/Shaza_select_spritesheet.png"), 200, 300),
+            (pygame.image.load("src/view/assets/help_screen/Niamh_punchleft_spritesheet.png"), 200, 300),
+            (pygame.image.load("src/view/assets/help_screen/Sam_punchright_spritesheet.png"), 200, 300),
+            (pygame.image.load("src/view/assets/help_screen/Ciaran_jump_spritesheet.png"), 200, 300)
+        ]
+
+        # Define the rect object for each sprite in the spritesheets
+        self.sprite_rects = [
+            [
+                pygame.Rect((x, 0), (width, height)) for x in range(0, 800, width)
+            ] for _, width, height in self.spritesheets
+        ]
+
+        # Set the initial sprite index for each spritesheet to 0
+        self.sprite_indices = [0] * len(self.spritesheets)
+
+        self.frame_count = 0
+
+
+    def _render(self):
+        '''Renders the help screen
+        '''
+        self.screen.fill((2,0,121))
+
+        ### ITEMS BOX
+        square_position = (0, 50)
+        square_size = (600, 200)
+        border_radius = 20
+        pygame.draw.rect(self.screen, (255, 215, 0), (square_position, square_size), border_radius=border_radius)
+
+        border_position = (square_position[0] - 5, square_position[1] - 5)
+        border_size = (square_size[0] + 10, square_size[1] + 10)
+        border_radius = 20
+        pygame.draw.rect(self.screen, (0, 0, 0), (border_position, border_size), 5, border_radius=border_radius)
+
+        font = pygame.font.SysFont("monospace", 40, bold=True)
+        text = "COLLECT YOUR ITEMS!"
+        text_surface = font.render(text, True, self.black, self.gold)
+        text_rect = text_surface.get_rect()
+        text_rect.center = ((square_position[0] + square_size[0]) // 2, square_position[1] + 50)
+        self.screen.blit(text_surface, text_rect)
+
+        font = pygame.font.SysFont("monospace", 20, bold=True)
+        self.screen.blit(self.loot_image, (0, 120))
+        loot_text = font.render(self.loot_description, True, (0,0,0))
+        self.screen.blit(loot_text, (40, 190))
+
+        self.screen.blit(self.jump_boost_image, (165, 120))
+        jump_boost_text = font.render(self.jump_boost_description, True, (0,0,0))
+        self.screen.blit(jump_boost_text, (170, 190))
+
+        self.screen.blit(self.health_boost_image, (350, 120))
+        health_boost_text = font.render(self.health_boost_description, True, (0,0,0))
+        self.screen.blit(health_boost_text, (320, 190))
+
+        self.screen.blit(self.invincibility_image, (500, 120))
+        invincibility_text = font.render(self.invincibility_description, True, (0,0,0))
+        self.screen.blit(invincibility_text, (500, 190))
+
+        ### DOOR AND MONOLITH BOX
+        square_position = (0, 300)
+        square_size = (600, 228)
+        border_radius = 20
+        pygame.draw.rect(self.screen, (255, 215, 0), (square_position, square_size), border_radius=border_radius)
+
+        border_position = (square_position[0] - 5, square_position[1] - 5)
+        border_size = (square_size[0] + 10, square_size[1] + 10)
+        border_radius = 20
+        pygame.draw.rect(self.screen, (0, 0, 0), (border_position, border_size), 5, border_radius=border_radius)
+
+        font = pygame.font.SysFont("monospace", 13, bold=True)
+
+        self.screen.blit(self.monolith_image, (30, 320))
+        monolith_text = font.render(self.monolith_description, True, (0,0,0))
+        self.screen.blit(monolith_text, (140, 350))
+
+        self.screen.blit(self.door_image, (0, 400))
+        door_text = font.render(self.door_description, True, (0,0,0))
+        self.screen.blit(door_text, (140, 450))
+
+        ### ENEMIES BOX
+        square_position = (0, 600)
+        square_size = (600, 150)
+        border_radius = 20
+        pygame.draw.rect(self.screen, (255, 215, 0), (square_position, square_size), border_radius=border_radius)
+
+        border_position = (square_position[0] - 5, square_position[1] - 5)
+        border_size = (square_size[0] + 10, square_size[1] + 10)
+        border_radius = 20
+        pygame.draw.rect(self.screen, (0, 0, 0), (border_position, border_size), 5, border_radius=border_radius)
+
+        font = pygame.font.SysFont("monospace", 30, bold=True)
+        text = "DONT LET THEM GET TO YOU!"
+        text_surface = font.render(text, True, self.black, self.gold)
+        text_rect = text_surface.get_rect()
+        text_rect.center = ((square_position[0] + square_size[0]) // 2, square_position[1] + 50)
+        self.screen.blit(text_surface, text_rect)
+
+        self.screen.blit(self.enemy1, (100, 670))
+        self.screen.blit(self.enemy2, (200, 670))
+        self.screen.blit(self.enemy3, (300, 670))
+        self.screen.blit(self.enemy4, (400, 670))
+
+        ### MOVEMENTS BOX
+        square_position = (700, 0)
+        square_size = (580, 780)
+        
+        pygame.draw.rect(self.screen, (255, 215, 0), (square_position, square_size))
+
+        border_position = (square_position[0] - 5, square_position[1] - 5)
+        border_size = (square_size[0] + 10, square_size[1] + 10)
+        
+        pygame.draw.rect(self.screen, (0, 0, 0), (border_position, border_size), 5)
+
+        font = pygame.font.SysFont("monospace", 40, bold=True)
+        text = "MOVEMENTS"
+        text_surface = font.render(text, True, self.black, self.gold)
+        text_rect = text_surface.get_rect()
+        text_rect.center = (square_position[0] + square_size[0] // 2, square_position[1] + 50)
+        self.screen.blit(text_surface, text_rect)
+
+        #position of each row of spritesheets
+        rows = [
+            (700, 75), 
+            (700, 430),
+        ]
+        
+        # iterate through the spritesheets list and keep track of the index of each one
+        for i, (spritesheet, width, height) in enumerate(self.spritesheets): #keep track of index sprite within spritesheets
+            sprite_index = self.sprite_indices[i]
+            sprite_rect = self.sprite_rects[i][sprite_index]
+            sprite = spritesheet.subsurface(sprite_rect)
+            row_x, row_y = rows[i // 3]
+            sprite_x = row_x + (i % 3) * 200
+            sprite_y = row_y
+            self.screen.blit(sprite, (sprite_x, sprite_y))
+            if self.frame_count % 17 == 0:
+                self.sprite_indices[i] = (sprite_index + 1) % len(self.sprite_rects[i])
+        
+        self.frame_count +=1
+
+        font = pygame.font.SysFont("monospace", 15, bold=True)
+
+        self.screen.blit(self.walk_left_image, (700, 350))
+        walk_left_text = font.render(self.walk_left_description, True, (0,0,0))
+        self.screen.blit(walk_left_text, (740, 410))
+
+        self.screen.blit(self.walk_right_image, (910, 350))
+        walk_right_text = font.render(self.walk_right_description, True, (0,0,0))
+        self.screen.blit(walk_right_text, (940, 410))
+        
+        self.screen.blit(self.punch_right_image, (700, 720))
+        punch_left_text = font.render(self.punch_left_description, True, (0,0,0))
+        self.screen.blit(punch_left_text, (760, 750))
+
+        self.screen.blit(self.punch_left_image, (910, 720))
+        punch_left_text = font.render(self.punch_right_description, True, (0,0,0))
+        self.screen.blit(punch_left_text, (960, 750))
+
+        select_text = font.render("Select", True, (0,0,0))
+        self.screen.blit(select_text, (1160, 410))
+
+        jump_text = font.render("Jump", True, (0,0,0))
+        self.screen.blit(jump_text, (1170, 750))
+
+    def initialise(self):
+        """Initialises some values of the Help menu, but not immediately when the instance is created.
+        """
+        help_back_button = Button("BACK", (50, 50), 40)
+        self.buttons.append(help_back_button)
+        self._render()
+
+    def update(self):
+        """Updates the About screen.
+        """
+        self._render()
+        self.draw_buttons()
+
+
+    def check_back_pressed(self, event_pos: tuple, main_menu_scene: Scene):
+        """Continuously checks if the Back button in the menu has been pressed, and returns to main menu.
+            Attributes:
+                - event: The event object in Pygame.
+        """
+        if self.game_manager._gamestate == GameState.help_screen and self.buttons[0].rect.collidepoint(event_pos):
+            self.game_manager.set_game_state(GameState.start_menu)
+            main_menu_scene.initialise()
+
+
+class AboutMenuScene(Scene):
+
+    def __init__(self, game_manager: PlatformerGame, screen):
+        """Inits the About menu.
+        """
+        self.text = None
+        self.text_rect = None
+        self.screen = screen
+        self.game_manager = game_manager
+        self.label = GameState.about
+        self.buttons = []
+
+        self.background_image = pygame.image.load("src/view/assets/aboutBG.png")
+        self.background_rect = self.background_image.get_rect()
+
+        self.logo = pygame.image.load("src/view/assets/logo.png")
+        self.logo = pygame.transform.scale(self.logo, (800, 150))
+
+        self.black = (0, 0, 0)
+        self.white = (255, 255, 255)
+        self.gold = (255, 215, 0)
+
+        self.bradley = pygame.image.load("src/view/assets/profiles/bradleyAbout.png")
+        self.niamh = pygame.image.load("src/view/assets/profiles/niamhAbout.png")
+        self.ciaran = pygame.image.load("src/view/assets/profiles/ciaranAbout.png")
+        self.samina = pygame.image.load("src/view/assets/profiles/saminaAbout.png")
+        self.shaza = pygame.image.load("src/view/assets/profiles/shazaAbout.png")
+        self.patrick = pygame.image.load("src/view/assets/profiles/patrickAbout.png")
+
+        self.bradley_description="Bradley Harris"
+        self.samina_description="Samina Arshad"
+        self.niamh_description="Niamh Connolly"
+        self.shaza_description="Shaza"
+        self.ciaran_description="Ciaran Cotter"
+        self.patrick_description="Patrick Lenhian"
+
+        self.bradley_role="Machine Vision Developer"
+        self.samina_role="Developer and Artist"
+        self.niamh_role="Pygame expert"
+        self.shaza_role="Pygame Developer"
+        self.ciaran_role="Ai and View specialist"
+        self.patrick_role="System Architect"
+
+    def _render(self):
+        '''Renders the about menu
+        '''
+        self.screen.blit(self.background_image, self.background_rect)
+
+        # Draw a gold square with rounded corners under the developers
+        square_position = (0, 190)
+        square_size = (700, 500)
+        border_radius = 20
+        pygame.draw.rect(self.screen, (self.gold), (square_position, square_size), border_radius=border_radius)
+
+        # Add text to the gold square
+        font = pygame.font.SysFont("monospace", 72, bold=True)
+        text = "MEET THE TEAM"
+        text_surface = font.render(text, True, self.black, self.gold)
+        text_rect = text_surface.get_rect()
+        text_rect.center = ((square_position[0] + square_size[0]) // 2, square_position[1] + 50)
+        self.screen.blit(text_surface, text_rect)
+
+        # Draw a black border around the square
+        border_position = (square_position[0] - 5, square_position[1] - 5)
+        border_size = (square_size[0] + 10, square_size[1] + 10)
+        border_radius = 20
+        pygame.draw.rect(self.screen, (self.black), (border_position, border_size), 5, border_radius=border_radius)
+
+        # Define the position and size of the text box
+        text_box_position = (800, 190)
+        text_box_size = (410, 300) 
+
+
+        # Define the font and color for the text
+        font = pygame.font.SysFont("monospace", 18, bold=True)
+        smallfont = pygame.font.SysFont("monospace", 14, bold=True)
+
+        # Create a surface with the desired text
+        long_sentence = "Welcome to Boole Raider! This is a camera recognition game which allows you to lead the character in the game and go through the levels with your own movements! We are a group of computer scientist students that have created this game for their software engineering project at UCC in the college year of 2022-2023. Click HELP on the main menu to learn how to play!"
+        text_surface = font.render(long_sentence, True, self.black)
+
+        # Wrap the text in a box of 400px width
+        lines = []
+        while long_sentence:
+            i = 1
+            # Find the maximum number of characters that fit in the 400px width
+            while font.size(long_sentence[:i])[0] < 400 and i < len(long_sentence):
+                i += 1
+            # If the entire sentence fits within the 400px width, add it as a line
+            if i == len(long_sentence):
+                lines.append(long_sentence)
+                long_sentence = ""
+            else:
+                # Find the last space within the 400px width to split the line
+                if " " in long_sentence[:i]:
+                    i = long_sentence[:i].rfind(" ") + 1
+                # Add the line to the list
+                lines.append(long_sentence[:i])
+                long_sentence = long_sentence[i:]
+
+        # Create a surface for the text box with a gold background
+        text_box_surface = pygame.Surface(text_box_size)
+        text_box_surface.fill(self.gold)
+
+        # Blit the wrapped text surface onto the text box surface
+        y = 10
+        for line in lines:
+            text_surface = font.render(line, True, self.black, self.gold)
+            text_box_surface.blit(text_surface, (10, y))
+            y += text_surface.get_height() + 5
+
+        # Create a surface for the black border
+        border_surface = pygame.Surface((text_box_size[0] + 10, text_box_size[1] + 10))
+        border_surface.fill(self.black)
+
+        # Draw the gold text box on top of the border surface
+        border_surface.blit(text_box_surface, (5, 5))
+
+        # Draw the black border with rounded corners on top of the gold text box
+        border_rect = pygame.draw.rect(border_surface, self.black, (0, 0, text_box_size[0]+10, text_box_size[1]+10), 5, border_radius=10)
+
+        # Blit the border surface onto the main window surface
+        self.screen.blit(border_surface, text_box_position)
+
+        # draw item images and descriptions
+        font = pygame.font.SysFont("monospace", 24, bold=True)
+        self.screen.blit(self.bradley, (0, 280))
+        bradley_text = font.render(self.bradley_description, True, (0,0,0))
+        self.screen.blit(bradley_text, (120, 350))
+        bradley_text2 = smallfont.render(self.bradley_role, True, (0,0,0))
+        self.screen.blit(bradley_text2, (120, 380))
+
+        self.screen.blit(self.niamh, (0, 420))
+        niamh_text = font.render(self.niamh_description, True, (0,0,0))
+        self.screen.blit(niamh_text, (120, 470))
+        niamh_text2 = smallfont.render(self.niamh_role, True, (0,0,0))
+        self.screen.blit(niamh_text2, (120, 500))
+
+        self.screen.blit(self.ciaran, (0, 540))
+        ciaran_text = font.render(self.ciaran_description, True, (0,0,0))
+        self.screen.blit(ciaran_text, (120, 600))
+        ciaran_text2 = smallfont.render(self.ciaran_role, True, (0,0,0))
+        self.screen.blit(ciaran_text2, (120, 630))
+
+        self.screen.blit(self.samina, (320, 300))
+        samina_text = font.render(self.samina_description, True, (0,0,0))
+        self.screen.blit(samina_text, (450, 350))
+        samina_text2 = smallfont.render(self.samina_role, True, (0,0,0))
+        self.screen.blit(samina_text2, (450, 380))
+
+        self.screen.blit(self.shaza, (320, 420))
+        shaza_text = font.render(self.shaza_description, True, (0,0,0))
+        self.screen.blit(shaza_text, (450, 470))
+        shaza_text2 = smallfont.render(self.shaza_role, True, (0,0,0))
+        self.screen.blit(shaza_text2, (450, 500))
+
+        self.screen.blit(self.patrick, (320, 540))
+        patrick_text = font.render(self.patrick_description, True, (0,0,0))
+        self.screen.blit(patrick_text, (450, 600))
+        patrick_text2 = smallfont.render(self.patrick_role, True, (0,0,0))
+        self.screen.blit(patrick_text2, (450, 630))
+        
+
+        logo_x_pos = (self.screen.get_width() - self.logo.get_width()) // 2
+
+        self.screen.blit(self.logo, (logo_x_pos, 20))
+
+    def initialise(self):
+        """Initialises some values of the About menu, but not immediately when the instance is created.
+        """
+        about_back_button = Button("BACK", (50, 50), 40)
+        self.buttons.append(about_back_button)
+        self._render()
+
+    def update(self):
+        """Updates the About screen.
+        """
+        self._render()
+        self.draw_buttons()
+
+
+    def check_back_pressed(self, event_pos: tuple, main_menu_scene: Scene):
+        """Continuously checks if the Back button in the menu has been pressed, and returns to main menu.
+            Attributes:
+                - event: The event object in Pygame.
+        """
+        if self.game_manager._gamestate == GameState.about and self.buttons[0].rect.collidepoint(event_pos):
+            self.game_manager.set_game_state(GameState.start_menu)
+            main_menu_scene.initialise()
+
 
 
 class GameScene(Scene):
 
-    def __init__(self, game_manager: PlatformerGame, screen, loading_screen: LoadingScene):
+    def __init__(self, game_manager: PlatformerGame, screen, loading_screen: LoadingScene, KINECT: bool):
         """Inits GameScene.
         """
         context = game_manager.get_render_ctx()
@@ -218,7 +671,7 @@ class GameScene(Scene):
         self.game_ui_panel = Panel(self.screen, 496, 784, 784, 0, "orange")
         self.textbox = TextBox(self.screen, 40, 25, "monospace", 18, self.game_ui_panel)
         self.levelindicator = LevelIndicator(self.screen, self.game_ui_panel)
-        self.healthbar = HealthBar(self.screen, self.gameplay_panel, 100)
+        self.healthbar = HealthBar(self.screen, self.gameplay_panel, context.player)
 
         self.background = None
 
@@ -248,7 +701,8 @@ class GameScene(Scene):
         #self.punch_sound = pygame.mixer.Sound("src/view/assets/punch.mp3")
 
         # Kinect video
-        #self.video = SharedMemoryDict(name='movementVideo', size=500000)
+        if KINECT:
+            self.video = SharedMemoryDict(name='movementVideo', size=500000)
 
 
     def initialise(self):
@@ -270,8 +724,7 @@ class GameScene(Scene):
         self.gameplay_panel.draw()
         self.game_ui_panel.draw()
         self.textbox.draw("")
-        self.healthbar.drawMaxHealth()
-        self.healthbar.drawCurrentHealth()
+        self.healthbar.draw_health()
 
 
     def draw_door(self, context):
@@ -318,8 +771,7 @@ class GameScene(Scene):
         self.textbox.erase()
         self.draw_door(context)
         self.draw_monolith(context)
-        self.healthbar.drawMaxHealth()
-        self.healthbar.drawCurrentHealth()
+        self.healthbar.draw_health()
         self.levelindicator.draw(context.get_current_level())
 
         # Checks to see if we are approaching the end of the current legend.
@@ -356,7 +808,7 @@ class GameScene(Scene):
             )
 
     
-    def enemy_selector(self, enemy):
+    def enemy_selector(self, enemy: Enemy):
 
         match enemy.choice_of_sprite:
             case EnemySprite.mummy_spritesheet:
@@ -453,6 +905,7 @@ class GameScene(Scene):
  
         self.display_player()
 
+
     def draw_kinect(self):
         surface = pygame.surfarray.make_surface(self.video["src"])
         self.screen.blit(surface, (784, 505))
@@ -510,14 +963,6 @@ class MainMenuScene(Scene):
         pygame.display.set_caption("Main Menu") 
         self.play_music()
 
-
-    def check_about_pressed(self, event_pos: tuple):
-        """Continuously checks if the About button in the menu has been pressed.
-        """
-        if self.buttons[2].rect.collidepoint(event_pos) and self.game_manager._gamestate == GameState.start_menu:
-            pass # Replace with scene transition to About
-
-
     def check_play_pressed(self, event_pos: tuple, game: GameScene):
         """Continuously checks if the Play button in the menu has been pressed, and loads the game if so.
             Attributes:
@@ -528,6 +973,27 @@ class MainMenuScene(Scene):
             game.initialise()
             # Fader(MainMenuScene, GameScene
 
+    def check_leaderboard_pressed(self, event_pos: tuple, leaderboard: LeaderboardMenuScene):
+        """Continuously checks if the leaderboard button in the menu has been pressed.
+        """
+        if self.buttons[1].rect.collidepoint(event_pos) and self.game_manager._gamestate == GameState.start_menu:
+            self.game_manager.set_game_state(GameState.leaderboard)
+            leaderboard.initialise()
+
+    def check_help_pressed(self, event_pos: tuple, help: HelpMenuScene):
+        """Continuously checks if the help button in the menu has been pressed.
+        """
+        if self.buttons[2].rect.collidepoint(event_pos) and self.game_manager._gamestate == GameState.start_menu:
+            self.game_manager.set_game_state(GameState.help_screen)
+            help.initialise()
+
+    def check_about_pressed(self, event_pos: tuple, about: AboutMenuScene):
+        """Continuously checks if the About button in the menu has been pressed.
+        """
+        if self.buttons[3].rect.collidepoint(event_pos) and self.game_manager._gamestate == GameState.start_menu:
+            self.game_manager.set_game_state(GameState.about)
+            about.initialise()
+            
 
     def update(self):
         """Updates the main menu scene.

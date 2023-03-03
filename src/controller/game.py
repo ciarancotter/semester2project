@@ -4,7 +4,7 @@ import os
 
 sys.path.append(os.path.abspath("./src"))
 from model.gameobjects.game_interface import PlatformerGame
-from view.gameui.scene import MainMenuScene, GameScene, LoadingScene
+from view.gameui.scene import MainMenuScene, GameScene, LoadingScene, LeaderboardMenuScene,  AboutMenuScene, HelpMenuScene
 from model.gameobjects.public_enums import Movement, GameState
 
 try:
@@ -45,7 +45,10 @@ def main() -> None:
     game_manager = PlatformerGame()
     main_menu_scene = MainMenuScene(game_manager, global_screen)
     loading_scene = LoadingScene(global_screen)
-    game_scene = GameScene(game_manager, global_screen, loading_scene)
+    leaderboard_scene = LeaderboardMenuScene(game_manager, global_screen)
+    help_scene = HelpMenuScene(game_manager, global_screen)
+    about_scene = AboutMenuScene(game_manager, global_screen)
+    game_scene = GameScene(game_manager, global_screen, loading_scene, KINECT)
     main_menu_scene.initialise() # Loads up the menu scene
     game_manager.create_level_from_json()
 
@@ -62,8 +65,18 @@ def main() -> None:
                     running = False
 
             if event.type == pygame.MOUSEBUTTONUP:
-                main_menu_scene.check_play_pressed(event.pos, game_scene)
-                main_menu_scene.check_about_pressed(event.pos)
+                if game_manager._gamestate == GameState.start_menu:
+                    main_menu_scene.check_play_pressed(event.pos, game_scene)
+                    main_menu_scene.check_leaderboard_pressed(event.pos, leaderboard_scene)
+                    main_menu_scene.check_help_pressed(event.pos, help_scene)
+                    main_menu_scene.check_about_pressed(event.pos, about_scene)
+                elif game_manager._gamestate == GameState.leaderboard:
+                    leaderboard_scene.check_back_pressed(event.pos, main_menu_scene)
+                elif game_manager._gamestate == GameState.help_screen:
+                    help_scene.check_back_pressed(mouse_pos, main_menu_scene)
+                elif game_manager._gamestate == GameState.about:
+                    about_scene.check_back_pressed(mouse_pos, main_menu_scene)
+                
 
         keys_pressed = pygame.key.get_pressed()
         movements_for_model = []
@@ -96,28 +109,53 @@ def main() -> None:
                 movements_for_model.append(Movement.right_punch)
             else:
                 movements_for_model.append(Movement.no_movement)
-        
-        if game_manager._gamestate == GameState.start_menu:
-            # handles cursor in the menu
-            pygame.mouse.set_visible(False)
-            pygame.mouse.set_cursor(pygame.cursors.diamond)
-            mouse_pos = pygame.mouse.get_pos()
-            if KINECT:
-                if movementPoolMisc["mousex"] > 0:
-                    if movementPoolMisc["mousey"] > 0:
-                        mouse_pos = (int(movementPoolMisc["mousex"]), int(movementPoolMisc["mousey"]))
-                if movementPoolRead["select"]:
-                    main_menu_scene.check_play_pressed(mouse_pos, game_scene)
-                    main_menu_scene.check_about_pressed(mouse_pos)
-            main_menu_scene.checking_hover(mouse_pos)
-            main_menu_scene.update() 
-            main_menu_scene.draw_cursor(mouse_pos)
 
-        elif game_manager._gamestate == GameState.in_session:
-            game_manager.update_model(movements_for_model)
-            game_scene.update()
-            if KINECT:
-                game_scene.draw_kinect()
+        # handles cursor in the menu
+        pygame.mouse.set_visible(False)
+        pygame.mouse.set_cursor(pygame.cursors.diamond)
+        mouse_pos = pygame.mouse.get_pos()
+        if KINECT:
+            if movementPoolMisc["mousex"] > 0:
+                if movementPoolMisc["mousey"] > 0:
+                    mouse_pos = (int(movementPoolMisc["mousex"]), int(movementPoolMisc["mousey"]))
+
+        match game_manager._gamestate:
+            case GameState.start_menu:
+                if KINECT and movementPoolRead["select"]:
+                    main_menu_scene.check_play_pressed(mouse_pos, game_scene)
+                    main_menu_scene.check_leaderboard_pressed(mouse_pos, leaderboard_scene)
+                    main_menu_scene.check_help_pressed(mouse_pos, help_scene)
+                    main_menu_scene.check_about_pressed(mouse_pos, about_scene)
+                main_menu_scene.checking_hover(mouse_pos)
+                main_menu_scene.update() 
+                main_menu_scene.draw_cursor(mouse_pos)
+
+            case GameState.in_session:
+                game_manager.update_model(movements_for_model)
+                game_scene.update()
+                if KINECT:
+                    game_scene.draw_kinect()
+
+            case GameState.leaderboard:
+                if KINECT and movementPoolRead["select"]:
+                    leaderboard_scene.check_back_pressed(mouse_pos, main_menu_scene)
+                leaderboard_scene.checking_hover(mouse_pos)
+                leaderboard_scene.update() 
+                leaderboard_scene.draw_cursor(mouse_pos)
+
+            case GameState.help_screen:
+                if KINECT and movementPoolRead["select"]:
+                    help_scene.check_back_pressed(mouse_pos, main_menu_scene)
+                help_scene.checking_hover(mouse_pos)
+                help_scene.update() 
+                help_scene.draw_cursor(mouse_pos)
+
+            case GameState.about:
+                if KINECT and movementPoolRead["select"]:
+                    about_scene.check_back_pressed(mouse_pos, main_menu_scene)
+                about_scene.checking_hover(mouse_pos)
+                about_scene.update() 
+                about_scene.draw_cursor(mouse_pos)
 
         # refresh entire screen
         pygame.display.flip()
@@ -127,12 +165,9 @@ def main() -> None:
     pygame.quit()
     # close and clean up shared memory pool
     if KINECT:
-        movementPoolRead.close()
-        movementPoolRead.unlink()
-        movementPoolMisc.close()
-        movementPoolMisc.unlink()
-        game_scene.video.close()
-        game_scene.video.unlink()
+        movementPoolRead.cleanup()
+        movementPoolMisc.cleanup()
+        game_scene.video.cleanup()
     sys.exit()
 
 

@@ -5,7 +5,6 @@ from pykinect2.PyKinectV2 import *
 import sys
 import os
 sys.path.append(os.path.abspath("./src"))
-print(sys.path)
 
 import pygame
 import numpy
