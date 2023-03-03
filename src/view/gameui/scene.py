@@ -851,18 +851,20 @@ class GameScene(Scene):
                         self.current_sprite_index_enemy = (self.current_sprite_index_enemy + 1) % self.enemy_columns          ####!!!! for changing the legs moving
                         self.frame_count_enemy2 = 0
                 case Movement.left:
-                        self.enemy_direction = "left"
-                        self.frame_count_enemy2 += 1
-                        if self.frame_count_enemy2 == self.frame_delay:
-                            self.current_sprite_index_enemy = self.enemy_columns + (self.current_sprite_index_enemy + 2) % self.enemy_columns   ####!!!! for changing the legs moving
-                            self.frame_count_enemy2 = 0
+                    self.enemy_direction = "left"
+                    self.frame_count_enemy2 += 1
+                    if self.frame_count_enemy2 == self.frame_delay:
+                        self.current_sprite_index_enemy = self.enemy_columns + (self.current_sprite_index_enemy + 2) % self.enemy_columns   ####!!!! for changing the legs moving
+                        self.frame_count_enemy2 = 0
+        
+        self.display_enemies(context)
 
     def draw_player(self, context):
         self.player_data = context.player
 
-        i = self.frame_count_enemy % self.enemy_rows
-        j = self.frame_count_enemy % self.enemy_columns
-        self.character_sprites[i * self.columns + j].blit(
+        for i in range(self.rows):
+            for j in range(self.columns):
+                self.character_sprites[i * self.columns + j].blit(
                         self.sprite_sheet, (0, 0),
                         (j * self.player_data.width, i * self.player_data.height,
                             self.player_data.width, self.player_data.height)
@@ -871,7 +873,6 @@ class GameScene(Scene):
         match self.player_data.facing:
             # Right key -> Move Right.
             case Movement.right:
-                self.direction = "right"
                 self.frame_count += 1
                 if self.frame_count == self.frame_delay:
                     self.current_sprite_index = (
@@ -880,7 +881,6 @@ class GameScene(Scene):
                     self.frame_count = 0
             # Left Key -> move left.
             case Movement.left:
-                self.direction = "left"
                 self.frame_count += 1
                 if self.frame_count == self.frame_delay:
                     self.current_sprite_index = self.columns + (
@@ -889,6 +889,7 @@ class GameScene(Scene):
                     self.frame_count = 0
             # Space key -> jump.
             case Movement.jump:
+                self.direction = "jump"
                 self.frame_count += 1
                 if self.frame_count == self.frame_delay:
                     self.current_sprite_index = self.current_sprite_index
@@ -921,13 +922,12 @@ class GameScene(Scene):
         The drawing order should be Background -> UI Elements -> Player.
         """
         
-        #self.draw_background()
+        self.draw_background()
         self.update_game_ui()
 
         context = self.game_manager.get_render_ctx()
         self.draw_player(context)
         self.draw_enemy(context)
-        self.display_enemies(context)
 
 
 class MainMenuScene(Scene):
