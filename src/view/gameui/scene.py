@@ -377,12 +377,14 @@ class GameScene(Scene):
             for i in range(len(self.enemy_sufaces)-len(context.enemies)):
                 self.enemy_sufaces.pop()
 
+
         for e,enemy in enumerate(context.enemies):
             enemy_image = self.enemy_selector(enemy)
             
             i = self.frame_count_enemy % self.enemy_rows
             j = self.frame_count_enemy % self.enemy_columns
             self.frame_count_enemy += 1
+
             self.enemy_sufaces[e][i * self.enemy_columns + j].blit(enemy_image, (0, 0), (
                     j * enemy.width, i * enemy.height, enemy.width,
                         enemy.height))
@@ -400,7 +402,6 @@ class GameScene(Scene):
                         if self.frame_count_enemy2 == self.frame_delay:
                             self.current_sprite_index_enemy = self.enemy_columns + (self.current_sprite_index_enemy + 2) % self.enemy_columns   ####!!!! for changing the legs moving
                             self.frame_count_enemy2 = 0
-
 
     def draw_player(self, context):
         self.player_data = context.player

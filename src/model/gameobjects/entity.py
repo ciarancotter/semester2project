@@ -391,18 +391,19 @@ class Enemy(Monke):
         self._damage = dammage
         self.screen_width = SCREEN_WIDTH
         self.player = player
-        self.distance_to_player = 0
+        #self.distance_to_player = 0
         self.xPos = random.randint(0, SCREEN_WIDTH)
-        self.yPos = SCREEN_HEIGHT
+        self.yPos = 0
 
         self.facing = Movement.left
-        super().__init__(self.xPos, self.yPos, width, height, True, 2)
+        super().__init__(self.xPos, self.yPos, width, height, True, 1)
 
     def get_dammage(self) -> int:
         return self._damage
 
     def move(self, frame_count, entities: list[Entity]):
         self.gravity(entities)
+        print("en",self.x)
 
         #only from top, no moving upwards
         if frame_count % 30 == 0:
@@ -415,15 +416,25 @@ class Enemy(Monke):
                 self.facing = Movement.right
         
         # follow the player if they are within a certain distance
-        if self.distance_to_player < 200:
+        elif self.distance_to_player() < 200:
             if self.player.xPos < self.xPos:
-                self.xPos = -self._speed
-            elif self.player.xPos > self.xPos:
-                self.xPos = self._speed
-            elif self.player.yPos < self.yPos:
-                self.yPos = -self._speed
-            elif self.player.yPos > self.yPos:
-                self.yPos = self._speed
+                self.xPos -= self._speed
+            elif self.xPos < self.player.xPos :
+                self.xPos += self._speed
+            elif self.yPos < self.player.yPos:
+                self.yPos += self._speed
+
+    def distance_to_player(self):
+        x_distance = (self.player.x-self.x)**2
+        y_distance = (self.player.y-self.y)**2
+
+        distance = (x_distance + y_distance)**0.5
+
+        return int(abs(distance))
+
+
+
+
 
     damage = property(get_dammage)
 
