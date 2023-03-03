@@ -204,8 +204,10 @@ class GameScene(Scene):
         self.frame_count = 0
         self.frame_delay = 5
         self.current_sprite_index = 0
+        self.current_sprite_index_enemy = 0
         self.inscriptions = []
         self.frame_count_enemy = 0
+        self.frame_count_enemy2 = 0
 
         # Initialising the game manager
         self.screen = screen
@@ -259,7 +261,7 @@ class GameScene(Scene):
         """
         pygame.display.set_caption("Boole Raider")
         self.loading_screen.update()
-        generate_background("ancient Egypt")
+        #generate_background("ancient Egypt")
         game_background = pygame.image.load("src/view/assets/gamebg.png").convert_alpha()
         self.background = pygame.transform.scale(game_background, (784, 784))
         self.inscriptions = generate_monolith("tragic", "Egyptian")
@@ -377,6 +379,7 @@ class GameScene(Scene):
 
             self.frame_count_enemy += 1
 
+            #print("enemy")
             self.enemy_sprites[
                 i * self.enemy_columns + j
                 ].blit(
@@ -389,6 +392,89 @@ class GameScene(Scene):
                             enemy.height
                         )
                 )
+            '''   
+            self.screen.blit(
+                        enemy_image, 
+                        (enemy.xPos, enemy.yPos),
+                        (
+                            j * enemy.width,
+                            i * enemy.height,
+                            enemy.width,
+                            enemy.height
+                        )
+                )
+            '''
+            
+            '''for i in range(self.enemy_rows):
+                for j in range(self.enemy_columns):
+                    print("enemy")
+                    self.enemy_sprites[
+                            i * self.enemy_columns + j
+                            ].blit(
+                                    enemy_image,
+                                    (0, 0),
+                                    (
+                                        j * enemy.width,
+                                        i * enemy.height,
+                                        enemy.width,
+                                        enemy.height
+                                    )
+                                )'''
+            #print(enemy.xPos, enemy.yPos)
+            
+            if enemy.facing == Movement.right:
+                self.enemy_direction = "right"
+                self.frame_count_enemy2 += 1
+                if self.frame_count_enemy2 == self.frame_delay:
+                    self.current_sprite_index_enemy = (self.current_sprite_index_enemy + 1) % self.enemy_columns          ####!!!! for changing the legs moving
+                    self.frame_count_enemy2 = 0
+            
+            if enemy.facing == Movement.left:
+                    self.enemy_direction = "left"
+                    self.frame_count_enemy2 += 1
+                    if self.frame_count_enemy2 == self.frame_delay:
+                        self.current_sprite_index_enemy = self.enemy_columns + (self.current_sprite_index_enemy + 2) % self.enemy_columns   ####!!!! for changing the legs moving
+                        self.frame_count_enemy2 = 0
+
+            if self.enemy_direction == "right":
+                if self.current_sprite_index_enemy < self.enemy_columns:
+                    self.screen.blit(self.enemy_sprites[self.current_sprite_index],
+                                    (enemy.xPos, enemy.yPos)
+                                )
+            elif self.enemy_direction == "left":
+                if self.current_sprite_index_enemy >= self.enemy_columns:
+                    self.screen.blit(self.enemy_sprites[self.current_sprite_index],
+                                    (enemy.xPos, enemy.yPos)
+                                )
+
+            """
+            #move the enemy to the right if the right key is pressed
+            for enemy in self.enemies_data:
+                if enemy.facing == Movement.right:
+                    # x += 1
+                    self.enemy_direction = "right"
+                    self.frame_count += 1
+                    if self.frame_count == self.frame_delay:
+                        self.current_sprite_index_enemy = (self.current_sprite_index_enemy + 1) % self.enemy_columns          ####!!!! for changing the legs moving
+                        self.frame_count = 0
+
+                # move the enemy to the left if the left key is pressed
+
+                if enemy.facing == Movement.left:
+                    # x += 1
+                    self.enemy_direction = "left"
+                    self.frame_count += 1
+                    if self.frame_count == self.frame_delay:
+                        self.current_sprite_index_enemy = self.enemy_columns + (self.current_sprite_index_enemy + 2) % self.enemy_columns   ####!!!! for changing the legs moving
+                        self.frame_count = 0
+            #update the current sprite based on the direction of the character
+            if self.enemy_direction == "right":
+                if self.current_sprite_index_enemy < self.enemy_columns:
+                    self.updateSprite(current_scene)
+            elif self.enemy_direction == "left":
+                if self.current_sprite_index_enemy >= self.enemy_columns:
+                    self.updateSprite(current_scene)
+            """
             """
             for enemy in self.enemies_data:
                 i = self.frame_count2_electric_boogaloo %self.enemy_rows

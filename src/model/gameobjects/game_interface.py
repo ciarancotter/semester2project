@@ -126,8 +126,8 @@ class PlatformerGame(object):
         # self._enemy = Enemy(self._playerwidth, self._playerheight, 
         #                     self._screen_width, self._screen_height
         #                     ,damage ,self._player)
-        #self._enemies = []
-        self._enemies: list[Enemy]=[]
+        self._enemies = []
+        #self._enemies: list[Enemy]=[]
         self._blocks = []
         self._entities = [self._enemies]
         self._gamestate = GameState.start_menu
@@ -180,7 +180,6 @@ class PlatformerGame(object):
     def update_model(self, player_moves: list(Movement)):
         self.frame_count +=1
         if self.frame_count > 200:
-            print("create enemy")
             self.create_enemy()
             self.frame_count = 0 
         self._entities =  self._player.move(player_moves, self._entities)
