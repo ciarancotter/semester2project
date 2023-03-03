@@ -61,8 +61,7 @@ sprite_rects = [
 # Set the initial sprite index for each spritesheet to 0
 sprite_indices = [0] * len(spritesheets)
 
-# clock for frame rate
-clock = pygame.time.Clock()
+frame_count = 0
 
 running = True
 while running:
@@ -180,7 +179,7 @@ while running:
     ]
     
     # iterate through the spritesheets list and keep track of the index of each one
-    for i, (spritesheet, width, height) in enumerate(spritesheets):
+    for i, (spritesheet, width, height) in enumerate(spritesheets): #keep track of index sprite within spritesheets
         sprite_index = sprite_indices[i]
         sprite_rect = sprite_rects[i][sprite_index]
         sprite = spritesheet.subsurface(sprite_rect)
@@ -188,7 +187,10 @@ while running:
         sprite_x = row_x + (i % 3) * 200
         sprite_y = row_y
         screen.blit(sprite, (sprite_x, sprite_y))
-        sprite_indices[i] = (sprite_index + 1) % len(sprite_rects[i])
+        if frame_count % 17 == 0:
+            sprite_indices[i] = (sprite_index + 1) % len(sprite_rects[i])
+    
+    frame_count +=1
 
     font = pygame.font.SysFont("monospace", 15, bold=True)
 
@@ -216,8 +218,5 @@ while running:
 
     # Update the display
     pygame.display.flip()
-
-    # Control the frame rate
-    clock.tick(6)
 
 pygame.quit()
