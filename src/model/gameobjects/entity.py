@@ -389,15 +389,14 @@ class Enemy(Monke):
         self.screen_width = SCREEN_WIDTH
         self.screen_height = SCREEN_HEIGHT
         self._damage = dammage
-        self._speed = 3
         self.screen_width = SCREEN_WIDTH
         self.player = player
         self.distance_to_player = 0
         self.xPos = random.randint(0, SCREEN_WIDTH)
-        self.yPos = 0
+        self.yPos = SCREEN_HEIGHT
 
         self.facing = Movement.left
-        super().__init__(self.xPos, self.yPos, width, height, True, 3)
+        super().__init__(self.xPos, self.yPos, width, height, True, 2)
 
     def get_dammage(self) -> int:
         return self._damage
