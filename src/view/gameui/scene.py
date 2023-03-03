@@ -95,6 +95,7 @@ class Scene:
         self.player_data = self.context.player
         self.enemies_data = self.context._enemies  #list
         self.extra_eneimes_data = self.enemies_data
+        self.frame_count_enemy = 0
 
 
         # set the delay between each frame
@@ -286,16 +287,20 @@ class Scene:
                     j * self.player_data.width, i * self.player_data.height, self.player_data.width,
                     self.player_data.height))
 
+            self.drawBackground(GameState.in_session)
+            self.updateGameUIElements(current_scene)
+
             for enemy in self.enemies_data:
                 # print("enemy",enemy)
                 # print("before corrent ")
                 enemy_selected = self.generate_enemy_sprite(enemy)
-                for i in range(self.enemy_rows):
-                    for j in range(self.enemy_columns):
-                        self.drawBackground(GameState.in_session)
-                        self.updateGameUIElements(current_scene)
-                        print(enemy.choice_of_sprite)
-                        self.enemy_sprites[i * self.enemy_columns + j].blit(enemy_selected, (0, 0), (
+                i = self.frame_count_enemy % self.enemy_rows
+                j = self.frame_count_enemy % self.enemy_columns
+                self.frame_count_enemy += 1
+                #self.drawBackground(GameState.in_session)
+                #self.updateGameUIElements(current_scene)                    
+                #print(enemy.choice_of_sprite)
+                self.enemy_sprites[i * self.enemy_columns + j].blit(enemy_selected, (0, 0), (
                         j * enemy.width, i * enemy.height, enemy.width,
                         enemy.height))
             
