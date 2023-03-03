@@ -24,7 +24,8 @@ from model.aiutilities.aiutilities import generate_monolith
 class CtxToRender(object):
 
     def __init__(
-            self, enemies: list[Enemy],
+            self, entitysize: tuple,
+            enemies: list[Enemy],
             player: Player,
             blocks: list[Block],
             entities: list[Entity],
@@ -49,6 +50,7 @@ class CtxToRender(object):
 			entities: a list of all the perivios entities together 
 
 		"""
+        self._entity_size = entitysize
         self._enemies = enemies
         self._player = player
         self._blocks = blocks
@@ -81,6 +83,8 @@ class CtxToRender(object):
     
     def get_monolith(self):
         return self._monolith
+    def get_entity_size(self):
+        return self._entity_size
 
 
     enemies = property(get_enemies)
@@ -91,6 +95,7 @@ class CtxToRender(object):
     game_state = property(get_game_state)
     current_level = property(get_current_level)
     monolith = property(get_monolith)
+    entity_size = property(get_entity_size)
 
 
 class PlatformerGame(object):
@@ -116,6 +121,8 @@ class PlatformerGame(object):
         #door to be added
         self._playerwidth = 64
         self._playerheight = 64
+        self._enemy_width = 64
+        self._enemy_height = 64
         self._screen_width = 768
         self._screen_height = 768
         self._current_level = 1
@@ -148,6 +155,7 @@ class PlatformerGame(object):
 
 		"""
         return CtxToRender(
+                (self._enemy_width,self._enemy_height),
                 self._enemies,
                 self._player,
                 self._blocks,

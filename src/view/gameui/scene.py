@@ -250,6 +250,8 @@ class GameScene(Scene):
         # enemy surface
         self.enemy_sprites = [pygame.Surface(size, pygame.SRCALPHA) for i in range(self.enemy_columns * self.enemy_rows)]
 
+        self.enemy_sufaces = []
+
         # Sounds
         #self.punch_sound = pygame.mixer.Sound("src/view/assets/punch.mp3")
 
@@ -348,6 +350,13 @@ class GameScene(Scene):
             self.character_sprites[self.current_sprite_index],
             (self.player_data.xPos, self.player_data.yPos)
         )
+
+    def display_enemies(self,ctx):
+          for enemy in ctx.enemies:
+            self.screen.blit(
+                self.enemy_sprites[self.current_sprite_index_enemy],
+                (enemy.x, enemy.y)
+            )
     
     def enemy_selector(self, enemy):
 
@@ -370,16 +379,28 @@ class GameScene(Scene):
 
 
     def draw_enemy(self, context):
+        if len(self.enemy_sufaces)<len(context.enemies) :
+            for i in range(len(context.enemies)-len(self.enemy_sufaces)):
+                self.enemy_sufaces.append([pygame.Surface(context.entity_size, pygame.SRCALPHA) for i in range(self.enemy_columns * self.enemy_rows)])
+        if len(context.enemies)<len(self.enemy_sufaces):
+            for i in range(len(self.enemy_sufaces)-len(context.enemies)):
+                self.enemy_sufaces.pop()
 
-        for enemy in context._enemies:
+
+
+
+        for i,enemy in enumerate(context.enemies):
+
             #enemy_image = self.enemy_selector(enemy)
+
             enemy_image = self.sprite_sheet_mummy
             
             i = self.frame_count_enemy % self.enemy_rows
             j = self.frame_count_enemy % self.enemy_columns
             self.frame_count_enemy += 1
             print(self.enemy_sprites)
-            self.enemy_sprites[i * self.enemy_columns + j].blit(enemy_image, (0, 0), (
+            print("hallala",i,self.enemy_sufaces,context.enemies)
+            self.enemy_sufaces[0][i * self.enemy_columns + j].blit(enemy_image, (0, 0), (
                     j * enemy.width, i * enemy.height, enemy.width,
                         enemy.height))
 
@@ -458,20 +479,20 @@ class GameScene(Scene):
 
         self.player_data = context.player
 
-        for i in range(self.rows):
-            for j in range(self.columns):
-                self.character_sprites[
-                        i * self.columns + j
-                        ].blit(
-                                self.sprite_sheet,
-                                (0, 0),
-                                (
-                                    j * self.player_data.width,
-                                    i * self.player_data.height,
-                                    self.player_data.width,
-                                    self.player_data.height
-                                )
-                            )
+        i = self.frame_count_enemy % self.enemy_rows
+        j = self.frame_count_enemy % self.enemy_columns
+        self.character_sprites[
+                i * self.columns + j
+                ].blit(
+                        self.sprite_sheet,
+                        (0, 0),
+                        (
+                            j * self.player_data.width,
+                            i * self.player_data.height,
+                            self.player_data.width,
+                            self.player_data.height
+                        )
+                    )
 
         # Right key -> Move Right.
         if self.player_data.facing == Movement.right:
@@ -551,6 +572,7 @@ class GameScene(Scene):
         context = self.game_manager.get_render_ctx()
         self.draw_player(context)
         self.draw_enemy(context)
+        self.display_enemies(context)
 
 
 class MainMenuScene(Scene):
