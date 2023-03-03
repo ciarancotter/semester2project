@@ -126,8 +126,8 @@ class PlatformerGame(object):
         # self._enemy = Enemy(self._playerwidth, self._playerheight, 
         #                     self._screen_width, self._screen_height
         #                     ,damage ,self._player)
-        self._enemies = []
-        #self._enemies: list[Enemy]=[]
+        #self._enemies = []
+        self._enemies: list[Enemy]=[]
         self._blocks = []
         self._entities = [self._enemies]
         self._gamestate = GameState.start_menu

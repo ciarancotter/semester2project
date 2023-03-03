@@ -374,11 +374,12 @@ class GameScene(Scene):
             #enemy_image = self.enemy_selector(enemy)
             enemy_image = self.sprite_sheet_mummy
 
-            i = self.frame_count_enemy % self.enemy_rows
+            '''i = self.frame_count_enemy % self.enemy_rows
             j = self.frame_count_enemy % self.enemy_columns
 
             self.frame_count_enemy += 1
-
+            '''
+            '''
             #print("enemy")
             self.enemy_sprites[
                 i * self.enemy_columns + j
@@ -392,6 +393,7 @@ class GameScene(Scene):
                             enemy.height
                         )
                 )
+            '''
             '''   
             self.screen.blit(
                         enemy_image, 
@@ -405,7 +407,7 @@ class GameScene(Scene):
                 )
             '''
             
-            '''for i in range(self.enemy_rows):
+            for i in range(self.enemy_rows):
                 for j in range(self.enemy_columns):
                     print("enemy")
                     self.enemy_sprites[
@@ -419,7 +421,7 @@ class GameScene(Scene):
                                         enemy.width,
                                         enemy.height
                                     )
-                                )'''
+                                )
             #print(enemy.xPos, enemy.yPos)
             
             if enemy.facing == Movement.right:
