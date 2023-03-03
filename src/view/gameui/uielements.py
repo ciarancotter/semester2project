@@ -41,22 +41,22 @@ class Panel:
         self.panel = pygame.Surface((width, height))
         self.panel.fill(colour)
 
-    def getWidth(self) -> int:
+    def get_width(self) -> int:
         """Getter method for the width property
         """
         return self._width
 
-    def getHeight(self) -> int:
+    def get_height(self) -> int:
         """Getter method for the height property
         """
         return self._height
 
-    def getX(self) -> int:
+    def get_x(self) -> int:
         """Getter method for the x property.
         """
         return self._x
 
-    def getY(self) -> int:
+    def get_y(self) -> int:
         """Getter method for the y property.
         """
         return self._y
@@ -64,7 +64,7 @@ class Panel:
     def draw(self) -> None:
         """Method to draw the window to a screen.
         """
-        self.screen.blit(self.panel, (self.getX(), self.getY()))
+        self.screen.blit(self.panel, (self.get_x(), self.get_y()))
 
     def erase(self, colour: str) -> None:
         """Method to erase the panel.
@@ -111,15 +111,15 @@ class TextBox:
         box_width = screen_width // 4
         box = pygame.Surface((box_width, screen_height))
 
-        panel_width, panel_height = self.panel.getWidth(), self.panel.getHeight(
+        panel_width, panel_height = self.panel.get_width(), self.panel.get_height(
         )
         box_width, box_height = (panel_width -
                                  self.marginX), ((panel_height // 8) -
                                                  self.marginY)
 
         box = pygame.Surface((box_width, box_height))
-        box_position = (self.panel.getX() + (self.marginX // 2),
-                        (self.panel.getY() + (self.marginY // 2)))
+        box_position = (self.panel.get_x() + (self.marginX // 2),
+                        (self.panel.get_y() + (self.marginY // 2)))
 
         box.fill("white")
         font = pygame.font.SysFont(self.font, self.fontsize)
@@ -132,18 +132,19 @@ class TextBox:
         self.screen.blit(box, box_position)
         self.screen.blit(text, text_rect)
 
+
     def erase(self) -> None:
         """Removes the current text.
         """
-        panel_width, panel_height = self.panel.getWidth(), self.panel.getHeight(
+        panel_width, panel_height = self.panel.get_width(), self.panel.get_height(
         )
         box_width, box_height = (panel_width -
                                  self.marginX), ((panel_height // 8) -
                                                  self.marginY)
         box = pygame.Surface((box_width, box_height))
         box.fill("white")
-        box_position = (self.panel.getX() + (self.marginX // 2),
-                        (self.panel.getY() + (self.marginY // 2)))
+        box_position = (self.panel.get_x() + (self.marginX // 2),
+                        (self.panel.get_y() + (self.marginY // 2)))
         self.screen.blit(box, box_position)
 
 

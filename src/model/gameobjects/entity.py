@@ -258,6 +258,7 @@ class Player(Monke):
         self._jumped = True
         self._jumping = False
         self._jump_power = 50
+        self._max_health = 10
         self._health = 10
         self.current_loot = None
         self._invincible = False

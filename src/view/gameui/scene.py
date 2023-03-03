@@ -22,7 +22,7 @@ sys.path.append(os.path.abspath("./src"))
 
 from shared_memory_dict import SharedMemoryDict
 
-from model.gameobjects.entity import Block
+from model.gameobjects.entity import Block, Enemy
 from model.gameobjects.public_enums import Movement
 from model.gameobjects.public_enums import GameState
 
@@ -216,7 +216,7 @@ class GameScene(Scene):
         self.game_ui_panel = Panel(self.screen, 496, 784, 784, 0, "orange")
         self.textbox = TextBox(self.screen, 40, 25, "monospace", 18, self.game_ui_panel)
         self.levelindicator = LevelIndicator(self.screen, self.game_ui_panel)
-        self.healthbar = HealthBar(self.screen, self.gameplay_panel, 100)
+        self.healthbar = HealthBar(self.screen, self.gameplay_panel, context.player)
 
         self.background = None
 
@@ -268,8 +268,7 @@ class GameScene(Scene):
         self.gameplay_panel.draw()
         self.game_ui_panel.draw()
         self.textbox.draw("")
-        self.healthbar.drawMaxHealth()
-        self.healthbar.drawCurrentHealth()
+        self.healthbar.draw_health()
 
 
     def draw_door(self, context):
@@ -316,8 +315,7 @@ class GameScene(Scene):
         self.textbox.erase()
         self.draw_door(context)
         self.draw_monolith(context)
-        self.healthbar.drawMaxHealth()
-        self.healthbar.drawCurrentHealth()
+        self.healthbar.draw_health()
         self.levelindicator.draw(context.get_current_level())
 
         # Checks to see if we are approaching the end of the current legend.
@@ -341,7 +339,7 @@ class GameScene(Scene):
             (self.player_data.xPos, self.player_data.yPos)
         )
     
-    def enemy_selector(self, enemy):
+    def enemy_selector(self, enemy: Enemy):
 
         match enemy.choice_of_sprite:
 
