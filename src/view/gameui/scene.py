@@ -132,7 +132,6 @@ class Scene:
 class LoadingScene(Scene):
     
     def __init__(self, screen):
-        pygame.init()
         self.screen = screen
         self.text = pygame.font.SysFont("monospace", 30).render('Loading...', True, "white")
         self.text_rect = self.text.get_rect()
@@ -162,7 +161,6 @@ class LeaderboardMenuScene(Scene):
     def __init__(self, game_manager: PlatformerGame, screen):
         """Inits the About menu.
         """
-        pygame.init()
         self.text = None
         self.text_rect = None
         self.screen = screen
@@ -214,51 +212,216 @@ class HelpMenuScene(Scene):
     def __init__(self, game_manager: PlatformerGame, screen):
         """Inits the About menu.
         """
-        pygame.init()
         self.text = None
         self.text_rect = None
         self.screen = screen
         self.game_manager = game_manager
-        self.label = GameState.help_screen
+        self.label = GameState.about
         self.buttons = []
 
-        self.background_image = pygame.image.load("src/view/assets/aboutBG.png")
+        self.black = (0, 0, 0)
+        self.white = (255, 255, 255)
+        self.gold = (255, 215, 0)
 
-        self.font = pygame.font.Font(None, 30)
-
-        self.logo = pygame.image.load("src/view/assets/logo.png")
-        self.logo = pygame.transform.scale(self.logo, (800, 150))
+        ### load assets
 
         self.loot_image = pygame.image.load("src/view/assets/loot.png")
         self.jump_boost_image = pygame.image.load("src/view/assets/jump_boost.png")
         self.health_boost_image = pygame.image.load("src/view/assets/health_boost.png")
+        self.invincibility_image = pygame.image.load("src/view/assets/invincibility.png")
+        self.monolith_image = pygame.image.load("src/view/assets/monolith.png")
+        self.door_image = pygame.image.load("src/view/assets/door.png")
 
-        self.loot_description = "Collect money for items"
-        self.jump_boost_description = "Higher jump"
-        self.health_boost_description = "Increase health"
+        self.loot_description = "Loot"
+        self.jump_boost_description = "Jump Boost"
+        self.health_boost_description = "Health Boost"
+        self.invincibility_description = "Shield"
+        self.monolith_description = "Stand by this monolith to continue the story."
+        self.door_description = "Get to the door and walk through to complete each level."
+
+        self.walk_left_image = pygame.image.load("src/view/assets/help_sprite_walk_left.png")
+        self.walk_right_image = pygame.image.load("src/view/assets/help_sprite_walk_right.png")
+        self.punch_left_image =  pygame.image.load("src/view/assets/help_sprite_punch_left.png")
+        self.punch_right_image =  pygame.image.load("src/view/assets/help_sprite_punch_right.png")
+
+        self.walk_left_description = "To walk left"
+        self.walk_right_description = "To walk right"
+        self.punch_left_description = "To punch left"
+        self.punch_right_description = "To punch right"
+
+        self.enemy1 = pygame.image.load("src/view/assets/help_enemy_1.png")
+        self.enemy2 = pygame.image.load("src/view/assets/help_enemy_2.png")
+        self.enemy3 = pygame.image.load("src/view/assets/help_enemy_3.png")
+        self.enemy4 = pygame.image.load("src/view/assets/help_enemy_4.png")
+
+        # Load the spritesheet images and set the size of each sprite in the spritesheet
+        self.spritesheets = [
+            (pygame.image.load("src/view/assets/help_screen/Bradley_twistleft_spritesheet.png"), 200, 300),
+            (pygame.image.load("src/view/assets/help_screen/Patrick_twistright_spritesheet.png"), 200, 300),
+            (pygame.image.load("src/view/assets/help_screen/Shaza_select_spritesheet.png"), 200, 300),
+            (pygame.image.load("src/view/assets/help_screen/Niamh_punchleft_spritesheet.png"), 200, 300),
+            (pygame.image.load("src/view/assets/help_screen/Sam_punchright_spritesheet.png"), 200, 300),
+            (pygame.image.load("src/view/assets/help_screen/Ciaran_jump_spritesheet.png"), 200, 300)
+        ]
+
+        # Define the rect object for each sprite in the spritesheets
+        self.sprite_rects = [
+            [
+                pygame.Rect((x, 0), (width, height)) for x in range(0, 800, width)
+            ] for _, width, height in self.spritesheets
+        ]
+
+        # Set the initial sprite index for each spritesheet to 0
+        self.sprite_indices = [0] * len(self.spritesheets)
+
+        self.frame_count = 0
+
 
     def _render(self):
         '''Renders the help screen
         '''
-        self.screen.blit(self.background_image, (0, 0))
+        self.screen.fill((2,0,121))
+        
+        ### ITEMS BOX
+        square_position = (0, 50)
+        square_size = (600, 200)
+        border_radius = 20
+        pygame.draw.rect(self.screen, (255, 215, 0), (square_position, square_size), border_radius=border_radius)
 
-        logo_x_pos = (self.screen.get_width() - self.logo.get_width()) // 2
+        border_position = (square_position[0] - 5, square_position[1] - 5)
+        border_size = (square_size[0] + 10, square_size[1] + 10)
+        border_radius = 20
+        pygame.draw.rect(self.screen, (0, 0, 0), (border_position, border_size), 5, border_radius=border_radius)
 
-        self.screen.blit(self.logo, (logo_x_pos, 20))
+        font = pygame.font.SysFont("monospace", 40, bold=True)
+        text = "COLLECT YOUR ITEMS!"
+        text_surface = font.render(text, True, self.black, self.gold)
+        text_rect = text_surface.get_rect()
+        text_rect.center = ((square_position[0] + square_size[0]) // 2, square_position[1] + 50)
+        self.screen.blit(text_surface, text_rect)
 
-        # draw item images and descriptions
-        self.screen.blit(self.loot_image, (50, 200))
-        self.screen.blit(self.jump_boost_image, (50, 350))
-        self.screen.blit(self.health_boost_image, (50, 500))
+        font = pygame.font.SysFont("monospace", 20, bold=True)
+        self.screen.blit(self.loot_image, (0, 120))
+        loot_text = font.render(self.loot_description, True, (0,0,0))
+        self.screen.blit(loot_text, (40, 190))
 
-        loot_text = self.font.render(self.loot_description, True, (255, 255, 255))
-        self.screen.blit(loot_text, (150, 200))
+        self.screen.blit(self.jump_boost_image, (165, 120))
+        jump_boost_text = font.render(self.jump_boost_description, True, (0,0,0))
+        self.screen.blit(jump_boost_text, (170, 190))
 
-        jump_boost_text = self.font.render(self.jump_boost_description, True, (255, 255, 255))
-        self.screen.blit(jump_boost_text, (150, 350))
+        self.screen.blit(self.health_boost_image, (350, 120))
+        health_boost_text = font.render(self.health_boost_description, True, (0,0,0))
+        self.screen.blit(health_boost_text, (320, 190))
 
-        health_boost_text = self.font.render(self.health_boost_description, True, (255, 255, 255))
-        self.screen.blit(health_boost_text, (150, 500))
+        self.screen.blit(self.invincibility_image, (500, 120))
+        invincibility_text = font.render(self.invincibility_description, True, (0,0,0))
+        self.screen.blit(invincibility_text, (500, 190))
+
+        ### DOOR AND MONOLITH BOX
+        square_position = (0, 300)
+        square_size = (600, 228)
+        border_radius = 20
+        pygame.draw.rect(self.screen, (255, 215, 0), (square_position, square_size), border_radius=border_radius)
+
+        border_position = (square_position[0] - 5, square_position[1] - 5)
+        border_size = (square_size[0] + 10, square_size[1] + 10)
+        border_radius = 20
+        pygame.draw.rect(self.screen, (0, 0, 0), (border_position, border_size), 5, border_radius=border_radius)
+
+        font = pygame.font.SysFont("monospace", 13, bold=True)
+
+        self.screen.blit(self.monolith_image, (30, 320))
+        monolith_text = font.render(self.monolith_description, True, (0,0,0))
+        self.screen.blit(monolith_text, (140, 350))
+
+        self.screen.blit(self.door_image, (0, 400))
+        door_text = font.render(self.door_description, True, (0,0,0))
+        self.screen.blit(door_text, (140, 450))
+
+        ### ENEMIES BOX
+        square_position = (0, 600)
+        square_size = (600, 150)
+        border_radius = 20
+        pygame.draw.rect(self.screen, (255, 215, 0), (square_position, square_size), border_radius=border_radius)
+
+        border_position = (square_position[0] - 5, square_position[1] - 5)
+        border_size = (square_size[0] + 10, square_size[1] + 10)
+        border_radius = 20
+        pygame.draw.rect(self.screen, (0, 0, 0), (border_position, border_size), 5, border_radius=border_radius)
+
+        font = pygame.font.SysFont("monospace", 30, bold=True)
+        text = "DONT LET THEM GET TO YOU!"
+        text_surface = font.render(text, True, self.black, self.gold)
+        text_rect = text_surface.get_rect()
+        text_rect.center = ((square_position[0] + square_size[0]) // 2, square_position[1] + 50)
+        self.screen.blit(text_surface, text_rect)
+
+        self.screen.blit(self.enemy1, (100, 670))
+        self.screen.blit(self.enemy2, (200, 670))
+        self.screen.blit(self.enemy3, (300, 670))
+        self.screen.blit(self.enemy4, (400, 670))
+
+        ### MOVEMENTS BOX
+        square_position = (700, 0)
+        square_size = (580, 780)
+        
+        pygame.draw.rect(self.screen, (255, 215, 0), (square_position, square_size))
+
+        border_position = (square_position[0] - 5, square_position[1] - 5)
+        border_size = (square_size[0] + 10, square_size[1] + 10)
+        
+        pygame.draw.rect(self.screen, (0, 0, 0), (border_position, border_size), 5)
+
+        font = pygame.font.SysFont("monospace", 40, bold=True)
+        text = "MOVEMENTS"
+        text_surface = font.render(text, True, self.black, self.gold)
+        text_rect = text_surface.get_rect()
+        text_rect.center = (square_position[0] + square_size[0] // 2, square_position[1] + 50)
+        self.screen.blit(text_surface, text_rect)
+
+        #position of each row of spritesheets
+        rows = [
+            (700, 75), 
+            (700, 430),
+        ]
+        
+        # iterate through the spritesheets list and keep track of the index of each one
+        for i, (spritesheet, width, height) in enumerate(self.spritesheets): #keep track of index sprite within spritesheets
+            sprite_index = self.sprite_indices[i]
+            sprite_rect = self.sprite_rects[i][sprite_index]
+            sprite = spritesheet.subsurface(sprite_rect)
+            row_x, row_y = rows[i // 3]
+            sprite_x = row_x + (i % 3) * 200
+            sprite_y = row_y
+            self.screen.blit(sprite, (sprite_x, sprite_y))
+            if self.frame_count % 17 == 0:
+                self.sprite_indices[i] = (sprite_index + 1) % len(self.sprite_rects[i])
+        
+        self.frame_count +=1
+
+        font = pygame.font.SysFont("monospace", 15, bold=True)
+
+        self.screen.blit(self.walk_left_image, (700, 350))
+        walk_left_text = font.render(self.walk_left_description, True, (0,0,0))
+        self.screen.blit(walk_left_text, (740, 410))
+
+        self.screen.blit(self.walk_right_image, (910, 350))
+        walk_right_text = font.render(self.walk_right_description, True, (0,0,0))
+        self.screen.blit(walk_right_text, (940, 410))
+        
+        self.screen.blit(self.punch_right_image, (700, 720))
+        punch_left_text = font.render(self.punch_left_description, True, (0,0,0))
+        self.screen.blit(punch_left_text, (760, 750))
+
+        self.screen.blit(self.punch_left_image, (910, 720))
+        punch_left_text = font.render(self.punch_right_description, True, (0,0,0))
+        self.screen.blit(punch_left_text, (960, 750))
+
+        select_text = font.render("Select", True, (0,0,0))
+        self.screen.blit(select_text, (1160, 410))
+
+        jump_text = font.render("Jump", True, (0,0,0))
+        self.screen.blit(jump_text, (1170, 750))
 
     def initialise(self):
         """Initialises some values of the Help menu, but not immediately when the instance is created.
@@ -289,7 +452,6 @@ class AboutMenuScene(Scene):
     def __init__(self, game_manager: PlatformerGame, screen):
         """Inits the About menu.
         """
-        pygame.init()
         self.text = None
         self.text_rect = None
         self.screen = screen
@@ -732,7 +894,6 @@ class MainMenuScene(Scene):
                 - game_manager: The data from the model.
                 - screen: The globally-defined pygame display.
         """
-        pygame.init()
         self.screen = screen
         self.game_manager = game_manager
         self.label = GameState.start_menu
