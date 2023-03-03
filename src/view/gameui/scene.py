@@ -247,6 +247,7 @@ class GameScene(Scene):
         size = (context.player.width, context.player.height)
         self.character_sprites = [pygame.Surface(size, pygame.SRCALPHA) for i in range(self.columns * self.rows)]
         #self.player_data = context.player
+        # enemy surface
         self.enemy_sprites = [pygame.Surface(size, pygame.SRCALPHA) for i in range(self.enemy_columns * self.enemy_rows)]
 
         # Sounds
@@ -373,57 +374,16 @@ class GameScene(Scene):
         for enemy in context._enemies:
             #enemy_image = self.enemy_selector(enemy)
             enemy_image = self.sprite_sheet_mummy
-
-            '''i = self.frame_count_enemy % self.enemy_rows
+            
+            i = self.frame_count_enemy % self.enemy_rows
             j = self.frame_count_enemy % self.enemy_columns
-
             self.frame_count_enemy += 1
-            '''
-            '''
-            #print("enemy")
-            self.enemy_sprites[
-                i * self.enemy_columns + j
-                ].blit(
-                        enemy_image, 
-                        (0, 0),
-                        (
-                            j * enemy.width,
-                            i * enemy.height,
-                            enemy.width,
-                            enemy.height
-                        )
-                )
-            '''
-            '''   
-            self.screen.blit(
-                        enemy_image, 
-                        (enemy.xPos, enemy.yPos),
-                        (
-                            j * enemy.width,
-                            i * enemy.height,
-                            enemy.width,
-                            enemy.height
-                        )
-                )
-            '''
-            
-            for i in range(self.enemy_rows):
-                for j in range(self.enemy_columns):
-                    print("enemy")
-                    self.enemy_sprites[
-                            i * self.enemy_columns + j
-                            ].blit(
-                                    enemy_image,
-                                    (0, 0),
-                                    (
-                                        j * enemy.width,
-                                        i * enemy.height,
-                                        enemy.width,
-                                        enemy.height
-                                    )
-                                )
-            #print(enemy.xPos, enemy.yPos)
-            
+            print(self.enemy_sprites)
+            self.enemy_sprites[i * self.enemy_columns + j].blit(enemy_image, (0, 0), (
+                    j * enemy.width, i * enemy.height, enemy.width,
+                        enemy.height))
+
+           
             if enemy.facing == Movement.right:
                 self.enemy_direction = "right"
                 self.frame_count_enemy2 += 1
