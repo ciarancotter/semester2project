@@ -281,7 +281,7 @@ class HelpMenuScene(Scene):
         '''Renders the help screen
         '''
         self.screen.fill((2,0,121))
-        
+
         ### ITEMS BOX
         square_position = (0, 50)
         square_size = (600, 200)
@@ -867,62 +867,64 @@ class GameScene(Scene):
                                 )
                             )
 
+        match self.player_data.facing:
         # Right key -> Move Right.
-        if self.player_data.facing == Movement.right:
-            self.direction = "right"
-            self.frame_count += 1
-            if self.frame_count == self.frame_delay:
-                self.current_sprite_index = (
-                        self.current_sprite_index + 1
-                        ) % self.columns
-                self.frame_count = 0
+            case Movement.right:
+                self.direction = "right"
+                self.frame_count += 1
+                if self.frame_count == self.frame_delay:
+                    self.current_sprite_index = (
+                            self.current_sprite_index + 1
+                            ) % self.columns
+                    self.frame_count = 0
 
-        # Left Key -> move left.
-        elif self.player_data.facing == Movement.left:
-            self.direction = "left"
-            self.frame_count += 1
-            if self.frame_count == self.frame_delay:
-                self.current_sprite_index = self.columns + (
-                        self.current_sprite_index + 2
-                        ) % self.columns
-                self.frame_count = 0
+            # Left Key -> move left.
+            case Movement.left:
+                self.direction = "left"
+                self.frame_count += 1
+                if self.frame_count == self.frame_delay:
+                    self.current_sprite_index = self.columns + (
+                            self.current_sprite_index + 2
+                            ) % self.columns
+                    self.frame_count = 0
 
-        # Space key -> jump.
-        elif self.player_data.facing == Movement.jump:
-            self.direction = "jump"
-            self.frame_count += 1
-            if self.frame_count == self.frame_delay:
+            # Space key -> jump.
+            case Movement.jump:
+                self.direction = "jump"
+                self.frame_count += 1
+                if self.frame_count == self.frame_delay:
+                    self.current_sprite_index = self.current_sprite_index
+                    self.frame_count = 0
+
+            # Idle
+            case Movement.no_movement:
+                self.direction = "no movement"
                 self.current_sprite_index = self.current_sprite_index
-                self.frame_count = 0
 
-        # Idle
-        elif self.player_data.facing == Movement.no_movement:
-            self.direction = "no movement"
-            self.current_sprite_index = self.current_sprite_index
+            # Punch right!
+            case Movement.right_punch:
+                self.direction = "right punch"
+                self.current_sprite_index = 6
 
-        # Punch right!
-        elif self.player_data.facing == Movement.right_punch:
-            self.direction = "right punch"
-            self.current_sprite_index = 6
+            # Punch left!
+            case Movement.left_punch:
+                self.direction = "left punch"
+                self.current_sprite_index = 7
 
-        # Punch left!
-        elif self.player_data.facing == Movement.left_punch:
-            self.direction = "left punch"
-            self.current_sprite_index = 7
- 
-        if self.direction == "right":
-            if self.current_sprite_index < self.columns:
+        match self.direction:
+            case "right":
+                if self.current_sprite_index < self.columns:
+                    self.update_sprite()
+            case "left":
+                if self.current_sprite_index >= self.columns:
+                    self.update_sprite()
+            case "no movement":
+                if self.current_sprite_index >= self.columns:
+                    self.update_sprite()
+                if self.current_sprite_index < self.columns:
+                    self.update_sprite()
+            case _:
                 self.update_sprite()
-        elif self.direction == "left":
-            if self.current_sprite_index >= self.columns:
-                self.update_sprite()
-        elif self.direction == "no movement":
-            if self.current_sprite_index >= self.columns:
-                self.update_sprite()
-            if self.current_sprite_index < self.columns:
-                self.update_sprite()
-        elif self.direction == "right punch" or self.direction == "left punch" or self.direction == "jump":
-            self.update_sprite()
 
     def draw_kinect(self):
         surface = pygame.surfarray.make_surface(self.video["src"])
