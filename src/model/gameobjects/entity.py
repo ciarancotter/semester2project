@@ -403,7 +403,6 @@ class Enemy(Monke):
 
     def move(self, frame_count, entities: list[Entity]):
         self.gravity(entities)
-        print("en",self.x)
 
         #only from top, no moving upwards
         if frame_count % 30 == 0:
@@ -425,6 +424,10 @@ class Enemy(Monke):
                 self.yPos += self._speed
 
     def distance_to_player(self):
+        """Returns
+            the absolute distance of this enemy to the player
+            in integer form.
+        """
         x_distance = (self.player.x-self.x)**2
         y_distance = (self.player.y-self.y)**2
 

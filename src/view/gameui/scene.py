@@ -347,6 +347,11 @@ class GameScene(Scene):
         )
 
     def display_enemies(self,ctx):
+        """displays the enemys on the screen.
+
+        displays each enemy on the screen using the contexts list of enemies 
+        and the enemy surfaces which contain a list of surfaces to be drawn on.
+        """
         for i,enemy in enumerate(ctx.enemies):
             self.screen.blit(
                 self.enemy_sufaces[i][self.current_sprite_index_enemy],
