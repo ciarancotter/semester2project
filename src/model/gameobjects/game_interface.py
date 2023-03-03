@@ -18,13 +18,14 @@ import json
 import random
 from model.gameobjects.level import Level
 from model.gameobjects.entity import *
-from model.gameobjects.public_enums import Movement, GameState
+from model.gameobjects.public_enums import Movement, GameState, EnemySprite
 from model.aiutilities.aiutilities import generate_monolith
 
 class CtxToRender(object):
 
     def __init__(
-            self, enemies: list[Enemy],
+            self, entitysize: tuple,
+            enemies: list[Enemy],
             player: Player,
             blocks: list[Block],
             entities: list[Entity],
@@ -49,6 +50,7 @@ class CtxToRender(object):
 			entities: a list of all the perivios entities together 
 
 		"""
+        self._entity_size = entitysize
         self._enemies = enemies
         self._player = player
         self._blocks = blocks
@@ -81,6 +83,8 @@ class CtxToRender(object):
     
     def get_monolith(self):
         return self._monolith
+    def get_entity_size(self):
+        return self._entity_size
 
 
     enemies = property(get_enemies)
@@ -91,6 +95,7 @@ class CtxToRender(object):
     game_state = property(get_game_state)
     current_level = property(get_current_level)
     monolith = property(get_monolith)
+    entity_size = property(get_entity_size)
 
 
 class PlatformerGame(object):
@@ -116,18 +121,20 @@ class PlatformerGame(object):
         #door to be added
         self._playerwidth = 64
         self._playerheight = 64
+        self._enemy_width = 64
+        self._enemy_height = 64
         self._screen_width = 768
         self._screen_height = 768
         self._current_level = 1
-        damage = 0 
+        self.damage = 0 
         #xPos: int, yPos: int, width: int, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, height: int,colliding: bool, dammage: int, player:Player) -> None:
         self._player = Player(self._playerwidth, self._playerheight,
                               self._screen_width, self._screen_height)
-        self._enemy = Enemy(self._playerwidth, self._playerheight, 
-                            self._screen_width, self._screen_height
-                            ,damage ,self._player)
-        self._enemies = [self._enemy]
-
+        # self._enemy = Enemy(self._playerwidth, self._playerheight, 
+        #                     self._screen_width, self._screen_height
+        #                     ,damage ,self._player)
+        #self._enemies = []
+        self._enemies: list[Enemy]=[]
         self._blocks = []
         self._entities = [self._enemies]
         self._gamestate = GameState.start_menu
@@ -148,6 +155,7 @@ class PlatformerGame(object):
 
 		"""
         return CtxToRender(
+                (self._enemy_width,self._enemy_height),
                 self._enemies,
                 self._player,
                 self._blocks,
@@ -164,11 +172,27 @@ class PlatformerGame(object):
         """
         self._gamestate = new_game_state
 
+    def create_enemy(self):
+        enemy = Enemy(self._playerwidth, self._playerheight, 
+                       self._screen_width, self._screen_height
+                       ,self.damage ,self._player)
+        enemy.choice_of_sprite = random.choice([EnemySprite.mummy_spritesheet, 
+                                                EnemySprite.anubis_spritesheet, 
+                                                EnemySprite.horus_spritesheet, 
+                                                EnemySprite.sobek_spritesheet])
+        self._enemies.append(enemy)
+        self._entities.append(enemy)
+
 
     def update_model(self, player_moves: list(Movement)):
         self.frame_count +=1
+        if self.frame_count > 200:
+            self.create_enemy()
+            self.frame_count = 0 
         self._entities =  self._player.move(player_moves, self._entities)
-        self._enemy.move(self.frame_count, self._blocks)
+        if self._enemies != []:
+            for enemy in self._enemies:
+                enemy.move(self.frame_count, self._blocks)
 
         if self._player.health <= 0:
             self.game_state = GameState.game_over
