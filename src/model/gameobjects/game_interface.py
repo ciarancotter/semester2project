@@ -179,8 +179,7 @@ class PlatformerGame(object):
         enemy.choice_of_sprite = random.choice([EnemySprite.mummy_spritesheet, 
                                                 EnemySprite.anubis_spritesheet, 
                                                 EnemySprite.horus_spritesheet, 
-                                                EnemySprite.sobek_spritesheet
-                                            ])
+                                                EnemySprite.sobek_spritesheet])
         self._enemies.append(enemy)
         self._entities.append(enemy)
 

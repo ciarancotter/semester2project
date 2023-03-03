@@ -47,7 +47,6 @@ class Scene:
     def __init__(self, buttons: list[Button], background, screen):
         """Inits the Scene class.
         """
-        pygame.init()
         
         self.screen = screen
         self.buttons = buttons
@@ -246,10 +245,6 @@ class GameScene(Scene):
 
         size = (context.player.width, context.player.height)
         self.character_sprites = [pygame.Surface(size, pygame.SRCALPHA) for i in range(self.columns * self.rows)]
-        #self.player_data = context.player
-        # enemy surface
-        self.enemy_sprites = [pygame.Surface(size, pygame.SRCALPHA) for i in range(self.enemy_columns * self.enemy_rows)]
-
         self.enemy_sufaces = []
 
         # Sounds
@@ -345,37 +340,31 @@ class GameScene(Scene):
             self.textbox.draw("")
 
 
-    def update_sprite(self):
+    def display_player(self):
         self.screen.blit(
             self.character_sprites[self.current_sprite_index],
             (self.player_data.xPos, self.player_data.yPos)
         )
 
     def display_enemies(self,ctx):
-          for i,enemy in enumerate(ctx.enemies):
-            print("kdjfksafj",self.enemy_sufaces[i][self.current_sprite_index_enemy],
-                (enemy.x, enemy.y))
+        for i,enemy in enumerate(ctx.enemies):
             self.screen.blit(
                 self.enemy_sufaces[i][self.current_sprite_index_enemy],
                 (enemy.x, enemy.y)
             )
+
     
     def enemy_selector(self, enemy):
 
         match enemy.choice_of_sprite:
-
             case EnemySprite.mummy_spritesheet:
                 return self.sprite_sheet_mummy
-
             case EnemySprite.anubis_spritesheet:
                 return self.sprite_sheet_anubis
-
             case EnemySprite.horus_spritesheet:
                 return self.sprite_sheet_horus
-
             case EnemySprite.sobek_spritesheet:
                 return self.sprite_sheet_sobek
-
             case other:
                 return None
 
@@ -389,172 +378,78 @@ class GameScene(Scene):
                 self.enemy_sufaces.pop()
 
 
-
-
         for e,enemy in enumerate(context.enemies):
-
-            #enemy_image = self.enemy_selector(enemy)
-
-            enemy_image = self.sprite_sheet_mummy
+            enemy_image = self.enemy_selector(enemy)
             
             i = self.frame_count_enemy % self.enemy_rows
             j = self.frame_count_enemy % self.enemy_columns
             self.frame_count_enemy += 1
-            #print(self.enemy_sprites)
-            #print("hallala",i,self.enemy_sufaces,context.enemies)
-
-            #print("ahh",self.enemy_sufaces[e][i * self.enemy_columns + j])
 
             self.enemy_sufaces[e][i * self.enemy_columns + j].blit(enemy_image, (0, 0), (
                     j * enemy.width, i * enemy.height, enemy.width,
                         enemy.height))
 
-           
-            if enemy.facing == Movement.right:
-                self.enemy_direction = "right"
-                self.frame_count_enemy2 += 1
-                if self.frame_count_enemy2 == self.frame_delay:
-                    self.current_sprite_index_enemy = (self.current_sprite_index_enemy + 1) % self.enemy_columns          ####!!!! for changing the legs moving
-                    self.frame_count_enemy2 = 0
-            
-            if enemy.facing == Movement.left:
-                    self.enemy_direction = "left"
+            match enemy.facing:
+                case Movement.right:
+                    self.enemy_direction = "right"
                     self.frame_count_enemy2 += 1
                     if self.frame_count_enemy2 == self.frame_delay:
-                        self.current_sprite_index_enemy = self.enemy_columns + (self.current_sprite_index_enemy + 2) % self.enemy_columns   ####!!!! for changing the legs moving
-                        self.frame_count_enemy2 = 0
-
-            """if self.enemy_direction == "right":
-                if self.current_sprite_index_enemy < self.enemy_columns:
-                    self.screen.blit(self.enemy_sprites[self.current_sprite_index],
-                                    (enemy.xPos, enemy.yPos)
-                                )
-            elif self.enemy_direction == "left":
-                if self.current_sprite_index_enemy >= self.enemy_columns:
-                    self.screen.blit(self.enemy_sprites[self.current_sprite_index],
-                                    (enemy.xPos, enemy.yPos)
-                                )"""
-
-            """
-            #move the enemy to the right if the right key is pressed
-            for enemy in self.enemies_data:
-                if enemy.facing == Movement.right:
-                    # x += 1
-                    self.enemy_direction = "right"
-                    self.frame_count += 1
-                    if self.frame_count == self.frame_delay:
                         self.current_sprite_index_enemy = (self.current_sprite_index_enemy + 1) % self.enemy_columns          ####!!!! for changing the legs moving
-                        self.frame_count = 0
-
-                # move the enemy to the left if the left key is pressed
-
-                if enemy.facing == Movement.left:
-                    # x += 1
-                    self.enemy_direction = "left"
-                    self.frame_count += 1
-                    if self.frame_count == self.frame_delay:
-                        self.current_sprite_index_enemy = self.enemy_columns + (self.current_sprite_index_enemy + 2) % self.enemy_columns   ####!!!! for changing the legs moving
-                        self.frame_count = 0
-            #update the current sprite based on the direction of the character
-            if self.enemy_direction == "right":
-                if self.current_sprite_index_enemy < self.enemy_columns:
-                    self.updateSprite(current_scene)
-            elif self.enemy_direction == "left":
-                if self.current_sprite_index_enemy >= self.enemy_columns:
-                    self.updateSprite(current_scene)
-            """
-            """
-            for enemy in self.enemies_data:
-                i = self.frame_count2_electric_boogaloo %self.enemy_rows
-                j = self.frame_count2_electric_boogaloo % self.enemy_columns
-                # print("enemy",enemy)
-                # print("before corrent ")
-                self.generate_enemy_sprite(enemy)
-                self.frame_count2_electric_boogaloo += 1
-                #for i in range(self.enemy_rows):
-                #for j in range(self.enemy_columns):
-                self.drawBackground(GameState.in_session)
-                self.updateGameUIElements(current_scene)
-                self.enemy_sprites[i * self.enemy_columns + j].blit(self.random_enemy, (0, 0), (
-                j * enemy.width, i * enemy.height, enemy.width,
-                enemy.height))
-            """
+                        self.frame_count_enemy2 = 0
+                case Movement.left:
+                        self.enemy_direction = "left"
+                        self.frame_count_enemy2 += 1
+                        if self.frame_count_enemy2 == self.frame_delay:
+                            self.current_sprite_index_enemy = self.enemy_columns + (self.current_sprite_index_enemy + 2) % self.enemy_columns   ####!!!! for changing the legs moving
+                            self.frame_count_enemy2 = 0
 
     def draw_player(self, context):
-
         self.player_data = context.player
 
         i = self.frame_count_enemy % self.enemy_rows
         j = self.frame_count_enemy % self.enemy_columns
-        self.character_sprites[
-                i * self.columns + j
-                ].blit(
-                        self.sprite_sheet,
-                        (0, 0),
-                        (
-                            j * self.player_data.width,
-                            i * self.player_data.height,
-                            self.player_data.width,
-                            self.player_data.height
-                        )
+        self.character_sprites[i * self.columns + j].blit(
+                        self.sprite_sheet, (0, 0),
+                        (j * self.player_data.width, i * self.player_data.height,
+                            self.player_data.width, self.player_data.height)
                     )
 
-        # Right key -> Move Right.
-        if self.player_data.facing == Movement.right:
-            self.direction = "right"
-            self.frame_count += 1
-            if self.frame_count == self.frame_delay:
-                self.current_sprite_index = (
-                        self.current_sprite_index + 1
-                        ) % self.columns
-                self.frame_count = 0
-
-        # Left Key -> move left.
-        elif self.player_data.facing == Movement.left:
-            self.direction = "left"
-            self.frame_count += 1
-            if self.frame_count == self.frame_delay:
-                self.current_sprite_index = self.columns + (
-                        self.current_sprite_index + 2
-                        ) % self.columns
-                self.frame_count = 0
-
-        # Space key -> jump.
-        elif self.player_data.facing == Movement.jump:
-            self.direction = "jump"
-            self.frame_count += 1
-            if self.frame_count == self.frame_delay:
+        match self.player_data.facing:
+            # Right key -> Move Right.
+            case Movement.right:
+                self.direction = "right"
+                self.frame_count += 1
+                if self.frame_count == self.frame_delay:
+                    self.current_sprite_index = (
+                            self.current_sprite_index + 1
+                            ) % self.columns
+                    self.frame_count = 0
+            # Left Key -> move left.
+            case Movement.left:
+                self.direction = "left"
+                self.frame_count += 1
+                if self.frame_count == self.frame_delay:
+                    self.current_sprite_index = self.columns + (
+                            self.current_sprite_index + 2
+                            ) % self.columns
+                    self.frame_count = 0
+            # Space key -> jump.
+            case Movement.jump:
+                self.frame_count += 1
+                if self.frame_count == self.frame_delay:
+                    self.current_sprite_index = self.current_sprite_index
+                    self.frame_count = 0
+            # Idle
+            case Movement.no_movement:
                 self.current_sprite_index = self.current_sprite_index
-                self.frame_count = 0
-
-        # Idle
-        elif self.player_data.facing == Movement.no_movement:
-            self.direction = "no movement"
-            self.current_sprite_index = self.current_sprite_index
-
-        # Punch right!
-        elif self.player_data.facing == Movement.right_punch:
-            self.direction = "right punch"
-            self.current_sprite_index = 6
-
-        # Punch left!
-        elif self.player_data.facing == Movement.left_punch:
-            self.direction = "left punch"
-            self.current_sprite_index = 7
+            # Punch right!
+            case Movement.right_punch:
+                self.current_sprite_index = 6
+            # Punch left!
+            case Movement.left_punch:
+                self.current_sprite_index = 7
  
-        if self.direction == "right":
-            if self.current_sprite_index < self.columns:
-                self.update_sprite()
-        elif self.direction == "left":
-            if self.current_sprite_index >= self.columns:
-                self.update_sprite()
-        elif self.direction == "no movement":
-            if self.current_sprite_index >= self.columns:
-                self.update_sprite()
-            if self.current_sprite_index < self.columns:
-                self.update_sprite()
-        elif self.direction == "right punch" or self.direction == "left punch" or self.direction == "jump":
-            self.update_sprite()
+        self.display_player()
 
     def draw_kinect(self):
         surface = pygame.surfarray.make_surface(self.video["src"])
@@ -571,7 +466,7 @@ class GameScene(Scene):
         The drawing order should be Background -> UI Elements -> Player.
         """
         
-        self.draw_background()
+        #self.draw_background()
         self.update_game_ui()
 
         context = self.game_manager.get_render_ctx()
