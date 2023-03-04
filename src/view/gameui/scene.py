@@ -16,6 +16,7 @@ Usage:
 
 import os
 import sys
+import asyncio
 import pygame
 
 sys.path.append(os.path.abspath("./src"))
@@ -665,6 +666,7 @@ class GameScene(Scene):
         self.label = GameState.in_session
 
         self.player = None
+        self.updated_new_level_bg: bool = False
 
         # UI elements
         self.gameplay_panel = Panel(self.screen, 784, 512, 0, 0, "black")
@@ -692,6 +694,7 @@ class GameScene(Scene):
         self.direction = "right"
         self.loaded_game = False
         self.music = pygame.mixer.music.load("src/view/assets/gamemusic.mp3")
+        self.last_saved_level = 1
 
         size = (context.player.width, context.player.height)
         self.character_sprites = [pygame.Surface(size, pygame.SRCALPHA) for i in range(self.columns * self.rows)]
@@ -704,14 +707,24 @@ class GameScene(Scene):
         if KINECT:
             self.video = SharedMemoryDict(name='movementVideo', size=500000)
 
-
+    async def load_many_backgrounds(self):
+        tasks = [
+                asyncio.create_task(generate_background("Ancient Egypt", 1)),
+                asyncio.create_task(generate_background("Ancient Egypt", 2)),
+                asyncio.create_task(generate_background("Ancient Egypt", 3)),
+                asyncio.create_task(generate_background("Ancient Egypt", 4)),
+                asyncio.create_task(generate_background("Ancient Egypt", 5))
+                ]
+        await asyncio.gather(*tasks)
+    
     def initialise(self):
         """Initialises some properties of the game scene.
         """
         pygame.display.set_caption("Boole Raider")
         self.loading_screen.update()
-        #generate_background("ancient Egypt")
-        game_background = pygame.image.load("src/view/assets/gamebg.png").convert_alpha()
+        # asyncio.run(self.load_many_backgrounds())  # Parallel asset downloading
+        generate_background("Ancient Egypt")
+        game_background = pygame.image.load("src/view/assets/gamebg1.png").convert_alpha()
         self.background = pygame.transform.scale(game_background, (784, 784))
         self.inscriptions = generate_monolith("tragic", "Egyptian")
         self.screen.fill("gold")
@@ -759,11 +772,18 @@ class GameScene(Scene):
                 )
             )
 
-
-    def update_game_ui(self): 
+    def update_game_ui(self):
         """Draws the UI elements onto the game.
         """
         context = self.game_manager.get_render_ctx()
+
+        # Checks to see if we need to update the current level's background.
+        #if self.last_saved_level != context.get_current_level():
+            #background_path = 'src/view/assets/gamebg' + str(context.get_current_level()) + '.png'
+            #game_background = pygame.image.load(background_path).convert_alpha()
+            #self.background= pygame.transform.scale(game_background, (784, 784))
+            #self.last_saved_level = context.get_current_level()
+
         self.game_ui_panel.draw()
         for block in context.get_blocks():
             self.draw_block(block)
