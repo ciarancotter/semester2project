@@ -168,19 +168,36 @@ class LeaderboardMenuScene(Scene):
         self.label = GameState.leaderboard
         self.buttons = []
 
+        self.gold = (255, 215, 0)
+        self.black = (0, 0, 0)
+        self.white = (255, 255, 255)
+
+
     def _render(self):
         '''Renders the Leaderboard to the screen.
         '''
-        self.screen.fill("white")
+        self.screen.fill(self.gold)
 
-        leaderboard_text = pygame.font.SysFont("monospace", 30).render('Leaderboard', True, "black")
+        border_radius = 50
+        table_width = 1000
+        table_height = 600
+
+        cell_width = table_width / 2
+        cell_height = table_height / 60
+
+        ### HEADER
+        leaderboard_text = pygame.font.SysFont("monospace", 50, bold=True).render('Leaderboard', True, "black")
         leaderboard_text_rect = leaderboard_text.get_rect()
-        leaderboard_text_rect.center = (self.screen.get_width() // 2, (self.screen.get_height() // 2) - 50)
+        leaderboard_text_rect.center = (self.screen.get_width() // 2, border_radius)
 
         self.text = leaderboard_text
         self.text_rect = leaderboard_text_rect
 
         self.screen.blit(leaderboard_text, leaderboard_text_rect)
+
+        ### TABLE
+        # draw the table
+        pygame.draw.rect(self.screen, self.black, (100, 50, table_width, table_height), 2)
 
     def initialise(self):
         """Initialises some values of the Leaderboard menu, but not immediately when the instance is created.
