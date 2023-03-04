@@ -179,11 +179,14 @@ class LeaderboardMenuScene(Scene):
         self.screen.fill(self.gold)
 
         border_radius = 50
-        table_width = 1000
+        table_width = 1100
         table_height = 600
+        border_radius_table = 90
+        border_thickness = 3
+        horizontal_line_length = 1185
 
         cell_width = table_width / 2
-        cell_height = table_height / 60
+        cell_height = table_height / 6
 
         ### HEADER
         leaderboard_text = pygame.font.SysFont("monospace", 50, bold=True).render('Leaderboard', True, "black")
@@ -197,7 +200,20 @@ class LeaderboardMenuScene(Scene):
 
         ### TABLE
         # draw the table
-        pygame.draw.rect(self.screen, self.black, (100, 50, table_width, table_height), 2)
+        print(self.screen.get_width())
+        pygame.draw.rect(self.screen, self.black,
+                          (border_radius_table, border_radius_table,
+                            table_width, table_height),
+                          border_thickness
+                        )
+
+        # draw the horizontal lines
+        for i in range(1, 60):
+            pygame.draw.line(self.screen, self.black, (border_radius_table, border_radius_table + i * cell_height), (horizontal_line_length, border_radius_table + i * cell_height), border_thickness)
+
+        # draw the vertical lines
+        pygame.draw.line(self.screen, self.black, (border_radius_table + cell_width, border_radius_table), (border_radius_table + cell_width, table_height + border_radius_table), border_thickness)
+
 
     def initialise(self):
         """Initialises some values of the Leaderboard menu, but not immediately when the instance is created.
