@@ -778,11 +778,11 @@ class GameScene(Scene):
         context = self.game_manager.get_render_ctx()
 
         # Checks to see if we need to update the current level's background.
-        if self.last_saved_level != context.get_current_level():
-            background_path = 'src/view/assets/gamebg' + str(context.get_current_level()) + '.png'
-            game_background = pygame.image.load(background_path).convert_alpha()
-            self.background= pygame.transform.scale(game_background, (784, 784))
-            self.last_saved_level = context.get_current_level()
+        #if self.last_saved_level != context.get_current_level():
+            #background_path = 'src/view/assets/gamebg' + str(context.get_current_level()) + '.png'
+            #game_background = pygame.image.load(background_path).convert_alpha()
+            #self.background= pygame.transform.scale(game_background, (784, 784))
+            #self.last_saved_level = context.get_current_level()
 
         self.game_ui_panel.draw()
         for block in context.get_blocks():
