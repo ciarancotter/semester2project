@@ -11,6 +11,7 @@ generate_background("jungle")
 
 import os
 import openai
+import asyncio
 import requests
 
 
@@ -69,11 +70,34 @@ def generate_monolith(emotion: str, theme: str) -> list:
 
 
 def generate_background(theme: str) -> None:
-    """Generates a PNG file to be used as the game's background.
+    """Generates a PNG file to be used as the game's background, one-time.
 
         Args:
           theme:
             The theme of the background.
+    """
+    prompt_template = theme + "style caves in a dungeon, clean looking pixel art, detailed, vibrant"
+    response = openai.Image.create(
+        prompt=prompt_template,
+        n=1,
+        size="512x512",
+    )
+    image_url = response["data"][0]["url"]
+    img_data = requests.get(image_url).content
+    save_path = './src/view/assets/gamebg1.png'
+    with open(save_path, 'wb') as handler:
+        handler.write(img_data)
+
+
+async def generate_background_async(theme: str, index: int) -> None:
+    g_bg_event = asyncio.Event()
+    """Generates a PNG file to be used as the game's background asynchronously.
+
+        Args:
+          theme:
+            The theme of the background.
+          index: 
+            The level that the background is generated for.
         """
     prompt_template = theme + "style caves in a dungeon, clean looking pixel art, detailed, vibrant"
     response = openai.Image.create(
@@ -83,5 +107,8 @@ def generate_background(theme: str) -> None:
     )
     image_url = response["data"][0]["url"]
     img_data = requests.get(image_url).content
-    with open('./src/view/assets/gamebg.png', 'wb') as handler:
+    save_path = './src/view/assets/gamebg' + str(index) + '.png'
+    with open(save_path, 'wb') as handler:
         handler.write(img_data)
+        g_bg_event.set()
+    await g_bg_event.wait()
