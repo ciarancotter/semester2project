@@ -257,6 +257,7 @@ class PlatformerGame(object):
             self._entities.append(self._player)
             self._entities.append(self._door)
             self._entities.append(self._monolith)
+            self._enemies = []
 
 
     def add_powerups(self):
