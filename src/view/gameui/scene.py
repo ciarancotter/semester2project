@@ -171,6 +171,24 @@ class LeaderboardMenuScene(Scene):
         self.gold = (255, 215, 0)
         self.black = (0, 0, 0)
         self.white = (255, 255, 255)
+        self.grey = (128, 128, 128)
+
+        # Define high scores list
+        self.high_scores = [
+            {'name': 'Alice', 'score': 100},
+            {'name': 'Bob', 'score': 90},
+            {'name': 'Charlie', 'score': 80},
+            {'name': 'Dave', 'score': 70},
+            {'name': 'Eve', 'score': 60},
+            {'name': 'Alice', 'score': 101},
+            {'name': 'Bob', 'score': 91},
+            {'name': 'Charlie', 'score': 81},
+            {'name': 'Dave', 'score': 71},
+            {'name': 'Eve', 'score': 61},
+        ]
+
+        # Sort high scores list by score value
+        self.high_scores = sorted(self.high_scores, key=lambda x: x['score'], reverse=True)
 
 
     def _render(self):
@@ -180,9 +198,13 @@ class LeaderboardMenuScene(Scene):
 
         border_radius = 50
         table_width = 1100
-        table_height = 600
+        table_height = 650
         border_radius_table = 90
-        border_thickness = 3
+        distance_between_lines = 40
+        header_border = 35
+        border_thickness = 2
+        border_line_distance = 12
+        values_start_y_position = 85
         horizontal_line_length = 1185
 
         cell_width = table_width / 2
@@ -199,22 +221,43 @@ class LeaderboardMenuScene(Scene):
         self.screen.blit(leaderboard_text, leaderboard_text_rect)
 
         ### TABLE
-        # draw the table
-        print(self.screen.get_width())
-        pygame.draw.rect(self.screen, self.black,
-                          (border_radius_table, border_radius_table,
-                            table_width, table_height),
-                          border_thickness
-                        )
+        header_font = pygame.font.SysFont("monospace", 30, bold=True)
+        body_font = pygame.font.SysFont("monospace", 28)
+        leaderboard_surface = pygame.Surface((table_width, table_height))
+        leaderboard_surface.fill((self.black))
 
-        # draw the horizontal lines
-        for i in range(1, 60):
-            pygame.draw.line(self.screen, self.black, (border_radius_table, border_radius_table + i * cell_height), (horizontal_line_length, border_radius_table + i * cell_height), border_thickness)
+        # Render headings onto Pygame surface
+        rank_heading = header_font.render('Rank', True, (self.white))
+        name_heading = header_font.render('Name', True, (self.white))
+        score_heading = header_font.render('Score', True, (self.white))
+        leaderboard_surface.blit(rank_heading, (border_radius_table - header_border, header_border))
+        leaderboard_surface.blit(name_heading, (table_width//4, header_border))
+        leaderboard_surface.blit(score_heading, (table_width//4 * 3, header_border))
+
+        # Define border and line colors
+        border_color = (self.white)
+        line_color = (self.grey)
+
+        # Draw border and lines on leaderboard surface
+        pygame.draw.rect(leaderboard_surface, border_color, (border_line_distance, border_line_distance, table_width-25, table_height-25), border_thickness)
+        for i in range(1, 15):
+            pygame.draw.line(leaderboard_surface, line_color, (border_line_distance + border_thickness, distance_between_lines + i * distance_between_lines), (table_width - border_line_distance - border_thickness*2, distance_between_lines + i * distance_between_lines), 2)
 
         # draw the vertical lines
-        pygame.draw.line(self.screen, self.black, (border_radius_table + cell_width, border_radius_table), (border_radius_table + cell_width, table_height + border_radius_table), border_thickness)
+        pygame.draw.line(leaderboard_surface, line_color, (table_width//6, border_line_distance + border_thickness), (table_width//6, table_height - border_line_distance - border_thickness), border_thickness)
+        pygame.draw.line(leaderboard_surface, line_color, (table_width//3 * 2, border_line_distance + border_thickness), (table_width//3 * 2, table_height - border_line_distance - border_thickness), border_thickness)
 
+        for i, score in enumerate(self.high_scores):
+            rank_text = body_font.render(str(i+1), True, (self.white))
+            name_text = body_font.render(score['name'], True, (self.white))
+            score_text = body_font.render(str(score['score']), True, (self.white))
+            leaderboard_surface.blit(rank_text, (border_radius_table - header_border, values_start_y_position + i * distance_between_lines))
+            leaderboard_surface.blit(name_text, (table_width//4, values_start_y_position + i * distance_between_lines))
+            leaderboard_surface.blit(score_text, (table_width//4 * 3, values_start_y_position + i * distance_between_lines))
 
+        # Blit leaderboard surface onto Pygame window
+        self.screen.blit(leaderboard_surface, (border_radius_table, border_radius_table))
+        
     def initialise(self):
         """Initialises some values of the Leaderboard menu, but not immediately when the instance is created.
         """
