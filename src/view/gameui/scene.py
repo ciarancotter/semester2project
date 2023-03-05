@@ -168,6 +168,8 @@ class LeaderboardMenuScene(Scene):
         self.label = GameState.leaderboard
         self.buttons = []
 
+        self.loot_image = pygame.image.load("src/view/assets/loot.png")
+
         self.gold = (255, 215, 0)
         self.black = (0, 0, 0)
         self.white = (255, 255, 255)
@@ -257,7 +259,9 @@ class LeaderboardMenuScene(Scene):
 
         # Blit leaderboard surface onto Pygame window
         self.screen.blit(leaderboard_surface, (border_radius_table, border_radius_table))
-        
+        self.screen.blit(self.loot_image, (300, 15))
+        self.screen.blit(self.loot_image, (850, 15))
+
     def initialise(self):
         """Initialises some values of the Leaderboard menu, but not immediately when the instance is created.
         """
