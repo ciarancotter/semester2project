@@ -144,7 +144,7 @@ class PlatformerGame(object):
         self._door = None
         self._monolith = None
         self.frame_count = 0
-        self._loot = []
+        self._loot = None
 
     def get_render_ctx(self) -> CtxToRender:
         """Returns the information necicary (or the context/shortend to ctx in this program ) to render
@@ -196,7 +196,7 @@ class PlatformerGame(object):
         if self._player.health <= 0:
             self._gamestate = GameState.game_over
 
-        self.add_powerups()
+        self.add_powerup()
         if self._door != None and self._door.check_for_entry(self._player):
             self._level_added = True
             self._current_level += 1
@@ -257,8 +257,21 @@ class PlatformerGame(object):
             self._entities.append(self._monolith)
             self._enemies = []
 
+            if level["type"] == "normal":
+                self._loot = Loot(level["x"]*28,level["y"]*28,64,64)
+            if level["type"] == "jump":
+                self._loot = JumpLoot(level["x"]*28,level["y"]*y,64,64)
 
-    def add_powerups(self):
+            if level["type"] == "jump":
+                self._loot = InvicibilityLoot(level["x"]*28,level["y"]*y,64,64)
+
+            self._entities.append(self._loot)
+            if self._player.is_colliding_with_entity(self._loot):
+                self._loot = None
+
+
+
+ '''   def add_powerup(self):
         """adds powerups to the screen.
 
         adds powerups to the screen as long as it is not spawning ontop of an entity.
@@ -285,7 +298,7 @@ class PlatformerGame(object):
                 if not loot.is_colliding_with_entitys(self._entities):
                     self._entities.append(loot)
                     self._loot.append(loot)
-
+'''
 
     def add_score(self,name:str):
         """adds the score of the player to the models stored leaderboard.

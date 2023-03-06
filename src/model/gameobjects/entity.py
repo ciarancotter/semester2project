@@ -423,7 +423,7 @@ class Enemy(Monke):
         self.gravity(entities)
 
         #only from top, no moving upwards
-        if frame_count % 30 == 0:
+        if frame_count % 80 == 0:
             direction = random.choice(["left", "right"])
             if direction == "left" and self.xPos >= 0:
                 self.xPos -= self._speed

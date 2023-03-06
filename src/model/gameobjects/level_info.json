@@ -5,6 +5,11 @@
       "x":1,
 			"y":26
     },
+    "loot":{
+      "type":"normal",
+      "x":5,
+      "y":5
+    },
     "monolith":{
       "x":18,
       "y":26
@@ -29,6 +34,11 @@
     "door":{
       "x":1,
 			"y":26
+    },
+    "loot":{
+      "type":"normal",
+      "x":5,
+      "y":5
     },
     "monolith":{
       "x":14,
@@ -55,6 +65,11 @@
       "x":1,
 			"y":26
     },
+    "loot":{
+      "type":"normal",
+      "x":5,
+      "y":5
+    },
     "monolith":{
       "x":14,
       "y":26
@@ -79,6 +94,11 @@
     "door":{
       "x":1,
       "y":26
+    },
+    "loot":{
+      "type":"normal",
+      "x":5,
+      "y":5
     },
     "monolith":{
       "x":14,
@@ -139,6 +159,11 @@
     "door":{
       "x":1,
       "y":20
+    },
+    "loot":{
+      "type":"normal",
+      "x":5,
+      "y":5
     },
     "monolith":{
       "x":25,
