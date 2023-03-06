@@ -111,10 +111,14 @@ class Scene:
         self.screen.blit(cursor, cursor_rekt)
 
 
-    def play_music(self):
+    def play_music(self, scene: str):
         """Handles music in the scene.
         """
         pygame.mixer.music.stop()
+        if scene == "menu":
+            pygame.mixer.music.load("src/view/assets/start_menu.mp3")
+        elif scene == "game":
+            pygame.mixer.music.load("src/view/assets/gamemusic.mp3")
         pygame.mixer.music.play(loops=-1)
 
 
@@ -776,7 +780,6 @@ class GameScene(Scene):
         # Initialises objects to None
         self.direction = "right"
         self.loaded_game = False
-        self.music = pygame.mixer.music.load("src/view/assets/gamemusic.mp3")
         self.last_saved_level = 1
 
         size = (context.player.width, context.player.height)
@@ -814,7 +817,7 @@ class GameScene(Scene):
 
         self.game_manager.set_game_state(GameState.in_session)
 
-        self.play_music()
+        self.play_music("game")
         self.draw_background()
 
         self.gameplay_panel.draw()
@@ -1092,7 +1095,7 @@ class MainMenuScene(Scene):
         # Initialises the background, music and the parent class.
         menu_background = pygame.image.load("src/view/assets/menuBG.png").convert_alpha()
         background = pygame.transform.scale(menu_background, (1280, 784))
-        pygame.mixer.music.load("src/view/assets/start_menu.mp3")
+
         super().__init__(buttons, background, screen)
 
 
@@ -1100,7 +1103,7 @@ class MainMenuScene(Scene):
         """Initialises elements for the menu scene.
         """
         pygame.display.set_caption("Main Menu") 
-        self.play_music()
+        self.play_music("menu")
 
     def check_play_pressed(self, event_pos: tuple, game: GameScene):
         """Continuously checks if the Play button in the menu has been pressed, and loads the game if so.
