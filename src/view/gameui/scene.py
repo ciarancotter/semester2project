@@ -199,21 +199,19 @@ class LeaderboardMenuScene(Scene):
         self.screen.fill(self.gold)
 
         border_radius = 50
+        message_radius_y = 140
         table_width = 1100
-        table_height = 650
-        border_radius_table = 90
+        table_height = 500
+        border_radius_table_x = 90
+        border_radius_table_y = 200
         distance_between_lines = 40
         header_border = 35
         border_thickness = 2
         border_line_distance = 12
         values_start_y_position = 85
-        horizontal_line_length = 1185
-
-        cell_width = table_width / 2
-        cell_height = table_height / 6
 
         ### HEADER
-        leaderboard_text = pygame.font.SysFont("monospace", 50, bold=True).render('Leaderboard', True, "black")
+        leaderboard_text = pygame.font.SysFont("monospace", 50, bold=True).render('Leaderboard', True, self.black)
         leaderboard_text_rect = leaderboard_text.get_rect()
         leaderboard_text_rect.center = (self.screen.get_width() // 2, border_radius)
 
@@ -221,6 +219,16 @@ class LeaderboardMenuScene(Scene):
         self.text_rect = leaderboard_text_rect
 
         self.screen.blit(leaderboard_text, leaderboard_text_rect)
+
+        ### TEXTBOX 
+        message_surface = pygame.font.SysFont("monospace", 40, bold=True).render("Well done you made the top 10!!", True, self.black)
+        leaderboard_message_rect = message_surface.get_rect()
+        leaderboard_message_rect.center = (self.screen.get_width() // 2, message_radius_y)
+
+        self.message = message_surface
+        self.message_rect = leaderboard_message_rect
+
+        self.screen.blit(message_surface, leaderboard_message_rect)
 
         ### TABLE
         header_font = pygame.font.SysFont("monospace", 30, bold=True)
@@ -232,7 +240,7 @@ class LeaderboardMenuScene(Scene):
         rank_heading = header_font.render('Rank', True, (self.white))
         name_heading = header_font.render('Name', True, (self.white))
         score_heading = header_font.render('Score', True, (self.white))
-        leaderboard_surface.blit(rank_heading, (border_radius_table - header_border, header_border))
+        leaderboard_surface.blit(rank_heading, (border_radius_table_x - header_border, header_border))
         leaderboard_surface.blit(name_heading, (table_width//4, header_border))
         leaderboard_surface.blit(score_heading, (table_width//4 * 3, header_border))
 
@@ -242,7 +250,7 @@ class LeaderboardMenuScene(Scene):
 
         # Draw border and lines on leaderboard surface
         pygame.draw.rect(leaderboard_surface, border_color, (border_line_distance, border_line_distance, table_width-25, table_height-25), border_thickness)
-        for i in range(1, 15):
+        for i in range(1, 11):
             pygame.draw.line(leaderboard_surface, line_color, (border_line_distance + border_thickness, distance_between_lines + i * distance_between_lines), (table_width - border_line_distance - border_thickness*2, distance_between_lines + i * distance_between_lines), 2)
 
         # draw the vertical lines
@@ -253,12 +261,12 @@ class LeaderboardMenuScene(Scene):
             rank_text = body_font.render(str(i+1), True, (self.white))
             name_text = body_font.render(score['name'], True, (self.white))
             score_text = body_font.render(str(score['score']), True, (self.white))
-            leaderboard_surface.blit(rank_text, (border_radius_table - header_border, values_start_y_position + i * distance_between_lines))
+            leaderboard_surface.blit(rank_text, (border_radius_table_x - header_border, values_start_y_position + i * distance_between_lines))
             leaderboard_surface.blit(name_text, (table_width//4, values_start_y_position + i * distance_between_lines))
             leaderboard_surface.blit(score_text, (table_width//4 * 3, values_start_y_position + i * distance_between_lines))
 
         # Blit leaderboard surface onto Pygame window
-        self.screen.blit(leaderboard_surface, (border_radius_table, border_radius_table))
+        self.screen.blit(leaderboard_surface, (border_radius_table_x, border_radius_table_y))
         self.screen.blit(self.loot_image, (300, 15))
         self.screen.blit(self.loot_image, (850, 15))
 
