@@ -252,10 +252,6 @@ class PlatformerGame(object):
 
             self._entities = []
             self._entities.extend(level_object.get_blocks())
-            self._player = Player(self._playerwidth, self._playerheight,
-                             self._screen_width, self._screen_height)
-            
-            self._entities.append(self._player)
             self._entities.append(self._door)
             self._entities.append(self._monolith)
             self._enemies = []
