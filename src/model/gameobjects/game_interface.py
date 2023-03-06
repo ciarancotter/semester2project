@@ -32,7 +32,8 @@ class CtxToRender(object):
             game_state: GameState,
             current_level: int,
             door: Door,
-            monolith: Monolith
+            monolith: Monolith,
+            loot: Loot
             ) -> None:
 
         """contains all the information needed to 
@@ -59,6 +60,7 @@ class CtxToRender(object):
         self._current_level = current_level
         self._door = door
         self._monolith = monolith
+        self._loot = loot
 
     def get_entities(self) -> list[Entity]:
         return self._entities
@@ -85,6 +87,8 @@ class CtxToRender(object):
         return self._monolith
     def get_entity_size(self):
         return self._entity_size
+    def get_loot(self):
+        return self._loot
 
 
     enemies = property(get_enemies)
@@ -96,6 +100,7 @@ class CtxToRender(object):
     current_level = property(get_current_level)
     monolith = property(get_monolith)
     entity_size = property(get_entity_size)
+    loot = property(get_loot)
 
 
 class PlatformerGame(object):
@@ -144,7 +149,7 @@ class PlatformerGame(object):
         self._door = None
         self._monolith = None
         self.frame_count = 0
-        self._loot = []
+        self._loot = None
 
     def get_render_ctx(self) -> CtxToRender:
         """Returns the information necicary (or the context/shortend to ctx in this program ) to render
@@ -163,7 +168,8 @@ class PlatformerGame(object):
                 self._gamestate,
                 self._current_level,
                 self._door,
-                self._monolith
+                self._monolith,
+                self._loot
                 )
 
 
@@ -196,7 +202,6 @@ class PlatformerGame(object):
         if self._player.health <= 0:
             self._gamestate = GameState.game_over
 
-        self.add_powerups()
         if self._door != None and self._door.check_for_entry(self._player):
             self._level_added = True
             self._current_level += 1
@@ -257,34 +262,18 @@ class PlatformerGame(object):
             self._entities.append(self._monolith)
             self._enemies = []
 
+            if level["loot"]["type"] == "normal":
+                self._loot = Loot(level["loot"]["x"]*28,level["loot"]["y"]*28,64,64)
+            if level["loot"]["type"] == "jump":
+                self._loot = JumpLoot(level["loot"]["x"]*28,level["loot"]["y"]*y,64,64)
 
-    def add_powerups(self):
-        """adds powerups to the screen.
+            if level["loot"]["type"] == "jump":
+                self._loot = InvicibilityLoot(level["loot"]["x"]*28,level["loot"]["y"]*y,64,64)
 
-        adds powerups to the screen as long as it is not spawning ontop of an entity.
-        """
-        if self.frame_count % 1000:
-            random_number = random.randint(0, 3)
-            x = random.randint(0,self._screen_width)
-            y = random.randint(0,self._screen_height)
+            self._entities.append(self._loot)
+            if self._player.is_colliding_with_entity(self._loot):
+                self._loot = None
 
-
-
-            if random_number == 0:
-                loot = Loot(x, y, 64, 64)
-                if not loot.is_colliding_with_entitys(self._entities):
-                    self._entities.append(loot)
-                    self._loot.append(loot)
-            elif random_number == 1:
-                loot = JumpLoot(x, y, 64, 64)
-                if not loot.is_colliding_with_entitys(self._entities):
-                    self._entities.append(loot)
-                    self._loot.append(loot)
-            else:
-                loot = InvicibilityLoot(x, y, 64, 64)
-                if not loot.is_colliding_with_entitys(self._entities):
-                    self._entities.append(loot)
-                    self._loot.append(loot)
 
 
     def add_score(self,name:str):
