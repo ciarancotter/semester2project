@@ -207,7 +207,6 @@ class LeaderboardMenuScene(Scene):
         # Sort high scores list by score value
         self.high_scores = sorted(self.high_scores, key=lambda x: x['score'], reverse=True)
 
-
     def _render(self):
         '''Renders the Leaderboard to the screen.
         '''
@@ -275,6 +274,7 @@ class LeaderboardMenuScene(Scene):
         """
         leaderboard_back_button = Button("BACK", (50, 50), 40)
         self.buttons.append(leaderboard_back_button)
+        
         self._render()
 
 
@@ -1054,15 +1054,25 @@ class GameOverScene(Scene):
     def _render(self):
         '''Renders the Leaderboard to the screen.
         '''
+        self.leaderboard = self.game_manager.return_scores()
 
-        over_text = pygame.font.SysFont("monospace", 64, True).render('GAME OVER', True, "red")
+        square_position = (245, 280)
+        square_size = (600, 150)
+        border_radius = 20
+        pygame.draw.rect(self.screen, (100, 100, 100), (square_position, square_size), border_radius=border_radius)
+
+
+        over_text = pygame.font.SysFont("monospace", 86, True).render('GAME OVER', True, "red")
         over_text_rect = over_text.get_rect()
         over_text_rect.center = ((self.screen.get_width() // 2) - 100, (self.screen.get_height() // 2) - 50)
 
-        self.text = over_text
-        self.text_rect = over_text_rect
+        name = "Username: %s" %(self.leaderboard["most recent player"])
+        name_text = pygame.font.SysFont("monospace", 32, True).render(name, True, "white")
+        name_text_rect = name_text.get_rect()
+        name_text_rect.center = ((self.screen.get_width() // 2) - 100, (self.screen.get_height() // 2) )
 
         self.screen.blit(over_text, over_text_rect)
+        self.screen.blit(name_text, name_text_rect)
 
 
     def update(self):

@@ -201,6 +201,9 @@ class PlatformerGame(object):
                 enemy.move(self.frame_count, self._blocks)
         if self._player.health <= 0:
             self._gamestate = GameState.game_over
+            username_list = ["David", "Susan", "Michael", "Linda", "Steven", "Karen", "Richard", "Nancy", "Robert", "Carol", "James", "Deborah", "William", "Patricia", "Mark", "Diane", "John", "Kathleen", "Thomas", "Barbara", "Christopher", "Cynthia", "Brian", "Mary", "Kevin", "Elizabeth", "Paul", "Sharon", "George", "Anne"]
+            username_selected = random.choice(username_list)
+            self.add_score(username_selected)
 
         if self._door != None and self._door.check_for_entry(self._player):
             self._level_added = True
@@ -254,10 +257,6 @@ class PlatformerGame(object):
 
             self._entities = []
             self._entities.extend(level_object.get_blocks())
-            self._player = Player(self._playerwidth, self._playerheight,
-                             self._screen_width, self._screen_height)
-            
-            self._entities.append(self._player)
             self._entities.append(self._door)
             self._entities.append(self._monolith)
             self._enemies = []
@@ -276,7 +275,7 @@ class PlatformerGame(object):
 
 
 
-    def add_score(self,name:str):
+    def add_score(self, name:str):
         """adds the score of the player to the models stored leaderboard.
 
         Args:
@@ -293,7 +292,7 @@ class PlatformerGame(object):
         leaderboard["scores"] = dict(leaderboard["scores"])
 
         with open('src/model/gameobjects/leaderboard.json', 'w') as file:
-            json.dump(leaderboard,file)
+            json.dump(leaderboard, file)
 
     def return_scores(self):
         """

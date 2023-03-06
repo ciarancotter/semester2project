@@ -242,9 +242,6 @@ class Player(Monke):
                 that will be displayed on the screen
         yPos: the y co-ordenate of the player on the game plane
                 that will be displayed on the screen.
-
-
-
     """
 
     def __init__(self, width: int, height: int, SCREEN_WIDTH: int, SCREEN_HEIGHT: int) -> None:
@@ -331,7 +328,6 @@ class Player(Monke):
                     self._score += 1
                 elif (Movement.right_punch in directions) and (self.x < entity.x):
                     self._score += 1
-
 
                 #decreasing your lives if you hit an enemy
                 elif not self._invincible:
@@ -452,10 +448,6 @@ class Enemy(Monke):
         distance = (x_distance + y_distance)**0.5
 
         return int(abs(distance))
-
-
-
-
 
     damage = property(get_dammage)
 
