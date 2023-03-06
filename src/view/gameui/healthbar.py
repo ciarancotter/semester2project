@@ -29,10 +29,8 @@ class HealthBar:
         """
         self.screen = screen
         self.panel = panel
-        self.player = player
 
-
-    def draw_health(self) -> None:
+    def draw_health(self, player) -> None:
         """Draws the complete healthbar.
         """
  
@@ -40,10 +38,9 @@ class HealthBar:
 
         max_health_bar = pygame.Surface(
             (panel_width - (panel_width // 1.5), panel_width // 25))
-
         current_health_bar_x = (
                 (panel_width - (panel_width // 1.5)) * 
-                (self.player.health // self.player._max_health)
+                (player.health / player._max_health)
                 )
         current_health_bar = pygame.Surface((current_health_bar_x, (panel_width // 25)))
         
