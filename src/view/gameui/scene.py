@@ -175,6 +175,21 @@ class LeaderboardMenuScene(Scene):
         self.white = (255, 255, 255)
         self.grey = (128, 128, 128)
 
+        self.border_radius = 50
+        self.message_radius_y = 140
+        self.table_width = 1100
+        self.table_height = 500
+        self.border_radius_table_x = 90
+        self.border_radius_table_y = 200
+        self.distance_between_lines = 40
+        self.header_border = 35
+        self.border_thickness = 2
+        self.border_line_distance = 12
+        self.values_start_y_position = 85
+
+        self.border_color = (self.white)
+        self.line_color = (self.grey)
+
         # Define high scores list
         self.high_scores = []
 
@@ -193,22 +208,10 @@ class LeaderboardMenuScene(Scene):
         '''
         self.screen.fill(self.gold)
 
-        border_radius = 50
-        message_radius_y = 140
-        table_width = 1100
-        table_height = 500
-        border_radius_table_x = 90
-        border_radius_table_y = 200
-        distance_between_lines = 40
-        header_border = 35
-        border_thickness = 2
-        border_line_distance = 12
-        values_start_y_position = 85
-
         ### HEADER
         leaderboard_text = pygame.font.SysFont("monospace", 50, bold=True).render('Leaderboard', True, self.black)
         leaderboard_text_rect = leaderboard_text.get_rect()
-        leaderboard_text_rect.center = (self.screen.get_width() // 2, border_radius)
+        leaderboard_text_rect.center = (self.screen.get_width() // 2, self.border_radius)
 
         self.text = leaderboard_text
         self.text_rect = leaderboard_text_rect
@@ -218,7 +221,7 @@ class LeaderboardMenuScene(Scene):
         ### TEXTBOX 
         message_surface = pygame.font.SysFont("monospace", 40, bold=True).render("Well done you made the top 10!!", True, self.black)
         leaderboard_message_rect = message_surface.get_rect()
-        leaderboard_message_rect.center = (self.screen.get_width() // 2, message_radius_y)
+        leaderboard_message_rect.center = (self.screen.get_width() // 2, self.message_radius_y)
 
         self.message = message_surface
         self.message_rect = leaderboard_message_rect
@@ -228,41 +231,37 @@ class LeaderboardMenuScene(Scene):
         ### TABLE
         header_font = pygame.font.SysFont("monospace", 30, bold=True)
         body_font = pygame.font.SysFont("monospace", 28)
-        leaderboard_surface = pygame.Surface((table_width, table_height))
+        leaderboard_surface = pygame.Surface((self.table_width, self.table_height))
         leaderboard_surface.fill((self.black))
 
         # Render headings onto Pygame surface
         rank_heading = header_font.render('Rank', True, (self.white))
         name_heading = header_font.render('Name', True, (self.white))
         score_heading = header_font.render('Score', True, (self.white))
-        leaderboard_surface.blit(rank_heading, (border_radius_table_x - header_border, header_border))
-        leaderboard_surface.blit(name_heading, (table_width//4, header_border))
-        leaderboard_surface.blit(score_heading, (table_width//4 * 3, header_border))
-
-        # Define border and line colors
-        border_color = (self.white)
-        line_color = (self.grey)
+        leaderboard_surface.blit(rank_heading, (self.border_radius_table_x - self.header_border, self.header_border))
+        leaderboard_surface.blit(name_heading, (self.table_width//4, self.header_border))
+        leaderboard_surface.blit(score_heading, (self.table_width//4 * 3, self.header_border))
 
         # Draw border and lines on leaderboard surface
-        pygame.draw.rect(leaderboard_surface, border_color, (border_line_distance, border_line_distance, table_width-25, table_height-25), border_thickness)
+        pygame.draw.rect(leaderboard_surface, self.border_color, (self.border_line_distance, self.border_line_distance, self.table_width-25, self.table_height-25), self.border_thickness)
         for i in range(1, 11):
-            pygame.draw.line(leaderboard_surface, line_color, (border_line_distance + border_thickness, distance_between_lines + i * distance_between_lines), (table_width - border_line_distance - border_thickness*2, distance_between_lines + i * distance_between_lines), 2)
+            pygame.draw.line(leaderboard_surface, self.line_color, (self.border_line_distance + self.border_thickness, self.distance_between_lines + i * self.distance_between_lines), (self.table_width - self.border_line_distance - self.border_thickness*2, self.distance_between_lines + i * self.distance_between_lines), 2)
 
         # draw the vertical lines
-        pygame.draw.line(leaderboard_surface, line_color, (table_width//6, border_line_distance + border_thickness), (table_width//6, table_height - border_line_distance - border_thickness), border_thickness)
-        pygame.draw.line(leaderboard_surface, line_color, (table_width//3 * 2, border_line_distance + border_thickness), (table_width//3 * 2, table_height - border_line_distance - border_thickness), border_thickness)
+        pygame.draw.line(leaderboard_surface, self.line_color, (self.table_width//6, self.border_line_distance + self.border_thickness), (self.table_width//6, self.table_height - self.border_line_distance - self.border_thickness), self.border_thickness)
+        pygame.draw.line(leaderboard_surface, self.line_color, (self.table_width//3 * 2, self.border_line_distance + self.border_thickness), (self.table_width//3 * 2, self.table_height - self.border_line_distance - self.border_thickness), self.border_thickness)
 
         for i, score in enumerate(self.high_scores):
             if i < 10:
                 rank_text = body_font.render(str(i+1), True, (self.white))
                 name_text = body_font.render(score['name'], True, (self.white))
                 score_text = body_font.render(str(score['score']), True, (self.white))
-                leaderboard_surface.blit(rank_text, (border_radius_table_x - header_border, values_start_y_position + i * distance_between_lines))
-                leaderboard_surface.blit(name_text, (table_width//4, values_start_y_position + i * distance_between_lines))
-                leaderboard_surface.blit(score_text, (table_width//4 * 3, values_start_y_position + i * distance_between_lines))
+                leaderboard_surface.blit(rank_text, (self.border_radius_table_x - self.header_border, self.values_start_y_position + i * self.distance_between_lines))
+                leaderboard_surface.blit(name_text, (self.table_width//4, self.values_start_y_position + i * self.distance_between_lines))
+                leaderboard_surface.blit(score_text, (self.table_width//4 * 3, self.values_start_y_position + i * self.distance_between_lines))
 
         # Blit leaderboard surface onto Pygame window
-        self.screen.blit(leaderboard_surface, (border_radius_table_x, border_radius_table_y))
+        self.screen.blit(leaderboard_surface, (self.border_radius_table_x, self.border_radius_table_y))
         self.screen.blit(self.loot_image, (300, 15))
         self.screen.blit(self.loot_image, (850, 15))
 
