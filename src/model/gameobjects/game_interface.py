@@ -195,11 +195,9 @@ class PlatformerGame(object):
                 enemy.move(self.frame_count, self._blocks)
         if self._player.health <= 0:
             self._gamestate = GameState.game_over
-            username_list = ["David", "Susan", "Michael", "Linda", "Steven", "Karen", "Richard", "Nancy",
-                             "Robert", "Carol", "James", "Deborah", "William", "Patricia", "Mark", "Diane",
-                             "John", "Kathleen", "Thomas"]
+            username_list = ["David", "Susan", "Michael", "Linda", "Steven", "Karen", "Richard", "Nancy", "Robert", "Carol", "James", "Deborah", "William", "Patricia", "Mark", "Diane", "John", "Kathleen", "Thomas", "Barbara", "Christopher", "Cynthia", "Brian", "Mary", "Kevin", "Elizabeth", "Paul", "Sharon", "George", "Anne"]
             username_selected = random.choice(username_list)
-            self.add_score()
+            self.add_score(username_selected)
 
         self.add_powerups()
         if self._door != None and self._door.check_for_entry(self._player):

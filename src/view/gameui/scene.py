@@ -1044,19 +1044,25 @@ class GameOverScene(Scene):
         self.buttons = []
 
         self.leaderboard = game_manager.return_scores()
-        self.user = self.leaderboard["most recent player"]
 
     def _render(self):
         '''Renders the Leaderboard to the screen.
         '''
 
-        over_text = pygame.font.SysFont("monospace", 64, True).render('GAME OVER', True, "red")
+        square_position = (245, 280)
+        square_size = (600, 150)
+        border_radius = 20
+        pygame.draw.rect(self.screen, (100, 100, 100), (square_position, square_size), border_radius=border_radius)
+
+
+        over_text = pygame.font.SysFont("monospace", 86, True).render('GAME OVER', True, "red")
         over_text_rect = over_text.get_rect()
         over_text_rect.center = ((self.screen.get_width() // 2) - 100, (self.screen.get_height() // 2) - 50)
 
-        name_text = pygame.font.SysFont("monospace", 32, True).render('Username: ' + self.user["name"], True, "white")
+        name = "Username: %s" %(self.leaderboard["most recent player"])
+        name_text = pygame.font.SysFont("monospace", 32, True).render(name, True, "white")
         name_text_rect = name_text.get_rect()
-        name_text_rect.center = ((self.screen.get_width() // 2) - 200, (self.screen.get_height() // 2) + 100)
+        name_text_rect.center = ((self.screen.get_width() // 2) - 100, (self.screen.get_height() // 2) )
 
         self.screen.blit(over_text, over_text_rect)
         self.screen.blit(name_text, name_text_rect)

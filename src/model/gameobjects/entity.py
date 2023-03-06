@@ -329,7 +329,6 @@ class Player(Monke):
                 elif (Movement.right_punch in directions) and (self.x < entity.x):
                     self._score += 1
 
-
                 #decreasing your lives if you hit an enemy
                 elif not self._invincible:
                     self._health -= entity._damage
