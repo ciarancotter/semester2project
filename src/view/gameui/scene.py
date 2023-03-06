@@ -820,7 +820,6 @@ class GameScene(Scene):
         self.gameplay_panel.draw()
         self.game_ui_panel.draw()
         self.textbox.draw("")
-        self.healthbar.draw_health()
 
 
     def draw_door(self, context):
@@ -874,7 +873,7 @@ class GameScene(Scene):
         self.textbox.erase()
         self.draw_door(context)
         self.draw_monolith(context)
-        self.healthbar.draw_health()
+        self.healthbar.draw_health(context.player)
         self.levelindicator.draw(context.get_current_level())
 
         # Checks to see if we are approaching the end of the current legend.
