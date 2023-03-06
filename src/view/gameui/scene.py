@@ -806,7 +806,7 @@ class GameScene(Scene):
         pygame.display.set_caption("Boole Raider")
         self.loading_screen.update()
         # asyncio.run(self.load_many_backgrounds())  # Parallel asset downloading
-        generate_background("Ancient Egypt")
+        #generate_background("Ancient Egypt")
         game_background = pygame.image.load("src/view/assets/gamebg1.png").convert_alpha()
         self.background = pygame.transform.scale(game_background, (784, 784))
         self.inscriptions = generate_monolith("tragic", "Egyptian")
@@ -936,15 +936,16 @@ class GameScene(Scene):
 
         for e,enemy in enumerate(context.enemies):
             enemy_image = self.enemy_selector(enemy)
-            
-            i = self.frame_count_enemy % self.enemy_rows
-            j = self.frame_count_enemy % self.enemy_columns
+            i = 0
+            j = 0
+            #i = self.frame_count_enemy % self.enemy_rows
+            #j = self.frame_count_enemy % self.enemy_columns
             self.frame_count_enemy += 1
 
             self.enemy_sufaces[e][i * self.enemy_columns + j].blit(enemy_image, (0, 0), (
                     j * enemy.width, i * enemy.height, enemy.width,
                         enemy.height))
-
+            # the bellow does nothing it is brocken
             match enemy.facing:
                 case Movement.right:
                     self.enemy_direction = "right"
@@ -959,18 +960,22 @@ class GameScene(Scene):
                         self.current_sprite_index_enemy = self.enemy_columns + (self.current_sprite_index_enemy + 2) % self.enemy_columns   ####!!!! for changing the legs moving
                         self.frame_count_enemy2 = 0
         
+        # TODO:fix this 
+
+        self.current_sprite_index_enemy = 0
+        self.frame_count_enemy2 = 0
+        # end TODO
         self.display_enemies(context)
 
     def draw_player(self, context):
         self.player_data = context.player
-
         for i in range(self.rows):
             for j in range(self.columns):
                 self.character_sprites[i * self.columns + j].blit(
                         self.sprite_sheet, (0, 0),
                         (j * self.player_data.width, i * self.player_data.height,
                             self.player_data.width, self.player_data.height)
-                    )
+                        )
 
         match self.player_data.facing:
             # Right key -> Move Right.
