@@ -4,7 +4,7 @@ import os
 
 sys.path.append(os.path.abspath("./src"))
 from model.gameobjects.game_interface import PlatformerGame
-from view.gameui.scene import MainMenuScene, GameScene, LoadingScene, LeaderboardMenuScene,  AboutMenuScene, HelpMenuScene
+from view.gameui.scene import MainMenuScene, GameScene, LoadingScene, LeaderboardMenuScene,  AboutMenuScene, HelpMenuScene, GameOverScene
 from model.gameobjects.public_enums import Movement, GameState
 
 try:
@@ -26,11 +26,25 @@ from pygame.locals import (
     K_SPACE,
 )
 
+def game_initialize() -> None:
+    global_screen = pygame.display.set_mode((1280, 784))
+    game_manager = PlatformerGame()
+    main_menu_scene = MainMenuScene(game_manager, global_screen)
+    loading_scene = LoadingScene(global_screen)
+    leaderboard_scene = LeaderboardMenuScene(game_manager, global_screen)
+    help_scene = HelpMenuScene(game_manager, global_screen)
+    about_scene = AboutMenuScene(game_manager, global_screen)
+    game_scene = GameScene(game_manager, global_screen, loading_scene, KINECT)
+    game_over = GameOverScene(game_manager, global_screen)
+    main_menu_scene.initialise() # Loads up the menu scene
+    game_manager.create_level_from_json()
+    return game_manager, main_menu_scene, loading_scene, leaderboard_scene, help_scene, about_scene, game_scene, game_over
+
 def main() -> None:
     # Initialize pygame
     pygame.init()
     running = True
-    game_ran = False
+    game_over_count = 0
 
     if KINECT:  
         # init shared memeory pool  
@@ -41,16 +55,7 @@ def main() -> None:
 
     clock = pygame.time.Clock()
     
-    global_screen = pygame.display.set_mode((1280, 784))
-    game_manager = PlatformerGame()
-    main_menu_scene = MainMenuScene(game_manager, global_screen)
-    loading_scene = LoadingScene(global_screen)
-    leaderboard_scene = LeaderboardMenuScene(game_manager, global_screen)
-    help_scene = HelpMenuScene(game_manager, global_screen)
-    about_scene = AboutMenuScene(game_manager, global_screen)
-    game_scene = GameScene(game_manager, global_screen, loading_scene, KINECT)
-    main_menu_scene.initialise() # Loads up the menu scene
-    game_manager.create_level_from_json()
+    game_manager, main_menu_scene, loading_scene, leaderboard_scene, help_scene, about_scene, game_scene, game_over = game_initialize()
 
     # Main game loop
     while running:
@@ -156,6 +161,14 @@ def main() -> None:
                 about_scene.checking_hover(mouse_pos)
                 about_scene.update() 
                 about_scene.draw_cursor(mouse_pos)
+
+            case GameState.game_over:
+                game_over_count += 1
+                game_over.update()
+                if game_over_count > 500:
+                    game_over_count = 0
+                    game_manager, main_menu_scene, loading_scene, leaderboard_scene, help_scene, about_scene, game_scene, game_over = game_initialize()
+
 
         # refresh entire screen
         pygame.display.flip()

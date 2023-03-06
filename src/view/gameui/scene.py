@@ -21,7 +21,7 @@ import pygame
 
 sys.path.append(os.path.abspath("./src"))
 
-#from shared_memory_dict import SharedMemoryDict
+from shared_memory_dict import SharedMemoryDict
 
 from model.gameobjects.entity import Block, Enemy
 from model.gameobjects.public_enums import Movement
@@ -1030,6 +1030,38 @@ class GameScene(Scene):
         context = self.game_manager.get_render_ctx()
         self.draw_player(context)
         self.draw_enemy(context)
+
+class GameOverScene(Scene):
+
+    def __init__(self, game_manager: PlatformerGame, screen):
+        """Inits the About menu.
+        """
+        self.text = None
+        self.text_rect = None
+        self.screen = screen
+        self.game_manager = game_manager
+        self.label = GameState.game_over
+        self.buttons = []
+
+    def _render(self):
+        '''Renders the Leaderboard to the screen.
+        '''
+
+        over_text = pygame.font.SysFont("monospace", 64, True).render('GAME OVER', True, "red")
+        over_text_rect = over_text.get_rect()
+        over_text_rect.center = ((self.screen.get_width() // 2) - 100, (self.screen.get_height() // 2) - 50)
+
+        self.text = over_text
+        self.text_rect = over_text_rect
+
+        self.screen.blit(over_text, over_text_rect)
+
+
+    def update(self):
+        """Updates the About screen.
+        """
+        self._render()
+        self.draw_buttons()
 
 
 class MainMenuScene(Scene):
