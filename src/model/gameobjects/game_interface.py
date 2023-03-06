@@ -197,6 +197,7 @@ class PlatformerGame(object):
             self._gamestate = GameState.game_over
             username_list = ["David", "Susan", "Michael", "Linda", "Steven", "Karen", "Richard", "Nancy", "Robert", "Carol", "James", "Deborah", "William", "Patricia", "Mark", "Diane", "John", "Kathleen", "Thomas", "Barbara", "Christopher", "Cynthia", "Brian", "Mary", "Kevin", "Elizabeth", "Paul", "Sharon", "George", "Anne"]
             username_selected = random.choice(username_list)
+            print(username_selected)
             self.add_score(username_selected)
 
         self.add_powerups()
@@ -209,6 +210,8 @@ class PlatformerGame(object):
             self._monolith.is_being_read = True
         elif self._monolith != None and not self._monolith.check_for_read(self._player):
             self._monolith.is_being_read = False
+
+        print(self._player.score)
 
 
     def create_level_from_json(self):
