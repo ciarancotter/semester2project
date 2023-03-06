@@ -242,9 +242,6 @@ class Player(Monke):
                 that will be displayed on the screen
         yPos: the y co-ordenate of the player on the game plane
                 that will be displayed on the screen.
-
-
-
     """
 
     def __init__(self, width: int, height: int, SCREEN_WIDTH: int, SCREEN_HEIGHT: int) -> None:
@@ -452,10 +449,6 @@ class Enemy(Monke):
         distance = (x_distance + y_distance)**0.5
 
         return int(abs(distance))
-
-
-
-
 
     damage = property(get_dammage)
 

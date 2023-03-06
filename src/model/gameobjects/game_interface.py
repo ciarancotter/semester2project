@@ -292,7 +292,7 @@ class PlatformerGame(object):
                     self._loot.append(loot)
 
 
-    def add_score(self,name:str):
+    def add_score(self, name:str):
         """adds the score of the player to the models stored leaderboard.
 
         Args:
@@ -309,7 +309,7 @@ class PlatformerGame(object):
         leaderboard["scores"] = dict(leaderboard["scores"])
 
         with open('src/model/gameobjects/leaderboard.json', 'w') as file:
-            json.dump(leaderboard,file)
+            json.dump(leaderboard, file)
 
     def return_scores(self):
         """
