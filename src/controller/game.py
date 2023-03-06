@@ -4,7 +4,7 @@ import os
 
 sys.path.append(os.path.abspath("./src"))
 from model.gameobjects.game_interface import PlatformerGame
-from view.gameui.scene import MainMenuScene, GameScene, LoadingScene, LeaderboardMenuScene,  AboutMenuScene, HelpMenuScene
+from view.gameui.scene import MainMenuScene, GameScene, LoadingScene, LeaderboardMenuScene,  AboutMenuScene, HelpMenuScene, GameOverScene
 from model.gameobjects.public_enums import Movement, GameState
 
 try:
@@ -49,6 +49,7 @@ def main() -> None:
     help_scene = HelpMenuScene(game_manager, global_screen)
     about_scene = AboutMenuScene(game_manager, global_screen)
     game_scene = GameScene(game_manager, global_screen, loading_scene, KINECT)
+    game_over = GameOverScene(game_manager, global_screen)
     main_menu_scene.initialise() # Loads up the menu scene
     game_manager.create_level_from_json()
 
@@ -156,6 +157,12 @@ def main() -> None:
                 about_scene.checking_hover(mouse_pos)
                 about_scene.update() 
                 about_scene.draw_cursor(mouse_pos)
+
+            case GameState.game_over:
+                game_over.checking_hover(mouse_pos)
+                game_over.update()
+                game_over.draw_cursor(mouse_pos)
+
 
         # refresh entire screen
         pygame.display.flip()
