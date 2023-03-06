@@ -176,18 +176,13 @@ class LeaderboardMenuScene(Scene):
         self.grey = (128, 128, 128)
 
         # Define high scores list
-        self.high_scores = [
-            {'name': 'Alice', 'score': 100},
-            {'name': 'Bob', 'score': 90},
-            {'name': 'Charlie', 'score': 80},
-            {'name': 'Dave', 'score': 70},
-            {'name': 'Eve', 'score': 60},
-            {'name': 'Alice', 'score': 101},
-            {'name': 'Bob', 'score': 91},
-            {'name': 'Charlie', 'score': 81},
-            {'name': 'Dave', 'score': 71},
-            {'name': 'Eve', 'score': 61},
-        ]
+        self.high_scores = []
+
+        self.leaderboard = game_manager.return_scores()
+        for name in self.leaderboard["scores"]:
+            self.user_name = name
+            self.score = self.leaderboard["scores"][name]
+            self.high_scores.append({'name': self.user_name, 'score': self.score},)
 
         # Sort high scores list by score value
         self.high_scores = sorted(self.high_scores, key=lambda x: x['score'], reverse=True)
@@ -258,12 +253,13 @@ class LeaderboardMenuScene(Scene):
         pygame.draw.line(leaderboard_surface, line_color, (table_width//3 * 2, border_line_distance + border_thickness), (table_width//3 * 2, table_height - border_line_distance - border_thickness), border_thickness)
 
         for i, score in enumerate(self.high_scores):
-            rank_text = body_font.render(str(i+1), True, (self.white))
-            name_text = body_font.render(score['name'], True, (self.white))
-            score_text = body_font.render(str(score['score']), True, (self.white))
-            leaderboard_surface.blit(rank_text, (border_radius_table_x - header_border, values_start_y_position + i * distance_between_lines))
-            leaderboard_surface.blit(name_text, (table_width//4, values_start_y_position + i * distance_between_lines))
-            leaderboard_surface.blit(score_text, (table_width//4 * 3, values_start_y_position + i * distance_between_lines))
+            if i < 10:
+                rank_text = body_font.render(str(i+1), True, (self.white))
+                name_text = body_font.render(score['name'], True, (self.white))
+                score_text = body_font.render(str(score['score']), True, (self.white))
+                leaderboard_surface.blit(rank_text, (border_radius_table_x - header_border, values_start_y_position + i * distance_between_lines))
+                leaderboard_surface.blit(name_text, (table_width//4, values_start_y_position + i * distance_between_lines))
+                leaderboard_surface.blit(score_text, (table_width//4 * 3, values_start_y_position + i * distance_between_lines))
 
         # Blit leaderboard surface onto Pygame window
         self.screen.blit(leaderboard_surface, (border_radius_table_x, border_radius_table_y))
