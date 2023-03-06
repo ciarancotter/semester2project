@@ -194,6 +194,14 @@ class LeaderboardMenuScene(Scene):
         # Define high scores list
         self.high_scores = []
 
+        self.leaderboard = game_manager.return_scores()
+        for name in self.leaderboard["scores"]:
+            self.user_name = name
+            self.score = self.leaderboard["scores"][name]
+            self.high_scores.append({'name': self.user_name, 'score': self.score},)
+
+        # Sort high scores list by score value
+        self.high_scores = sorted(self.high_scores, key=lambda x: x['score'], reverse=True)
 
     def _render(self):
         '''Renders the Leaderboard to the screen.
@@ -262,16 +270,8 @@ class LeaderboardMenuScene(Scene):
         """
         leaderboard_back_button = Button("BACK", (50, 50), 40)
         self.buttons.append(leaderboard_back_button)
+        
         self._render()
-
-        self.leaderboard = self.game_manager.return_scores()
-        for name in self.leaderboard["scores"]:
-            user_name = name
-            score = self.leaderboard["scores"][name]
-            self.high_scores.append({'name': user_name, 'score': score},)
-
-        # Sort high scores list by score value
-        self.high_scores = sorted(self.high_scores, key=lambda x: x['score'], reverse=True)
 
 
     def update(self):
@@ -1043,11 +1043,10 @@ class GameOverScene(Scene):
         self.label = GameState.game_over
         self.buttons = []
 
-        self.leaderboard = game_manager.return_scores()
-
     def _render(self):
         '''Renders the Leaderboard to the screen.
         '''
+        self.leaderboard = self.game_manager.return_scores()
 
         square_position = (245, 280)
         square_size = (600, 150)

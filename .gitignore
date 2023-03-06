@@ -13,3 +13,5 @@ src/view/assets/.DS_Store
 .DS_Store
 *.json
 src/view/assets/gamebg1.png
+src/model/gameobjects/leaderboard.json
+src/view/assets/gamebg1.png
