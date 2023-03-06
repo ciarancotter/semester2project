@@ -126,7 +126,7 @@ class PlatformerGame(object):
         self._screen_width = 768
         self._screen_height = 768
         self._current_level = 1
-        self.damage = 0 
+        self.damage = 1 
         #xPos: int, yPos: int, width: int, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, height: int,colliding: bool, dammage: int, player:Player) -> None:
         self._player = Player(self._playerwidth, self._playerheight,
                               self._screen_width, self._screen_height)
@@ -189,16 +189,14 @@ class PlatformerGame(object):
         if self.frame_count > 200:
             self.create_enemy()
             self.frame_count = 0 
-        self._entities =  self._player.move(player_moves, self._entities)
+        self._entities,self._enemies =  self._player.move(player_moves, self._entities,self._enemies)
         if self._enemies != []:
             for enemy in self._enemies:
                 enemy.move(self.frame_count, self._blocks)
-
         if self._player.health <= 0:
-            self.game_state = GameState.game_over
+            self._gamestate = GameState.game_over
 
         self.add_powerups()
-
         if self._door != None and self._door.check_for_entry(self._player):
             self._level_added = True
             self._current_level += 1

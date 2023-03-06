@@ -271,7 +271,7 @@ class Player(Monke):
         self._hitbox_width_reduction = 35
         self._hitbox_height_reduction = 10
 
-    def move(self, directions: list[Movement], entities: list[Entity]) -> None:
+    def move(self, directions: list[Movement], entities: list[Entity],enemies) -> None:
         """this method is called to change the state of the player.
 
         this method is called to change the state of the player and does not have to 
@@ -319,25 +319,26 @@ class Player(Monke):
             self._jump_baseline = self.yPos
             self._jump_power = 50
 
-        entities_to_return = self.calculate_collition_results(entities,directions)
+        entities_to_return,enemies = self.calculate_collition_results(entities,enemies,directions)
         self.update_loot_stats()
-        return entities_to_return
+        return entities_to_return,enemies
 
-    def calculate_collition_results(self, entities,directions):
+    def calculate_collition_results(self, entities,enemies,directions):
         for i,entity in enumerate(entities):
             if isinstance(entity, Enemy) and (self.is_colliding_with_entity(entity)):
                 # checking if the player is puching the enemey and removing the enemy 
                 if (Movement.left_punch in directions) and (entity.x < self.x):
-                    entities.pop(i)
                     self._score += 1
-                elif (Movement.right in directions) and (self.x < entity.x):
-                    entities.pop(i)
+                elif (Movement.right_punch in directions) and (self.x < entity.x):
                     self._score += 1
 
 
                 #decreasing your lives if you hit an enemy
                 elif not self._invincible:
                     self._health -= entity._damage
+
+                enemies.remove(entity)
+                entities.pop(i)
 
             elif isinstance(entity, Loot) and (self.is_colliding_with_entity(entity)):
                 self._health += entity.power
@@ -354,7 +355,7 @@ class Player(Monke):
                 self._invincible = True
                 # making the loot disapear when you hit it
                 entities.pop(i)
-        return entities
+        return entities,enemies
 
 
     def update_loot_stats(self):
