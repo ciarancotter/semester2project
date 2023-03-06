@@ -965,21 +965,14 @@ class GameOverScene(Scene):
         '''Renders the Leaderboard to the screen.
         '''
 
-        over_text = pygame.font.SysFont("monospace", 36).render('GAME OVER', True, "red")
+        over_text = pygame.font.SysFont("monospace", 64, True).render('GAME OVER', True, "red")
         over_text_rect = over_text.get_rect()
-        over_text_rect.center = (self.screen.get_width() // 2, (self.screen.get_height() // 2) - 50)
+        over_text_rect.center = ((self.screen.get_width() // 2) - 100, (self.screen.get_height() // 2) - 50)
 
         self.text = over_text
         self.text_rect = over_text_rect
 
         self.screen.blit(over_text, over_text_rect)
-
-    def initialise(self):
-        """Initialises some values of the Leaderboard menu, but not immediately when the instance is created.
-        """
-        over_back_button = Button("Main Menu", (50, 50), 40)
-        self.buttons.append(over_back_button)
-        self._render()
 
 
     def update(self):
@@ -987,16 +980,6 @@ class GameOverScene(Scene):
         """
         self._render()
         self.draw_buttons()
-
-
-    def check_menu_pressed(self, event_pos: tuple, main_menu_scene: Scene):
-        """Continuously checks if the Back button in the menu has been pressed, and returns to main menu.
-            Attributes:
-                - event: The event object in Pygame.
-        """
-        if self.game_manager._gamestate == GameState.game_over and self.buttons[0].rect.collidepoint(event_pos):
-            self.game_manager.set_game_state(GameState.start_menu)
-            main_menu_scene.initialise()
 
 
 class MainMenuScene(Scene):

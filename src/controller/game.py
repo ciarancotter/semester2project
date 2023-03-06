@@ -26,21 +26,7 @@ from pygame.locals import (
     K_SPACE,
 )
 
-def main() -> None:
-    # Initialize pygame
-    pygame.init()
-    running = True
-    game_ran = False
-
-    if KINECT:  
-        # init shared memeory pool  
-        movementPoolRead = SharedMemoryDict(name='movementPoolRead', size=1024) 
-        movementPoolMisc = SharedMemoryDict(name='movementPoolMisc', size=1024) 
-        # start python  
-
-
-    clock = pygame.time.Clock()
-    
+def game_initialize() -> None:
     global_screen = pygame.display.set_mode((1280, 784))
     game_manager = PlatformerGame()
     main_menu_scene = MainMenuScene(game_manager, global_screen)
@@ -52,6 +38,24 @@ def main() -> None:
     game_over = GameOverScene(game_manager, global_screen)
     main_menu_scene.initialise() # Loads up the menu scene
     game_manager.create_level_from_json()
+    return game_manager, main_menu_scene, loading_scene, leaderboard_scene, help_scene, about_scene, game_scene, game_over
+
+def main() -> None:
+    # Initialize pygame
+    pygame.init()
+    running = True
+    game_over_count = 0
+
+    if KINECT:  
+        # init shared memeory pool  
+        movementPoolRead = SharedMemoryDict(name='movementPoolRead', size=1024) 
+        movementPoolMisc = SharedMemoryDict(name='movementPoolMisc', size=1024) 
+        # start python  
+
+
+    clock = pygame.time.Clock()
+    
+    game_manager, main_menu_scene, loading_scene, leaderboard_scene, help_scene, about_scene, game_scene, game_over = game_initialize()
 
     # Main game loop
     while running:
@@ -159,9 +163,11 @@ def main() -> None:
                 about_scene.draw_cursor(mouse_pos)
 
             case GameState.game_over:
-                game_over.checking_hover(mouse_pos)
+                game_over_count += 1
                 game_over.update()
-                game_over.draw_cursor(mouse_pos)
+                if game_over_count > 500:
+                    game_over_count = 0
+                    game_manager, main_menu_scene, loading_scene, leaderboard_scene, help_scene, about_scene, game_scene, game_over = game_initialize()
 
 
         # refresh entire screen
