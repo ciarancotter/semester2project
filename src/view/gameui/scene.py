@@ -739,7 +739,7 @@ class GameScene(Scene):
         self.enemy_rows = 2
         self.enemy_columns = 3
         self.frame_count = 0
-        self.frame_delay = 5
+        self.frame_delay = 30
         self.current_sprite_index = 0
         self.current_sprite_index_enemy = 0
         self.inscriptions = []
@@ -932,27 +932,11 @@ class GameScene(Scene):
         displays each enemy on the screen using the contexts list of enemies 
         and the enemy surfaces which contain a list of surfaces to be drawn on.
         """
-        # self.frame_count_enemy2 += 0.2
-        # for i,enemy in enumerate(ctx.enemies):
-        #     self._enemy_sprite_index[enemy] = int(self.frame_count)%self.enemy_columns
-        #     match enemy.facing:
-        #         case Movement.right:
-        #             self._enemy_sprite_index[enemy] = int(self.frame_count_enemy2) % self.enemy_columns
-
-        #         case Movement.left:
-        #             self._enemy_sprite_index[enemy] = (int(self.frame_count_enemy2) % self.enemy_columns) + 3
-
-        #     if enemy in self._enemy_sprite_index:
-        #         self.screen.blit(
-        #             self.enemy_sufaces[i][self._enemy_sprite_index[enemy]],
-        #             (enemy.x, enemy.y)
-        #         )
-        #     else:
-        #         self.screen.blit(
-        #             self.enemy_sufaces[i][0],
-        #             (enemy.x, enemy.y)
-        #         )
-        #         self._enemy_sprite_index[enemy] = 0
+        for i,enemy in enumerate(ctx.enemies):
+            self.screen.blit(
+                self.enemy_sufaces[i][self.current_sprite_index_enemy],
+                (enemy.x, enemy.y)
+            )
 
     
     def enemy_selector(self, enemy: Enemy):
@@ -979,67 +963,33 @@ class GameScene(Scene):
                 self.enemy_sufaces.pop()
 
 
-        for e,enemy in enumerate(context.enemies):
+        for e, enemy in enumerate(context.enemies):
             enemy_image = self.enemy_selector(enemy)
             i = self.frame_count_enemy % self.enemy_rows
             j = self.frame_count_enemy % self.enemy_columns
 
             self.frame_count_enemy += 1
 
-
-            #self.frame_count_enemy2 += 1
-            match enemy.facing:
-                case Movement.right:
-                    self.enemy_sufaces[e][i * self.enemy_columns + j].blit(enemy_image, (0, 0), (
+            self.enemy_sufaces[e][i * self.enemy_columns + j].blit(enemy_image, (0, 0), (
                     j * enemy.width, i * enemy.height, enemy.width,
                         enemy.height))
-                    self.screen.blit(
-                    self.enemy_sufaces[e][0],
-                     (enemy.x, enemy.y))
 
+            match enemy.facing:
+                case Movement.right:
+                    self._enemy_sprite_index[enemy] = 0
                 case Movement.left:
-                    print(self.enemy_sufaces[e][3])
-                    self.enemy_sufaces[e][i * self.enemy_columns + j].blit(enemy_image, (0, 0), (
-                    enemy.width, enemy.height, enemy.width,
-                        enemy.height))
-                    self.screen.blit(
-                    self.enemy_sufaces[e][3],
-                    (enemy.x, enemy.y))
-                    #self._enemy_sprite_index[enemy] = 3
-
-            # if enemy in self._enemy_sprite_index:
-            #     self._enemy_sprite_index[enemy] = 0
-            #     self.screen.blit(
-            #         self.enemy_sufaces[e][self._enemy_sprite_index[enemy]],
-            #         (enemy.x, enemy.y)
-            #     )
-            # else:
-            #     self.screen.blit(
-            #         self.enemy_sufaces[i][0],
-            #         (enemy.x, enemy.y)
-            #     )
-            #    self._enemy_sprite_index[enemy] = 0
-            # the bellow does nothing it is brocken
-            # match enemy.facing:
-            #     case Movement.right:
-            #         self.enemy_direction = "right"
-            #         self.frame_count_enemy2 += 1
-            #         if self.frame_count_enemy2 == self.frame_delay:
-            #             self.current_sprite_index_enemy = (self.current_sprite_index_enemy + 1) % self.enemy_columns          ####!!!! for changing the legs moving
-            #             self.frame_count_enemy2 = 0
-            #     case Movement.left:
-            #         self.enemy_direction = "left"
-            #         self.frame_count_enemy2 += 1
-            #         if self.frame_count_enemy2 == self.frame_delay:
-            #             self.current_sprite_index_enemy = self.enemy_columns + (self.current_sprite_index_enemy + 2) % self.enemy_columns   ####!!!! for changing the legs moving
-            #             self.frame_count_enemy2 = 0
+                    self._enemy_sprite_index[enemy] = 3
         
+            self.screen.blit(
+                self.enemy_sufaces[e][self._enemy_sprite_index[enemy]],
+                (enemy.x, enemy.y)
+            )
         # TODO:fix this 
 
         #self.current_sprite_index_enemy = 0
         #self.frame_count_enemy2 = 0
         # end TODO
-        self.display_enemies(context)
+        #self.display_enemies(context)
 
     def draw_player(self, context):
         self.player_data = context.player
