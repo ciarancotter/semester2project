@@ -18,6 +18,7 @@ import os
 import sys
 import asyncio
 import pygame
+import time
 
 sys.path.append(os.path.abspath("./src"))
 
@@ -739,15 +740,12 @@ class GameScene(Scene):
         self.enemy_rows = 2
         self.enemy_columns = 3
         self.frame_count = 0
-        self.frame_delay = 30
+        self.frame_delay = 5
         self.current_sprite_index = 0
-        self.current_sprite_index_enemy = 0
         self.inscriptions = []
         self.frame_count_enemy = 0
-        self.frame_count_enemy2 = 0
 
         self._enemy_sprite_index = {}
-        self._enemy_frame_thing = {}
 
         # Initialising the game manager
         self.screen = screen
@@ -962,28 +960,42 @@ class GameScene(Scene):
             for i in range(len(self.enemy_sufaces)-len(context.enemies)):
                 self.enemy_sufaces.pop()
 
-
         for e, enemy in enumerate(context.enemies):
             enemy_image = self.enemy_selector(enemy)
-            i = self.frame_count_enemy % self.enemy_rows
-            j = self.frame_count_enemy % self.enemy_columns
 
-            self.frame_count_enemy += 1
+            if enemy not in self._enemy_sprite_index:
+                self._enemy_sprite_index[enemy] = [0, 0]
 
-            self.enemy_sufaces[e][i * self.enemy_columns + j].blit(enemy_image, (0, 0), (
-                    j * enemy.width, i * enemy.height, enemy.width,
-                        enemy.height))
-
+            for i in range(self.enemy_rows):
+                for j in range(self.enemy_columns):
+                    self.enemy_sufaces[e][i * self.enemy_columns + j].blit(enemy_image, (0, 0), (
+                            j * enemy.width, i * enemy.height, enemy.width, enemy.height))
+            
+            u = 790
+            for i in self.enemy_sufaces[e]:
+                self.screen.blit(i, (u, 50))
+                u += enemy.width
+            
             match enemy.facing:
                 case Movement.right:
-                    self._enemy_sprite_index[enemy] = 0
+                    if self._enemy_sprite_index[enemy][0] == self.frame_delay:
+                        self._enemy_sprite_index[enemy][1] = (self._enemy_sprite_index[enemy][1] + 1) % self.enemy_columns
+                        self._enemy_sprite_index[enemy][0] = 0
                 case Movement.left:
-                    self._enemy_sprite_index[enemy] = 3
+                    if self._enemy_sprite_index[enemy][0] == self.frame_delay:
+                        self._enemy_sprite_index[enemy][1] = (self._enemy_sprite_index[enemy][1] + 2) % self.enemy_columns
+                        self._enemy_sprite_index[enemy][0] = 0
         
             self.screen.blit(
-                self.enemy_sufaces[e][self._enemy_sprite_index[enemy]],
+                self.enemy_sufaces[e][self._enemy_sprite_index[enemy][1]],
                 (enemy.x, enemy.y)
             )
+
+            self._enemy_sprite_index[enemy][0] += 1
+            for i in range(self.enemy_rows):
+                for j in range(self.enemy_columns):
+                    self.enemy_sufaces[e][i * self.enemy_columns + j].fill((0, 0, 0, 0))
+            
         # TODO:fix this 
 
         #self.current_sprite_index_enemy = 0
@@ -1021,7 +1033,6 @@ class GameScene(Scene):
             # Space key -> jump.
             case Movement.jump:
                 self.direction = "jump"
-                self.frame_count += 1
                 if self.frame_count == self.frame_delay:
                     self.current_sprite_index = self.current_sprite_index
                     self.frame_count = 0

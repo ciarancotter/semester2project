@@ -423,7 +423,7 @@ class Enemy(Monke):
         self.gravity(entities)
 
         #only from top, no moving upwards
-        if frame_count % 30 == 0:
+        if frame_count % 60 == 0:
             direction = random.choice(["left", "right"])
             if direction == "left" and self.xPos >= 0:
                 self.xPos -= self._speed
@@ -435,8 +435,10 @@ class Enemy(Monke):
         # follow the player if they are within a certain distance
         elif self.distance_to_player() < 200:
             if self.player.xPos < self.xPos:
+                self.facing = Movement.right
                 self.xPos -= self._speed
             elif self.xPos < self.player.xPos :
+                self.facing = Movement.left
                 self.xPos += self._speed
             elif self.yPos < self.player.yPos:
                 self.yPos += self._speed
