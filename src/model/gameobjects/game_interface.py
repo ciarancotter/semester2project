@@ -85,8 +85,10 @@ class CtxToRender(object):
     
     def get_monolith(self):
         return self._monolith
+
     def get_entity_size(self):
         return self._entity_size
+
     def get_loot(self):
         return self._loot
 
@@ -262,12 +264,28 @@ class PlatformerGame(object):
             self._enemies = []
 
             if level["loot"]["type"] == "normal":
-                self._loot = Loot(level["loot"]["x"]*28,level["loot"]["y"]*28,64,64)
-            if level["loot"]["type"] == "jump":
-                self._loot = JumpLoot(level["loot"]["x"]*28,level["loot"]["y"]*y,64,64)
+                self._loot = Loot(
+                                level["loot"]["x"] * 28,
+                                level["loot"]["y"] * 28,
+                                64,
+                                64
+                             )
 
             if level["loot"]["type"] == "jump":
-                self._loot = InvicibilityLoot(level["loot"]["x"]*28,level["loot"]["y"]*y,64,64)
+                self._loot = JumpLoot(
+                        level["loot"]["x"] * 28,
+                        level["loot"]["y"] * 28,
+                        64,
+                        64
+                        )
+
+            if level["loot"]["type"] == "invincibility":
+                self._loot = InvincibilityLoot(
+                        level["loot"]["x"] * 28,
+                        level["loot"]["y"] * 28,
+                        64,
+                        64
+                        )
 
             self._entities.append(self._loot)
             if self._player.is_colliding_with_entity(self._loot):

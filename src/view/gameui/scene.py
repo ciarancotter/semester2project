@@ -23,7 +23,7 @@ sys.path.append(os.path.abspath("./src"))
 
 from shared_memory_dict import SharedMemoryDict
 
-from model.gameobjects.entity import Block, Enemy
+from model.gameobjects.entity import Block, Enemy, InvincibilityLoot, JumpLoot
 from model.gameobjects.public_enums import Movement
 from model.gameobjects.public_enums import GameState
 from model.gameobjects.public_enums import EnemySprite
@@ -771,6 +771,8 @@ class GameScene(Scene):
         self.monolith_image = pygame.transform.scale(monolith_image, (56, 56))
  
         self.block_image = pygame.image.load("src/view/assets/block2.png").convert_alpha()
+        self.invincibility_image = pygame.image.load("src/view/assets/invincibility.png").convert_alpha()
+        self.jump_image = pygame.image.load("src/view/assets/jump_boost.png").convert_alpha()
         self.sprite_sheet = pygame.image.load("src/view/assets/playerSprite.png").convert_alpha()
         self.sprite_sheet_mummy = pygame.image.load("src/view/assets/mummy_spritesheet.png").convert_alpha()
         self.sprite_sheet_anubis = pygame.image.load("src/view/assets/anubis_spritesheet.png").convert_alpha()
@@ -856,6 +858,26 @@ class GameScene(Scene):
                     context.monolith.y
                 )
             )
+    
+    def draw_loot(self, context):
+        """Draws loot to the screen
+        """
+        if type(context.loot) == JumpLoot:
+            self.screen.blit(
+                self.jump_image,
+                (
+                    context.loot.x,
+                    context.loot.y
+                )
+            )
+        elif type(context.loot) == InvincibilityLoot:
+            self.screen.blit(
+                self.invincibility_image,
+                (
+                    context.loot.x,
+                    context.loot.y
+                )
+            )
 
     def update_game_ui(self):
         """Draws the UI elements onto the game.
@@ -876,6 +898,7 @@ class GameScene(Scene):
         self.textbox.erase()
         self.draw_door(context)
         self.draw_monolith(context)
+        self.draw_loot(context)
         self.healthbar.draw_health(context.player)
         self.levelindicator.draw(context.get_current_level())
 
