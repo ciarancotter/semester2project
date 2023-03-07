@@ -6,7 +6,7 @@
          "y": 25
       },
       "loot":{
-      "type":"normal",
+      "type":"jump",
       "x":5,
       "y":5
     },
@@ -148,7 +148,7 @@
          "y": 25
       },
       "loot":{
-      "type":"normal",
+      "type":"jump",
       "x":5,
       "y":5
     },
@@ -290,7 +290,7 @@
          "y": 25
       },
       "loot":{
-      "type":"normal",
+      "type":"invincibility",
       "x":5,
       "y":5
     },
@@ -432,7 +432,7 @@
          "y": 25
       },
       "loot":{
-      "type":"normal",
+      "type":"jump",
       "x":5,
       "y":5
     },
@@ -610,7 +610,7 @@
          "y": 20
       },
       "loot":{
-      "type":"normal",
+      "type":"invincibility",
       "x":5,
       "y":5
     },
@@ -812,7 +812,7 @@
          "y": 12
       },
       "loot":{
-      "type":"normal",
+      "type":"jump",
       "x":5,
       "y":5
     },
@@ -1030,7 +1030,7 @@
          "y": 4
       },
       "loot":{
-      "type":"normal",
+      "type":"invincibility",
       "x":5,
       "y":5
     },

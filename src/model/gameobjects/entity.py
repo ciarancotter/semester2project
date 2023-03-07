@@ -346,7 +346,7 @@ class Player(Monke):
                 # making the loot disapear when you hit it
                 entities.pop(i)
 
-            if isinstance(entity, InvicibilityLoot) and (self.is_colliding_with_entity(entity)):
+            if isinstance(entity, InvincibilityLoot) and (self.is_colliding_with_entity(entity)):
                 self.current_loot = entity
                 self._invincible = True
                 # making the loot disapear when you hit it
@@ -368,7 +368,7 @@ class Player(Monke):
                 self.current_loot = None
             self.current_loot.power_up_time -= 1
 
-        if isinstance(self.current_loot,InvicibilityLoot):
+        if isinstance(self.current_loot,InvincibilityLoot):
             if self.current_loot.power_up_time <= 0:
                 self._invincible = False
                 self.current_loot = None
@@ -480,7 +480,8 @@ class JumpLoot(Loot):
     jump_increase = property(get_jump_increase)
     #power_up_time= property(get_power_up_time)
 
-class InvicibilityLoot(Loot):
+
+class InvincibilityLoot(Loot):
     """loot that renders the player unable to be damaged by enemies for a particular period."""
     def __init__(self,xPos: int, yPos: int, width: int, height: int,power=2,time=1000):
         self.power_up_time = time
