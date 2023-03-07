@@ -335,7 +335,7 @@ class Player(Monke):
 
                 enemies.remove(entity)
                 entities.pop(i)
-
+              
             elif isinstance(entity, Loot) and (self.is_colliding_with_entity(entity)):
                 self._health += entity.power
 
@@ -351,6 +351,10 @@ class Player(Monke):
                 self._invincible = True
                 # making the loot disapear when you hit it
                 entities.pop(i)
+            elif isinstance(entity, Loot) and (self.is_colliding_with_entity(entity)):
+                self._health += entity.power
+                entities.pop(i)
+
         return entities,enemies
 
 
