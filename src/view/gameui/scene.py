@@ -813,7 +813,7 @@ class GameScene(Scene):
         """
         pygame.display.set_caption("Boole Raider")
         self.loading_screen.update()
-        # asyncio.run(self.load_many_backgrounds())  # Parallel asset downloading
+        #asyncio.run(self.load_many_backgrounds())  # Parallel asset downloading
         #generate_background("Ancient Egypt")
         game_background = pygame.image.load("src/view/assets/gamebg1.png").convert_alpha()
         self.background = pygame.transform.scale(game_background, (784, 784))
@@ -984,8 +984,6 @@ class GameScene(Scene):
             i = self.frame_count_enemy % self.enemy_rows
             j = self.frame_count_enemy % self.enemy_columns
 
-            i = 0 
-            j = 0
             self.frame_count_enemy += 1
 
 

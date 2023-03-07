@@ -410,8 +410,8 @@ class Enemy(Monke):
         self.screen_width = SCREEN_WIDTH
         self.player = player
         #self.distance_to_player = 0
-        self.xPos = random.randint(0, SCREEN_WIDTH)
-        self.yPos = 0
+        self.xPos = random.randint(0, SCREEN_WIDTH-player._width)
+        self.yPos = random.randint(0, SCREEN_HEIGHT-player._height)
 
         self.facing = Movement.left
         super().__init__(self.xPos, self.yPos, width, height, True, 1)
