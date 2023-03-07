@@ -339,14 +339,14 @@ class Player(Monke):
             elif isinstance(entity, Loot) and (self.is_colliding_with_entity(entity)):
                 self._health += entity.power
 
-            if isinstance(entity, JumpLoot) and (self.is_colliding_with_entity(entity)):
+            elif isinstance(entity, JumpLoot) and (self.is_colliding_with_entity(entity)):
                 self.current_loot = entity
                 # increasing the jump height because it hit the loot
                 self._jump_height += entity.jump_increase
                 # making the loot disapear when you hit it
                 entities.pop(i)
 
-            if isinstance(entity, InvincibilityLoot) and (self.is_colliding_with_entity(entity)):
+            elif isinstance(entity, InvincibilityLoot) and (self.is_colliding_with_entity(entity)):
                 self.current_loot = entity
                 self._invincible = True
                 # making the loot disapear when you hit it
