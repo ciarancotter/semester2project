@@ -316,9 +316,9 @@ class Player(Monke):
             self._jump_baseline = self.yPos
             self._jump_power = 50
 
-        entities_to_return,enemies = self.calculate_collition_results(entities,enemies,directions)
+        entities_to_return,enemies,got_loot = self.calculate_collition_results(entities,enemies,directions)
         self.update_loot_stats()
-        return entities_to_return,enemies
+        return entities_to_return,enemies,got_loot
 
     def calculate_collition_results(self, entities,enemies,directions):
         for i,entity in enumerate(entities):
@@ -338,6 +338,12 @@ class Player(Monke):
               
             elif isinstance(entity, Loot) and (self.is_colliding_with_entity(entity)):
                 self._health += entity.power
+                if self._health <= self._max_health:
+                    self._health = self._max_health
+                # making the loot disapear when you hit it
+                entities.pop(i)
+                return entities,enemies,True
+                
 
             elif isinstance(entity, JumpLoot) and (self.is_colliding_with_entity(entity)):
                 self.current_loot = entity
@@ -345,17 +351,20 @@ class Player(Monke):
                 self._jump_height += entity.jump_increase
                 # making the loot disapear when you hit it
                 entities.pop(i)
+                return entities,enemies,True
 
             elif isinstance(entity, InvincibilityLoot) and (self.is_colliding_with_entity(entity)):
                 self.current_loot = entity
                 self._invincible = True
                 # making the loot disapear when you hit it
                 entities.pop(i)
+                return entities,enemies,True
             elif isinstance(entity, Loot) and (self.is_colliding_with_entity(entity)):
                 self._health += entity.power
                 entities.pop(i)
+                return entities,enemies,True
 
-        return entities,enemies
+        return entities,enemies,False
 
 
     def update_loot_stats(self):

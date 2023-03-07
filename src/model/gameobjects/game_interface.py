@@ -197,7 +197,9 @@ class PlatformerGame(object):
         if self.frame_count > 200:
             self.create_enemy()
             self.frame_count = 0 
-        self._entities,self._enemies =  self._player.move(player_moves, self._entities,self._enemies)
+        self._entities,self._enemies,got_loot =  self._player.move(player_moves, self._entities,self._enemies)
+        if got_loot:
+            self._loot = None
         if self._enemies != []:
             for enemy in self._enemies:
                 enemy.move(self.frame_count, self._blocks)
