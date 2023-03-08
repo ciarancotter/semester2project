@@ -21,7 +21,10 @@ from model.gameobjects.entity import *
 from model.gameobjects.public_enums import Movement, GameState, EnemySprite
 from model.aiutilities.aiutilities import generate_monolith
 
+
 class CtxToRender(object):
+    """Contains all the information needed to
+    display a gamestate to the user.
 
     def __init__(
             self, entitysize: tuple,
@@ -61,7 +64,6 @@ class CtxToRender(object):
                         collided with.
             loot: one loot object on the level.
 
-		"""
         self._entity_size = entitysize
         self._enemies = enemies
         self._player = player
@@ -74,15 +76,23 @@ class CtxToRender(object):
         self._loot = loot
 
     def get_entities(self) -> list[Entity]:
+        """Returns a list of Entity objects.
+        """
         return self._entities
 
     def get_player(self) -> Player:
+        """Returns the Player object in the level.
+        """
         return self._player
     
     def get_door(self) -> Door:
+        """Returns the Door object in the level.
+        """
         return self._door
 
     def get_blocks(self) -> list[Block]:
+        """Returns the list of Block objects in the level.
+        """
         return self._blocks
 
     def get_enemies(self) -> list[Enemy]:
@@ -102,7 +112,6 @@ class CtxToRender(object):
 
     def get_loot(self):
         return self._loot
-
 
     enemies = property(get_enemies)
     player = property(get_player)
@@ -192,6 +201,8 @@ class PlatformerGame(object):
         self._gamestate = new_game_state
 
     def create_enemy(self):
+        """Creates an enemy object.
+        """
         enemy = Enemy(self._playerwidth, self._playerheight, 
                        self._screen_width, self._screen_height
                        ,self.damage ,self._player)
@@ -204,6 +215,8 @@ class PlatformerGame(object):
 
 
     def update_model(self, player_moves: list(Movement)):
+        """Updates the player's movements.
+        """
         self.frame_count +=1
         if self.frame_count > 200:
             self.create_enemy()
