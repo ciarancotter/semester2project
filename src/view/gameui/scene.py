@@ -18,6 +18,7 @@ import os
 import sys
 import asyncio
 import pygame
+import time
 
 sys.path.append(os.path.abspath("./src"))
 
@@ -741,10 +742,10 @@ class GameScene(Scene):
         self.frame_count = 0
         self.frame_delay = 5
         self.current_sprite_index = 0
-        self.current_sprite_index_enemy = 0
         self.inscriptions = []
         self.frame_count_enemy = 0
-        self.frame_count_enemy2 = 0
+
+        self._enemy_sprite_index = {}
 
         # Initialising the game manager
         self.screen = screen
@@ -810,8 +811,7 @@ class GameScene(Scene):
         """
         pygame.display.set_caption("Boole Raider")
         self.loading_screen.update()
-        # asyncio.run(self.load_many_backgrounds())  # Parallel asset downloading
-        
+        #asyncio.run(self.load_many_backgrounds())  # Parallel asset downloading
         #generate_background("Ancient Egypt")
         game_background = pygame.image.load("src/view/assets/gamebg1.png").convert_alpha()
         self.background = pygame.transform.scale(game_background, (784, 784))
@@ -960,39 +960,48 @@ class GameScene(Scene):
             for i in range(len(self.enemy_sufaces)-len(context.enemies)):
                 self.enemy_sufaces.pop()
 
-
-        for e,enemy in enumerate(context.enemies):
+        for e, enemy in enumerate(context.enemies):
             enemy_image = self.enemy_selector(enemy)
-            i = 0
-            j = 0
-            #i = self.frame_count_enemy % self.enemy_rows
-            #j = self.frame_count_enemy % self.enemy_columns
-            self.frame_count_enemy += 1
 
-            self.enemy_sufaces[e][i * self.enemy_columns + j].blit(enemy_image, (0, 0), (
-                    j * enemy.width, i * enemy.height, enemy.width,
-                        enemy.height))
-            # the bellow does nothing it is brocken
+            if enemy not in self._enemy_sprite_index:
+                self._enemy_sprite_index[enemy] = [0, 0]
+
+            for i in range(self.enemy_rows):
+                for j in range(self.enemy_columns):
+                    self.enemy_sufaces[e][i * self.enemy_columns + j].blit(enemy_image, (0, 0), (
+                            j * enemy.width, i * enemy.height, enemy.width, enemy.height))
+            
+            u = 790
+            for i in self.enemy_sufaces[e]:
+                self.screen.blit(i, (u, 50))
+                u += enemy.width
+            
             match enemy.facing:
                 case Movement.right:
-                    self.enemy_direction = "right"
-                    self.frame_count_enemy2 += 1
-                    if self.frame_count_enemy2 == self.frame_delay:
-                        self.current_sprite_index_enemy = (self.current_sprite_index_enemy + 1) % self.enemy_columns          ####!!!! for changing the legs moving
-                        self.frame_count_enemy2 = 0
+                    if self._enemy_sprite_index[enemy][0] == self.frame_delay:
+                        self._enemy_sprite_index[enemy][1] = (self._enemy_sprite_index[enemy][1] + 1) % self.enemy_columns
+                        self._enemy_sprite_index[enemy][0] = 0
                 case Movement.left:
-                    self.enemy_direction = "left"
-                    self.frame_count_enemy2 += 1
-                    if self.frame_count_enemy2 == self.frame_delay:
-                        self.current_sprite_index_enemy = self.enemy_columns + (self.current_sprite_index_enemy + 2) % self.enemy_columns   ####!!!! for changing the legs moving
-                        self.frame_count_enemy2 = 0
+                    if self._enemy_sprite_index[enemy][0] == self.frame_delay:
+                        self._enemy_sprite_index[enemy][1] = (self._enemy_sprite_index[enemy][1] + 2) % self.enemy_columns
+                        self._enemy_sprite_index[enemy][0] = 0
         
+            self.screen.blit(
+                self.enemy_sufaces[e][self._enemy_sprite_index[enemy][1]],
+                (enemy.x, enemy.y)
+            )
+
+            self._enemy_sprite_index[enemy][0] += 1
+            for i in range(self.enemy_rows):
+                for j in range(self.enemy_columns):
+                    self.enemy_sufaces[e][i * self.enemy_columns + j].fill((0, 0, 0, 0))
+            
         # TODO:fix this 
 
-        self.current_sprite_index_enemy = 0
-        self.frame_count_enemy2 = 0
+        #self.current_sprite_index_enemy = 0
+        #self.frame_count_enemy2 = 0
         # end TODO
-        self.display_enemies(context)
+        #self.display_enemies(context)
 
     def draw_player(self, context):
         self.player_data = context.player
@@ -1024,7 +1033,6 @@ class GameScene(Scene):
             # Space key -> jump.
             case Movement.jump:
                 self.direction = "jump"
-                self.frame_count += 1
                 if self.frame_count == self.frame_delay:
                     self.current_sprite_index = self.current_sprite_index
                     self.frame_count = 0

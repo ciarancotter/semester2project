@@ -26,7 +26,7 @@ class LeftPunch(object):
         """Creates the LeftPunch object
         """
         self._olddelt = 0
-        self._speed_threshhold = 40
+        self._speed_threshhold = 30
         self.read = False
         self.magnitude = 0
 
@@ -115,7 +115,7 @@ class RightPunch(object):
         """Creates the RightPunch object
         """
         self._olddelt = 0
-        self._speed_threshhold = 40
+        self._speed_threshhold = 30
         self.read = False
         self.magnitude = 0
 

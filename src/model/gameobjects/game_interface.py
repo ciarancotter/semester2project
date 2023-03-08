@@ -217,7 +217,7 @@ class PlatformerGame(object):
         """Updates the player's movements.
         """
         self.frame_count +=1
-        if self.frame_count > 200:
+        if self.frame_count > 600:
             self.create_enemy()
             self.frame_count = 0 
         self._entities,self._enemies,got_loot =  self._player.move(player_moves, self._entities,self._enemies)
