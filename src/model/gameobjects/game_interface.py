@@ -61,6 +61,7 @@ class CtxToRender(object):
             monolith: the monolith object that will tell the user a story when
                         collided with.
             loot: one loot object on the level.
+        """
 
         self._entity_size = entitysize
         self._enemies = enemies
