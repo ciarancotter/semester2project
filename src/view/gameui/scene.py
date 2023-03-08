@@ -138,7 +138,7 @@ class LoadingScene(Scene):
     
     def __init__(self, screen):
         self.screen = screen
-        self.text = pygame.font.SysFont("monospace", 30).render('Loading...', True, "white")
+        self.text = pygame.font.SysFont("monospace", 50, bold=True).render('LOADING...', True, "gold")
         self.text_rect = self.text.get_rect()
         self.text_rect.center = (
                 self.screen.get_width() // 2,
@@ -810,7 +810,7 @@ class GameScene(Scene):
         self.loading_screen.update()
         # asyncio.run(self.load_many_backgrounds())  # Parallel asset downloading
         #generate_background("Ancient Egypt")
-        game_background = pygame.image.load("src/view/assets/gamebg1.png").convert_alpha()
+        game_background = pygame.image.load("src/view/assets/gamebg.png").convert_alpha()
         self.background = pygame.transform.scale(game_background, (784, 784))
         self.inscriptions = generate_monolith("tragic", "Egyptian")
         self.screen.fill("gold")
