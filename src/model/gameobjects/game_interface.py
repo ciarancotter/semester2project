@@ -44,11 +44,22 @@ class CtxToRender(object):
 		platform independent.
 
 		Args:
+            entitysize: a tuple of the standard size of an entity
+                        in the format (width,height)
 			enemies: a list of enemy objects to be displayed
 			on the screen
 			player: a player object representing main charicter
 			blocks: a list of block platforms
-			entities: a list of all the perivios entities together 
+			entities: a list of all the perivios entities together.
+            game_state: the state that the game is in in the format of the
+                        GameState enum.
+            current_level: an integer that stores the number of how many levels
+                            that the user has gone through.
+            door: the door object that gives the location of the door which the
+                    enemy can travel through to get to the next room.
+            monolith: the monolith object that will tell the user a story when
+                        collided with.
+            loot: one loot object on the level.
 
 		"""
         self._entity_size = entitysize
