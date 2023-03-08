@@ -139,7 +139,7 @@ class LoadingScene(Scene):
     
     def __init__(self, screen):
         self.screen = screen
-        self.text = pygame.font.SysFont("monospace", 30).render('Loading...', True, "white")
+        self.text = pygame.font.SysFont("monospace", 50, bold=True).render('LOADING...', True, "gold")
         self.text_rect = self.text.get_rect()
         self.text_rect.center = (
                 self.screen.get_width() // 2,
