@@ -26,33 +26,43 @@ class CtxToRender(object):
     """Contains all the information needed to
     display a gamestate to the user.
 
-    meant to be used as a container to be passed to 
-    a module using a game engine but attempts to be
-    platform independent.
+    def __init__(
+            self, entitysize: tuple,
+            enemies: list[Enemy],
+            player: Player,
+            blocks: list[Block],
+            entities: list[Entity],
+            game_state: GameState,
+            current_level: int,
+            door: Door,
+            monolith: Monolith,
+            loot: Loot
+            ) -> None:
 
-    Args:
-        enemies: a list of enemy objects to be displayed
-        on the screen
-        player: a player object representing main charicter
-        blocks: a list of block platforms
-        entities: a list of all the perivios entities together 
+        """contains all the information needed to 
+		display a gamestate to the user.
 
-    """
+		meant to be used as a container to be passed to 
+		a module using a game engine but attempts to be
+		platform independent.
 
-    def __init__( 
-        self, entitysize: tuple,
-        enemies: list[Enemy],
-        player: Player,
-        blocks: list[Block],
-        entities: list[Entity],
-        game_state: GameState,
-        current_level: int,
-        door: Door,
-        monolith: Monolith,
-        loot: Loot
-        ) -> None:
-        """Inits the CtxToRender class
-        """
+		Args:
+            entitysize: a tuple of the standard size of an entity
+                        in the format (width,height)
+			enemies: a list of enemy objects to be displayed
+			on the screen
+			player: a player object representing main charicter
+			blocks: a list of block platforms
+			entities: a list of all the perivios entities together.
+            game_state: the state that the game is in in the format of the
+                        GameState enum.
+            current_level: an integer that stores the number of how many levels
+                            that the user has gone through.
+            door: the door object that gives the location of the door which the
+                    enemy can travel through to get to the next room.
+            monolith: the monolith object that will tell the user a story when
+                        collided with.
+            loot: one loot object on the level.
 
         self._entity_size = entitysize
         self._enemies = enemies

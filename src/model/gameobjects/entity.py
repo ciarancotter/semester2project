@@ -23,12 +23,15 @@ class Entity:
 
         Attributes:
             coordinates: The object's position on the tilemap.
+            given in the format (x,y)
             width: The width of the object.
             height: The height of the object.
-            xPos: the x co-ordenate of the entity on the game plane
+            x: the x co-ordenate of the entity on the game plane
                 that will be displayed on the screen
-            yPos: the y co-ordenate of the entity on the game plane
+            y: the y co-ordenate of the entity on the game plane
                 that will be displayed on the screen.
+            is_colliding_entity: if the enity can collide with other
+                entities in the game.
 
         """
         self.colliding: bool = colliding
@@ -121,9 +124,9 @@ class Block(Entity):
             coordinates: The object's position on the tilemap.
             width: The width of the object.
             height: The height of the object.
-            xPos: the x co-ordenate of the entity on the game plane
+            x: the x co-ordenate of the entity on the game plane
                 that will be displayed on the screen
-            yPos: the y co-ordenate of the entity on the game plane
+            y: the y co-ordenate of the entity on the game plane
                 that will be displayed on the screen.
 
     """
@@ -172,7 +175,8 @@ class Door(Block):
 
 
 class Monke(Entity):
-    """ a class that represents a Monke like entity on the screen
+    """ a class that represents a Monke like entity on the screen.
+        inherets from entity
     """
 
     def __init__(self, xPos: int, yPos: int, width: int, height: int,
@@ -203,7 +207,7 @@ class Monke(Entity):
         return False
 
     def gravity(self, entities: list[Entity]) -> bool:
-        """if monke let go of tree it fall.
+        """if a monke let go of tree it falls.
         """
         for i in range(self._fall_speed):
             if self.check_no_hit(entities):
@@ -238,10 +242,15 @@ class Player(Monke):
         facing: the direction that the charicter is going in used for
                 deciding which sprite to display in the view
         _player: how fast the player moves on the screen
-        xPos: the x co-ordenate of the player on the game plane
+        x: the x co-ordenate of the player on the game plane
                 that will be displayed on the screen
-        yPos: the y co-ordenate of the player on the game plane
+        y: the y co-ordenate of the player on the game plane
                 that will be displayed on the screen.
+        health: a number 1-10 representing the health of the player.
+        score: the score of the player that represents the final score
+                that will be used in the final leaderbord.
+        isInvincable: True if the player cannot take dammage at this moment
+                        in time
     """
 
     def __init__(self, width: int, height: int, SCREEN_WIDTH: int, SCREEN_HEIGHT: int) -> None:
@@ -261,6 +270,10 @@ class Player(Monke):
         self.current_loot = None
         self._invincible = False
         self._score = 0
+
+        # how long is the punch going to last for
+        self._punch_timer = 0
+        self._cur_punch = Movement.no_movement
 
         super().__init__(self.xPos, self.yPos, width, height, True, 2)
         self._hitbox_x_offset = 15
@@ -285,8 +298,13 @@ class Player(Monke):
             #punching 
             if direction == Movement.left_punch:
                 self.facing = Movement.left_punch
+                self._punch_timer = 60
+                self._cur_punch = Movement.left_punch
+
             if direction == Movement.right_punch:
                 self.facing = Movement.right_punch
+                self._punch_timer = 60
+                self._cur_punch = Movement.right_punch
             #move left
             if direction == Movement.left and self.xPos >= 0:
                 self.xPos -= self._speed
@@ -300,6 +318,13 @@ class Player(Monke):
             if (not self._jumping) and direction == Movement.jump:
                 self._jumping = True
                 self._jump_baseline = self.yPos
+
+        if 0 < self._punch_timer:
+            self._punch_timer -= 1
+            directions.append(self._cur_punch)
+            self.facing = self._cur_punch
+
+
                 
         # if the player is jumping create an ark
         if self._jumping:
@@ -495,7 +520,12 @@ class JumpLoot(Loot):
 
 
 class InvincibilityLoot(Loot):
-    """loot that renders the player unable to be damaged by enemies for a particular period."""
+    """loot that renders the player unable to be damaged by enemies for a particular period.
+        
+        Atributes:
+            power_up_time: the time period remaining thatyou will be unable to 
+                            take dammage in.
+    """
     def __init__(self,xPos: int, yPos: int, width: int, height: int,power=2,time=1000):
         self.power_up_time = time
         super().__init__(xPos,yPos, width, height,power=power)

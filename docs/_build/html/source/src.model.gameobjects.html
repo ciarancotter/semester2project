@@ -7,30 +7,125 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>src.model.gameobjects package &#8212; Semester 2 Project  documentation</title>
+    
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/scrolls.css" />
+    <link rel="stylesheet" href="_static/print.css" type="text/css" />
+    
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/theme_extras.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="src.model.movement_recognition package" href="src.model.movement_recognition.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <link rel="prev" title="src.model.movement_recognition package" href="src.model.movement_recognition.html" /> 
   </head><body>
-  
+    <div id="content">
+      <div class="header">
+        <h1 class="heading"><a href="../index.html"
+          title="back to the documentation overview"><span>src.model.gameobjects package</span></a></h1>
+      </div>
+      <div class="relnav" role="navigation" aria-label="related navigation">
+        <a href="src.model.movement_recognition.html">&laquo; src.model.movement_recognition package</a> |
+        <a href="#">src.model.gameobjects package</a>
+      </div>
+      <div id="contentwrapper">
+        <div id="toc" role="navigation" aria-label="table of contents navigation">
+          <h3>Table of Contents</h3>
+          <ul>
+<li><a class="reference internal" href="#">src.model.gameobjects package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-src.model.gameobjects.entity">src.model.gameobjects.entity module</a><ul>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Block"><code class="docutils literal notranslate"><span class="pre">Block</span></code></a><ul>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Block.coordinates"><code class="docutils literal notranslate"><span class="pre">Block.coordinates</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Block.width"><code class="docutils literal notranslate"><span class="pre">Block.width</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Block.height"><code class="docutils literal notranslate"><span class="pre">Block.height</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Block.x"><code class="docutils literal notranslate"><span class="pre">Block.x</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Block.y"><code class="docutils literal notranslate"><span class="pre">Block.y</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Door"><code class="docutils literal notranslate"><span class="pre">Door</span></code></a><ul>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Door.check_for_entry"><code class="docutils literal notranslate"><span class="pre">Door.check_for_entry()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Enemy"><code class="docutils literal notranslate"><span class="pre">Enemy</span></code></a><ul>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Enemy.damage"><code class="docutils literal notranslate"><span class="pre">Enemy.damage</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Enemy.distance_to_player"><code class="docutils literal notranslate"><span class="pre">Enemy.distance_to_player()</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Enemy.get_dammage"><code class="docutils literal notranslate"><span class="pre">Enemy.get_dammage()</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Enemy.move"><code class="docutils literal notranslate"><span class="pre">Enemy.move()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Entity"><code class="docutils literal notranslate"><span class="pre">Entity</span></code></a><ul>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Entity.coordinates"><code class="docutils literal notranslate"><span class="pre">Entity.coordinates</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Entity.get_coordinates"><code class="docutils literal notranslate"><span class="pre">Entity.get_coordinates()</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Entity.get_height"><code class="docutils literal notranslate"><span class="pre">Entity.get_height()</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Entity.get_is_colliding_entity"><code class="docutils literal notranslate"><span class="pre">Entity.get_is_colliding_entity()</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Entity.get_width"><code class="docutils literal notranslate"><span class="pre">Entity.get_width()</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Entity.get_x"><code class="docutils literal notranslate"><span class="pre">Entity.get_x()</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Entity.get_y"><code class="docutils literal notranslate"><span class="pre">Entity.get_y()</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Entity.height"><code class="docutils literal notranslate"><span class="pre">Entity.height</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Entity.is_colliding_entity"><code class="docutils literal notranslate"><span class="pre">Entity.is_colliding_entity</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Entity.is_colliding_with_entity"><code class="docutils literal notranslate"><span class="pre">Entity.is_colliding_with_entity()</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Entity.is_colliding_with_entitys"><code class="docutils literal notranslate"><span class="pre">Entity.is_colliding_with_entitys()</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Entity.set_x"><code class="docutils literal notranslate"><span class="pre">Entity.set_x()</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Entity.set_y"><code class="docutils literal notranslate"><span class="pre">Entity.set_y()</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Entity.width"><code class="docutils literal notranslate"><span class="pre">Entity.width</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Entity.x"><code class="docutils literal notranslate"><span class="pre">Entity.x</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Entity.y"><code class="docutils literal notranslate"><span class="pre">Entity.y</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.InvincibilityLoot"><code class="docutils literal notranslate"><span class="pre">InvincibilityLoot</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.JumpLoot"><code class="docutils literal notranslate"><span class="pre">JumpLoot</span></code></a><ul>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.JumpLoot.get_jump_increase"><code class="docutils literal notranslate"><span class="pre">JumpLoot.get_jump_increase()</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.JumpLoot.jump_increase"><code class="docutils literal notranslate"><span class="pre">JumpLoot.jump_increase</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Loot"><code class="docutils literal notranslate"><span class="pre">Loot</span></code></a><ul>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Loot.get_power"><code class="docutils literal notranslate"><span class="pre">Loot.get_power()</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Loot.power"><code class="docutils literal notranslate"><span class="pre">Loot.power</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Monke"><code class="docutils literal notranslate"><span class="pre">Monke</span></code></a><ul>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Monke.check_no_hit"><code class="docutils literal notranslate"><span class="pre">Monke.check_no_hit()</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Monke.collideTop"><code class="docutils literal notranslate"><span class="pre">Monke.collideTop()</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Monke.gravity"><code class="docutils literal notranslate"><span class="pre">Monke.gravity()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Monolith"><code class="docutils literal notranslate"><span class="pre">Monolith</span></code></a><ul>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Monolith.check_for_read"><code class="docutils literal notranslate"><span class="pre">Monolith.check_for_read()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Player"><code class="docutils literal notranslate"><span class="pre">Player</span></code></a><ul>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Player.screen_width"><code class="docutils literal notranslate"><span class="pre">Player.screen_width</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Player.facing"><code class="docutils literal notranslate"><span class="pre">Player.facing</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Player._player"><code class="docutils literal notranslate"><span class="pre">Player._player</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Player.x"><code class="docutils literal notranslate"><span class="pre">Player.x</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Player.y"><code class="docutils literal notranslate"><span class="pre">Player.y</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Player.health"><code class="docutils literal notranslate"><span class="pre">Player.health</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Player.score"><code class="docutils literal notranslate"><span class="pre">Player.score</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Player.isInvincable"><code class="docutils literal notranslate"><span class="pre">Player.isInvincable</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Player.calculate_collition_results"><code class="docutils literal notranslate"><span class="pre">Player.calculate_collition_results()</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Player.get_health"><code class="docutils literal notranslate"><span class="pre">Player.get_health()</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Player.get_invincibility"><code class="docutils literal notranslate"><span class="pre">Player.get_invincibility()</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Player.get_score"><code class="docutils literal notranslate"><span class="pre">Player.get_score()</span></code></a></li>
+<li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">Player.health</span></code></a></li>
+<li><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">Player.isInvincable</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Player.move"><code class="docutils literal notranslate"><span class="pre">Player.move()</span></code></a></li>
+<li><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">Player.score</span></code></a></li>
+<li><a class="reference internal" href="#src.model.gameobjects.entity.Player.update_loot_stats"><code class="docutils literal notranslate"><span class="pre">Player.update_loot_stats()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#src-model-gameobjects-level-module">src.model.gameobjects.level module</a></li>
+<li><a class="reference internal" href="#module-src.model.gameobjects">Module contents</a></li>
+</ul>
+</li>
+</ul>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          
-
-          <div class="body" role="main">
-            
+        </div>
+        <div role="main">
+        
   <section id="src-model-gameobjects-package">
 <h1>src.model.gameobjects package<a class="headerlink" href="#src-model-gameobjects-package" title="Permalink to this heading">¶</a></h1>
 <section id="submodules">
@@ -49,7 +144,7 @@ object_can_collide = test_entity.isColliding()</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="src.model.gameobjects.entity.Block">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.gameobjects.entity.</span></span><span class="sig-name descname"><span class="pre">Block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xPos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yPos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Block" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="#src.model.gameobjects.entity.Entity" title="src.model.gameobjects.entity.Entity"><code class="xref py py-class docutils literal notranslate"><span class="pre">Entity</span></code></a></p>
 <p>An entity platform that sprites can stand on.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="src.model.gameobjects.entity.Block.coordinates">
@@ -70,15 +165,15 @@ object_can_collide = test_entity.isColliding()</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="src.model.gameobjects.entity.Block.xPos">
-<span class="sig-name descname"><span class="pre">xPos</span></span><a class="headerlink" href="#src.model.gameobjects.entity.Block.xPos" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Block.x">
+<span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#src.model.gameobjects.entity.Block.x" title="Permalink to this definition">¶</a></dt>
 <dd><p>the x co-ordenate of the entity on the game plane
 that will be displayed on the screen</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="src.model.gameobjects.entity.Block.yPos">
-<span class="sig-name descname"><span class="pre">yPos</span></span><a class="headerlink" href="#src.model.gameobjects.entity.Block.yPos" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Block.y">
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#src.model.gameobjects.entity.Block.y" title="Permalink to this definition">¶</a></dt>
 <dd><p>the y co-ordenate of the entity on the game plane
 that will be displayed on the screen.</p>
 </dd></dl>
@@ -86,8 +181,22 @@ that will be displayed on the screen.</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Door">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.gameobjects.entity.</span></span><span class="sig-name descname"><span class="pre">Door</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xPos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yPos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Door" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#src.model.gameobjects.entity.Block" title="src.model.gameobjects.entity.Block"><code class="xref py py-class docutils literal notranslate"><span class="pre">Block</span></code></a></p>
+<p>An entity that sends you to a different level on contact.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Door.check_for_entry">
+<span class="sig-name descname"><span class="pre">check_for_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#src.model.gameobjects.entity.Door.check_for_entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the door has been entered.</p>
+<p>Returns: True if entered false if not</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="src.model.gameobjects.entity.Enemy">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.gameobjects.entity.</span></span><span class="sig-name descname"><span class="pre">Enemy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xPos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yPos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colliding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dammage</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Enemy" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.gameobjects.entity.</span></span><span class="sig-name descname"><span class="pre">Enemy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SCREEN_WIDTH</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SCREEN_HEIGHT</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dammage</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#src.model.gameobjects.entity.Player" title="src.model.gameobjects.entity.Player"><span class="pre">Player</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Enemy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#src.model.gameobjects.entity.Monke" title="src.model.gameobjects.entity.Monke"><code class="xref py py-class docutils literal notranslate"><span class="pre">Monke</span></code></a></p>
 <p>the enemy sprites that travel around the game deal damage to our innocent explorer
 inheretes from Monke
@@ -97,17 +206,25 @@ Atributes:</p>
 </div></blockquote>
 <dl class="py property">
 <dt class="sig sig-object py" id="src.model.gameobjects.entity.Enemy.damage">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">damage</span></span><a class="headerlink" href="#src.model.gameobjects.entity.Enemy.damage" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">damage</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#src.model.gameobjects.entity.Enemy.damage" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Enemy.distance_to_player">
+<span class="sig-name descname"><span class="pre">distance_to_player</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Enemy.distance_to_player" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns
+the absolute distance of this enemy to the player
+in integer form.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="src.model.gameobjects.entity.Enemy.get_dammage">
-<span class="sig-name descname"><span class="pre">get_dammage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Enemy.get_dammage" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_dammage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#src.model.gameobjects.entity.Enemy.get_dammage" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.gameobjects.entity.Enemy.move">
-<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Enemy.move" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#src.model.gameobjects.entity.Entity" title="src.model.gameobjects.entity.Entity"><span class="pre">src.model.gameobjects.entity.Entity</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Enemy.move" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -135,6 +252,12 @@ Atributes:</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Entity.get_is_colliding_entity">
+<span class="sig-name descname"><span class="pre">get_is_colliding_entity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#src.model.gameobjects.entity.Entity.get_is_colliding_entity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter method for the colliding property.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="src.model.gameobjects.entity.Entity.get_width">
 <span class="sig-name descname"><span class="pre">get_width</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#src.model.gameobjects.entity.Entity.get_width" title="Permalink to this definition">¶</a></dt>
 <dd><p>Getter method for the width property.</p>
@@ -142,12 +265,12 @@ Atributes:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.gameobjects.entity.Entity.get_x">
-<span class="sig-name descname"><span class="pre">get_x</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Entity.get_x" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_x</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#src.model.gameobjects.entity.Entity.get_x" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.gameobjects.entity.Entity.get_y">
-<span class="sig-name descname"><span class="pre">get_y</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Entity.get_y" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_y</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#src.model.gameobjects.entity.Entity.get_y" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
@@ -164,7 +287,12 @@ Atributes:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.gameobjects.entity.Entity.is_colliding_with_entity">
-<span class="sig-name descname"><span class="pre">is_colliding_with_entity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#src.model.gameobjects.entity.Entity.is_colliding_with_entity" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_colliding_with_entity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entity</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Entity.is_colliding_with_entity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Entity.is_colliding_with_entitys">
+<span class="sig-name descname"><span class="pre">is_colliding_with_entitys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#src.model.gameobjects.entity.Entity.is_colliding_with_entitys" title="Permalink to this definition">¶</a></dt>
 <dd><p>checks if this entity is colliding with anything in the list of
 entitys provided.</p>
 <dl class="field-list simple">
@@ -180,13 +308,13 @@ entitys provided.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.gameobjects.entity.Entity.set_x">
-<span class="sig-name descname"><span class="pre">set_x</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newX</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Entity.set_x" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_x</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newX</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#src.model.gameobjects.entity.Entity.set_x" title="Permalink to this definition">¶</a></dt>
 <dd><p>Setter method for the x-coordinate.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.gameobjects.entity.Entity.set_y">
-<span class="sig-name descname"><span class="pre">set_y</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newY</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Entity.set_y" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_y</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newY</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#src.model.gameobjects.entity.Entity.set_y" title="Permalink to this definition">¶</a></dt>
 <dd><p>Setter method for the y-coordinate.</p>
 </dd></dl>
 
@@ -198,12 +326,69 @@ entitys provided.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="src.model.gameobjects.entity.Entity.x">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#src.model.gameobjects.entity.Entity.x" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">x</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#src.model.gameobjects.entity.Entity.x" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="src.model.gameobjects.entity.Entity.y">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#src.model.gameobjects.entity.Entity.y" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">y</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#src.model.gameobjects.entity.Entity.y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.InvincibilityLoot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.gameobjects.entity.</span></span><span class="sig-name descname"><span class="pre">InvincibilityLoot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xPos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yPos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">power</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.InvincibilityLoot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#src.model.gameobjects.entity.Loot" title="src.model.gameobjects.entity.Loot"><code class="xref py py-class docutils literal notranslate"><span class="pre">Loot</span></code></a></p>
+<p>loot that renders the player unable to be damaged by enemies for a particular period.</p>
+<dl class="simple">
+<dt>Atributes:</dt><dd><dl class="simple">
+<dt>power_up_time: the time period remaining thatyou will be unable to</dt><dd><p>take dammage in.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.JumpLoot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.gameobjects.entity.</span></span><span class="sig-name descname"><span class="pre">JumpLoot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xPos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yPos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">power</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jump_increase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.JumpLoot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#src.model.gameobjects.entity.Loot" title="src.model.gameobjects.entity.Loot"><code class="xref py py-class docutils literal notranslate"><span class="pre">Loot</span></code></a></p>
+<p>loot that makes you jump higher.</p>
+<dl class="simple">
+<dt>Atributes:</dt><dd><p>jump_increase: the amoun that your jump height increases when you get the loot
+power_up_time: the time period that your increased jump height remains in place</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.JumpLoot.get_jump_increase">
+<span class="sig-name descname"><span class="pre">get_jump_increase</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.JumpLoot.get_jump_increase" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.JumpLoot.jump_increase">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">jump_increase</span></span><a class="headerlink" href="#src.model.gameobjects.entity.JumpLoot.jump_increase" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Loot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.gameobjects.entity.</span></span><span class="sig-name descname"><span class="pre">Loot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xPos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yPos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">power</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Loot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#src.model.gameobjects.entity.Entity" title="src.model.gameobjects.entity.Entity"><code class="xref py py-class docutils literal notranslate"><span class="pre">Entity</span></code></a></p>
+<p>the Loot class contains power ups that the player can gain once they colide with it.</p>
+<dl class="simple">
+<dt>Atributes:</dt><dd><p>power: the potency of the loot</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Loot.get_power">
+<span class="sig-name descname"><span class="pre">get_power</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Loot.get_power" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Loot.power">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">power</span></span><a class="headerlink" href="#src.model.gameobjects.entity.Loot.power" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -212,10 +397,11 @@ entitys provided.</p>
 <dt class="sig sig-object py" id="src.model.gameobjects.entity.Monke">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.gameobjects.entity.</span></span><span class="sig-name descname"><span class="pre">Monke</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xPos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yPos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colliding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Monke" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#src.model.gameobjects.entity.Entity" title="src.model.gameobjects.entity.Entity"><code class="xref py py-class docutils literal notranslate"><span class="pre">Entity</span></code></a></p>
-<p>a class that represents a Monke like entity on the screen</p>
+<p>a class that represents a Monke like entity on the screen.
+inherets from entity</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.gameobjects.entity.Monke.check_no_hit">
-<span class="sig-name descname"><span class="pre">check_no_hit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blocks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Monke.check_no_hit" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">check_no_hit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blocks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#src.model.gameobjects.entity.Entity" title="src.model.gameobjects.entity.Entity"><span class="pre">src.model.gameobjects.entity.Entity</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#src.model.gameobjects.entity.Monke.check_no_hit" title="Permalink to this definition">¶</a></dt>
 <dd><p>checks if the Monke has hit the top of the block or the ground.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -227,7 +413,7 @@ entitys provided.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.gameobjects.entity.Monke.collideTop">
-<span class="sig-name descname"><span class="pre">collideTop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#src.model.gameobjects.entity.Monke.collideTop" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">collideTop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#src.model.gameobjects.entity.Entity" title="src.model.gameobjects.entity.Entity"><span class="pre">src.model.gameobjects.entity.Entity</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#src.model.gameobjects.entity.Monke.collideTop" title="Permalink to this definition">¶</a></dt>
 <dd><p>collideTop is an internal method that checks if the Monke is on top of a block.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -242,8 +428,21 @@ entitys provided.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.gameobjects.entity.Monke.gravity">
-<span class="sig-name descname"><span class="pre">gravity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Monke.gravity" title="Permalink to this definition">¶</a></dt>
-<dd><p>if monke let go of tree it fall.</p>
+<span class="sig-name descname"><span class="pre">gravity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#src.model.gameobjects.entity.Entity" title="src.model.gameobjects.entity.Entity"><span class="pre">src.model.gameobjects.entity.Entity</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#src.model.gameobjects.entity.Monke.gravity" title="Permalink to this definition">¶</a></dt>
+<dd><p>if a monke let go of tree it falls.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Monolith">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model.gameobjects.entity.</span></span><span class="sig-name descname"><span class="pre">Monolith</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xPos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yPos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Monolith" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#src.model.gameobjects.entity.Block" title="src.model.gameobjects.entity.Block"><code class="xref py py-class docutils literal notranslate"><span class="pre">Block</span></code></a></p>
+<p>An entity that shows you an inscription when interacted with.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Monolith.check_for_read">
+<span class="sig-name descname"><span class="pre">check_for_read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#src.model.gameobjects.entity.Monolith.check_for_read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the monolith is being read.</p>
 </dd></dl>
 
 </dd></dl>
@@ -282,22 +481,42 @@ deciding which sprite to display in the view</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="src.model.gameobjects.entity.Player.xPos">
-<span class="sig-name descname"><span class="pre">xPos</span></span><a class="headerlink" href="#src.model.gameobjects.entity.Player.xPos" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Player.x">
+<span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#src.model.gameobjects.entity.Player.x" title="Permalink to this definition">¶</a></dt>
 <dd><p>the x co-ordenate of the player on the game plane
 that will be displayed on the screen</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="src.model.gameobjects.entity.Player.yPos">
-<span class="sig-name descname"><span class="pre">yPos</span></span><a class="headerlink" href="#src.model.gameobjects.entity.Player.yPos" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Player.y">
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#src.model.gameobjects.entity.Player.y" title="Permalink to this definition">¶</a></dt>
 <dd><p>the y co-ordenate of the player on the game plane
 that will be displayed on the screen.</p>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Player.health">
+<span class="sig-name descname"><span class="pre">health</span></span><a class="headerlink" href="#src.model.gameobjects.entity.Player.health" title="Permalink to this definition">¶</a></dt>
+<dd><p>a number 1-10 representing the health of the player.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Player.score">
+<span class="sig-name descname"><span class="pre">score</span></span><a class="headerlink" href="#src.model.gameobjects.entity.Player.score" title="Permalink to this definition">¶</a></dt>
+<dd><p>the score of the player that represents the final score
+that will be used in the final leaderbord.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Player.isInvincable">
+<span class="sig-name descname"><span class="pre">isInvincable</span></span><a class="headerlink" href="#src.model.gameobjects.entity.Player.isInvincable" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the player cannot take dammage at this moment
+in time</p>
+</dd></dl>
+
 <dl class="py method">
-<dt class="sig sig-object py" id="src.model.gameobjects.entity.Player.calculate_damage">
-<span class="sig-name descname"><span class="pre">calculate_damage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Player.calculate_damage" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Player.calculate_collition_results">
+<span class="sig-name descname"><span class="pre">calculate_collition_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enemies</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directions</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Player.calculate_collition_results" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -305,14 +524,29 @@ that will be displayed on the screen.</p>
 <span class="sig-name descname"><span class="pre">get_health</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Player.get_health" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Player.get_invincibility">
+<span class="sig-name descname"><span class="pre">get_invincibility</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Player.get_invincibility" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Player.get_score">
+<span class="sig-name descname"><span class="pre">get_score</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Player.get_score" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py property">
-<dt class="sig sig-object py" id="src.model.gameobjects.entity.Player.health">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">health</span></span><a class="headerlink" href="#src.model.gameobjects.entity.Player.health" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="id0">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">health</span></span><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id1">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">isInvincable</span></span><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.model.gameobjects.entity.Player.move">
-<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Movement</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Player.move" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">src.model.gameobjects.public_enums.Movement</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#src.model.gameobjects.entity.Entity" title="src.model.gameobjects.entity.Entity"><span class="pre">src.model.gameobjects.entity.Entity</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enemies</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#src.model.gameobjects.entity.Player.move" title="Permalink to this definition">¶</a></dt>
 <dd><p>this method is called to change the state of the player.</p>
 <p>this method is called to change the state of the player and does not have to
 be in response to a movement. (no movement is an option)</p>
@@ -322,6 +556,19 @@ be in response to a movement. (no movement is an option)</p>
 player is to move.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="id2">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">score</span></span><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model.gameobjects.entity.Player.update_loot_stats">
+<span class="sig-name descname"><span class="pre">update_loot_stats</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.model.gameobjects.entity.Player.update_loot_stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>stores whether the player has gained any special powers.</p>
+<p>creates a timer and decrements it each frame to store the time
+that the powers will run out.</p>
 </dd></dl>
 
 </dd></dl>
@@ -336,84 +583,13 @@ player is to move.</p>
 </section>
 
 
-          </div>
-          
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">Semester 2 Project</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="src.html">src package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="src.controller.html">src.controller package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="src.view.gameui.html">src.view.gameui package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="src.model.movement_recognition.html">src.model.movement_recognition package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="src.model.html">src.model package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="src.view.html">src.view package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="src.model.aiutilities.html">src.model.aiutilities package</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">src.model.gameobjects package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-src.model.gameobjects.entity">src.model.gameobjects.entity module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#src-model-gameobjects-level-module">src.model.gameobjects.level module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-src.model.gameobjects">Module contents</a></li>
-</ul>
-</li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="src.model.movement_recognition.html" title="previous chapter">src.model.movement_recognition package</a></li>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>document.getElementById('searchbox').style.display = "block"</script>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2023, Team 2.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
-      
-      |
-      <a href="../_sources/source/src.model.gameobjects.rst.txt"
-          rel="nofollow">Page source</a>
     </div>
 
-    
-
-    
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, Team 2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    </div>
   </body>
 </html>
