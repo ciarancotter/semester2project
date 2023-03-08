@@ -42,8 +42,8 @@ class MovementHandler(object):
         self.jump = Jump()
         self.leftpunch = LeftPunch()
         self.rightpunch = RightPunch()
-        self.leftwalk = RaiseRightLeg()
-        self.rightwalk = RaiseLeftLeg()
+        #self.leftwalk = RaiseRightLeg()
+        #self.rightwalk = RaiseLeftLeg()
         self.turntest = TurnHips()
 
         self.movementPoolRead = SharedMemoryDict(name='movementPoolRead', size=1024)
@@ -54,8 +54,8 @@ class MovementHandler(object):
         self.movementPoolRead["jump"] = self.jump.read
         self.movementPoolRead["leftpunch"] = self.leftpunch.read
         self.movementPoolRead["rightpunch"] = self.rightpunch.read
-        self.movementPoolRead["leftwalk"] = self.leftwalk.read
-        self.movementPoolRead["rightwalk"] = self.rightwalk.read
+        #self.movementPoolRead["leftwalk"] = self.leftwalk.read
+        #self.movementPoolRead["rightwalk"] = self.rightwalk.read
 
         self.movementPoolMisc["mousex"] = self.mouse.x
         self.movementPoolMisc["mousey"] = self.mouse.y
@@ -151,8 +151,8 @@ class MovementHandler(object):
                     self.jump(body, self._depth, joint_points)
                     self.rightpunch(body, self._depth, joint_points)
                     self.leftpunch(body, self._depth, joint_points)
-                    self.rightwalk(body, self._depth, joint_points)
-                    self.leftwalk(body, self._depth, joint_points)
+                    #self.rightwalk(body, self._depth, joint_points)
+                    #self.leftwalk(body, self._depth, joint_points)
                     self.turntest(body, self._depth, joint_points)
 
                     selectcol = "white"
@@ -173,13 +173,13 @@ class MovementHandler(object):
                     if self.rightpunch.read:
                         rightpunchcol = "blue"
 
-                    leftwalkcol = "pink"
+                    '''leftwalkcol = "pink"
                     if self.leftwalk.read:
                         leftwalkcol = "blue"                        
 
                     rightwalkcol = "orange"
                     if self.rightwalk.read:
-                        rightwalkcol = "blue"
+                        rightwalkcol = "blue"'''
 
                     turncol = "grey"
                     if self.turntest.readleft:
@@ -239,7 +239,7 @@ class MovementHandler(object):
                     rectangle = pygame.Rect(110, 55, 50, 50)
                     pygame.draw.rect(self._frame_surface, rightpunchcol, rectangle)
 
-                    # Draw left raise
+                    '''# Draw left raise
                     self._draw_body_bone(joints, joint_points, leftwalkcol,
                                         PyKinectV2.JointType_HipLeft,
                                         PyKinectV2.JointType_KneeLeft)
@@ -265,7 +265,7 @@ class MovementHandler(object):
                         (joint_points[PyKinectV2.JointType_AnkleRight].x,
                         joint_points[PyKinectV2.JointType_AnkleRight].y), 15)
                     rectangle = pygame.Rect(110, 110, 50, 50)
-                    pygame.draw.rect(self._frame_surface, rightwalkcol, rectangle)
+                    pygame.draw.rect(self._frame_surface, rightwalkcol, rectangle)'''
 
                     # Draw turn
                     self._draw_body_bone(joints, joint_points, turncol,
@@ -286,8 +286,8 @@ class MovementHandler(object):
         self.movementPoolRead["jump"] = self.jump.read
         self.movementPoolRead["leftpunch"] = self.leftpunch.read
         self.movementPoolRead["rightpunch"] = self.rightpunch.read
-        self.movementPoolRead["leftwalk"] = self.leftwalk.read
-        self.movementPoolRead["rightwalk"] = self.rightwalk.read
+        '''self.movementPoolRead["leftwalk"] = self.leftwalk.read
+        self.movementPoolRead["rightwalk"] = self.rightwalk.read'''
 
         self.movementPoolMisc["mousex"] = self.mouse.x
         self.movementPoolMisc["mousey"] = self.mouse.y

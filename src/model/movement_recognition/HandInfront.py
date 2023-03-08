@@ -23,7 +23,7 @@ class HandInfront(object):
         """Creates the HandInfront object
 
         """
-        self._distance_threshhold = 0.3
+        self._distance_threshhold = 0.4
         self.read = False
 
     def __call__(self, body: PyKinectRuntime.KinectBody, depth: ndarray,
