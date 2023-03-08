@@ -813,7 +813,7 @@ class GameScene(Scene):
         # asyncio.run(self.load_many_backgrounds())  # Parallel asset downloading
         
         #generate_background("Ancient Egypt")
-        game_background = pygame.image.load("src/view/assets/gamebg.png").convert_alpha()
+        game_background = pygame.image.load("src/view/assets/gamebg1.png").convert_alpha()
         self.background = pygame.transform.scale(game_background, (784, 784))
         self.inscriptions = generate_monolith("tragic", "Egyptian")
         self.screen.fill("gold")
