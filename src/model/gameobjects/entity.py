@@ -23,12 +23,15 @@ class Entity:
 
         Attributes:
             coordinates: The object's position on the tilemap.
+            given in the format (x,y)
             width: The width of the object.
             height: The height of the object.
-            xPos: the x co-ordenate of the entity on the game plane
+            x: the x co-ordenate of the entity on the game plane
                 that will be displayed on the screen
-            yPos: the y co-ordenate of the entity on the game plane
+            y: the y co-ordenate of the entity on the game plane
                 that will be displayed on the screen.
+            is_colliding_entity: if the enity can collide with other
+                entities in the game.
 
         """
         self.colliding: bool = colliding
@@ -121,9 +124,9 @@ class Block(Entity):
             coordinates: The object's position on the tilemap.
             width: The width of the object.
             height: The height of the object.
-            xPos: the x co-ordenate of the entity on the game plane
+            x: the x co-ordenate of the entity on the game plane
                 that will be displayed on the screen
-            yPos: the y co-ordenate of the entity on the game plane
+            y: the y co-ordenate of the entity on the game plane
                 that will be displayed on the screen.
 
     """
@@ -172,7 +175,8 @@ class Door(Block):
 
 
 class Monke(Entity):
-    """ a class that represents a Monke like entity on the screen
+    """ a class that represents a Monke like entity on the screen.
+        inherets from entity
     """
 
     def __init__(self, xPos: int, yPos: int, width: int, height: int,
@@ -203,7 +207,7 @@ class Monke(Entity):
         return False
 
     def gravity(self, entities: list[Entity]) -> bool:
-        """if monke let go of tree it fall.
+        """if a monke let go of tree it falls.
         """
         for i in range(self._fall_speed):
             if self.check_no_hit(entities):
@@ -238,10 +242,15 @@ class Player(Monke):
         facing: the direction that the charicter is going in used for
                 deciding which sprite to display in the view
         _player: how fast the player moves on the screen
-        xPos: the x co-ordenate of the player on the game plane
+        x: the x co-ordenate of the player on the game plane
                 that will be displayed on the screen
-        yPos: the y co-ordenate of the player on the game plane
+        y: the y co-ordenate of the player on the game plane
                 that will be displayed on the screen.
+        health: a number 1-10 representing the health of the player.
+        score: the score of the player that represents the final score
+                that will be used in the final leaderbord.
+        isInvincable: True if the player cannot take dammage at this moment
+                        in time
     """
 
     def __init__(self, width: int, height: int, SCREEN_WIDTH: int, SCREEN_HEIGHT: int) -> None:
@@ -495,7 +504,12 @@ class JumpLoot(Loot):
 
 
 class InvincibilityLoot(Loot):
-    """loot that renders the player unable to be damaged by enemies for a particular period."""
+    """loot that renders the player unable to be damaged by enemies for a particular period.
+        
+        Atributes:
+            power_up_time: the time period remaining thatyou will be unable to 
+                            take dammage in.
+    """
     def __init__(self,xPos: int, yPos: int, width: int, height: int,power=2,time=1000):
         self.power_up_time = time
         super().__init__(xPos,yPos, width, height,power=power)
