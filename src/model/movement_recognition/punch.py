@@ -57,7 +57,7 @@ class LeftPunch(object):
         posx = joint_points[point_id].x
 
         # a=0.9 == fast react      a=0.1 == slow react
-        max_change_per_itteration = 0.4  # change per itteration
+        max_change_per_itteration = 0.5  # change per itteration
         delt = max_change_per_itteration * posx + (
             1 - max_change_per_itteration) * self._olddelt
 
@@ -145,7 +145,7 @@ class RightPunch(object):
         posx = joint_points[point_id].x
 
         # a=0.9 == fast react      a=0.1 == slow react
-        max_change_per_itteration = 0.4  # change per itteration
+        max_change_per_itteration = 0.5  # change per itteration
 
         delt = max_change_per_itteration * posx + (
             1 - max_change_per_itteration) * self._olddelt
