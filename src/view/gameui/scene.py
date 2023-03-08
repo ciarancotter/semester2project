@@ -971,11 +971,6 @@ class GameScene(Scene):
                     self.enemy_sufaces[e][i * self.enemy_columns + j].blit(enemy_image, (0, 0), (
                             j * enemy.width, i * enemy.height, enemy.width, enemy.height))
             
-            u = 790
-            for i in self.enemy_sufaces[e]:
-                self.screen.blit(i, (u, 50))
-                u += enemy.width
-            
             match enemy.facing:
                 case Movement.right:
                     if self._enemy_sprite_index[enemy][0] == self.frame_delay:
@@ -995,13 +990,7 @@ class GameScene(Scene):
             for i in range(self.enemy_rows):
                 for j in range(self.enemy_columns):
                     self.enemy_sufaces[e][i * self.enemy_columns + j].fill((0, 0, 0, 0))
-            
-        # TODO:fix this 
-
-        #self.current_sprite_index_enemy = 0
-        #self.frame_count_enemy2 = 0
-        # end TODO
-        #self.display_enemies(context)
+        
 
     def draw_player(self, context):
         self.player_data = context.player
