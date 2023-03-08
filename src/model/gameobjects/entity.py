@@ -262,6 +262,10 @@ class Player(Monke):
         self._invincible = False
         self._score = 0
 
+        # how long is the punch going to last for
+        self._punch_timer = 0
+        self._cur_punch = Movement.no_movement
+
         super().__init__(self.xPos, self.yPos, width, height, True, 2)
         self._hitbox_x_offset = 15
         self._hitbox_y_offset = 10
@@ -285,8 +289,13 @@ class Player(Monke):
             #punching 
             if direction == Movement.left_punch:
                 self.facing = Movement.left_punch
+                self._punch_timer = 60
+                self._cur_punch = Movement.left_punch
+
             if direction == Movement.right_punch:
                 self.facing = Movement.right_punch
+                self._punch_timer = 60
+                self._cur_punch = Movement.right_punch
             #move left
             if direction == Movement.left and self.xPos >= 0:
                 self.xPos -= self._speed
@@ -300,6 +309,13 @@ class Player(Monke):
             if (not self._jumping) and direction == Movement.jump:
                 self._jumping = True
                 self._jump_baseline = self.yPos
+
+        if 0 < self._punch_timer:
+            self._punch_timer -= 1
+            directions.append(self._cur_punch)
+            self.facing = self._cur_punch
+
+
                 
         # if the player is jumping create an ark
         if self._jumping:
