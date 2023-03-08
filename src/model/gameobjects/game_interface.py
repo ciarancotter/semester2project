@@ -23,8 +23,6 @@ from model.aiutilities.aiutilities import generate_monolith
 
 
 class CtxToRender(object):
-    """Contains all the information needed to
-    display a gamestate to the user.
 
     def __init__(
             self, entitysize: tuple,
@@ -39,7 +37,7 @@ class CtxToRender(object):
             loot: Loot
             ) -> None:
 
-        """contains all the information needed to 
+        """Contains all the information needed to 
 		display a gamestate to the user.
 
 		meant to be used as a container to be passed to 
