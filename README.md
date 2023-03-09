@@ -668,3 +668,16 @@ Another valuable skill we learned was programming with the Pygame library. Pygam
 Working in a team was another important lesson. We discovered that effective communication is key to successful teamwork. We used several different platforms to communicate, such as Discord and Trello. Peer programming is one example of an exercise where a lot of communication was involved. Our team was split into 3 groups of 2, each working on the model, view or controller. We then had to integrate each part together into the core repository, which required an immense amount of communication. This teamwork was necessary, as it allowed us to understand how other components in the project worked. We also picked up on how to divide tasks and assign responsibilities based on each team member's strengths and interests.
 
 We learned how to apply the MVC pattern to our project, which helped us organise our code and make it more modular and reusable. Understanding the MVC pattern gave us a deeper understanding of software design and architecture, and helped us write cleaner, more maintainable code. It also allowed us to work more efficiently as a team, as we could divide tasks up, based on each component of the MVC design pattern. Learning how MVC programming works was a valuable lesson for us during the project.
+
+## Acknowledgements:
+
+- [openAI GPT3](https://openai.com/blog/gpt-3-apps)
+- [openAI DALLE](https://openai.com/product/dall-e-2)
+- [Shared memory dict](https://pypi.org/project/shared-memory-dict/)
+- [Pylint](https://github.com/PyCQA/pylint)
+- [PylintRC](https://github.com/google/styleguide/blob/gh-pages/pylintrc) 
+- [YAPF](https://github.com/google/yapf)
+- [Sphinx](https://github.com/sphinx-doc/sphinx)
+- [PyKinect2](https://github.com/Kinect/PyKinect2)
+- [Pygame](https://github.com/pygame/pygame)
+- [Python](https://www.python.org/)
