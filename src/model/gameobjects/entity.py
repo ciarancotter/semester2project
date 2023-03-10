@@ -280,6 +280,7 @@ class Player(Monke):
         self._hitbox_y_offset = 10
         self._hitbox_width_reduction = 35
         self._hitbox_height_reduction = 10
+        self.is_colliding_with_enemy = False
 
     def move(self, directions: list[Movement], entities: list[Entity],enemies) -> None:
         """this method is called to change the state of the player.
@@ -346,6 +347,9 @@ class Player(Monke):
         return entities_to_return,enemies,got_loot
 
     def calculate_collition_results(self, entities,enemies,directions):
+
+        self.is_colliding_with_enemy = False
+
         for i,entity in enumerate(entities):
             if isinstance(entity, Enemy) and (self.is_colliding_with_entity(entity)):
                 # checking if the player is puching the enemey and removing the enemy 
@@ -357,7 +361,7 @@ class Player(Monke):
                 #decreasing your lives if you hit an enemy
                 elif not self._invincible:
                     self._health -= entity._damage
-
+                self.is_colliding_with_enemy = True
                 enemies.remove(entity)
                 entities.pop(i)
               

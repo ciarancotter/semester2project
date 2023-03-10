@@ -130,9 +130,19 @@ class Scene:
                 - sound: The sound to play.
         """
         
-        if sound == "punch":
-            pass
-            # pygame.mixer.Sound.play(self.punch_sound)
+        click_sound = pygame.mixer.Sound("src/view/assets/click.mp3")
+        level_sound = pygame.mixer.Sound("src/view/assets/newlevel.mp3")
+        powerup_sound = pygame.mixer.Sound("src/view/assets/powerup.mp3")
+        scream_sound = pygame.mixer.Sound("src/view/assets/sam.mp3")
+
+        if sound == "click":
+            pygame.mixer.Sound.play(click_sound)
+        if sound == "levelup":
+            pygame.mixer.Sound.play(level_sound)
+        if sound == "powerup":
+            pygame.mixer.Sound.play(powerup_sound)
+        if sound == "scream":
+            pygame.mixer.Sound.play(scream_sound)
 
 
 class LoadingScene(Scene):
@@ -789,9 +799,6 @@ class GameScene(Scene):
         self.character_sprites = [pygame.Surface(size, pygame.SRCALPHA) for i in range(self.columns * self.rows)]
         self.enemy_sufaces = []
 
-        # Sounds
-        #self.punch_sound = pygame.mixer.Sound("src/view/assets/punch.mp3")
-
         # Kinect video
         if KINECT:
             self.video = SharedMemoryDict(name='movementVideo', size=500000)
@@ -859,7 +866,7 @@ class GameScene(Scene):
                     context.monolith.y
                 )
             )
-    
+
     def draw_loot(self, context):
         """Draws loot to the screen
         """
@@ -884,13 +891,15 @@ class GameScene(Scene):
         """Draws the UI elements onto the game.
         """
         context = self.game_manager.get_render_ctx()
-
+        if context.player.is_colliding_with_enemy:
+            self.play_sound_effect("scream")
         # Checks to see if we need to update the current level's background.
-        #if self.last_saved_level != context.get_current_level():
+        if self.last_saved_level != context.get_current_level():
             #background_path = 'src/view/assets/gamebg' + str(context.get_current_level()) + '.png'
             #game_background = pygame.image.load(background_path).convert_alpha()
             #self.background= pygame.transform.scale(game_background, (784, 784))
-            #self.last_saved_level = context.get_current_level()
+            self.play_sound_effect("levelup")
+            self.last_saved_level = context.get_current_level()
 
         self.game_ui_panel.draw()
         for block in context.get_blocks():
@@ -1076,12 +1085,10 @@ class GameOverScene(Scene):
         '''Renders the Leaderboard to the screen.
         '''
         self.leaderboard = self.game_manager.return_scores()
-
         square_position = (245, 280)
         square_size = (600, 150)
         border_radius = 20
         pygame.draw.rect(self.screen, (100, 100, 100), (square_position, square_size), border_radius=border_radius)
-
 
         over_text = pygame.font.SysFont("monospace", 86, True).render('GAME OVER', True, "red")
         over_text_rect = over_text.get_rect()
@@ -1143,14 +1150,15 @@ class MainMenuScene(Scene):
         """
         if self.buttons[0].rect.collidepoint(event_pos) and self.game_manager._gamestate == GameState.start_menu:
             self.game_manager.set_game_state(GameState.in_session)
+            self.play_sound_effect("click")
             game.initialise()
-            # Fader(MainMenuScene, GameScene
 
     def check_leaderboard_pressed(self, event_pos: tuple, leaderboard: LeaderboardMenuScene):
         """Continuously checks if the leaderboard button in the menu has been pressed.
         """
         if self.buttons[1].rect.collidepoint(event_pos) and self.game_manager._gamestate == GameState.start_menu:
             self.game_manager.set_game_state(GameState.leaderboard)
+            self.play_sound_effect("click")
             leaderboard.initialise()
 
     def check_help_pressed(self, event_pos: tuple, help: HelpMenuScene):
@@ -1158,6 +1166,7 @@ class MainMenuScene(Scene):
         """
         if self.buttons[2].rect.collidepoint(event_pos) and self.game_manager._gamestate == GameState.start_menu:
             self.game_manager.set_game_state(GameState.help_screen)
+            self.play_sound_effect("click")
             help.initialise()
 
     def check_about_pressed(self, event_pos: tuple, about: AboutMenuScene):
@@ -1165,8 +1174,9 @@ class MainMenuScene(Scene):
         """
         if self.buttons[3].rect.collidepoint(event_pos) and self.game_manager._gamestate == GameState.start_menu:
             self.game_manager.set_game_state(GameState.about)
+            self.play_sound_effect("click")
             about.initialise()
-            
+
 
     def update(self):
         """Updates the main menu scene.
