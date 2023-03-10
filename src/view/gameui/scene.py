@@ -819,7 +819,7 @@ class GameScene(Scene):
         pygame.display.set_caption("Boole Raider")
         self.loading_screen.update()
         #asyncio.run(self.load_many_backgrounds())  # Parallel asset downloading
-        #generate_background("Ancient Egypt")
+        generate_background("Ancient Egypt")
         game_background = pygame.image.load("src/view/assets/gamebg1.png").convert_alpha()
         self.background = pygame.transform.scale(game_background, (784, 784))
         self.inscriptions = generate_monolith("tragic", "Egyptian")
