@@ -1,5 +1,5 @@
 <p align="center">
-<img src="src/view/assets/logo-for-README.png">
+<img src="doc_assets/logo-for-README.png">
 </p>
 
 <p align="center"> •
@@ -346,11 +346,17 @@ The start menu has an Egypt-themed, desert-coloured background, and displays the
 #### Leaderboard
 The leaderboard consists of a username column and a score column. The background and table match the colour scheme that is consistent throughout the project.
 
+![](doc_assets/leaderboard_page.png)
+
 #### About
 The About section displays information about the team, the team's individual contributions, the creation date and drawings of each team member.
 
+![](doc_assets/about_page.png)
+
 #### Help
 The Help section explains how the game works, demonstrates the variety of controls, provides the context for the game, and described how the levels work.
+
+![](https://media1.tenor.com/images/0c55e11ed584e7ac27049bde198ee24b/tenor.gif?itemid=27666689)
     
 #### Game
 The game itself is split into three main UI panels - the main game, the text box with information, and the camera panel which displays the Kinect feed.
@@ -548,9 +554,6 @@ This was necessary because the sensors would output arrays that have different s
 ### First Tests
 By working with the examples provided with the SDK and the library, we were able to get the body recognition system to interface with a Pygame display by receiving data from the camera feed and drawing the skeleton, composed of vector-like objects, onto each person in frame. 
 
-![](doc_assets/Movemt_Test.mp4)
-
-
 ### Movement Recognition
 From the proof-of-concept code (that is, the aforementioned skeleton), we first chose to write the logic for interpreting a punch - both to the left and to the right. 
 
@@ -681,3 +684,4 @@ We learned how to apply the MVC pattern to our project, which helped us organise
 - [PyKinect2](https://github.com/Kinect/PyKinect2)
 - [Pygame](https://github.com/pygame/pygame)
 - [Python](https://www.python.org/)
+- [Pixel art](https://www.pixilart.com/)
